@@ -1,0 +1,22 @@
+{
+    "zh-TW": {
+        "Commodity management": "商品管理",
+        "Order management": "訂單管理",
+        "Account details": "帳務明細",
+        "Purchase plan": "購買方案",
+        "Product name": "商品名稱",
+        "Product details": "商品詳情",
+        "Order details": "訂單明細",
+        "Product addition": "商品新增"
+    },
+    "en": {
+        "Commodity management": "Commodity management",
+        "Order management": "Order management",
+        "Account details": "Account details",
+        "Purchase plan": "Purchase plan",
+        "Product name": "Product name",
+        "Product details" : "Product details",
+        "Order details": "Order details",
+        "Product addition": "Product addition"
+    }
+}

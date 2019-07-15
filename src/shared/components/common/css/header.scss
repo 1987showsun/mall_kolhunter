@@ -1,0 +1,101 @@
+header{
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+    background: #f6102d; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f6102d 0%, #ff3b54 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #f6102d 0%,#ff3b54 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #f6102d 0%,#ff3b54 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6102d', endColorstr='#ff3b54',GradientType=0 ); /* IE6-9 */
+    .container{
+        display: flex;
+        justify-content: space-between;
+    }
+    .logo-block{
+        width: 200px;
+        min-width: 200px;
+        min-height: 60px;
+        display: inline-flex;
+        background: #fff;
+    }
+    .search-block{
+        width: 100%;
+        max-width: 700px;
+        display: inline-flex;
+        flex-wrap: wrap;
+        padding: 0px 5px;
+        form{
+            width: 100%;
+            position: relative;
+            .input-box{
+                background: #fff;
+                border-radius: 2px;
+                align-items: center;
+                padding-right: 70px;
+            }
+            select{
+                width: 120px;
+                border-left: 1px solid #ccc;
+                color: #5A6268;
+                font-size: 0.9em;
+            }
+            [type=submit]{
+                width: 60px;
+                height: 30px;
+                position: absolute;
+                z-index: 10;
+                right: 5px;
+            }
+        }
+        .hito-search{
+            display: flex;
+            color: #fff;
+            margin-top: 5px;
+            font-size: 0.9em;
+            span{
+                display: inline-flex;
+                &.label{
+                    margin-right: 10px;
+                }
+            }
+            ul{
+                display: flex;
+                li{
+                    display: inline-flex;
+                    align-items: center;
+                    a{
+                        color: #fff;
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .header-nav-block{
+        min-width: 200px;
+        display: inline-flex;
+        background: #fff;
+        ul{
+            display: flex;
+            margin-right: -5px;
+            overflow: hidden;
+            >li{
+                width: 65px;
+                padding-right: 5px;
+                display: inline-flex;
+                a{
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    background: #5A6268;
+                }
+            }
+        }
+    }
+}

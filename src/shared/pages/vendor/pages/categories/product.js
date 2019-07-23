@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 //Components
 import Head from './headAction/product';
 import Table from '../../../../module/table';
+import Pagination from '../../../../module/pagination';
 
 // Actions
 import { listProduct, productPutsaleAndDiscontinue } from '../../../../actions/vendor';
@@ -90,6 +91,7 @@ class Product extends React.Component{
     render(){
 
         const { tableHeadKey,tableBodyData } = this.state;
+        const { match, location } = this.props;
 
         return(
             <React.Fragment>
@@ -99,6 +101,11 @@ class Product extends React.Component{
                     tableBodyData={tableBodyData}
                     tableButtonAction={this.tableButtonAction.bind(this)}
                     returnCheckBoxVal={this.returnCheckBoxVal.bind(this)}
+                />
+                <Pagination 
+                    total= {10}
+                    match= {match}
+                    location= {location}
                 />
             </React.Fragment>
         );

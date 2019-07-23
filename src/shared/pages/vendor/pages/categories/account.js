@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 // Components
 import Head from './headAction/account';
 import Table from '../../../../module/table';
+import Pagination from '../../../../module/pagination';
 
 // Actions
 import { incListAccount } from '../../../../actions/vendor';
@@ -65,6 +66,7 @@ class Account extends React.Component{
     render(){
 
         const { tableHeadKey,tableBodyData } = this.state;
+        const { match, location } = this.props;
 
         return(
             <React.Fragment>
@@ -78,6 +80,11 @@ class Account extends React.Component{
                 <Table 
                     tableHeadData={tableHeadKey}
                     tableBodyData={tableBodyData}
+                />
+                <Pagination 
+                    total= {10}
+                    match= {match}
+                    location= {location}
                 />
             </React.Fragment>
         );

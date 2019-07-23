@@ -1,0 +1,43 @@
+.input-table-wrap{
+    width: 100%;
+    overflow: auto;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+    .input-table{
+        width: 100%;
+        display: table;
+        >li{
+            min-height: 50px;
+            display: table-row;
+            &.input-table-head{
+                font-size: 1em;
+                background: #FAFAFA;
+                >div{
+                    padding: 15px 0px 15px 25px;
+                }
+            }
+            &.input-table-body{
+                font-size: 0.8em;
+                >div{
+                    padding: 5px 0px 5px 25px;
+                }
+            }
+            >div{
+                max-width: 500px;
+                min-width: 140px;
+                min-height: 100px;
+                display: table-cell;
+                align-items: center;
+                border-bottom: 1px solid #f0f2f5;
+                background: #fff;
+                word-wrap:break-word;
+                vertical-align: middle;
+                color: #5A6268;
+                font-weight: 400;
+                &.number{
+                    width: 160px;
+                }
+            }
+        }
+    }
+}

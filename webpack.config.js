@@ -1,6 +1,7 @@
 const webpack           = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer      = require('autoprefixer');
+const proxy = require('http-proxy-middleware');
 
 const keyName= {};
 let SETUP= {};
@@ -36,8 +37,7 @@ const browserConfig = {
         use: ExtractTextPlugin.extract({
           use: [
             {
-              loader: 'css-loader',
-              options: { importLoaders: 1 },
+              loader: 'css-loader'
             },
             {
               loader: 'sass-loader',
@@ -60,7 +60,7 @@ const browserConfig = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: "public/css/[name].css"
+      filename: "public/css/[name].css?t=1231231"
     }),
     new webpack.DefinePlugin({
       "process.env": SETUP
@@ -92,7 +92,7 @@ const serverConfig = {
         test: /\.(css|sass|scss)$/,
         use: [
           {
-            loader: "css-loader"
+            loader: "css-loader",
           },
           {
             loader: "sass-loader"

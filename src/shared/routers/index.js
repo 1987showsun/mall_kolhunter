@@ -1,10 +1,10 @@
 import Home from "../pages";
 import Terms from '../pages/terms';
 import Categories from '../pages/categories';
+import Info from '../pages/info';
 import ontSignIn from '../pages/login';
-import IncIndex from '../pages/inc';
-import incCategories from  '../pages/inc/pages/categories';
-import UserIndex from '../pages/user';
+import IncIndex from '../pages/vendor';
+import MemberIndex from '../pages/member';
 
 const common = [
   {
@@ -18,32 +18,50 @@ const common = [
     component: Terms
   },
   {
+    path: "/info/:id",
+    exact: true,
+    component: Info
+  },
+  {
+    path: "/info",
+    exact: true,
+    component: Info
+  },
+  {
+    path: "/categories/:type",
+    exact: true,
+    component: Categories
+  },
+  {
     path: "/categories",
     exact: true,
     component: Categories
   },
   {
-    path: "/inc",
+    path: "/myvendor",
     component: IncIndex
   },
   {
-    path: "/user",
-    component: UserIndex
+    path: "/myaccount",
+    component: MemberIndex
   },
   {
-    path: "/login",
+    path: "/account/:class",
+    component: ontSignIn
+  },
+  {
+    path: "/account",
     exact: true,
-    component: ontSignIn,
-    routes: [
-      {
-        path: "/login/:type/:class",
-        component: ontSignIn
-      },
-      {
-        path: "/login/:type",
-        component: incCategories
-      }
-    ]
+    component: ontSignIn
+  },
+  {
+    path: "/vendor/:class",
+    component: ontSignIn
+  },
+  {
+    path: "/vendor",
+    exact: true,
+    component: ontSignIn
   },
   {
     path: "/",

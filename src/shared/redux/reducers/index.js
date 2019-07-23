@@ -3,10 +3,10 @@ import { combineReducers }             from "redux";
 //Reducers
 import home from './home';
 import login from './login';
-import inc from './inc';
+import vendor from './vendor';
 
 export default combineReducers({
     home,
     login,
-    inc
+    vendor
 });

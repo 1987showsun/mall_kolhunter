@@ -38,7 +38,7 @@ class Layout extends React.Component{
     }
 
     render(){
-        const isNowPagesNoShow = ['login','inc'];
+        const isNowPagesNoShow = ['vendor','account','myvendor'];
         const { location, match } = this.props;
         let pathname = location['pathname'].split('/').filter( item => item!='' );
         return(

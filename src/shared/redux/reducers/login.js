@@ -5,10 +5,16 @@ export default function login(
     },action
 ){
     switch(action.type){
-        case 'LOGIN_SUCCESS':
+        case 'USER_SIGNIN_SUCCESS':
             state = { 
                 ...state, 
-                info: action.info,
+                token: action.token
+            };
+            break;
+
+        case 'CLEAR_JWT_TOKEN':
+            state = { 
+                ...state, 
                 token: action.token
             };
             break;

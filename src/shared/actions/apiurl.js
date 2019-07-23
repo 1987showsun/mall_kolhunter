@@ -1,6 +1,21 @@
+import axios from 'axios';
+axios.interceptors.request.use(function (config) {
+    config.headers['Content-Type'] = 'text/plain';
+
+    if( typeof window !== 'undefined' ){
+        if( sessionStorage.getItem('jwt_user')!=undefined ){
+            config.headers['Authorization'] = sessionStorage.getItem('jwt_user');
+        }  
+    }
+
+    return config;
+}, function (error) {
+    return error;
+});
+
 const API_ADDRESS = () => {
     if( process.env.NODE_ENV_DEV==true ){
-        return "https://api.kolhunter.com";
+        return "https://sapi.kolhunter.com";
     }else{
         return  "";
     }
@@ -9,13 +24,53 @@ const API_ADDRESS = () => {
 export default function API(){
     return {
         'signin': {
-            'inc': ""
+            'member': `${API_ADDRESS()}/v1/member/login`,
+            'vendor': `${API_ADDRESS()}/v1/vendor/login`
         },
         'signup': {
-            'inc': `${API_ADDRESS()}/v1/vendor/join`
+            'member': `${API_ADDRESS()}/v1/member/signup`,
+            'vendor': `${API_ADDRESS()}/v1/vendor/signup`
         },
         'forget': {
-            'inc': ""
+            'member': `${API_ADDRESS()}/v1/member/reset_password`,
+            'vendor': `${API_ADDRESS()}/v1/vendor/reset_password`
+        },
+        'verify': {
+            'member': `${API_ADDRESS()}/v1/member/verify`,
+            'vendor': `${API_ADDRESS()}/v1/vendor/verify`
+        },
+        'myvendor': {
+            "productCategories":`${API_ADDRESS()}/v1/vendor/categories`,
+            'product': {
+                'categories': `${API_ADDRESS()}/v1/vendor/product`,
+                'create': {
+                    '1': `${API_ADDRESS()}/v1/vendor/product/info`,
+                    '2': `${API_ADDRESS()}/v1/vendor/product/img`,
+                    '3': `${API_ADDRESS()}/v1/vendor/product/spec`,
+                    '4': `${API_ADDRESS()}/v1/vendor/product/desc`,
+                    '5': `${API_ADDRESS()}/v1/vendor/product/delivery`,
+                },
+                'put': `${API_ADDRESS()}/v1/vendor/product`,
+                'info': `${API_ADDRESS()}/v1/vendor/product/info`, // 
+                'putsale': `${API_ADDRESS()}/v1/vendor/putsale`, // put 廠商商品上架 { product_id }
+                'discontinue': `${API_ADDRESS()}/v1/vendor/discontinue`, // put 廠商商品下架 { product_id }
+            },
+            'order': {
+                'categories': `${API_ADDRESS()}/v1/vendor/orders`,
+                'info': `${API_ADDRESS()}`,
+                'delivery_list': `${API_ADDRESS()}/v1/order/delivery/list`, // get 取得運送狀態列表
+                'status_list': `${API_ADDRESS()}/v1/order/status/list`, // get 取得訂單狀態列表 
+                'delivery': `${API_ADDRESS()}/v1/vendor/order/delivery`, // post 訂單運送狀態改變 { order_item_id, status }
+                'status': `${API_ADDRESS()}/v1/vendor/order/status` // post 訂單狀態改變 { order_item_id, status }
+            },
+            'account': {
+                'categories': `${API_ADDRESS()}`,
+                'create': `${API_ADDRESS()}`,
+                'info': `${API_ADDRESS()}`
+            }
+        },
+        'member': {
+            
         }
     }
 }

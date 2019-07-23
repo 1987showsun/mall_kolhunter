@@ -7,9 +7,102 @@
     .login-form{
         max-width: 380px;
         padding: 10px;
-        margin: 20px 0px;
+        margin: 20px 20px;
         background: #fff;
         box-shadow: 0px 0px 5px rgba(0,0,0,.1);
         border-radius: 6px;
+    }
+}
+
+.leading-wrap{
+    width: 100%;
+    max-width: 860px;
+    margin: 20px 0px 50px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    .leading-wrap-head{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        h3{
+            font-size: 1.8em;
+            i{
+                font-size: 2em;
+                margin: 0px 10px;
+                color: var(--main);
+            }
+        }
+    }
+    .leading-step-ul{
+        width: 100%;
+        display: flex;
+        >li{
+            width: 100%;
+            min-height: 300px;
+            padding: 10px;
+            display: inline-flex;
+        }
+    }
+    figure{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        background: #ccc;
+        figcaption{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bolder;
+        }
+    }
+    .leading-action{
+        width: 100%;
+        margin-top: 10px;
+        padding: 15px 0px;
+        display: flex;
+        justify-content: center;
+        background: var(--bg);
+        a,button{
+            width: 120px;
+            height: 35px;
+            margin-right: 10px;
+            align-items: center;
+            justify-content: center;
+            display: inline-flex;
+            font-size: 0.9em;
+            border-radius: 2px;
+            &.cancel{
+                border: 1px solid var(--secondary);
+                color: var(--secondary);
+                background: transparent;
+            }
+            &:last-child{
+                margin-right: 0px;
+            }
+        }
+    }
+
+    @media (max-width: 720px) {
+        .leading-wrap-head{
+            h3{
+                font-size: 1.3em;
+            }
+        }
+        .leading-step-ul{
+            flex-direction: column;
+            max-width: 280px;
+        }
+        .leading-action{
+            position: sticky;
+            bottom: 0px;
+            a,button{
+                width: 140px;
+                height: 40px;
+                font-size: 1em;
+            }
+        }
     }
 }

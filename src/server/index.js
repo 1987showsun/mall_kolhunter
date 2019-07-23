@@ -18,8 +18,10 @@ import "source-map-support/register";
 
 const app = express();
 const httpsOptions = {
-  cert: fs.readFileSync( path.join('public/ssl/localhost.pem') ),
-  key: fs.readFileSync( path.join('public/ssl/localhost-key.pem') ),
+  //cert: fs.readFileSync( path.join('public/ssl/localhost.pem') ),
+  //key: fs.readFileSync( path.join('public/ssl/localhost-key.pem') ),
+  cert: fs.readFileSync( path.join('public/ssl/localhost-new.pem') ),
+  key: fs.readFileSync( path.join('public/ssl/localhost-new-key.pem') ),
   requestCert: false,
   rejectUnauthorized: false
 }
@@ -56,6 +58,7 @@ app.all('*', function(req, res, next) {
       
       const initialData    = store.getState();
       const helmet         = Helmet.renderStatic();
+      let date = new Date().valueOf();
       
       res.send(`
         <!DOCTYPE html>
@@ -72,7 +75,7 @@ app.all('*', function(req, res, next) {
             <meta name="description" content="">
             ${helmet.title.toString()}
             ${helmet.meta.toString()}
-            <link rel="stylesheet" href="/css/main.css">
+            <link rel="stylesheet" href="/css/main.css?t=${date}">
             <link rel="shortcut icon" href="/images/favicon.ico">
             <link rel="apple-touch-icon" href="/images/app_logo.png" />
             <link rel="apple-touch-icon" sizes="76x76" href="/images/app_logo.png" />
@@ -92,18 +95,14 @@ app.all('*', function(req, res, next) {
     .catch( next );
 });
 
-// https
-// http2.raw.createServer( app ).listen(process.env.PORT || 4000, () => {
-//   console.log("Server is listening");
-// });
-
-https.createServer( httpsOptions,app ).listen(4000, (err) => {
-  if (err) {
-      throw new Error( 'err ---->', err);
-  }
+// http
+app.listen(process.env.PORT || 8080, () => {
+  console.log("Server is listening");
 });
 
-// https.createServer(options, app).listen(4000, (err) => { // http2伺服器埠為1002
-// 	if (err) throw new Error(err)
-// 	console.log('Http1.x server listening on port 1001.')
-// })
+// https
+// https.createServer( httpsOptions,app ).listen(8080, (err) => {
+//   if (err) {
+//       throw new Error( 'err ---->', err);
+//   }
+// });

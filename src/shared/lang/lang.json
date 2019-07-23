@@ -7,7 +7,38 @@
         "Product name": "商品名稱",
         "Product details": "商品詳情",
         "Order details": "訂單明細",
-        "Product addition": "商品新增"
+        "Product addition": "商品新增",
+        "Product update": "商品編輯",
+        "set off": "立即註冊", 
+        "back": "上一頁",
+        "Finish": "送出 完成",
+        "Submit Next": "送出並下一步",
+        "Previous": "上一步",
+        "This email has been registed as a vendor in the past": "此信箱已註冊，請使用其他信箱",
+        "Vendor siginup success": "申請成功，我們將會寄發認證信件至申請信箱",
+        "create": {
+            "product": {
+                "1": "基本資料",
+                "2": "商品圖片",
+                "3": "商品規格",
+                "4": "商品敘述",
+                "5": "運送方式"
+            }
+        },
+        "note": {
+            "username required": "會員帳號必填",
+            "password required": "密碼必填",
+            "vendorID required": "經銷商帳號必填",
+            "vendorPWD required": "經銷商密碼必填",
+            "email required": "電子信箱必填",
+            "invoice required": "統一編號必填",
+            "phone required": "聯絡電話必填",
+            "contactor required": "聯絡人必填",
+            "company required": "公司名稱必填"
+        },
+        "err": {
+            "ID or password error.": "帳號或密碼錯誤"
+        }
     },
     "en": {
         "Commodity management": "Commodity management",
@@ -17,6 +48,37 @@
         "Product name": "Product name",
         "Product details" : "Product details",
         "Order details": "Order details",
-        "Product addition": "Product addition"
+        "Product addition": "Product addition",
+        "Product update": "Product update",
+        "set off": "Set off",
+        "back": "Back",
+        "Finish": "Finish", 
+        "Submit Next": "Submit and Next",
+        "Previous": "Previous",
+        "This email has been registed as a vendor in the past" : "This email has been registed as a vendor in the past",
+        "Vendor siginup success": "Application is successful, we will send a letter to the application box.",
+        "create": {
+            "product": {
+                "1": "Info",
+                "2": "Picture",
+                "3": "Spec",
+                "4": "Desc",
+                "5": "Delivery"
+            }
+        },
+        "note": {
+            "username required": "Username required",
+            "password required": "Password required",
+            "vendorID required": "Vendor username required",
+            "vendorPWD required": "Vendor password required",
+            "email required": "Email required",
+            "invoice required": "Invoice required",
+            "phone required": "Tel required",
+            "contactor required": "Name required",
+            "company required": "Company name required"
+        },
+        "err": {
+            "ID or password error.": "ID or password error."
+        }
     }
 }

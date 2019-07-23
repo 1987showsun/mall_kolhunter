@@ -1,0 +1,114 @@
+.product-list-wrap{
+    width: 100%;
+    display: flex;
+    .list-ul{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 5px 0px;
+        >li{
+            width: 20%;
+            padding: 5px 5px 5px 5px;
+        }
+        
+        &.RWD-1{
+            >li{
+                width: 16.666%;
+            }
+        }
+        &.RWD-2{
+            >li{
+                width: 20%;
+            }
+        }
+        &.RWD-3{
+            >li{
+                width: 33.333%;
+            }
+        }
+        &.RWD-4{
+            >li{
+                width: 50%;
+            }
+        }
+    }
+    figure{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        background: #fff;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0px 1px 3px rgba(0,0,0,.2);
+        .product-list-img-wrap,figcaption{
+            width: 100%;
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            position: relative;
+        }
+        .product-list-img-wrap{
+            a{
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                z-index: 2;
+                top: 0px;
+                left: 0px;
+            }
+        }
+        figcaption{
+            a{ color: #000; }
+            .figcaption-row{
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+            padding: 0px 10px 10px 10px;
+            h2,h3,h4,h5,h6{
+                display: -webkit-box;
+                max-height: 3.2rem;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: normal;
+                -webkit-line-clamp: 2;
+                line-height: 1.5rem;
+                margin-bottom: 5px;
+                &:last-child{
+                    margin-bottom: 0px;
+                }
+            }
+            h2{font-size: 1.2em;}
+            h3{font-size: 1em;}
+            h4{
+                font-size: 0.9em;
+                a{
+                    color: #979BA7;
+                }
+            }
+            &:last-child{
+                margin-bottom: 0px;
+            }
+            .money{
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                .price{
+                    font-size: 0.8em;
+                    color: #A8A8A8;
+                    text-decoration: line-through;
+                }
+                .priceSale{
+                    font-size: 1.1em;
+                    color: var(--main);
+                    font-weight: bolder;
+                }
+            }
+        }
+        img{
+            width: 100%;
+        }
+    }
+}

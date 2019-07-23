@@ -22,10 +22,12 @@ export default class Search extends React.Component{
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="input-box">
                         <input type="text" name="search" value={formObject['search']} placeholder="" onChange={this.handleChange.bind(this)}/>
-                        <select name="type" onChange={this.handleChange.bind(this)}>
-                            <option value="1">商品名稱</option>
-                            <option value="2">網紅名稱</option>
-                        </select>
+                        <div className="input-box select">
+                            <select name="type" onChange={this.handleChange.bind(this)}>
+                                <option value="1">商品名稱</option>
+                                <option value="2">網紅名稱</option>
+                            </select>
+                        </div>
                         <button type="submit">搜尋</button>
                     </div>
                 </form>

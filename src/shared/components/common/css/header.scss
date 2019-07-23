@@ -16,10 +16,20 @@ header{
         justify-content: space-between;
     }
     .logo-block{
-        width: 200px;
-        min-width: 200px;
-        min-height: 60px;
         display: inline-flex;
+        align-items: center;
+        img{
+            width: 100%;
+        }
+        @media (min-width: 421) {
+            width: 200px;
+            min-width: 200px;
+        }
+        @media (max-width: 420px) {
+            width: 90px;
+            padding: 0px 5px;
+            background: var(--main);
+        }
     }
     .search-block{
         width: 100%;
@@ -49,6 +59,14 @@ header{
                 z-index: 10;
                 right: 5px;
             }
+            @media (max-width: 420px) {
+                .input-box{
+                    border: none;
+                    &.select{
+                        max-width: 100px;
+                    }
+                }
+            }
         }
         .hito-search{
             display: flex;
@@ -76,6 +94,13 @@ header{
                 }
             }
         }
+
+        @media (max-width: 420px) {
+            padding: 0px;
+            .hito-search{
+                display: none;
+            }
+        }
     }
     .header-nav-block{
         min-width: 200px;
@@ -93,8 +118,53 @@ header{
                     width: 100%;
                     height: 100%;
                     display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
                     background: #5A6268;
                 }
+            }
+        }
+    }
+
+    @media (max-width: 420px) {
+        padding: 5px 0px;
+        background: transparent;
+        min-height: auto;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        .header-nav-block{
+            width: 100%;
+            height: 60px;
+            position: fixed;
+            z-index: 100;
+            bottom: 0px;
+            left: 0px;
+            ul{
+                width: 100%;
+                >li{
+                    width: 100%;
+                    padding-right: 0px;
+                }
+            }
+            .icon-block{
+                width: 30px;
+                height: 30px;
+                margin-bottom: 3px;
+                border-radius: 100px;
+                background: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .prompt-block{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-size: 0.7em;
             }
         }
     }

@@ -64,7 +64,7 @@ const browserConfig = {
     }),
     new webpack.DefinePlugin({
       "process.env": SETUP
-    }),
+    })
   ]
 };
 

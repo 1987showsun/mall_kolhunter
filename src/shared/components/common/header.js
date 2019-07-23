@@ -23,7 +23,6 @@ class Header extends React.Component{
     render(){
 
         const { token } = this.state;
-        console.log( token );
 
         return(
             <header data-content="center">

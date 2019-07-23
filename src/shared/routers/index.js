@@ -1,4 +1,4 @@
-import Home from "../pages";
+import Home from "../pages/home";
 import Terms from '../pages/terms';
 import Categories from '../pages/categories';
 import Info from '../pages/info';

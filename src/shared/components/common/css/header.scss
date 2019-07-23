@@ -145,7 +145,7 @@ header{
         }
     }
 
-    @media (max-width: 420px) {
+    @media (max-width: 720px) {
         padding: 0px;
         background: transparent;
         min-height: auto;
@@ -159,6 +159,7 @@ header{
             width: 100%;
             height: 60px;
             border-top: 1px solid #E7E7E7;
+            background: #fff;
             position: fixed;
             z-index: 100;
             bottom: 0px;

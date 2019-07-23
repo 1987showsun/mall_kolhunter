@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 // Components
 import Kv from './kv';
 import Store from './store';
+import Category from './category';
 import Product from './product';
 
 // Stylesheets
@@ -14,12 +15,9 @@ class Home extends React.Component{
         return(
             <React.Fragment>
                 <Kv />
-                <div className="row">
-                    <section className="container" data-direction="column" >
-                        <Store />
-                        <Product />
-                    </section>
-                </div>
+                <Store />
+                <Category />
+                <Product />
             </React.Fragment>
         );
     }

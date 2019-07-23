@@ -11,13 +11,21 @@ export default class Kv extends React.Component{
             dots: true,
             centerMode: true,
             infinite: true,
-            centerPadding: "220px",
+            centerPadding: "14%",
             speed: 500,
             responsive: [
                 {
+                  breakpoint: 1280,
+                  settings: {
+                    centerPadding: "0px",
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                  }
+                },
+                {
                   breakpoint: 1024,
                   settings: {
-                    centerPadding: "220px",
+                    centerPadding: "0px",
                     slidesToShow: 1,
                     slidesToScroll: 1
                   }
@@ -25,7 +33,7 @@ export default class Kv extends React.Component{
                 {
                   breakpoint: 600,
                   settings: {
-                    centerPadding: "100px",
+                    centerPadding: "0px",
                     slidesToShow: 1,
                     slidesToScroll: 1
                   }

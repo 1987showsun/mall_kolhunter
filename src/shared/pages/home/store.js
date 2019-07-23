@@ -9,14 +9,23 @@ export default class Store extends React.Component{
     render(){
 
         const settings = {
-            className: "store-wrap",
+            className: "slider-nromal store-wrap",
             dots: true,
             infinite: false,
             speed: 500,
-            slidesToShow: 5,
-            slidesToScroll: 5,
+            slidesToShow: 6,
+            slidesToScroll: 6,
             initialSlide: 0,
             responsive: [
+              {
+                breakpoint: 1280,
+                settings: {
+                  slidesToShow: 5,
+                  slidesToScroll: 5,
+                  infinite: true,
+                  dots: true
+                }
+              },
               {
                 breakpoint: 1024,
                 settings: {
@@ -27,29 +36,24 @@ export default class Store extends React.Component{
                 }
               },
               {
-                breakpoint: 600,
+                breakpoint: 720,
                 settings: {
                   slidesToShow: 3,
                   slidesToScroll: 3,
-                  initialSlide: 2
-                }
-              },
-              {
-                breakpoint: 480,
-                settings: {
-                  slidesToShow: 2.1,
-                  slidesToScroll: 2
+                  initialSlide: 3
                 }
               }
             ]
           };
 
         return(
-            <div className="unit">
-                    <div className="block-title">
-                        <h2>熱門網紅店家</h2>
-                    </div>
-                    <Slider settings={settings}>
+            <div className="row">
+                <section className="container" data-direction="column" >
+                    <div className="unit">
+                        <div className="block-title">
+                            <h2>熱門網紅店家</h2>
+                        </div>
+                        <Slider settings={settings}>
                             <figure>
                                 <div className="card-item-img">
                                     <img src="https://static.kolhunter.com/kol/cyberImg-2366.jpg" alt="" title="" />
@@ -182,7 +186,9 @@ export default class Store extends React.Component{
                                     </div>
                                 </figcaption>
                             </figure>
-                    </Slider>
+                        </Slider>
+                    </div>
+                </section>
             </div>
         );
     }

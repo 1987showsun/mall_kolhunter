@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faUser, faUserPlus, faShoppingCart, faTruck }from '@fortawesome/free-solid-svg-icons';
 
 //Compoents
 import Search from './search/';
@@ -34,36 +36,50 @@ class Header extends React.Component{
                     <div className="header-nav-block">
                         <ul>
                             {
-                                token!=null || token!=undefined && 
+                                token!=null || token!=undefined ? (
                                     <li>
-                                        <Link to="">
-                                            <span className="icon-block"></span>
-                                            <div className="prompt-block">會員登入</div>
+                                        <Link to="/myaccount">
+                                            <span className="icon-block">
+                                                <FontAwesomeIcon icon={faUserPlus} />
+                                            </span>
+                                            <div className="prompt-block">Sam</div>
                                         </Link>
                                     </li>
+                                ):(
+                                    <React.Fragment>
+                                        <li>
+                                            <Link to="/account">
+                                                <span className="icon-block">
+                                                    <FontAwesomeIcon icon={faUser} />
+                                                </span>
+                                                <div className="prompt-block">會員登入</div>
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/account/signup">
+                                                <span className="icon-block">
+                                                    <FontAwesomeIcon icon={faUserPlus} />
+                                                </span>
+                                                <div className="prompt-block">加入會員</div>
+                                            </Link>
+                                        </li>
+                                    </React.Fragment>
+                                )
                             }
                             <li>
-                                <Link to="">
-                                    <span className="icon-block"></span>
-                                    <div className="prompt-block">會員登入</div>
+                                <Link to="/myaccount/carts">
+                                    <span className="icon-block">
+                                        <FontAwesomeIcon icon={faShoppingCart} />
+                                    </span>
+                                    <div className="prompt-block">購物車</div>
                                 </Link>
                             </li>
                             <li>
-                                <Link to="">
-                                    <span className="icon-block"></span>
-                                    <div className="prompt-block">加入會員</div>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="">
-                                    <span className="icon-block"></span>
+                                <Link to="/myaccount/order">
+                                    <span className="icon-block">
+                                        <FontAwesomeIcon icon={faTruck} />
+                                    </span>
                                     <div className="prompt-block">我的訂單</div>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="">
-                                    <span className="icon-block"></span>
-                                    <div className="prompt-block">追蹤進度</div>
                                 </Link>
                             </li>
                         </ul>

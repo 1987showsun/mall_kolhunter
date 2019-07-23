@@ -354,3 +354,24 @@
         opacity: 1;
     }
 }
+
+.category-wrap{
+    img{
+        width: 100%;
+    }
+    figure{
+        width: 100%;
+        padding: 15px 5px;
+        display: flex;
+        flex-direction: column;
+        .category-figure-img{
+            width: 100%;
+            padding: 10px;
+        }
+        figcaption{
+            width: 100%;
+            font-size: 0.9em;
+            text-align: center;
+        }
+    }
+}

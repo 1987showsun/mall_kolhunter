@@ -42,6 +42,14 @@ export default class Store extends React.Component{
                   slidesToScroll: 3,
                   initialSlide: 3
                 }
+              },
+              {
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 2,
+                  initialSlide: 2
+                }
               }
             ]
           };

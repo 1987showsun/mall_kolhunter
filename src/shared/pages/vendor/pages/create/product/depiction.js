@@ -71,8 +71,8 @@ export default class Depiction extends React.Component{
         data = [
             ...data,
             {
-                typeof: 'img',
-                data: files['base64']
+                type: 'image',
+                content: files['base64']
             }
         ];
         this.setState({
@@ -103,8 +103,8 @@ export default class Depiction extends React.Component{
                 data = [
                     ...data,
                     {
-                        typeof: 'text',
-                        data: ''
+                        type: 'text',
+                        content: ''
                     }
                 ]
                 break;
@@ -118,15 +118,15 @@ export default class Depiction extends React.Component{
     }
 
     renderTypeof = (item,i) => {
-        switch( item['typeof'] ){
-            case 'img':
-                return(<img src={item['data']} alt="" title="" />);
+        switch( item['type'] ){
+            case 'image':
+                return(<img src={item['content']} alt="" title="" />);
                 
             case 'text':
                 return(
                     <textarea 
-                        name="data" 
-                        value={item['data']}
+                        name="content" 
+                        value={item['content']}
                         onChange={this.handleChangeTextarea.bind(this,i)} 
                     />
                 );

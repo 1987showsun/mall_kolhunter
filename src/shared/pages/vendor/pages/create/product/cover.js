@@ -10,13 +10,14 @@ export default class Cover extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            id: props.id,
             data: props.data
         }
     }
 
     render(){
 
-        let { data } = this.state;
+        let { id,data } = this.state;
 
         return(
             <React.Fragment>
@@ -36,7 +37,7 @@ export default class Cover extends React.Component{
                                     return(
                                         <li key={i} className={ item['sticky']==true? 'active':'' }>
                                             <figure>
-                                                <img src={item['images']} alt="" title="" />
+                                                <img src={item['image']} alt="" title="" />
                                                 <figcaption>
                                                     <ul className="btn-ul">
                                                         <li>
@@ -64,7 +65,7 @@ export default class Cover extends React.Component{
 
     onChangeData = (val) => {
         let { data } = this.state;
-        data = [ ...data, { images: val, sticky: false} ];
+        data = [ ...data, { image: val, sticky: false} ];
         if( data.length==1 ){
             data[0]['sticky']=true;
         }
@@ -104,6 +105,7 @@ export default class Cover extends React.Component{
 
     returnBack = () => {
         const { data } = this.state;
+        console.log( data );
         this.props.onHandleChange('2',data);
     }
 }

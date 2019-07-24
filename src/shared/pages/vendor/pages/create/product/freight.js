@@ -1,11 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import InputTable from '../../../../../module/inputTable';
 
-export default class Freight extends React.Component{
+// Actions
+import { deliveries } from '../../../../../actions/common';
+
+class Freight extends React.Component{
 
     constructor(props){
         super(props);
@@ -13,30 +17,13 @@ export default class Freight extends React.Component{
             data : props.data,
             tableHeadKey : [
                 {
-                    key: 'method',
+                    key: 'id',
                     type: 'select',
                     title: '貨運名稱',
-                    option: [
-                        {
-                            value: 0,
-                            text: '7-11 黑貓宅急便'
-                        },
-                        {
-                            value: 1,
-                            text: '全家 宅配通'
-                        },
-                        {
-                            value: 2,
-                            text: '新竹貨運'
-                        },
-                        {
-                            value: 3,
-                            text: '大榮貨運'
-                        }
-                    ]
+                    option: []
                 },
                 {
-                    key: 'price',
+                    key: 'cost',
                     type: 'number',
                     title: '費用',
                     className: 'number'
@@ -76,6 +63,16 @@ export default class Freight extends React.Component{
         );
     }
 
+    componentDidMount() {
+        const { tableHeadKey } = this.state;
+        this.props.dispatch( deliveries() ).then( res => {
+            tableHeadKey[0]['option'] = res['data'];
+            this.setState({
+                tableHeadKey
+            })
+        })
+    }
+
     onChangeData = ( data ) => {
         this.setState({
             data
@@ -89,8 +86,8 @@ export default class Freight extends React.Component{
         data = [
             ...data, 
             {
-                method: 0,
-                price: 0
+                id: 0,
+                cost: 0
             }
         ]
         this.setState({
@@ -105,3 +102,11 @@ export default class Freight extends React.Component{
         this.props.onHandleChange('5',data);
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Freight );

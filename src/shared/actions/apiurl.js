@@ -68,6 +68,12 @@ export default function API(){
         },
         'member': {
             
+        },
+        'delivery': {
+            'list': `${API_ADDRESS()}/v1/mall/deliveries`
+        },
+        'categories': {
+            'list': `${API_ADDRESS()}/v1/mall/categories`
         }
     }
 }

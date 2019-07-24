@@ -183,7 +183,6 @@ export function incListAccount( form ) {
 // 新增商品
 export function createProduct( type, formObject, step ) {
     return (dispatch) => {
-        
         const method = 'post';
         const url = API()['myvendor'][type]['create'][step];
         return Axios({method,url,data: formObject});

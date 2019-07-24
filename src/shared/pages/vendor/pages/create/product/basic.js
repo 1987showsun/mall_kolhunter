@@ -49,6 +49,7 @@ export default class Product extends React.Component{
                             <div>
                                 <div className="input-box select">
                                     <select name="categoriesLevel1" value={data['categoriesLevel1']} onChange={this.categoriesChange.bind(this)}>
+                                        <option value="" >請選擇主分類</option>
                                         {
                                             categoriesItem.map( (cItem,i)=> {
                                                 return(
@@ -64,6 +65,7 @@ export default class Product extends React.Component{
                                             return(
                                                 <div className="input-box select" key={i}>
                                                     <select name="categoriesLevel2" value={data['categoriesLevel2']} onChange={this.categoriesChange.bind(this)}>
+                                                        <option value="" >請選擇次分類</option>
                                                         {
                                                             cItem['children'].map( (childrenItem,c_i) => {
                                                                 return(

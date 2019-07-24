@@ -74,7 +74,7 @@ export default class InputTable extends React.Component{
                                                                         <select name={headItem['key']} value={bodyItem[headItem['key']]} onChange={this.handleChange.bind(this,b_i)}>
                                                                             {
                                                                                 headItem['option'].map( (optionItem,o_i) => {
-                                                                                    return(<option key={optionItem['id'] || o_i } value={optionItem['id']}>{optionItem['text']}</option>)
+                                                                                    return(<option key={optionItem['id'] || o_i } value={optionItem['id']}>{optionItem['name']}</option>)
                                                                                 })
                                                                             }
                                                                         </select>

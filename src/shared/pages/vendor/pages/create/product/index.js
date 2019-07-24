@@ -9,61 +9,25 @@ import Basic from './basic';
 import Freight from './freight';
 import Format from './format';
 import Depiction from './depiction';
+import Confirm from '../../../../../module/confirm';
 
 // Actions
-import { createProduct, getCategories } from '../../../../../actions/vendor';
+import { createProduct } from '../../../../../actions/vendor';
+import { categories } from '../../../../../actions/common';
 
 
 // Lang
 import lang from '../../../../../lang/lang.json';
 
-const categoriesItem = [
-    {
-        "id": "35096221867e8d90eaa1",
-        "title": "喇叭",
-        "children": []
-    },
-    {
-        "id": "5c6c97b086b56e2214da",
-        "title": "美妝保健",
-        "children": [
-            {
-                "id": "3eb6a97e0862c384771d",
-                "title": "專櫃彩妝"
-            },
-            {
-                "id": "696693091caba66d7638",
-                "title": "專櫃清潔保養"
-            }
-        ]
-    },
-    {
-        "id": "366caff843e078734dd7",
-        "title": "家電影音",
-        "children": [
-            {
-                "id": "61f489640acc966f1a77",
-                "title": "生活家電"
-            },
-            {
-                "id": "b0ee832e400705ea0315",
-                "title": "電視機"
-            }
-        ]
-    },
-    {
-        "id": "b65e70aa1826f6ea901c",
-        "title": "其他",
-        "children": []
-    }
-]
-
 class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            open: false,
+            popupMsg: "",
             maxStep: 5,
             step: 1,
+            id: "",
             formObject : {
                 1: {
                     name: "",
@@ -75,12 +39,13 @@ class Index extends React.Component{
                 3: [],
                 4: [],
                 5: []
-            }
+            },
+            categoriesItem: []
         }
     }
 
     render(){
-        const { formObject, maxStep, step } = this.state;
+        const { open, popupMsg, id, formObject, maxStep, step, categoriesItem } = this.state;
         const returnStep = () => {
             let returnView = [];
             for( let i=1 ;i<=maxStep ; i++){
@@ -109,7 +74,7 @@ class Index extends React.Component{
                     }
                     {
                         step==2 &&
-                            <Cover data={formObject['2']} onHandleChange={this.handleChange.bind(this)}/>
+                            <Cover id={id} data={formObject['2']} onHandleChange={this.handleChange.bind(this)}/>
                     }
                     {
                         step==3 &&
@@ -143,14 +108,32 @@ class Index extends React.Component{
                         </ul>
                     </div>
                 </form>
+
+                <Confirm
+                    open={open}
+                    method='alert'
+                    container={popupMsg}
+                    onConfirm={this.handleConfirm.bind(this)}
+                />
             </React.Fragment>
         );
     }
 
     componentDidMount() {
-        this.props.dispatch( getCategories() ).then(res=>{
-            console.log(res);
+        this.props.dispatch( categories() ).then(res=>{
+            this.setState({
+                categoriesItem: res['data']
+            })
         });
+    }
+
+    handleConfirm = ( val ) => {
+        this.setState({
+            open: false,
+            success: val
+        },()=>{
+            this.handleCancel();
+        })
     }
 
     handleCancel = () => {
@@ -174,16 +157,64 @@ class Index extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { formObject, step, maxStep } = this.state;
+        const { id, formObject, step, maxStep } = this.state;
         const { match } = this.props;
         const { type } = match['params'];
-        console.log( type, formObject[step], step );
+        
+        switch( step ){
+
+            case 2:
+                formObject[step] = {
+                    id : id,
+                    images: formObject[step]
+                }
+                break;
+
+            case 3:
+                formObject[step] = {
+                    id : id,
+                    specs: formObject[step]
+                }
+                break;
+
+            case 4:
+                formObject[step] = {
+                    id : id,
+                    descriptions: formObject[step]
+                }
+                break;
+
+            case 5:
+                formObject[step] = {
+                    id : id,
+                    deliveries: formObject[step]
+                }
+                break;
+        }
+
         this.props.dispatch( createProduct( type, formObject[step], step ) ).then( res => {
-            console.log(res);
+            switch( res['status'] ){
+                case 200:
+                    if( step==1 ){
+                        this.setState({
+                            step: step==maxStep? maxStep : step+1,
+                            id: res['data']['id']
+                        })
+                    }else{
+                        if( step>=5 ){
+                            this.setState({
+                                open: true,
+                                popupMsg: '新增成功'
+                            })
+                        }else{
+                            this.setState({
+                                step: step==maxStep? maxStep : step+1
+                            })
+                        }
+                    }
+                    break;
+            }
         });
-        this.setState({
-            step: step==maxStep? maxStep : step+1,
-        })
     }
 }
 

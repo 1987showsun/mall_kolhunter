@@ -1,13 +1,10 @@
 import axios from 'axios';
 axios.interceptors.request.use(function (config) {
-    config.headers['Content-Type'] = 'text/plain';
-
     if( typeof window !== 'undefined' ){
         if( sessionStorage.getItem('jwt_user')!=undefined ){
             config.headers['Authorization'] = sessionStorage.getItem('jwt_user');
         }  
     }
-
     return config;
 }, function (error) {
     return error;

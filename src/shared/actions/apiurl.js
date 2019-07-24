@@ -39,7 +39,7 @@ export default function API(){
         'myvendor': {
             "productCategories":`${API_ADDRESS()}/v1/vendor/categories`,
             'product': {
-                'categories': `${API_ADDRESS()}/v1/vendor/product`,
+                'categories': `${API_ADDRESS()}/v1/vendor/product/list`,
                 'create': {
                     '1': `${API_ADDRESS()}/v1/vendor/product/info`,
                     '2': `${API_ADDRESS()}/v1/vendor/product/img`,

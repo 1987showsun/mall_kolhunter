@@ -178,7 +178,9 @@ class Index extends React.Component{
         const { match } = this.props;
         const { type } = match['params'];
         console.log( type, formObject[step], step );
-        //this.props.dispatch( createProduct( type, formObject[step], step ) );
+        this.props.dispatch( createProduct( type, formObject[step], step ) ).then( res => {
+            console.log(res);
+        });
         this.setState({
             step: step==maxStep? maxStep : step+1,
         })

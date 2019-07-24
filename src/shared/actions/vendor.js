@@ -186,14 +186,7 @@ export function createProduct( type, formObject, step ) {
         
         const method = 'post';
         const url = API()['myvendor'][type]['create'][step];
-        const data = { 
-            ...formObject['basic'], 
-            shippingMethods: formObject['shippingMethods'], 
-            variations: formObject['variations'], 
-            descriptionItems: formObject['descriptionItems']
-        };
-
-        return Axios({method,url,data});
+        return Axios({method,url,data: formObject});
 
     }
 }
@@ -234,8 +227,7 @@ export function verify(){
             code: ""
         };
 
-        console.log( method,url,data );
-        //return Axios({method,url,data});
+        return Axios({method,url,data});
     }
 }
 

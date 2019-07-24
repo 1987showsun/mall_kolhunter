@@ -7,6 +7,7 @@ import Confirm from '../../../module/confirm';
 
 //Actions
 import { verify } from '../../../actions/login';
+import { getVerifyToke } from '../../../actions/vendor';
 
 //Javascripts
 import { PWD } from '../../../public/javascripts/checkFormat';
@@ -18,13 +19,16 @@ class Verify extends React.Component{
 
     constructor(props){
         super(props);
-        const code = queryString.parse(props.location['search'])['code'] || null
+        const code = queryString.parse(props.location['search'])['code'] || null;
+        const email= queryString.parse(props.location['search'])['mail'] || null;
         this.state = {
             open: false,
             success: false,
-            form : {
-                type: 'vendor',
+            request: {
                 code: code,
+                email: email
+            },
+            form : {
                 password: '',
                 confirm: ''
             },
@@ -74,6 +78,11 @@ class Verify extends React.Component{
                 />
             </React.Fragment>
         );
+    }
+
+    componentDidMount() {
+        const { request } = this.state;
+        this.props.dispatch( getVerifyToke(request) )
     }
 
     handleChange = (e) => {
@@ -128,7 +137,7 @@ class Verify extends React.Component{
             open: false,
             success: val
         },()=>{
-            this.props.history.push('/login/vendor');
+            this.props.history.push('/vendor');
         })
     }
 }

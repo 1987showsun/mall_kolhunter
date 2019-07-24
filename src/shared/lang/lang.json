@@ -37,7 +37,7 @@
             "company required": "公司名稱必填"
         },
         "err": {
-            "ID or password error.": "帳號或密碼錯誤"
+            "ID or password error": "帳號或密碼錯誤"
         }
     },
     "en": {
@@ -78,7 +78,7 @@
             "company required": "Company name required"
         },
         "err": {
-            "ID or password error.": "ID or password error."
+            "ID or password error": "ID or password error."
         }
     }
 }

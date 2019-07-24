@@ -10,6 +10,7 @@ import VendorSignIn from './vendor/sign_in';
 import VendorSignUp from './vendor/sign_up';
 import VendorLeading from './vendor/leading';
 import VendorVverify from './vendor/verify';
+import VendorForget from './vendor/forgetPWD';
 
 // Stylesheets
 import './style.scss';
@@ -22,7 +23,7 @@ class Index extends React.Component{
         this.state = {
             token: this.getJWTToken(props),
             DoYouHaveType: ['account','vendor'],
-            DoYouHaveClass: ['signin','signup','leading','verify'],
+            DoYouHaveClass: ['signin','signup','leading','verify','forget'],
             components: {
                 account: {
                     signin: AccountSignIn,
@@ -34,6 +35,7 @@ class Index extends React.Component{
                     signup: VendorSignUp,
                     leading: VendorLeading,
                     verify: VendorVverify,
+                    forget: VendorForget
                 }
             }
         }

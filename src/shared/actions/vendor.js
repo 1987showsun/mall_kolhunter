@@ -213,6 +213,32 @@ export function productPutsaleAndDiscontinue( type, formObject ) {
     }
 }
 
+// 
+export function getVerifyToke( params ) {
+    return (dispatch) => {
+        const method = 'post';
+        const url = API()['verify']['vendor'];
+        return Axios({method,url,data: params}).then( res => {
+            return res;
+        });
+    }
+}
+
+// 驗證修改密碼
+export function verify(){
+    return(dispatch) => {
+        const method = 'post';
+        const url = API()['verify']['vendor'];
+        const data= {
+            email: "",
+            code: ""
+        };
+
+        console.log( method,url,data );
+        //return Axios({method,url,data});
+    }
+}
+
 export function programContract(){
     return (dispatch) => {
 

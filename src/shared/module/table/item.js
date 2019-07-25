@@ -42,7 +42,7 @@ export default class Item extends React.Component{
                                                 {
                                                     headItem['type']=='button' &&
                                                         <div className={`table-body ${headItem['className']||''}`} key={headItem['key']}>
-                                                            <button className={`status${bodyItem['status']}`} onClick={this.tableButtonAction.bind(this,headItem['key'],bodyItem)}>
+                                                            <button className={`status-${bodyItem['status']}`} disabled={ bodyItem['status']=="none-auth" } onClick={this.tableButtonAction.bind(this,headItem['key'],bodyItem)}>
                                                                 { headItem['text'][bodyItem['status']] }
                                                             </button>
                                                         </div>

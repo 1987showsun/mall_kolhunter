@@ -11,8 +11,9 @@ export default class Index extends React.Component{
         super(props);
         this.state = {
             method: props.method || 'normal',
-            limit: Number(props.limit) || 30,
-            total: Number(props.total) || 0
+            current: Number( props.current ) || 1,
+            limit: Number( props.limit ) || 30,
+            total: Number( props.total ) || 0
         }
     }
 
@@ -20,9 +21,10 @@ export default class Index extends React.Component{
 
         const { location } = this.props;
         const { pathname, search } = location;
-        const { total, limit, method } = this.state;
+        const { total, method } = this.state;
         const searchObject = queryString.parse(search);
-        const current = Number(searchObject['current']) || 1;
+        const limit = Number(searchObject['limit']) || this.state.limit;
+        const current = Number(searchObject['page']) || this.state.current;
         const pageVal = Math.ceil(total/limit);
 
         if( method=='normal' ){
@@ -33,7 +35,7 @@ export default class Index extends React.Component{
                         <li key={i} className={`${current==i}`}>
                             <Link to={{
                                 pathname: pathname,
-                                search: `?${ queryString.stringify({...searchObject,current:i}) }`,
+                                search: `?${ queryString.stringify({...searchObject,page:i}) }`,
                                 hash: "",
                             }}>
                                 {i}
@@ -61,7 +63,7 @@ export default class Index extends React.Component{
                         ):(
                             <Link className="loadMore" to={{
                                 pathname: pathname,
-                                search: `?${ queryString.stringify({...searchObject,current: current+1}) }`,
+                                search: `?${ queryString.stringify({...searchObject,page: current+1}) }`,
                                 hash: "",
                             }}>載入更多</Link>
                         )

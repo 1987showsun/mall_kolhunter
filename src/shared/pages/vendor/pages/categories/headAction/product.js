@@ -1,8 +1,7 @@
 import React from 'react';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPlus }from '@fortawesome/free-solid-svg-icons';
 
 // Lang
 import lang from '../../../../../lang/lang.json';
@@ -10,12 +9,20 @@ import lang from '../../../../../lang/lang.json';
 class HeadProduct extends React.Component{
 
     constructor(props){
+        
+        const query = queryString.parse( props.location['search'] );
+        const sort = query['sort'] || 'desc';
+        const sortBy = query['sortBy'] || 'created';
+        const search = query['search'] || '';
+        const method = query['method'] || 'name';
+
         super(props);
         this.state = {
             formSearchObject: {
-                search: "",
-                query_key: 0,
-                filter: 0
+                search,
+                method,
+                sort,
+                sortBy
             }
         }
     }
@@ -23,7 +30,15 @@ class HeadProduct extends React.Component{
     render(){
 
         const { formSearchObject } = this.state;
-        const { total,on_shelves,no_longer_be_sold,number_of_shelves_available } = this.props;
+        const { 
+            total,
+            auth, 
+            nonDisplay, 
+            noneAuth,
+            match, 
+            location, 
+            history
+        } = this.props;
 
         return(
             <React.Fragment>
@@ -35,9 +50,9 @@ class HeadProduct extends React.Component{
                                     <div className="input-box">
                                         <input type="text" name="search" value={formSearchObject['search']} placeholder={lang['zh-TW']['Product name']} onChange={this.handleSearchChange.bind(this)}/>
                                         <div className="input-box select">
-                                            <select name="query_key" value={ formSearchObject['query_key'] } onChange={this.handleSearchChange.bind(this)}>
-                                                <option value="">名稱</option>
-                                                <option value="">品牌</option>
+                                            <select name="method" value={ formSearchObject['method'] } onChange={this.handleSearchChange.bind(this)}>
+                                                <option value="name">名稱</option>
+                                                <option value="brand">品牌</option>
                                             </select>
                                         </div>
                                         <button className="basic">搜尋</button>
@@ -45,10 +60,15 @@ class HeadProduct extends React.Component{
                                 </li>
                                 <li>
                                     <div className="input-box select">
-                                        <select name="filter" value={formSearchObject['filter']} onChange={this.handleSearchChange.bind(this)}>
-                                            <option value="-1">顯示全部</option>
-                                            <option value="0">上架中</option>
-                                            <option value="1">下架中</option>
+                                        <select name="sort" value={`${formSearchObject['sort']}-${formSearchObject['sortBy']}`} onChange={this.handleSortChange.bind(this)}>
+                                            <option value="desc-created">建立時間由高到低</option>
+                                            <option value="asc-created">建立時間由低到高</option>
+                                            <option value="desc-sellPrice">促銷價格由高到低</option>
+                                            <option value="asc-sellPrice">促銷價格由低到高</option>
+                                            <option value="desc-price">原始售價由高到低</option>
+                                            <option value="asc-price">原始售價由低到高</option>
+                                            <option value="desc-modify">編輯時間由高到低</option>
+                                            <option value="asc-modify">編輯時間由低到高</option>
                                         </select>
                                     </div>
                                 </li>
@@ -66,17 +86,42 @@ class HeadProduct extends React.Component{
                     </div>
                 </div>
                 <div className="page-alert-info">
-                    <p>上架中：{on_shelves}  下架中：{no_longer_be_sold}  商品總數：{total}</p>
+                    <p>上架中：{auth}  下架中：{nonDisplay}  審核中：{noneAuth}  商品總數：{total}</p>
                 </div>
             </React.Fragment>
         );
+    }
+
+    handleSortChange = (e) => {
+        const { location, history } = this.props;
+        const pathname = location['pathname'];
+        const search = queryString.parse(location['search']);
+        const val = e.target.value;
+        const sort = val.split('-')[0];
+        const sortBy = val.split('-')[1];
+        const formSearchObject = { ...this.state.formSearchObject, sort: sort, sortBy: sortBy }
+        this.setState({
+            formSearchObject
+        },()=>{
+           let query = { ...search, sort: formSearchObject['sort'], sortBy: formSearchObject['sortBy'] }
+            history.push({
+                pathname: pathname,
+                search: `?${queryString.stringify(query)}`
+            });
+        })
     }
 
     handleSearchChange = (e) => {
         let { formSearchObject } = this.state;
         let name = e.target.name;
         let val = e.target.value;
-        formSearchObject = { ...formSearchObject, [name]: val }
+        if( name=='sort' ){
+            const sort = val.split('-')[0];
+            const sortBy = val.split('-')[1];
+            formSearchObject = { ...formSearchObject, ['sort']: sort, ['sortBy']: sortBy }
+        }else{
+            formSearchObject = { ...formSearchObject, [name]: val }
+        }
         this.setState({
             formSearchObject
         })
@@ -84,14 +129,23 @@ class HeadProduct extends React.Component{
 
     handleSearchSubmit = (e) => {
         e.preventDefault();
+        const { location, history } = this.props;
+        const pathname = location['pathname'];
+        const search = queryString.parse(location['search']);
+        const query =  { ...search, ...this.state.formSearchObject };
+        history.push({
+            pathname: pathname,
+            search: `?${queryString.stringify(query)}`
+        });
     }
 }
 
 const mapStateToProps = (state) => {
     return{
         total: state.vendor.total,
-        on_shelves: state.vendor.on_shelves,
-        no_longer_be_sold: state.vendor.no_longer_be_sold
+        auth: state.vendor.auth,
+        nonDisplay: state.vendor.nonDisplay,
+        noneAuth: state.vendor.noneAuth
     }
 }
 

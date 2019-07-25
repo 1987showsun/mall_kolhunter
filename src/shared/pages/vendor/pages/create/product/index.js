@@ -163,6 +163,9 @@ class Index extends React.Component{
         
         switch( step ){
 
+            case 1:
+                break;
+
             case 2:
                 formObject[step] = {
                     id : id,

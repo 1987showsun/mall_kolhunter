@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 //Components
@@ -21,8 +22,9 @@ class Product extends React.Component{
                     type: 'button',
                     title: '狀態（點擊 上、下架）',
                     text: {
-                        0: '下架中',
-                        1: '上架中'
+                        "auth": '上架中',
+                        "non-display": '下架中',
+                        "none-auth": '審核中'
                     }
                 },
                 {
@@ -53,7 +55,7 @@ class Product extends React.Component{
                     title: '售價'
                 },
                 {
-                    key: 'special_offer',
+                    key: 'sellPrice',
                     type: 'number',
                     title: '特價'
                 },
@@ -75,27 +77,31 @@ class Product extends React.Component{
                     ]
                 }
             ],
-            tableBodyData : []
+            tableBodyData : [],
+            total: 0
         }
     }
 
     static getDerivedStateFromProps ( props,state ){
-
-        const filterStatusList = props.list.filter( filterItem =>  filterItem['status']!=2 );
-
         return{
-            tableBodyData: filterStatusList
+            total: props.total,
+            tableBodyData: props.list
         }
     }
 
     render(){
 
-        const { tableHeadKey,tableBodyData } = this.state;
-        const { match, location } = this.props;
+        const { total, tableHeadKey, tableBodyData } = this.state;
+        const { match, location, history } = this.props;
+        console.log(total);
 
         return(
             <React.Fragment>
-                <Head />
+                <Head
+                    match= {match} 
+                    history= {history}
+                    location= {location}
+                />
                 <Table 
                     tableHeadData={tableHeadKey}
                     tableBodyData={tableBodyData}
@@ -103,7 +109,7 @@ class Product extends React.Component{
                     returnCheckBoxVal={this.returnCheckBoxVal.bind(this)}
                 />
                 <Pagination 
-                    total= {10}
+                    total= {total}
                     match= {match}
                     location= {location}
                 />
@@ -112,28 +118,44 @@ class Product extends React.Component{
     }
 
     componentDidMount() {
-        this.props.dispatch( listProduct() );
+        const locationSearch = this.props.location['search'];
+        this.props.dispatch( listProduct( locationSearch ) );
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState){
+        const prevlocationSearch = prevProps.location['search'];
+        const locationSearch = this.props.location['search'];
+        if( prevlocationSearch!=locationSearch ){
+            this.props.dispatch( listProduct( locationSearch ) );
+        }
+        return null;
+    }
+
+    componentDidUpdate(){
+        return null;
     }
 
     tableButtonAction = ( val ) => {
-        // 0：下架中 1：上架中
+        // non-display：下架中 
+        // auth：上架中
         let type = '';
-        if( val['status']==0 ){
+        if( val['status']=='non-display' ){
             type= 'putsale';
-        }else{
+        }else if( val['status']=='auth' ){
             type= 'discontinue';
         }
         this.props.dispatch( productPutsaleAndDiscontinue( type, val ) );
     }
 
     returnCheckBoxVal = ( val ) => {
-        console.log( val );
+        //console.log( val );
     }
 }
 
 const mapStateToProps = (state) => {
     return{
-        list : state.vendor.list,
+        total: state.vendor.total,
+        list: state.vendor.list
     }
 }
 

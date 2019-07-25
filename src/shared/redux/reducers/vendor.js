@@ -1,14 +1,17 @@
 export default function vendor(
     state = {
-        total: 0,
-        on_shelves: 0,
-        no_longer_be_sold: 0,
-        to_be_shipped_area: 4,
-        on_passage: 10,
-        successful_delivery: 10,
-        cancel: 4,
-        return: 2,
-        list: []
+        "total": 0,
+        "on_shelves": 0,
+        "no_longer_be_sold": 0,
+        "to_be_shipped_area": 4,
+        "on_passage": 10,
+        "auth": 0, // 上架總數
+        "nonDisplay": 0, // 下架總數
+        "noneAuth": 0, // 審核總數
+        "successful_delivery": 10,
+        "cancel": 4,
+        "return": 2,
+        "list": []
     },action
 ){
     switch(action.type){
@@ -44,6 +47,24 @@ export default function vendor(
                 successful_delivery: action.successful_delivery,
                 cancel: action.cancel,
                 returned_purchase: action.returned_purchase,
+            }
+            break;
+
+        case 'VENDOR_PRODUCT_HEAD':
+            console.log( action.noneAuth );
+            state = {
+                ...state,
+                "total": action.total,
+                "auth": action.auth,
+                "nonDisplay": action.nonDisplay,
+                "noneAuth": action.noneAuth
+            }
+            break;
+        
+        case 'VENDOR_PRODUCT_LIST':
+            state = {
+                ...state,
+                list: action.list
             }
             break;
 

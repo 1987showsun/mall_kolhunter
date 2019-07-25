@@ -7,9 +7,9 @@
         width: 120px;
         height: 35px;
         color: #fff;
-        &.status0{ background: var(--main); }
-        &.status1{ background: var(--green); }
-        &.status2{ background: var(--gray-dark); }
+        &.status-non-display{ background: var(--main); }
+        &.status-auth{ background: var(--green); }
+        &.status-none-auth{ background: var(--gray-dark); }
     }
     .table-ul{
         width: 100%;
@@ -37,7 +37,8 @@
                     text-align: right;
                 }
                 >img{
-                    max-width: 75px;
+                    min-width: 50px;
+                    max-width: 100px;
                     @media (max-width: 720px) {
                         max-width: 65px;
                     }

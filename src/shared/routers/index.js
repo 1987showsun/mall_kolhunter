@@ -3,6 +3,7 @@ import Terms from '../pages/terms';
 import Categories from '../pages/categories';
 import Info from '../pages/info';
 import Store from '../pages/store';
+import StoreInfo from '../pages/store/info';
 import ontSignIn from '../pages/login';
 import IncIndex from '../pages/vendor';
 import MemberIndex from '../pages/member';
@@ -30,7 +31,7 @@ const common = [
   },
   {
     path: "/store/:id",
-    component: Store
+    component: StoreInfo
   },
   {
     path: "/store",

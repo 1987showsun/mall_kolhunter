@@ -1,34 +1,21 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import CurrencyFormat from 'react-currency-format';
+import { Link } from 'react-router-dom';
 
 // Components
-import Item from './item';
-import BlockList from '../../../module/blockList';
-import Filter from './filter/';
 import Breadcrumbs from './breadcrumbs';
+import BlockList from '../../module/blockList';
+import Item from './item';
 
-class Index extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-        }
-    }
-
+export default class Index extends React.Component{
     render(){
-        
-        const { match, location } = this.props;
-
         return(
             <React.Fragment>
                 <div className="row">
                     <section className="container main-content">
-                        <Filter
-                            match= {match}
-                            location= {location}
-                        />
                         <section className="container-col" data-flexdirection="column" >
                             <Breadcrumbs />
-                            <BlockList>
+                            <BlockList className="store-card">
                                 <Item />
                                 <Item />
                                 <Item />
@@ -67,11 +54,3 @@ class Index extends React.Component{
         );
     }
 }
-
-const mapStateToProps = state => {
-    return{
-        
-    }
-}
-
-export default connect( mapStateToProps )( Index );

@@ -25,40 +25,12 @@ export default class Index extends React.Component{
     render(){
 
         const { setRWDStyle } = this.state;
+        const { className } = this.props;
 
         return(
             <div ref={this.listWrap} className="product-list-wrap">
-                <ul className={`list-ul RWD-${setRWDStyle}`}>
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
-                    <Item />
+                <ul className={`list-ul ${className||""} RWD-${setRWDStyle}`}>
+                    { this.props.children }
                 </ul>
             </div>
         );

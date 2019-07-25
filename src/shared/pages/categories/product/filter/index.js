@@ -20,6 +20,7 @@ export default class Product extends React.Component{
     render(){
 
         const { priceRange } = this.state;
+        const { match, location } = this.props;
 
         return(
             <section className="container-col filter-wrap">
@@ -28,7 +29,10 @@ export default class Product extends React.Component{
                         <div className="block-title">
                             <h2>分類清單</h2>
                         </div>
-                        <Subcategory />
+                        <Subcategory 
+                            match= {match}
+                            location= {location}
+                        />
                     </article>
                     <article className="filter-row">
                         <div className="block-title">

@@ -1,7 +1,16 @@
 import React from 'react';
+import queryString from 'query-string';
+import { connect } from 'react-redux';
 
 //Compoents
-import Table from '../../../../module/table';
+import Table from '../../../../../module/table';
+import Basic from './basic';
+import Freight from './freight';
+import Depiction from './depiction';
+import Format from './format';
+
+// Actions
+import { infoProduct } from '../../../../../actions/vendor';
 
 const PDD = {
     "id": "",
@@ -69,7 +78,7 @@ const demoData = [
     }
 ]
 
-export default class Product extends React.Component{
+class Product extends React.Component{
 
     constructor(props){
         super(props);
@@ -105,42 +114,47 @@ export default class Product extends React.Component{
                     title: '分得利潤',
                     className: 'number'
                 }
-            ]
+            ],
+            data: {}
         }
     }
 
     render(){
 
-        const { tableHeadKey } = this.state;
+        const { tableHeadKey, data } = this.state;
 
         return(
             <React.Fragment>
                 <section className="admin-content-row">
                     <ul className="admin-product-img-ul">
-                        <li>
-                            <img src="https://cf.shopee.tw/file/7f45df53d871582bfa8434b1db2af16d" alt="" title="" />
-                        </li>
-                        <li>
-                            <img src="https://cf.shopee.tw/file/7cff239a11ae571214341b946cb79374" alt="" title="" />
-                        </li>
-                        <li>
-                            <img src="https://cf.shopee.tw/file/e02514dcfedbd418fe3d34eb4e5dc32b" alt="" title="" />
-                        </li>
-                        <li>
-                            <img src="https://cf.shopee.tw/file/b4b2e16f8971d535070709d5f50476da" alt="" title="" />
-                        </li>
+                        {
+                            data['img']!=undefined &&
+                                data['img'].map( item => {
+                                    return(
+                                        <li key={item['imagePath']}>
+                                            <img src={item['imagePath']} alt="" title="" />
+                                        </li>
+                                    )
+                                })
+                        }
                     </ul>
                 </section>
-                <section className="admin-content-row">
-                    <article className="admin-content-title">
-                        <h4>基本資料</h4>
-                    </article>
-                </section>
-                <section className="admin-content-row">
-                    <article className="admin-content-title">
-                        <h4>運送方式</h4>
-                    </article>
-                </section>
+                {
+                    data['info']!=undefined &&
+                        <Basic data={ data['info'] } />
+                }
+                {
+                    data['spec']!=undefined &&
+                        <Format data={ data['spec'] } />
+                }
+                {
+                    data['delivery']!=undefined &&
+                        <Freight data={ data['delivery'] } />
+                }
+                {
+                    data['description']!=undefined &&
+                        <Depiction data={ data['description'] } />
+                }
                 <section className="admin-content-row">
                     <article className="admin-content-title">
                         <h4>店家排行</h4>
@@ -153,4 +167,24 @@ export default class Product extends React.Component{
             </React.Fragment>
         );
     }
+
+    componentDidMount() {
+        const { match, location } = this.props;
+        const serach = queryString.parse( location['search'] );
+        const p_id = match['params']['id'];
+        const query = queryString.stringify({ ...serach, id: p_id });
+        this.props.dispatch( infoProduct(query) ).then(res => {
+            this.setState({
+                data: res['data']
+            })
+        });
+    }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Product );

@@ -15,7 +15,7 @@ export function listProduct( query ) {
             console.log( res );
             const list = res['data']['list'].map( item => {
                 return {
-                    id: item['productID'],
+                    id: item['productToken'],
                     status: item['status'],
                     cover: item['image'][0]!=undefined? item['image'][0]['imagePath'] : "",
                     name: item['name'],
@@ -40,6 +40,15 @@ export function listProduct( query ) {
                 list: list,
             });
         });
+    }
+}
+
+// 商品資訊
+export function infoProduct( query ) {
+    return (dispatch) => {
+        const method = 'get';
+        const url = `${API()['myvendor']['product']['info']}${query!=""? `?${query}`:''}`;
+        return Axios({method,url,data: {}});
     }
 }
 
@@ -133,7 +142,6 @@ export function createProduct( type, formObject, step ) {
         const method = 'post';
         const url = API()['myvendor'][type]['create'][step];
         return Axios({method,url,data: formObject});
-
     }
 }
 
@@ -183,6 +191,7 @@ export function programContract(){
     }
 }
 
+// 取得類別
 export function getCategories() {
     return (dispatch) => {
         const method = 'get';

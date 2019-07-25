@@ -253,7 +253,7 @@ export function getCategories() {
 
 const Axios = ( api ) => {
     return axios({
-        method: 'post',
+        method: api['method'],
         url: api['url'],
         data: api['data'],
         headers:{

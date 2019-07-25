@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 //Compoents
-import Product from './product';
+import Product from './product/';
 
 class Index extends React.Component{
 

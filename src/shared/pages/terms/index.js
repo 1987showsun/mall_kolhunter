@@ -5,7 +5,7 @@ class Index extends React.Component{
     render(){
         return(
             <React.Fragment>
-                terms
+                條款
             </React.Fragment>
         );
     }

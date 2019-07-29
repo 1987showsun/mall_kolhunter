@@ -42,7 +42,7 @@ class Header extends React.Component{
                         <div className="cover-user-option-wrap">
                             <ul>
                                 <li><Link to="/myvendor/profile">基本資料設定</Link></li>
-                                <li><Link to="/myvendor/payments">帳戶設定</Link></li>
+                                <li><Link to="/myvendor/profile/password">帳戶密碼設定</Link></li>
                                 <li onClick={this.signOut.bind(this)}><span>登出</span></li>
                             </ul>
                         </div>

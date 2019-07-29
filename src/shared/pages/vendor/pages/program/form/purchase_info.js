@@ -20,7 +20,7 @@ export default class PurchaseInfo extends React.Component{
                 department: "",
                 email: "",
                 area_code: area_code['0']['code'],
-                tel_number: "",
+                phone: "",
                 county: initCounty,
                 county_area: initCountyArea,
                 address: ""
@@ -74,7 +74,7 @@ export default class PurchaseInfo extends React.Component{
                             </select>
                         </div>
                         <div className="input-box">
-                            <CurrencyFormat value={formObject['tel']} format={areaCodeFormat} mask="_" onValueChange={ value => this.returnTel(value['formattedValue'],'tel_number')}/>
+                            <CurrencyFormat value={formObject['tel']} format={areaCodeFormat} mask="_" onValueChange={ value => this.returnTel(value['formattedValue'],'phone')}/>
                         </div>
                     </li>
                     <li>

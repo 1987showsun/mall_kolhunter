@@ -48,7 +48,7 @@ class Basic extends React.Component{
             <form onSubmit={this.handleSubnit.bind(this)}>
                 <ul className="table-row-list">
                     <li>
-                        <label>* 商品名稱：</label>
+                        <label>* 商品名稱</label>
                         <div>
                             {
                                 status=="none-auth"? (
@@ -62,7 +62,7 @@ class Basic extends React.Component{
                         </div>
                     </li>
                     <li>
-                        <label>* 商品分類：</label>
+                        <label>* 商品分類</label>
                         <div>
                             {
                                 status=="none-auth"? (
@@ -107,7 +107,7 @@ class Basic extends React.Component{
                         </div>
                     </li>
                     <li>
-                        <label>* 原價：</label>
+                        <label>* 原價</label>
                         <div>
                             <div className="input-box">
                                 <CurrencyFormat thousandSeparator={true} value={Math.round(data['price'])} onValueChange={ values => { this.handleChangeMoney( values['value'], 'price' ) }}/>
@@ -115,7 +115,7 @@ class Basic extends React.Component{
                         </div>
                     </li>
                     <li>
-                        <label>特價：</label>
+                        <label>特價</label>
                         <div>
                             <div className="input-box">
                                 <CurrencyFormat thousandSeparator={true} value={Math.round(data['sellPrice'])} onValueChange={ values => { this.handleChangeMoney( values['value'], 'sellPrice' ) }}/>

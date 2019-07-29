@@ -116,6 +116,11 @@
             display: inline-flex;
             justify-content: flex-end;
             font-weight: bold;
+            &::after{
+                content: "：";
+                display: inline-flex;
+                margin-left: 5px;
+            }
         }
         >div{
             width: 100%;

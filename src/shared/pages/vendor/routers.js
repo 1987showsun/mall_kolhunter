@@ -1,19 +1,15 @@
 import Dashbord from './pages/dashbord';
 import Categories from  './pages/categories';
 import Info from './pages/info';
-import Update from './pages/update';
 import Create from './pages/create';
 import Review from './pages/review';
 import Program from './pages/program';
+import Profile from './pages/profile'
 
 export default [
     {
         path: '/myvendor/program',
         component: Program
-    },
-    {
-        path: "/myvendor/update/:type",
-        component: Update
     },
     {
         path: "/myvendor/payment/:type",
@@ -40,6 +36,16 @@ export default [
         path: "/myvendor/categories",
         exact: true,
         component: Categories
+    },
+    {
+        path: "/myvendor/profile/:type",
+        exact: true,
+        component: Profile
+    },
+    {
+        path: "/myvendor/profile",
+        exact: true,
+        component: Profile
     },
     {
         path: "/myvendor",

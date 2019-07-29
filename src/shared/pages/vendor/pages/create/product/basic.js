@@ -37,7 +37,7 @@ export default class Product extends React.Component{
                     </article>
                     <ul className="table-row-list">
                         <li>
-                            <label>* 商品名稱：</label>
+                            <label>* 商品名稱</label>
                             <div>
                                 <div className="input-box">
                                     <input type="text" name="name" value={data['name']} onChange={this.handleChange.bind(this)} />
@@ -45,7 +45,7 @@ export default class Product extends React.Component{
                             </div>
                         </li>
                         <li>
-                            <label>* 商品分類：</label>
+                            <label>* 商品分類</label>
                             <div>
                                 <div className="input-box select">
                                     <select name="categoriesLevel1" value={data['categoriesLevel1']} onChange={this.categoriesChange.bind(this)}>
@@ -82,7 +82,7 @@ export default class Product extends React.Component{
                             </div>
                         </li>
                         <li>
-                            <label>* 原價：</label>
+                            <label>* 原價</label>
                             <div>
                                 <div className="input-box">
                                     <CurrencyFormat thousandSeparator={true} value={data['price']} onValueChange={ values => { this.handleChangeMoney( values['value'], 'price' ) }}/>
@@ -90,7 +90,7 @@ export default class Product extends React.Component{
                             </div>
                         </li>
                         <li>
-                            <label>特價：</label>
+                            <label>特價</label>
                             <div>
                                 <div className="input-box">
                                     <CurrencyFormat thousandSeparator={true} value={data['priceSale']} onValueChange={ values => { this.handleChangeMoney( values['value'], 'priceSale' ) }}/>

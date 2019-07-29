@@ -52,23 +52,23 @@ export default class Product extends React.Component{
                             !update? (
                                 <ul className="table-row-list">
                                     <li>
-                                        <label>商品名稱：</label>
+                                        <label>商品名稱</label>
                                         <div>{data['name']}</div>
                                     </li>
                                     <li>
-                                        <label>商品分類：</label>
+                                        <label>商品分類</label>
                                         <div>
                                             { renderCategories() }
                                         </div>
                                     </li>
                                     <li>
-                                        <label>原價：</label>
+                                        <label>原價</label>
                                         <div>
                                             <CurrencyFormat value={Math.round(data['price'])} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                                         </div>
                                     </li>
                                     <li>
-                                        <label>特價：</label>
+                                        <label>特價</label>
                                         <div>
                                             { 
                                                 data['sellPrice']!=undefined? (

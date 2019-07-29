@@ -59,7 +59,7 @@ class SignIn extends React.Component{
                         <div className="sub-title">
                             <span className="text">kolhunter 的新客户？</span>
                         </div>
-                        <Link to="/login/myaccount/signup" className="signup_link">立即註冊</Link>
+                        <Link to="/account/signup" className="signup_link">立即註冊</Link>
                     </div>
                 </form>
             </React.Fragment>

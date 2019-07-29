@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 //Compoents
 import Table from '../../../../../module/table';
+import Cover from './cover';
 import Basic from './basic';
 import Freight from './freight';
 import Depiction from './depiction';
@@ -11,44 +12,7 @@ import Format from './format';
 
 // Actions
 import { infoProduct } from '../../../../../actions/vendor';
-
-const PDD = {
-    "id": "",
-    "name": "",
-    "brand": "",
-    "price": 0,
-    "priceSale": 0,
-    "status": 0,
-    "categories": [
-        {
-            "id": "",
-            "title": ""
-        },
-        {
-            "id": "",
-            "title": ""
-        }
-    ],
-    "shippingMethods" : [
-        {
-            "method": "7-11 黑貓宅急便",
-            "fee": 160
-        },
-        {
-            "method": "全家 宅配通",
-            "fee": 120
-        }
-    ],
-    "variations": [
-        {
-            "name": "",
-            "sku" : "",
-            "quantity": 0,
-            "sort": 0
-        }
-    ]
-}
-
+import { deliveries, categories } from '../../../../../actions/common';
 
 // Demo
 const demoData = [
@@ -83,6 +47,8 @@ class Product extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            deliveries: [],
+            categories: [],
             tableHeadKey : [
                 {
                     key: 'ranking',
@@ -115,45 +81,48 @@ class Product extends React.Component{
                     className: 'number'
                 }
             ],
+            status: '',
             data: {}
         }
     }
 
     render(){
 
-        const { tableHeadKey, data } = this.state;
+        const { tableHeadKey, status, data, deliveries, categories } = this.state;
+        // deliveries 運送方式
+        // categories 類別
 
         return(
             <React.Fragment>
-                <section className="admin-content-row">
-                    <ul className="admin-product-img-ul">
-                        {
-                            data['img']!=undefined &&
-                                data['img'].map( item => {
-                                    return(
-                                        <li key={item['imagePath']}>
-                                            <img src={item['imagePath']} alt="" title="" />
-                                        </li>
-                                    )
-                                })
-                        }
-                    </ul>
-                </section>
                 {
-                    data['info']!=undefined &&
-                        <Basic data={ data['info'] } />
-                }
-                {
-                    data['spec']!=undefined &&
-                        <Format data={ data['spec'] } />
-                }
-                {
-                    data['delivery']!=undefined &&
-                        <Freight data={ data['delivery'] } />
-                }
-                {
-                    data['description']!=undefined &&
-                        <Depiction data={ data['description'] } />
+                    Object.keys(data).length!=0 &&
+                        <React.Fragment>
+                            <Cover 
+                                status= {status}
+                                data={data['img']}
+                            />
+                            <Basic 
+                                status= {status}
+                                categories= {categories}
+                                data={{
+                                    ...data['info'], 
+                                    categories:data['category']
+                                }}
+                            />
+                            <Format
+                                status= {status}
+                                data={data['spec']}
+                            />
+                            <Freight 
+                                status= {status}
+                                data={data['delivery']}
+                                deliveries={deliveries} 
+                            />
+                            <Depiction 
+                                status= {status}
+                                data={data['description']}
+                            />
+                        </React.Fragment>
                 }
                 <section className="admin-content-row">
                     <article className="admin-content-title">
@@ -175,7 +144,18 @@ class Product extends React.Component{
         const query = queryString.stringify({ ...serach, id: p_id });
         this.props.dispatch( infoProduct(query) ).then(res => {
             this.setState({
+                status: res['data']['info']['status'],
                 data: res['data']
+            })
+        });
+        this.props.dispatch( deliveries() ).then( res => {
+            this.setState({
+                deliveries: res['data']
+            })
+        });
+        this.props.dispatch( categories() ).then( res => {
+            this.setState({
+                categories: res['data']
             })
         });
     }

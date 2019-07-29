@@ -37,7 +37,8 @@
             "company required": "公司名稱必填"
         },
         "err": {
-            "ID or password error": "帳號或密碼錯誤"
+            "ID or password error": "帳號或密碼錯誤",
+            "get user info error": "該帳號已於其他地方登入，系統已將您強制登出"
         }
     },
     "en": {
@@ -78,7 +79,8 @@
             "company required": "Company name required"
         },
         "err": {
-            "ID or password error": "ID or password error."
+            "ID or password error": "ID or password error.",
+            "get user info error": "The account has been logged in elsewhere and you have been forced to log out."
         }
     }
 }

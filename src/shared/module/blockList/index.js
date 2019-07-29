@@ -1,9 +1,5 @@
 import React from 'react';
 import $ from 'jquery';
-import { Link } from 'react-router-dom';
-
-// Components
-import Item from './item';
 
 // Stylesheets
 import './style.scss';

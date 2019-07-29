@@ -1,18 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import Table from '../../../../../module/table';
-
-// Actions
-import { deliveries } from '../../../../../actions/common';
+import FormFreight from './form/freight';
 
 class Freight extends React.Component{
 
     constructor(props){
+        console.log( props.deliveries );
         super(props);
         this.state = {
-            deliveries: [],
+            status: props.status,
+            update: false,
+            deliveries: !props.deliveries? []: props.deliveries,
             data : props.data,
             tableHeadKey : [
                 {
@@ -33,13 +36,15 @@ class Freight extends React.Component{
 
     static getDerivedStateFromProps(props, state) {
         return{
+            status: props.status,
+            deliveries: !props.deliveries? []: props.deliveries,
             data: props.data
         }
     }
 
     render(){
 
-        const { tableHeadKey, data, deliveries } = this.state;
+        const { tableHeadKey, data, deliveries, update } = this.state;
         const deliveriesFilterAfter = deliveries.filter( filterItem => {
             return data.some( someItem => someItem['deliveryID']==filterItem['id'] );
         })
@@ -51,31 +56,41 @@ class Freight extends React.Component{
             });
             return item = { ...item, cost: ddd[0]['deliveryCost'] };
         })
-        console.log( regroupData );
 
         return(
             <React.Fragment>
-                <section className="admin-content-row">
-                    <article className="admin-content-title">
-                        <h4>運送方式</h4>
-                    </article>
-                    <div className="admin-content-container">
-                        <Table 
-                            tableHeadData={tableHeadKey}
-                            tableBodyData={regroupData}
-                        />
-                    </div>
-                </section>
+                {
+                    !update? (
+                        <section className="admin-content-row">
+                            <article className="admin-content-title">
+                                <h4>運送方式</h4>
+                                <button type="button" className="update-button" onClick={()=>this.setState({update: true}) }>
+                                    <i><FontAwesomeIcon icon={faPencilAlt}/></i>
+                                    編輯
+                                </button>
+                            </article>
+                            <div className="admin-content-container">     
+                                <Table 
+                                    tableHeadData={tableHeadKey}
+                                    tableBodyData={regroupData}
+                                />
+                            </div>
+                        </section>
+                ):(
+                    <FormFreight 
+                        data={data}
+                        returnCancel={this.returnCancel.bind(this)}
+                    />
+                )
+            }
             </React.Fragment>
         );
     }
 
-    componentDidMount() {
-        this.props.dispatch( deliveries() ).then( res => {
-            this.setState({
-                deliveries: res['data']
-            })
-        });
+    returnCancel = () => {
+        this.setState({
+            update: false,
+        })
     }
 }
 

@@ -31,6 +31,17 @@ export function signup( form ) {
     }
 }
 
+export function signout( clearSessionStorageKey ) {
+    return (dispatch) => {
+        Object.keys( sessionStorage ).map( key => {
+            if( clearSessionStorageKey.includes(key) ){
+                sessionStorage.removeItem(key);
+            }
+        })
+        clearJWTToken()(dispatch);
+    }
+}
+
 export function verify( form ) {
     const { type } = form;
     const uri = API()['verify'][type];

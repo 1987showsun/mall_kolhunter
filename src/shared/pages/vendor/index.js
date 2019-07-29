@@ -17,18 +17,21 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            token: this.getJWTToken(props),
+            token: props.jwt_vendor,
         }
     }
 
     static getDerivedStateFromProps( props, state ){
-        if( props.token!='' ) return { token: props.token }
+        if( props.jwt_vendor!=state.token ){
+            return {
+                token: props.jwt_vendor
+            }
+        }
         return null;
     }
 
     componentDidMount() {
         const { token } = this.state;
-
         if( token=='' || token==null || token==undefined ){
             this.props.history.push('/vendor');
         }
@@ -64,18 +67,24 @@ class Index extends React.Component{
         }
     }
 
-    getJWTToken = (props) => {
-        if( typeof window !== 'undefined' ){
-            const type = 'vendor';
-            const token = sessionStorage.getItem(`jwt_${type}`) || null;
-            return token;
+    getSnapshotBeforeUpdate(prevProps, prevState){
+        const token = this.state.token;
+        const prevStateToken = prevState.token;
+        if( token!=prevStateToken ){
+            this.props.history.push('/vendor');
         }
+        return null;
+    }
+
+    componentDidUpdate(){
+        return null;
     }
 }
 
 const mapStateToProps = (state) => {
     return{
         token: state.login.token,
+        jwt_vendor: state.login.jwt_vendor
     }
 }
 

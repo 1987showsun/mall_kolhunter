@@ -17,7 +17,7 @@ export default class Item extends React.Component{
                 {
                     data.map( (bodyItem,b_i) => {
                         return(
-                            <li key={bodyItem['id']}>
+                            <li key={`${bodyItem['id']}_${b_i}`}>
                                 {
                                     head.map( (headItem,h_i) => {
                                         return(

@@ -63,19 +63,19 @@ class Product extends React.Component{
                     key: 'divided',
                     type: 'percent',
                     title: '分潤比'
-                },
-                {
-                    key: 'other',
-                    type: 'other',
-                    title: '其他',
-                    link: [
-                        {
-                            text: '編輯',
-                            path: '/myvendor/update/product',
-                            search: ['id']
-                        }
-                    ]
                 }
+                // {
+                //     key: 'other',
+                //     type: 'other',
+                //     title: '其他',
+                //     link: [
+                //         {
+                //             text: '編輯',
+                //             path: '/myvendor/update/product',
+                //             search: ['id']
+                //         }
+                //     ]
+                // }
             ],
             tableBodyData : [],
             total: 0

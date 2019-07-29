@@ -1,14 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import Table from '../../../../../module/table';
+import FormFormat from './form/format';
 
 class Format extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            status: props.status,
+            update: false,
             data: props.data,
             tableHeadKey : [
                 {
@@ -33,29 +38,49 @@ class Format extends React.Component{
 
     static getDerivedStateFromProps(props, state) {
         return{
+            status: props.status,
             data: props.data
         }
     }
 
     render(){
 
-        const { data, tableHeadKey } = this.state;
+        const { data, tableHeadKey, update } = this.state;
 
         return(
             <React.Fragment>
-                <section className="admin-content-row">
-                    <article className="admin-content-title">
-                        <h4>商品規格</h4>
-                    </article>
-                    <div className="admin-content-container">
-                        <Table 
-                            tableHeadData={tableHeadKey}
-                            tableBodyData={data}
+                {
+                    !update? (
+                        <section className="admin-content-row">
+                            <article className="admin-content-title">
+                                <h4>商品規格</h4>
+                                <button type="button" className="update-button" onClick={()=>this.setState({update: true}) }>
+                                    <i><FontAwesomeIcon icon={faPencilAlt}/></i>
+                                    編輯
+                                </button>
+                            </article>
+                            <div className="admin-content-container">
+                                <Table 
+                                    tableHeadData={tableHeadKey}
+                                    tableBodyData={data}
+                                />
+                            </div>
+                        </section>
+                    ):(
+                        <FormFormat 
+                            data={data}
+                            returnCancel={this.returnCancel.bind(this)}
                         />
-                    </div>
-                </section>
+                    )
+                }
             </React.Fragment>
         );
+    }
+
+    returnCancel = () => {
+        this.setState({
+            update: false,
+        })
     }
 }
 

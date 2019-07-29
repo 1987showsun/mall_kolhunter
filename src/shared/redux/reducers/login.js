@@ -1,9 +1,17 @@
 export default function login(
     state = {
         info: {},
-        token: ''
+        token: '',
+        jwt_vendor: "",
+        jwt_account: "",
     },action
 ){
+
+    state = {
+        jwt_vendor: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') || "" : "",
+        jwt_account: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') || "" : "",
+    }
+
     switch(action.type){
         case 'USER_SIGNIN_SUCCESS':
             state = { 

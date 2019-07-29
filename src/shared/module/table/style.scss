@@ -1,7 +1,6 @@
 .table-wrap{
     width: 100%;
     overflow: auto;
-    padding-bottom: 10px;
     -webkit-overflow-scrolling: touch;
     button{
         width: 120px;
@@ -105,7 +104,7 @@
 .table-row-list{
     width: 100%;
     font-size: 0.9em;
-    color: #979BA7;
+    color: var(--content);
     >li{
         min-height: 55px;
         align-items: center;
@@ -121,6 +120,22 @@
         >div{
             width: 100%;
             display: inline-flex;
+            .categories-item{
+                height: 30px;
+                padding: 0px 10px 0px 0px;
+                display: inline-flex;
+                align-items: center;
+                position: relative;
+                &:after{
+                    content: "/";
+                    margin-left: 10px;
+                }
+                &:last-child{
+                    &:after{
+                        display: none;
+                    }
+                }
+            }
         }
     }
 }

@@ -137,9 +137,9 @@ export function incListAccount( form ) {
 }
 
 // 新增商品
-export function createProduct( type, formObject, step ) {
+export function createProduct( type, formObject, step, method1 ) {
     return (dispatch) => {
-        const method = 'post';
+        const method = method1 || 'post';
         const url = API()['myvendor'][type]['create'][step];
         return Axios({method,url,data: formObject});
     }
@@ -209,5 +209,11 @@ const Axios = ( api ) => {
         headers:{
             Authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
         }
+    }).catch( error => {
+
+        if( error['response']['data']['status_text']=="get user info error" ){
+            window.location = '/vendor';
+        }
+        return error;
     });
 }

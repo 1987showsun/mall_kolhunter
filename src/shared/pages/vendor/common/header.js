@@ -5,7 +5,7 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faAngleDown }from '@fortawesome/free-solid-svg-icons';
 
 // Actions
-import { clearJWTToken } from '../../../actions/login';
+import { signout } from '../../../actions/login';
 
 class Header extends React.Component{
 
@@ -54,13 +54,7 @@ class Header extends React.Component{
 
     signOut = () => {
         const { clearSessionStorageKey } = this.state;
-        Object.keys( sessionStorage ).map( key => {
-            if( clearSessionStorageKey.includes(key) ){
-                sessionStorage.removeItem(key);
-            }
-        })
-        this.props.dispatch( clearJWTToken() );
-        this.props.history.push(`/vendor`);
+        this.props.dispatch( signout( clearSessionStorageKey ) );
     }
 }
 

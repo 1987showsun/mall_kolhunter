@@ -180,15 +180,17 @@ class Basic extends React.Component{
         e.preventDefault();
         let { data } = this.state;
         let formObject = {
-            "id": data['productToken'],
+            "id": data['id'],
             "name": data['name'],
             "price": data['price'],
             "sellPrice": data['sellPrice'],
             "categories": data['categories']
         }
         this.props.dispatch( createProduct( 'product',formObject,1,'put' ) ).then( res => {
-            if( res['data']['message']=="success" ){
-                this.props.returnStatus(formObject);
+            switch( res['status'] ){
+                case 200:
+                    this.props.returnStatus(data);
+                    break;
             }
         });
     }

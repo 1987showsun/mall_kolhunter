@@ -78,7 +78,7 @@ class HeadProduct extends React.Component{
                     <div className="page-head-action-row">
                         <ul>
                             <li>
-                                <Link className="create" to={`/myvendor/categories/product/review`}>
+                                <Link className="create" to={`/myvendor/categories/product/review?page=1&sort=desc&sortBy=created&limit=30&status=none-auth`}>
                                     審查商品 / 新增商品 / 購買方案
                                 </Link>
                             </li>

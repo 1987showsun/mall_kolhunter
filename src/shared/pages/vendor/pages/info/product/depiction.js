@@ -44,8 +44,7 @@ export default class Depiction extends React.Component{
                             !update? (
                                 data.length!=0?(
                                     data.map( (item,i)=> {
-                                        const checkInnerhtmlTag = item['description'].indexOf('.jpeg');
-                                        if( checkInnerhtmlTag==-1 ){
+                                        if( item['type']=='html' ){
                                             return(
                                                 <p key={i} dangerouslySetInnerHTML={{__html: item['description']}}></p>
                                             )

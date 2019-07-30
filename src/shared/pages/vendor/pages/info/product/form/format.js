@@ -1,30 +1,35 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import InputTable from '../../../../../../module/inputTable';
 
-export default class Format extends React.Component{
+// Actions
+import { createProduct } from '../../../../../../actions/vendor';
+
+class Format extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            id: props.id,
             status: props.status,
             data: props.data,
             inputTableHeadKey : [
                 {
-                    key: 'specDesc',
+                    key: 'name',
                     type: 'text',
                     title: '型號 / 尺寸'
                 },
                 {
-                    key: 'specTitle',
+                    key: 'sku',
                     type: 'text',
                     title: '商品貨號'
                 },
                 {
-                    key: 'storageNum',
+                    key: 'quantity',
                     type: 'number',
                     title: '庫存數量',
                     className: 'number'
@@ -75,12 +80,15 @@ export default class Format extends React.Component{
 
     addCondition = () => {
         let { data } = this.state;
+        let nowDate = new Date();
         data = [
             ...data, 
             {
+                id: "",
                 name: "",
                 sku: "",
-                quantity: 0
+                quantity: 0,
+                modified: nowDate.valueOf()
             }
         ]
         this.setState({
@@ -90,7 +98,25 @@ export default class Format extends React.Component{
 
     handleSubnit = (e) => {
         e.preventDefault();
-        const { data } = this.state;
-        console.log( data );
+        const { id, data } = this.state;
+        const updateForm = {
+            id: id,
+            spec: data
+        }
+        this.props.dispatch( createProduct('product', updateForm , 3 , 'post' ) ).then( res => {
+            switch( res['status'] ){
+                case 200:
+                    this.props.returnResult(data);
+                    break;
+            }
+        });
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Format );

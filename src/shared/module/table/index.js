@@ -12,7 +12,7 @@ export default class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            isCheckedAll: false,
+            isCheckedAll: props.isCheckedAll || false,
             selected: props.selected || [],
             selected: props.selected || [],
             head: props.tableHeadData || [],
@@ -22,7 +22,8 @@ export default class Index extends React.Component{
 
     static getDerivedStateFromProps(props, state) {
         return{
-            body : props.tableBodyData || []
+            body : props.tableBodyData || [],
+            selected: props.selected || []
         }
     }
 
@@ -40,14 +41,22 @@ export default class Index extends React.Component{
                         isCheckedAll={isCheckedAll}
                         selectedAll={this.selectedAll.bind(this)}
                     />
-                    <Item 
-                        head= {head}
-                        data= {body}
-                        selected= {selected}
-                        singleSelection= {this.singleSelection.bind(this)}
-                        tableButtonAction= {this.props.tableButtonAction}
-                    />
+                    {
+                        body.length!=0 &&
+                            <Item 
+                                head= {head}
+                                data= {body}
+                                selected= {selected}
+                                isCheckedAll={isCheckedAll}
+                                singleSelection= {this.singleSelection.bind(this)}
+                                tableButtonAction= {this.props.tableButtonAction}
+                            />
+                    }
                 </ul>
+                {
+                    body.length==0 &&
+                        <div className="tableNoData">暫無任何資料</div>
+                }
             </div>
         );
     }
@@ -100,7 +109,7 @@ export default class Index extends React.Component{
         }else{
             selected = [ val,...this.state.selected ];
         }
-
+            console.log( selected );
         this.setState({
             selected,
             isCheckedAll: body.length==selected.length

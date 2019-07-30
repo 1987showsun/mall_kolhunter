@@ -6,7 +6,6 @@ export function signin( form ) {
     const url = API()['signin'][type];
     return (dispatch) => {
         return Axios({ method: 'post', url: url, data: form }).then( (res) => {
-
             sessionStorage.setItem(`jwt_${type}`,res['data']);
             let selectType = "";
             if( type=='account' ){

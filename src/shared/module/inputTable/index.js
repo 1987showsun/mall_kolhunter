@@ -105,10 +105,12 @@ export default class InputTable extends React.Component{
     }
 
     handleChange = ( b_idx, e ) => {
+        const nowDate = new Date();
         let { body } = this.state;
         let name = e.target.name;
         let val = e.target.value;
         body[b_idx][name] = val;
+        body[b_idx]['modified'] = nowDate.valueOf();
         this.setState({
             body
         },()=>{
@@ -119,8 +121,10 @@ export default class InputTable extends React.Component{
     }
 
     handleMemberChange = ( name, val, b_idx ) => {
+        const nowDate = new Date();
         let { body } = this.state;
         body[b_idx][name] = val;
+        body[b_idx]['modified'] = nowDate.valueOf();
         this.setState({
             body
         },()=>{

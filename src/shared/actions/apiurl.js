@@ -65,6 +65,9 @@ export default function API(){
                 'categories': `${API_ADDRESS()}`,
                 'create': `${API_ADDRESS()}`,
                 'info': `${API_ADDRESS()}`
+            },
+            'review': {
+                'categories': `${API_ADDRESS()}/v1/vendor/product/list`,
             }
         },
         'account': {

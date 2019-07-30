@@ -73,12 +73,15 @@ export default class Format extends React.Component{
 
     addCondition = () => {
         let { data } = this.state;
+        let nowDate = new Date();
         data = [
             ...data, 
             {
+                id: "",
                 name: "",
                 sku: "",
-                quantity: 0
+                quantity: 0,
+                modified: nowDate.valueOf()
             }
         ]
         this.setState({

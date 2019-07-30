@@ -99,6 +99,7 @@ class Product extends React.Component{
                         <React.Fragment>
                             <Cover 
                                 status= {status}
+                                id={data['info']['id']}
                                 data={data['img']}
                             />
                             <Basic 
@@ -111,15 +112,18 @@ class Product extends React.Component{
                             />
                             <Format
                                 status= {status}
+                                id={data['info']['id']}
                                 data={data['spec']}
                             />
-                            <Freight 
+                            <Freight
                                 status= {status}
+                                id={data['info']['id']}
                                 data={data['delivery']}
                                 deliveries={deliveries} 
                             />
                             <Depiction 
                                 status= {status}
+                                id={data['info']['id']}
                                 data={data['description']}
                             />
                         </React.Fragment>

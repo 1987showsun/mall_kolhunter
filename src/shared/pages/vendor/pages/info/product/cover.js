@@ -33,7 +33,7 @@ export default class Cover extends React.Component{
                 <article className="admin-content-title">
                     <h4>商品圖片</h4>
                     {
-                        !update &&
+                        status=="none-auth" && !update &&
                             <button type="button" className="update-button" onClick={()=>this.setState({update: true}) }>
                                 <i><FontAwesomeIcon icon={faPencilAlt}/></i>
                                 編輯
@@ -46,9 +46,9 @@ export default class Cover extends React.Component{
                             {
                                 data.map( item => {
                                     return(
-                                        <li key={item['imagePath']}>
+                                        <li key={item['image']}>
                                             <figure>
-                                                <img src={item['imagePath']} alt="" title="" />
+                                                <img src={item['image']} alt="" title="" />
                                             </figure>
                                         </li>
                                     )

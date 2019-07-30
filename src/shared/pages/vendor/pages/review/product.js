@@ -54,35 +54,27 @@ class Product extends React.Component{
                     title: '售價'
                 },
                 {
-                    key: 'special_offer',
+                    key: 'sellPrice',
                     type: 'number',
                     title: '特價'
-                },
-                {
-                    key: 'other',
-                    type: 'other',
-                    title: '其他',
-                    link: [
-                        {
-                            text: '編輯',
-                            path: '/myvendor/update/product'
-                        }
-                    ]
                 }
             ],
-            tableBodyData : props.list.filter( filterItem => filterItem['status']==2 )
+            tableBodyData : props.list.filter( filterItem => filterItem['status']=='none-auth' )
         }
     }
 
-    static getDerivedStateFromProps(props){
+    static getDerivedStateFromProps(props,state){
 
-        const filterListStatus = props.list.filter( filterItem => filterItem['status']==2 );
+        const filterListStatus = props.list.filter( filterItem => filterItem['status']=='none-auth' );
         const selected = filterListStatus.map( item => item['id'] );
-
-        return{
-            tableBodyData: filterListStatus,
-            selected
+        console.log( state.selected  );
+        if( selected!=state.selected ){
+            return{
+                tableBodyData: props.list,
+                selected
+            }
         }
+        return null;
     }
 
     render(){
@@ -92,20 +84,13 @@ class Product extends React.Component{
         return(
             <React.Fragment>
                 <Head />
-                {
-                    tableBodyData.length!=0? (
-                        <Table 
-                            tableHeadData={tableHeadKey}
-                            tableBodyData={tableBodyData}
-                            selected={selected}
-                            returnCheckBoxVal={this.returnCheckBoxVal.bind(this)}
-                        />
-                    ):(
-                        <div className="admin-content-noData">
-                            <Link to="/myvendor/create/product">目前無選擇可購買的方案<br/>請點擊新增商品</Link>
-                        </div>
-                    )
-                }
+                <Table 
+                    isCheckedAll={true}
+                    tableHeadData={tableHeadKey}
+                    tableBodyData={tableBodyData}
+                    selected={selected}
+                    returnCheckBoxVal={this.returnCheckBoxVal.bind(this)}
+                />
                 <div className="admin-content-footer">
                     <ul>
                         <li>
@@ -141,12 +126,15 @@ class Product extends React.Component{
     }
 
     componentDidMount() {
-        this.props.dispatch( listProduct() );
+        const { location } = this.props; 
+        let { search } = location;
+        this.props.dispatch( listProduct(search) );
     }
 
     returnCheckBoxVal = ( val ) => {
+        //console.log( val );
         this.setState({
-            selectedResult: val
+            selectedResult: val,
         });
     }
 

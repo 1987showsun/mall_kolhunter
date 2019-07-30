@@ -12,22 +12,23 @@ class Format extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            id: props.id,
             status: props.status,
             update: false,
             data: props.data,
             tableHeadKey : [
                 {
-                    key: 'specDesc',
+                    key: 'name',
                     type: 'text',
                     title: '型號 / 尺寸'
                 },
                 {
-                    key: 'specTitle',
+                    key: 'sku',
                     type: 'text',
                     title: '商品貨號'
                 },
                 {
-                    key: 'storageNum',
+                    key: 'quantity',
                     type: 'number',
                     title: '庫存數量',
                     className: 'number'
@@ -39,13 +40,13 @@ class Format extends React.Component{
     static getDerivedStateFromProps(props, state) {
         return{
             status: props.status,
-            data: props.data
+            //data: props.data
         }
     }
 
     render(){
 
-        const { data, tableHeadKey, update } = this.state;
+        const { id, data, tableHeadKey, update } = this.state;
 
         return(
             <React.Fragment>
@@ -68,7 +69,9 @@ class Format extends React.Component{
                         </section>
                     ):(
                         <FormFormat 
+                            id={id}
                             data={data}
+                            returnResult={this.returnResult.bind(this)}
                             returnCancel={this.returnCancel.bind(this)}
                         />
                     )
@@ -79,6 +82,13 @@ class Format extends React.Component{
 
     returnCancel = () => {
         this.setState({
+            update: false,
+        })
+    }
+
+    returnResult = ( data ) => {
+        this.setState({
+            data,
             update: false,
         })
     }

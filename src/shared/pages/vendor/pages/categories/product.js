@@ -93,7 +93,6 @@ class Product extends React.Component{
 
         const { total, tableHeadKey, tableBodyData } = this.state;
         const { match, location, history } = this.props;
-        console.log(total);
 
         return(
             <React.Fragment>

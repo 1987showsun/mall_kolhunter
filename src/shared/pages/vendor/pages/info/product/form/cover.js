@@ -18,7 +18,6 @@ export default class Cover extends React.Component{
 
     render(){
         let { data,status } = this.state;
-        console.log( data );
 
         return(
             <React.Fragment>

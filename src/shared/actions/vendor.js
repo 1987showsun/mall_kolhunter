@@ -12,12 +12,11 @@ export function listProduct( query ) {
         const method = 'get';
         const url = `${API()['myvendor']['product']['categories']}${query}`;
         Axios({method,url,data: {}}).then( res => {
-            console.log( res );
             const list = res['data']['list'].map( item => {
                 return {
-                    id: item['productToken'],
+                    id: item['id'],
                     status: item['status'],
-                    cover: item['image'][0]!=undefined? item['image'][0]['imagePath'] : "",
+                    cover: item['image'][0]!=undefined? item['image'][0]['image'] : "",
                     name: item['name'],
                     brand: item['brand']!=undefined? item['brand'] : "N/A",
                     store: item['store']!=undefined? item['store'] : 0,
@@ -49,6 +48,15 @@ export function infoProduct( query ) {
         const method = 'get';
         const url = `${API()['myvendor']['product']['info']}${query!=""? `?${query}`:''}`;
         return Axios({method,url,data: {}});
+    }
+}
+
+// 審查商品list
+export function reviewlistProduct( query ){
+    return (dispatch) => {
+        const method = 'get';
+        const url = `${API()['myvendor']['product']['review']}${query}`;
+        console.log( method,url );
     }
 }
 
@@ -210,8 +218,8 @@ const Axios = ( api ) => {
             Authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
         }
     }).catch( error => {
-
         if( error['response']['data']['status_text']=="get user info error" ){
+            sessionStorage.removeItem('jwt_vendor');
             window.location = '/vendor';
         }
         return error;

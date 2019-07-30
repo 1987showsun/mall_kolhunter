@@ -20,6 +20,7 @@ class Product extends React.Component{
             popupMsg: "",
             selected: [],
             selectedResult: [],
+            isSelectedAll: true,
             tableHeadKey : [
                 {
                     key: 'checkbox',
@@ -65,28 +66,21 @@ class Product extends React.Component{
     }
 
     static getDerivedStateFromProps(props,state){
-
-        const filterListStatus = props.list.filter( filterItem => filterItem['status']=='none-auth' );
-        const selected = filterListStatus.map( item => item['id'] );
-        console.log( state.selected  );
-        if( selected!=state.selected ){
-            return{
-                tableBodyData: props.list,
-                selected
-            }
+        return{
+            tableBodyData: props.list,
+            selected: state.isSelectedAll? props.list : []
         }
-        return null;
     }
 
     render(){
 
-        const { tableHeadKey,tableBodyData,selected,open,popupMsg } = this.state;
+        const { tableHeadKey,tableBodyData,selected,open,popupMsg, isSelectedAll } = this.state;
 
         return(
             <React.Fragment>
                 <Head />
                 <Table 
-                    isCheckedAll={true}
+                    isSelectedAll={isSelectedAll}
                     tableHeadData={tableHeadKey}
                     tableBodyData={tableBodyData}
                     selected={selected}

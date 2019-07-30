@@ -10,26 +10,29 @@ import './style.scss';
 export default class Index extends React.Component{
 
     constructor(props){
+
+        const isSelectedAll = props.isSelectedAll || false;
+        const selected = isSelectedAll? props.tableBodyData : [];
+        
         super(props);
         this.state = {
-            isCheckedAll: props.isCheckedAll || false,
-            selected: props.selected || [],
-            selected: props.selected || [],
+            isSelectedAll,
+            selected,
             head: props.tableHeadData || [],
-            body: props.tableData || []
+            body: props.tableBodyData || []
         }
     }
 
     static getDerivedStateFromProps(props, state) {
         return{
             body : props.tableBodyData || [],
-            selected: props.selected || []
+            selected: state.selected || []
         }
     }
 
     render(){
 
-        const { head, body, selected, isCheckedAll } = this.state;
+        const { head, body, selected, isSelectedAll } = this.state;
 
         return(
             <div className="table-wrap">
@@ -38,8 +41,8 @@ export default class Index extends React.Component{
                         data={head}
                         body={body}
                         selected={selected}
-                        isCheckedAll={isCheckedAll}
-                        selectedAll={this.selectedAll.bind(this)}
+                        isSelectedAll={isSelectedAll}
+                        returnSelectedAll={this.returnSelectedAll.bind(this)}
                     />
                     {
                         body.length!=0 &&
@@ -47,7 +50,7 @@ export default class Index extends React.Component{
                                 head= {head}
                                 data= {body}
                                 selected= {selected}
-                                isCheckedAll={isCheckedAll}
+                                isSelectedAll={isSelectedAll}
                                 singleSelection= {this.singleSelection.bind(this)}
                                 tableButtonAction= {this.props.tableButtonAction}
                             />
@@ -61,62 +64,42 @@ export default class Index extends React.Component{
         );
     }
 
-    selectedAll = ( val ) => {
-        let { selected, body } = this.state;
-        const selectedLength = selected.length;
-        const bodyLength = body.length;
-        if( val!=true ){
-            switch( selectedLength ){
-                case 0:
-                    body.map( item => {
-                        selected = [ ...selected,item['id'] ];
-                    })
-                    break;
-                
-                case bodyLength:
-                    selected = [];
-                    break;
-                
-                default:
-                    body.map( item => {
-                        if( !selected.includes( item['id'] ) ){
-                            selected = [ ...selected,item['id'] ];
-                        }
-                    });
-            }
+    componentDidMount() {
+    }
+
+    returnSelectedAll = (status) => {
+        let { body, selected } = this.state;
+        if( !status ){
+            selected = [];
         }else{
-            body.map( item => {
-                if( !selected.includes( item['id'] ) ){
-                    selected = [ ...selected,item['id'] ];
-                }
-            });
+            selected = [ ...body ];
+        }
+        this.setState({
+            isSelectedAll: status,
+            selected
+        })
+    }
+
+    singleSelection = ( val,selectedItem ) => {
+        let { body, selected } = this.state;
+        let totalDataLength = body.length;
+        let existenceIdx = -1;
+        const checkForExistence = selected.some( (someItem,i) => {
+            if( someItem['id']==selectedItem['id'] ){
+                existenceIdx = i;
+                return true;
+            }
+        })
+
+        if( !checkForExistence ){
+            selected = [ ...selected, selectedItem ];
+        }else{
+            selected.splice( existenceIdx,1 );
         }
 
         this.setState({
             selected,
-            isCheckedAll: body.length==selected.length
-        },()=>{
-            if(this.props.returnCheckBoxVal!=undefined){
-                this.props.returnCheckBoxVal( selected );
-            }
-        })
-    }
-    
-    singleSelection = (val) => {
-        let { selected, body } = this.state;
-        if( selected.includes(val) ){
-            selected = selected.filter( item => item!=val );
-        }else{
-            selected = [ val,...this.state.selected ];
-        }
-            console.log( selected );
-        this.setState({
-            selected,
-            isCheckedAll: body.length==selected.length
-        },()=>{
-            if(this.props.returnCheckBoxVal!=undefined){
-                this.props.returnCheckBoxVal( selected );
-            }
+            isSelectedAll: selected.length==totalDataLength
         })
     }
 }

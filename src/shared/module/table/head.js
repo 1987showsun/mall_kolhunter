@@ -8,7 +8,7 @@ import './style.scss';
 export default class Head extends React.Component{
     render(){
 
-        const { data, isCheckedAll } = this.props;
+        const { data, isSelectedAll } = this.props;
 
         return(
             <li>
@@ -18,7 +18,7 @@ export default class Head extends React.Component{
                             return (
                                 <div className="table-head" key={headItem['key']}>
                                     <label htmlFor="allSelect" className="checkbox-label">
-                                        <input type="checkbox" id="allSelect" name="checkSelect" className="admin-checkbox" value="all" onChange={this.props.selectedAll.bind(this)} checked={isCheckedAll}/>
+                                        <input type="checkbox" id="allSelect" name="checkSelect" className="admin-checkbox" value="all" onChange={this.returnSelectedAll.bind(this)} checked={isSelectedAll}/>
                                         <i className="checkbox_icon">
                                             <FontAwesomeIcon icon={faCheck} />
                                         </i>
@@ -36,12 +36,10 @@ export default class Head extends React.Component{
         );
     }
 
-    componentDidMount() {
-        const { selected, body } = this.props;
-        const bodyLength = body.length;
-        const selectedLength = selected.length;
-        if( bodyLength==selectedLength ){
-            this.props.selectedAll(true);
+    returnSelectedAll() {
+        if( this.props.returnSelectedAll ){
+            const isSelectedAll = this.props.isSelectedAll? false : true;
+            this.props.returnSelectedAll( isSelectedAll );
         }
     }
 }

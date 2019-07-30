@@ -8,6 +8,15 @@ import { faCheck }from '@fortawesome/free-solid-svg-icons';
 import './style.scss';
 
 export default class Item extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            isSelectedAll: props.isSelectedAll || false,
+            selected: props.selected || []
+        }
+    }
+
     render(){
 
         const { data,head,selected } = this.props;
@@ -26,7 +35,7 @@ export default class Item extends React.Component{
                                                     headItem['type']=='checkbox' &&
                                                         <div className={`table-body ${headItem['className']||''}`} key={headItem['key']}>
                                                             <label htmlFor={bodyItem['id']} className="checkbox-label">
-                                                                <input type="checkbox" id={bodyItem['id']} name="checkSelect" className="admin-checkbox" value={bodyItem['id']} onChange={this.handleChackboxChange.bind(this)} checked={selected.includes(bodyItem['id'])}/>
+                                                                <input type="checkbox" id={bodyItem['id']} name="checkSelect" className="admin-checkbox" value={bodyItem['id']} onChange={this.handleChackboxChange.bind(this,bodyItem)} checked={ this.checkIfItIsSelected( bodyItem['id'],selected ) }/>
                                                                 <i className="checkbox_icon">
                                                                     <FontAwesomeIcon icon={faCheck} />
                                                                 </i>
@@ -115,10 +124,10 @@ export default class Item extends React.Component{
         return query;
     }
 
-    handleChackboxChange = (e) => {
+    handleChackboxChange = ( selectedItem,e) => {
         const val = e.target.value;
         if( this.props.singleSelection!=undefined ){
-            this.props.singleSelection(val);
+            this.props.singleSelection(val,selectedItem);
         }
     }
 
@@ -127,5 +136,9 @@ export default class Item extends React.Component{
         if( this.props.tableButtonAction!=undefined ){
             this.props.tableButtonAction( returnVal );
         }
+    }
+
+    checkIfItIsSelected = ( id, selected ) => {
+        return selected.some( someItem => id==someItem['id']);
     }
 }

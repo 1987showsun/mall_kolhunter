@@ -30,7 +30,7 @@ export function listProduct( query ) {
                 type: "VENDOR_PRODUCT_HEAD",
                 total: res['data']['total'] || 0,
                 auth: res['data']['status']!=undefined? res['data']['status']['auth'] : 0,
-                nonDisplay: res['data']['status']!=undefined? res['data']['status']['non-display'] : 0,
+                nonDisplay: res['data']['status']!=undefined? res['data']['status']['none-display'] : 0,
                 noneAuth: res['data']['status']!=undefined? res['data']['status']['none-auth'] : 0
             })
 

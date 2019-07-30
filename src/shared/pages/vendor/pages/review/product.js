@@ -29,7 +29,8 @@ class Product extends React.Component{
                 {
                     key: 'cover',
                     type: 'img',
-                    title: '圖片'
+                    title: '圖片',
+                    className: 'img-width'
                 },
                 {
                     key: 'name',

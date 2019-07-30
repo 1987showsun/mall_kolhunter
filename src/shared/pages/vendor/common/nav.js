@@ -16,7 +16,6 @@ class Nav extends React.Component{
         if( _type=='categories' || _type=='info' ){
             _typeActive = true;
         }
-        console.log( _type, _class );
 
         return(
             <React.Fragment>

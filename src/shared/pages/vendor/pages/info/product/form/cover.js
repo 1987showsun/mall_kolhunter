@@ -35,9 +35,9 @@ export default class Cover extends React.Component{
                             data.length!=0 &&
                                 data.map( (item,i)=> {
                                     return(
-                                        <li key={i} className={ item['sticky']==true? 'active':'' }>
+                                        <li key={item['image']} className={ item['sticky']==true? 'active':'' }>
                                             <figure>
-                                                <img src={item['imagePath']} alt="" title="" />
+                                                <img src={item['image']} alt="" title="" />
                                                 {
                                                     status=="none-auth" &&
                                                         <figcaption>

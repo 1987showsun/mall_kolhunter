@@ -10,7 +10,6 @@ import FormFreight from './form/freight';
 class Freight extends React.Component{
 
     constructor(props){
-        console.log( props.deliveries );
         super(props);
         this.state = {
             status: props.status,

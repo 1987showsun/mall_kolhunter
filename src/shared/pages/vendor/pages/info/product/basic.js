@@ -32,8 +32,8 @@ export default class Product extends React.Component{
 
         const renderCategories = () => {
             let ddd = [];
-            data['categories'].map( item => {
-                ddd = [ ...ddd , <span className="categories-item">{item['title']}</span> ];
+            data['categories'].map( (item,i) => {
+                ddd = [ ...ddd , <span key={i} className="categories-item">{item['title']}</span> ];
             })
             return ddd;
         }

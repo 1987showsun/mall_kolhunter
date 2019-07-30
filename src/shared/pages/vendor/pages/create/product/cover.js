@@ -3,6 +3,7 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faTimes, faMapPin }from '@fortawesome/free-solid-svg-icons';
 
 // Components
+import BlockList from '../../../../../module/blockList';
 import AvatarCropper from '../../../../../module/avatarCropper';
 
 export default class Cover extends React.Component{
@@ -25,7 +26,7 @@ export default class Cover extends React.Component{
                     <article className="admin-content-title">
                         <h4>商品圖片</h4>
                     </article>
-                    <ul className="admin-product-img-ul">
+                    <BlockList className="admin-product-img-ul">
                         <li>
                             <AvatarCropper 
                                 onChangeData= {this.onChangeData.bind(this)}
@@ -57,7 +58,7 @@ export default class Cover extends React.Component{
                                     )
                                 })
                         }
-                    </ul>
+                    </BlockList>
                 </section>
             </React.Fragment>
         );
@@ -105,7 +106,6 @@ export default class Cover extends React.Component{
 
     returnBack = () => {
         const { data } = this.state;
-        console.log( data );
         this.props.onHandleChange('2',data);
     }
 }

@@ -25,12 +25,14 @@ class Product extends React.Component{
                         "auth": '上架中',
                         "non-display": '下架中',
                         "none-auth": '審核中'
-                    }
+                    },
+                    className: "status-width"
                 },
                 {
                     key: 'cover',
                     type: 'img',
-                    title: '圖片'
+                    title: '圖片',
+                    className: 'img-width'
                 },
                 {
                     key: 'name',

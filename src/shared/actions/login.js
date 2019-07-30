@@ -5,11 +5,20 @@ export function signin( form ) {
     const { type } = form;
     const url = API()['signin'][type];
     delete form['type'];
+
     return (dispatch) => {
         return Axios({ method: 'post', url: url, data: form }).then( (res) => {
+
             sessionStorage.setItem(`jwt_${type}`,res['data']);
+            let selectType = "";
+            if( type=='account' ){
+                selectType= "ACCOUNT_SIGNIN_SUCCESS";
+            }else{
+                selectType= "VENDOR_SIGNIN_SUCCESS";
+            }
+
             dispatch({
-                type: 'USER_SIGNIN_SUCCESS',
+                type: selectType,
                 token: res['data']
             })
             return res;

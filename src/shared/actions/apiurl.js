@@ -22,19 +22,19 @@ const API_ADDRESS = () => {
 export default function API(){
     return {
         'signin': {
-            'member': `${API_ADDRESS()}/v1/member/login`,
+            'account': `${API_ADDRESS()}/v1/member/login`,
             'vendor': `${API_ADDRESS()}/v1/vendor/login`
         },
         'signup': {
-            'member': `${API_ADDRESS()}/v1/member/signup`,
+            'account': `${API_ADDRESS()}/v1/member/signup`,
             'vendor': `${API_ADDRESS()}/v1/vendor/signup`
         },
         'forget': {
-            'member': `${API_ADDRESS()}/v1/member/reset_password`,
+            'account': `${API_ADDRESS()}/v1/member/reset_password`,
             'vendor': `${API_ADDRESS()}/v1/vendor/reset_password`
         },
         'verify': {
-            'member': `${API_ADDRESS()}/v1/member/verify`,
+            'account': `${API_ADDRESS()}/v1/member/verify`,
             'vendor': `${API_ADDRESS()}/v1/vendor/verify`
         },
         'myvendor': {
@@ -67,7 +67,7 @@ export default function API(){
                 'info': `${API_ADDRESS()}`
             }
         },
-        'member': {
+        'account': {
             
         },
         'delivery': {

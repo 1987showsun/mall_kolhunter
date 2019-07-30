@@ -1,7 +1,7 @@
 export default function login(
     state = {
-        info: {},
-        token: '',
+        info_vendor: {},
+        info_account: {},
         jwt_vendor: "",
         jwt_account: "",
     },action
@@ -13,18 +13,25 @@ export default function login(
     }
 
     switch(action.type){
-        case 'USER_SIGNIN_SUCCESS':
+        case 'CLEAR_JWT_TOKEN':
             state = { 
                 ...state, 
                 token: action.token
             };
             break;
 
-        case 'CLEAR_JWT_TOKEN':
-            state = { 
-                ...state, 
-                token: action.token
-            };
+        case 'ACCOUNT_SIGNIN_SUCCESS':
+            state = {
+                ...state,
+                jwt_account: action.token
+            }
+            break;
+
+        case 'VENDOR_SIGNIN_SUCCESS':
+            state = {
+                ...state,
+                jwt_vendor: action.token
+            }
             break;
     }
     return state;

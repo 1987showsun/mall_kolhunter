@@ -30,6 +30,8 @@
             "password required": "密碼必填",
             "vendorID required": "經銷商帳號必填",
             "vendorPWD required": "經銷商密碼必填",
+            "userID required": "會員帳號必填",
+            "userPWD required": "密碼必填",
             "email required": "電子信箱必填",
             "invoice required": "統一編號必填",
             "phone required": "聯絡電話必填",

@@ -18,10 +18,14 @@ import './style.scss';
 class Index extends React.Component{
 
     constructor(props){
-        super(props);
 
+        const location = props.location;
+        const pathname = location['pathname'].split('/').filter( item => item!='' );
+        let _type = pathname[0];
+
+        super(props);
         this.state = {
-            token: this.getJWTToken(props),
+            token: props[`jwt_${_type}`],
             DoYouHaveType: ['account','vendor'],
             DoYouHaveClass: ['signin','signup','leading','verify','forget'],
             components: {
@@ -42,9 +46,14 @@ class Index extends React.Component{
     }
 
     static getDerivedStateFromProps(props,state){
-        if( props.token!='' ){
+
+        const location = props.location;
+        const pathname = location['pathname'].split('/').filter( item => item!='' );
+        let _type = pathname[0];
+
+        if( props[`jwt_${_type}`]!=state.token ){
             return {
-                token: props.token
+                token: props[`jwt_${_type}`]
             }
         }
         return null;
@@ -58,9 +67,7 @@ class Index extends React.Component{
         const pathname = location['pathname'].split('/').filter( item => item!='' );
         let _type = pathname[0];
         let _class = match['params']['class'] || 'signin';
-        console.log( match,location,_type,_class,query );
 
-        //return null;
         if( DoYouHaveType.includes(_type) && DoYouHaveClass.includes(_class) ){
             let Component = this.state.components[_type][_class];
             return(
@@ -89,7 +96,6 @@ class Index extends React.Component{
         const { token } = this.state;
         const { match, location } = this.props;
         const { DoYouHaveType, DoYouHaveClass } = this.state;
-        const query = queryString.parse(location['search']);
         const pathname = location['pathname'].split('/').filter( item => item!='' );
         let _type = pathname[0];
         let _class = match['params']['class'] || 'signin';
@@ -114,7 +120,8 @@ class Index extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
-        token: state.login.token
+        jwt_account: state.login.jwt_account,
+        jwt_vendor: state.login.jwt_vendor
     }
 }
 

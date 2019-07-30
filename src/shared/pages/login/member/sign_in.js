@@ -16,7 +16,7 @@ class SignIn extends React.Component{
         super(props);
         this.state = {
             form : {
-                type: 'member',
+                type: 'account',
                 userID : "",
                 userPWD : "",
             },

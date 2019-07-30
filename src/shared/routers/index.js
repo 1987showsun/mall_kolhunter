@@ -6,7 +6,7 @@ import Store from '../pages/store';
 import StoreInfo from '../pages/store/info';
 import ontSignIn from '../pages/login';
 import IncIndex from '../pages/vendor';
-import MemberIndex from '../pages/member';
+import AccountIndex from '../pages/account';
 
 const common = [
   {
@@ -57,7 +57,7 @@ const common = [
   },
   {
     path: "/myaccount",
-    component: MemberIndex
+    component: AccountIndex
   },
   {
     path: "/account/:class",

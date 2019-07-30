@@ -75,7 +75,7 @@ class Header extends React.Component{
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/myaccount/order">
+                                <Link to="/myaccount/orders">
                                     <span className="icon-block">
                                         <FontAwesomeIcon icon={faTruck} />
                                     </span>

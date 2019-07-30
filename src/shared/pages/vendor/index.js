@@ -53,11 +53,11 @@ class Index extends React.Component{
                             location= {this.props.location}
                         />
                         <div className="admin-content">
-                                {
-                                    routers.map( (routeItem,i) => {
-                                        return (<Route key={i} {...routeItem} />);
-                                    })
-                                }
+                            {
+                                routers.map( (routeItem,i) => {
+                                    return (<Route key={i} {...routeItem} />);
+                                })
+                            }
                         </div>
                     </main>
                 </React.Fragment>

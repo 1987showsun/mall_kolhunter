@@ -4,8 +4,6 @@ import API from './apiurl';
 export function signin( form ) {
     const { type } = form;
     const url = API()['signin'][type];
-    delete form['type'];
-
     return (dispatch) => {
         return Axios({ method: 'post', url: url, data: form }).then( (res) => {
 

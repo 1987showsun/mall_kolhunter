@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Javascript
+import { PWD } from '../../../../../public/javascripts/checkFormat';
+
 export default class Index extends React.Component{
 
     constructor(props){
@@ -9,13 +12,14 @@ export default class Index extends React.Component{
                 oldPWD: "",
                 newPWD: "",
                 confirmPWD: ""
-            } 
+            },
+            msg: ""
         }
     }
 
     render(){
 
-        const { formObject } = this.state;
+        const { formObject, msg } = this.state;
 
         return(
             <React.Fragment>
@@ -47,6 +51,10 @@ export default class Index extends React.Component{
                                 </div>
                             </li>
                         </ul>
+                        {
+                            msg!='' &&
+                                <div className="form-msg">{msg}</div>
+                        }
                         <ul className="action-ul">
                             <li><button className="basic">更新</button></li>
                         </ul>
@@ -68,6 +76,14 @@ export default class Index extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         const { formObject } = this.state;
-        console.log( formObject );
+        const checkFormat = PWD({password: formObject['newPWD'], confirm: formObject['confirmPWD'] });
+        if( status ){
+            // 檢查OK
+        }else{
+            // 錯誤
+            this.setState({
+                msg: checkFormat['msg']
+            })
+        }
     }
 }

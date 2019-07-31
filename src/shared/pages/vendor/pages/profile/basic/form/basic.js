@@ -4,6 +4,7 @@ import CurrencyFormat from 'react-currency-format';
 // Json
 import area_code from '../../../../../../public/json/TWareacode.json';
 import county_area from '../../../../../../public/json/TWzipcode.json';
+import lang from '../../../../../../lang/lang.json';
 
 export default class Basic extends React.Component{
 
@@ -24,13 +25,15 @@ export default class Basic extends React.Component{
                 county: initCounty,
                 county_area: initCountyArea,
                 address: ""
-            }
+            },
+            required: ['company','email','phone','invoice','contactor'],
+            msg:[]
         }
     }
 
     render(){
 
-        const { formObject } = this.state;
+        const { formObject, msg } = this.state;
         const areaCode = formObject['area_code'];
         let areaCodeFormat = "";
         area_code.map( item => {
@@ -54,7 +57,7 @@ export default class Basic extends React.Component{
                         <label>＊統一編號</label>
                         <div className="">
                             <div className="input-box">
-                                <input type="text" name="invoice" value={formObject['invoice']} onChange={this.handleChange.bind(this)} />
+                                <CurrencyFormat value={formObject['invoice']} format="########" onValueChange={ value => this.returnInvoice(value['value'],'invoice')}/>
                             </div>
                         </div>
                     </li>
@@ -81,7 +84,7 @@ export default class Basic extends React.Component{
                                 </select>
                             </div>
                             <div className="input-box">
-                                <CurrencyFormat value={formObject['phone']} format={areaCodeFormat} mask="_" onValueChange={ value => this.returnTel(value['formattedValue'],'phone')}/>
+                                <CurrencyFormat value={formObject['phone']} format={areaCodeFormat} mask="_" onValueChange={ value => this.returnTel(value['value'],'phone')}/>
                             </div>
                         </div>
                     </li>
@@ -94,7 +97,7 @@ export default class Basic extends React.Component{
                         </div>
                     </li>                        
                     <li>
-                        <label>＊公司地址</label>
+                        <label>公司地址</label>
                         <div className="">
                             <div className="input-box select">
                                 <select name="county" onChange={ this.handleChange.bind(this) }>
@@ -124,6 +127,12 @@ export default class Basic extends React.Component{
                         </div>
                     </li>
                 </ul>
+                <div className="form-msg">
+                    {
+                        msg.length!=0 &&
+                            msg
+                    }
+                </div>
                 <ul className="action-ul">
                     <li><button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button></li>
                     <li><button className="basic">更新</button></li>
@@ -145,6 +154,14 @@ export default class Basic extends React.Component{
         })
     }
 
+    returnInvoice = ( val,name ) => {
+        let { formObject } = this.state;
+        formObject = { ...formObject, [name]: val };
+        this.setState({
+            formObject
+        })
+    }
+
     returnTel = ( val,name ) => {
         let { formObject } = this.state;
         formObject = { ...formObject, [name]: val };
@@ -155,11 +172,29 @@ export default class Basic extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { formObject } = this.state;
-        console.log( formObject );
-    }
-
-    returnCancel = () => {
-
+        const { formObject,required } = this.state;
+        const requiredFilter = required.filter( filterItem => {
+            return formObject[filterItem]=='';
+        })
+        if( requiredFilter.length ){
+            // 未填寫完整
+            const noteMSG = requiredFilter.map( (item,i) => {
+                return <div key={item}>{lang['zh-TW']['note'][`${item} required`] }</div>;
+            })
+            this.setState({
+                msg: noteMSG
+            })
+        }else{
+            // 填寫完整
+            const result = {
+                company: formObject['company'],
+                email: formObject['email'],
+                phone: `${formObject['area_code']}-${formObject['phone']}`,
+                invoice: formObject['invoice'],
+                contactor: formObject['contactor'],
+                address: `${formObject['county']}${formObject['county_area']}${formObject['address']}`
+            }
+            console.log( result );
+        }
     }
 }

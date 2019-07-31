@@ -13,13 +13,22 @@ export default class Item extends React.Component{
         super(props);
         this.state = {
             isSelectedAll: props.isSelectedAll || false,
-            selected: props.selected || []
+            selectedBefore: props.selectedBefore || []
+        }
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        return{
+            selectedBefore: props.selectedBefore
         }
     }
 
     render(){
 
-        const { data,head,selected } = this.props;
+        const {
+            data, 
+            head 
+        } = this.props;
 
         return(
             <React.Fragment>
@@ -35,7 +44,7 @@ export default class Item extends React.Component{
                                                     headItem['type']=='checkbox' &&
                                                         <div className={`table-body ${headItem['className']||''}`} key={headItem['key']}>
                                                             <label htmlFor={bodyItem['id']} className="checkbox-label">
-                                                                <input type="checkbox" id={bodyItem['id']} name="checkSelect" className="admin-checkbox" value={bodyItem['id']} onChange={this.handleChackboxChange.bind(this,bodyItem)} checked={ this.checkIfItIsSelected( bodyItem['id'],selected ) }/>
+                                                                <input type="checkbox" id={bodyItem['id']} name="checkSelect" className="admin-checkbox" value={bodyItem['id']} onChange={this.handleChackboxChange.bind(this,bodyItem)} checked={ this.checkIfItIsSelected( bodyItem['id'] ) }/>
                                                                 <i className="checkbox_icon">
                                                                     <FontAwesomeIcon icon={faCheck} />
                                                                 </i>
@@ -131,14 +140,15 @@ export default class Item extends React.Component{
         }
     }
 
+    checkIfItIsSelected = ( id ) => {
+        const { selectedBefore } = this.state;
+        return selectedBefore.some( someItem => id==someItem['id']);
+    }
+
     tableButtonAction = ( method , val ) => {
         const returnVal = { ...val, 't_method': method };
         if( this.props.tableButtonAction!=undefined ){
             this.props.tableButtonAction( returnVal );
         }
-    }
-
-    checkIfItIsSelected = ( id, selected ) => {
-        return selected.some( someItem => id==someItem['id']);
     }
 }

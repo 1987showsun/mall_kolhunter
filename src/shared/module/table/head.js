@@ -8,7 +8,10 @@ import './style.scss';
 export default class Head extends React.Component{
     render(){
 
-        const { data, isSelectedAll } = this.props;
+        const { 
+            data, 
+            isSelectedAll 
+        } = this.props;
 
         return(
             <li>

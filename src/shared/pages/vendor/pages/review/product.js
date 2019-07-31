@@ -18,7 +18,6 @@ class Product extends React.Component{
         this.state = {
             open: false,
             popupMsg: "",
-            selected: [],
             selectedResult: [],
             isSelectedAll: true,
             tableHeadKey : [
@@ -66,15 +65,24 @@ class Product extends React.Component{
     }
 
     static getDerivedStateFromProps(props,state){
-        return{
-            tableBodyData: props.list,
-            selected: state.isSelectedAll? props.list : []
+        if( props.list.length!=state.tableBodyData.length ){
+            return{
+                tableBodyData: props.list,
+                selectedResult: state.isSelectedAll? [...props.list] : []
+            }
         }
+        return null;
     }
 
     render(){
 
-        const { tableHeadKey,tableBodyData,selected,open,popupMsg, isSelectedAll } = this.state;
+        const { 
+            tableHeadKey, 
+            tableBodyData, 
+            selectedResult, 
+            open,popupMsg, 
+            isSelectedAll 
+        } = this.state;
 
         return(
             <React.Fragment>
@@ -83,8 +91,7 @@ class Product extends React.Component{
                     isSelectedAll={isSelectedAll}
                     tableHeadData={tableHeadKey}
                     tableBodyData={tableBodyData}
-                    selected={selected}
-                    returnCheckBoxVal={this.returnCheckBoxVal.bind(this)}
+                    returnCheckbox={this.returnCheckbox.bind(this)}
                 />
                 <div className="admin-content-footer">
                     <ul>
@@ -94,12 +101,12 @@ class Product extends React.Component{
                         </li>
                         <li>
                             <div className="label">目前已選購買方案數</div>
-                            <div className="value">{selected.length}</div>
+                            <div className="value">{selectedResult.length}</div>
                         </li>
                         <li>
                             <div className="label">購買方案總價</div>
                             <div className="value">
-                                <CurrencyFormat value={selected.length*50000} displayType={'text'} thousandSeparator={true} />
+                                <CurrencyFormat value={selectedResult.length*50000} displayType={'text'} thousandSeparator={true} />
                             </div>
                         </li>
                     </ul>
@@ -126,8 +133,7 @@ class Product extends React.Component{
         this.props.dispatch( listProduct(search) );
     }
 
-    returnCheckBoxVal = ( val ) => {
-        //console.log( val );
+    returnCheckbox = ( val ) => {
         this.setState({
             selectedResult: val,
         });

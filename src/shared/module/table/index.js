@@ -10,29 +10,41 @@ import './style.scss';
 export default class Index extends React.Component{
 
     constructor(props){
-
-        const isSelectedAll = props.isSelectedAll || false;
-        const selected = isSelectedAll? props.tableBodyData : [];
         
         super(props);
         this.state = {
-            isSelectedAll,
-            selected,
+            isSelectedAll: props.isSelectedAll || false,
+            selectedBefore: [],
             head: props.tableHeadData || [],
             body: props.tableBodyData || []
         }
     }
 
     static getDerivedStateFromProps(props, state) {
-        return{
-            body : props.tableBodyData || [],
-            selected: state.selected || []
+        if( props.tableBodyData!=state.body ){
+            let selectedBefore = [];
+            if( state.isSelectedAll ){
+                selectedBefore = [...props.tableBodyData];
+            }else{
+                selectedBefore = [];
+            }
+
+            return{
+                body : props.tableBodyData,
+                selectedBefore
+            }
         }
+        return null;
     }
 
     render(){
 
-        const { head, body, selected, isSelectedAll } = this.state;
+        const { 
+            head, 
+            body, 
+            isSelectedAll, 
+            selectedBefore 
+        } = this.state;
 
         return(
             <div className="table-wrap">
@@ -40,7 +52,7 @@ export default class Index extends React.Component{
                     <Head 
                         data={head}
                         body={body}
-                        selected={selected}
+                        selectedBefore={selectedBefore}
                         isSelectedAll={isSelectedAll}
                         returnSelectedAll={this.returnSelectedAll.bind(this)}
                     />
@@ -49,7 +61,7 @@ export default class Index extends React.Component{
                             <Item 
                                 head= {head}
                                 data= {body}
-                                selected= {selected}
+                                selectedBefore={selectedBefore}
                                 isSelectedAll={isSelectedAll}
                                 singleSelection= {this.singleSelection.bind(this)}
                                 tableButtonAction= {this.props.tableButtonAction}
@@ -64,42 +76,49 @@ export default class Index extends React.Component{
         );
     }
 
-    componentDidMount() {
-    }
-
+    // 全選
     returnSelectedAll = (status) => {
-        let { body, selected } = this.state;
-        if( !status ){
-            selected = [];
-        }else{
-            selected = [ ...body ];
-        }
         this.setState({
             isSelectedAll: status,
-            selected
+            selectedBefore: status? [...this.state.body] : []
+        },()=>{
+            this.returnResult();
         })
     }
 
+    // 單選
     singleSelection = ( val,selectedItem ) => {
-        let { body, selected } = this.state;
-        let totalDataLength = body.length;
-        let existenceIdx = -1;
-        const checkForExistence = selected.some( (someItem,i) => {
+        let { body } = this.state;
+        let selectedBefore = [...this.state.selectedBefore];
+        let selectIndex = -1;
+        const checkSame = selectedBefore.some( (someItem,i) => {
             if( someItem['id']==selectedItem['id'] ){
-                existenceIdx = i;
+                selectIndex = i;
                 return true;
             }
         })
-
-        if( !checkForExistence ){
-            selected = [ ...selected, selectedItem ];
+        if( !checkSame ){
+            selectedBefore = [ ...selectedBefore, selectedItem ];
         }else{
-            selected.splice( existenceIdx,1 );
+            selectedBefore.splice( selectIndex, 1 );
         }
 
+        // 判斷單選有無全部選取
+        let isSelectedAll = body.length==selectedBefore.length? true : false;
+
         this.setState({
-            selected,
-            isSelectedAll: selected.length==totalDataLength
+            isSelectedAll,
+            selectedBefore
+        },()=>{
+            this.returnResult();
         })
+    }
+
+    // 回傳結果
+    returnResult = () => {
+        if( this.props.returnCheckbox!=undefined ){
+            const { selectedBefore } = this.state;
+            this.props.returnCheckbox( selectedBefore );
+        }
     }
 }

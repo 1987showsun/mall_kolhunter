@@ -75,7 +75,7 @@ export default class InputTable extends React.Component{
                                                                             {
                                                                                 headItem['options'].length!=0? (
                                                                                     headItem['options'].map( (optionItem,o_i) => {
-                                                                                        return(<option key={optionItem['id'] || o_i } value={optionItem['id']}>{optionItem['name']}</option>)
+                                                                                        return(<option key={optionItem['value'] || o_i } value={optionItem['value']}>{optionItem['name']}</option>)
                                                                                     })
                                                                                 ):(
                                                                                     <option>暫無任何可用運送方式</option>

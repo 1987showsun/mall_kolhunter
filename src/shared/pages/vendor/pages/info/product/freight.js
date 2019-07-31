@@ -14,8 +14,8 @@ class Freight extends React.Component{
         this.state = {
             status: props.status,
             update: false,
-            //deliveries: !props.deliveries? []: props.deliveries,
-            deliveries: [],
+            id: props.id,
+            deliveries: props.deliveries,
             data : props.data || [],
             tableHeadKey : [
                 {
@@ -25,7 +25,7 @@ class Freight extends React.Component{
                     option: []
                 },
                 {
-                    key: 'cost',
+                    key: 'deliveryCost',
                     type: 'number',
                     title: '費用',
                     className: 'number'
@@ -35,28 +35,36 @@ class Freight extends React.Component{
     }
 
     static getDerivedStateFromProps(props, state) {
+
+        if( props.deliveries!=state.deliveries ){
+            return { deliveries: props.deliveries }
+        }
+
         return{
             status: props.status,
-            //deliveries: !props.deliveries? []: props.deliveries,
-            deliveries: [],
-            data: props.data || []
         }
     }
 
     render(){
 
-        const { tableHeadKey, data, deliveries, update } = this.state;
-        const deliveriesFilterAfter = deliveries.filter( filterItem => {
-            return data.some( someItem => someItem['deliveryID']==filterItem['id'] );
-        })
-        const regroupData = deliveriesFilterAfter.map( item => {
-            const ddd = data.filter( mapItem => {
-                if( mapItem['deliveryID']==item['id'] ){
-                    return mapItem;
-                }
+        const { 
+            id,
+            tableHeadKey,
+            data,
+            deliveries,
+            update
+        } = this.state;
+        const reorganizationBodyData = data.map( (item,i) => {
+            const findThing = deliveries.findIndex( (findItem) => {
+                return findItem['id']==item['deliveryID'];
             });
-            return item = { ...item, cost: ddd[0]['deliveryCost'] };
-        })
+            if( findThing!=-1 ){
+                return{
+                    name: deliveries[findThing]['name'],
+                    deliveryCost: item['deliveryCost']
+                }
+            }
+        }).filter( filterItem => filterItem!=undefined );
 
         return(
             <React.Fragment>
@@ -73,14 +81,17 @@ class Freight extends React.Component{
                             <div className="admin-content-container">     
                                 <Table 
                                     tableHeadData={tableHeadKey}
-                                    tableBodyData={regroupData}
+                                    tableBodyData={reorganizationBodyData}
                                 />
                             </div>
                         </section>
                 ):(
                     <FormFreight 
                         data={data}
+                        id={id}
+                        deliveries={deliveries}
                         returnCancel={this.returnCancel.bind(this)}
+                        returnResult={this.returnResult.bind(this)}
                     />
                 )
             }
@@ -90,6 +101,13 @@ class Freight extends React.Component{
 
     returnCancel = () => {
         this.setState({
+            update: false,
+        })
+    }
+
+    returnResult = ( data ) => {
+        this.setState({
+            data,
             update: false,
         })
     }

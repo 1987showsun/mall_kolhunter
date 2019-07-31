@@ -1,43 +1,39 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import InputTable from '../../../../../../module/inputTable';
 
-export default class Freight extends React.Component{
+// Actions
+import { createProduct } from '../../../../../../actions/vendor';
+
+class Freight extends React.Component{
 
     constructor(props){
+
+        const options = props.deliveries.map( (item,i)=> {
+            return{
+                value: item['id'],
+                name: item['name']
+            }
+        })
+
         super(props);
         this.state = {
-            status: props.status,
+            id: props.id,
+            deliveries: props.deliveries,
             data : props.data,
             inputTableHeadKey : [
                 {
-                    key: 'method',
+                    key: 'deliveryID',
                     type: 'select',
                     title: '貨運名稱',
-                    option: [
-                        {
-                            id: 0,
-                            text: '7-11 黑貓宅急便'
-                        },
-                        {
-                            id: 1,
-                            text: '全家 宅配通'
-                        },
-                        {
-                            id: 2,
-                            text: '新竹貨運'
-                        },
-                        {
-                            id: 3,
-                            text: '大榮貨運'
-                        }
-                    ]
+                    options: options
                 },
                 {
-                    key: 'fee',
+                    key: 'deliveryCost',
                     type: 'number',
                     title: '費用',
                     className: 'number'
@@ -47,26 +43,15 @@ export default class Freight extends React.Component{
                     type: 'action',
                     title: '其他'
                 }
-            ],
-            normalTableHeadKey : [
-                {
-                    key: 'method',
-                    type: 'text',
-                    title: '貨運名稱',
-                },
-                {
-                    key: 'fee',
-                    type: 'number',
-                    title: '費用',
-                    className: 'number'
-                }
-            ],
+            ]
         }
     }
 
+
+
     render(){
 
-        const { inputTableHeadKey, normalTableHeadKey, data, status } = this.state;
+        const { inputTableHeadKey, data } = this.state;
 
         return(
             <section className="admin-content-row">
@@ -101,12 +86,15 @@ export default class Freight extends React.Component{
     }
     
     addCondition = () => {
-        let { data } = this.state;
+        const nowDate = new Date();
+        let { data, deliveries } = this.state;
         data = [
             ...data, 
             {
-                method: 0,
-                fee: 0
+                id: "",
+                deliveryID: deliveries[0]['id'],
+                deliveryCost: 0,
+                modified: nowDate.valueOf()
             }
         ]
         this.setState({
@@ -116,6 +104,26 @@ export default class Freight extends React.Component{
 
     handleSubnit = (e) => {
         e.preventDefault();
-        const { data } = this.state;
+        const { id, data } = this.state;
+        const updateForm = {
+            id,
+            deliveries: data
+        }
+        this.props.dispatch( createProduct('product', updateForm , 5 , 'post' ) ).then( res => {
+            switch( res['status'] ){
+                case 200:
+                    const result = data;
+                    this.props.returnResult( result );
+                    break;
+            }
+        });
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Freight );

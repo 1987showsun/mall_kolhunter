@@ -8,6 +8,7 @@ import { createProduct } from '../../../../../../actions/vendor';
 class Basic extends React.Component{
 
     constructor(props){
+        console.log( props.categories );
         super(props);
         this.state = {
             id: props.id,
@@ -15,12 +16,12 @@ class Basic extends React.Component{
             status: props.status,
             data: props.data,
             categoriesLevel1: {
-                id: props.categories.length!=0? props.data['categories'][0]['id'] : "",
-                title:  props.categories.length!=0? props.data['categories'][0]['title'] : ""
+                id: props.categories.length!=0? ( props.data['categories'][0]!=undefined? props.data['categories'][0]['id']:"" ):(""),
+                title:  props.categories.length!=0? ( props.data['categories'][0]!=undefined? props.data['categories'][0]['title']:"" ):("")
             },
             categoriesLevel2: {
-                id: props.categories[1]!=undefined? props.data['categories'][1]['id'] : '',
-                title:  props.categories[1]!=undefined? props.data['categories'][1]['title'] : ''
+                id: props.categories[1]!=undefined? ( props.data['categories'][1]!=undefined? props.data['categories'][1]['id']:"" ):(""),
+                title:  props.categories[1]!=undefined? ( props.data['categories'][1]!=undefined? props.data['categories'][1]['title']:"" ):("")
             }
         }
     }

@@ -12,9 +12,9 @@ class Format extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            id: props.id,
             status: props.status,
             update: false,
+            id: props.id,
             data: props.data,
             tableHeadKey : [
                 {

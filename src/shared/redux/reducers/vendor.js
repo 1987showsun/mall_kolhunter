@@ -51,7 +51,6 @@ export default function vendor(
             break;
 
         case 'VENDOR_PRODUCT_HEAD':
-            console.log( action.noneAuth );
             state = {
                 ...state,
                 "total": action.total,

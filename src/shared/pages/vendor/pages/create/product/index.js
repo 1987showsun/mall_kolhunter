@@ -176,7 +176,7 @@ class Index extends React.Component{
             case 3:
                 formObject[step] = {
                     id : id,
-                    specs: formObject[step]
+                    spec: formObject[step]
                 }
                 break;
 

@@ -48,7 +48,7 @@ export default class Depiction extends React.Component{
                                     <FileBase64 multiple={false} onDone={this.handleChangDepictionImg.bind(this)} />
                                 </button>
                             </li>
-                            <li><button type="button" onClick={this.addCondition.bind(this,'text')}>新增文字區塊</button></li>
+                            <li><button type="button" onClick={this.addCondition.bind(this,'html')}>新增文字區塊</button></li>
                         </ul>
                     </div>
                 </section>
@@ -67,12 +67,15 @@ export default class Depiction extends React.Component{
     }
 
     handleChangDepictionImg = (files) => {
+        const nowDate = new Date();
         let { data } = this.state;
         data = [
             ...data,
             {
+                id: null,
                 type: 'image',
-                content: files['base64']
+                content: files['base64'],
+                modified: nowDate.valueOf()
             }
         ];
         this.setState({
@@ -83,10 +86,12 @@ export default class Depiction extends React.Component{
     }
 
     handleChangeTextarea = (i,e) => {
+        const nowDate = new Date();
         let { data } = this.state;
         let name = e.target.name;
         let val = e.target.value;
         data[i][name] = val;
+        data[i]['modified'] = nowDate.valueOf();
         this.setState({
             data
         },()=>{
@@ -95,16 +100,17 @@ export default class Depiction extends React.Component{
     }
 
     addCondition = ( method ) => {
-
-        let { data,idx } = this.state;
-
+        const nowDate = new Date();
+        let { data } = this.state;
         switch( method ){
-            case 'text':
+            case 'html':
                 data = [
                     ...data,
                     {
-                        type: 'text',
-                        content: ''
+                        id: null,
+                        type: 'html',
+                        content: '',
+                        modified: nowDate.valueOf()
                     }
                 ]
                 break;
@@ -122,7 +128,7 @@ export default class Depiction extends React.Component{
             case 'image':
                 return(<img src={item['content']} alt="" title="" />);
                 
-            case 'text':
+            case 'html':
                 return(
                     <textarea 
                         name="content" 

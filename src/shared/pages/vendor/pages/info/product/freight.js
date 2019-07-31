@@ -14,8 +14,9 @@ class Freight extends React.Component{
         this.state = {
             status: props.status,
             update: false,
-            deliveries: !props.deliveries? []: props.deliveries,
-            data : props.data,
+            //deliveries: !props.deliveries? []: props.deliveries,
+            deliveries: [],
+            data : props.data || [],
             tableHeadKey : [
                 {
                     key: 'name',
@@ -36,8 +37,9 @@ class Freight extends React.Component{
     static getDerivedStateFromProps(props, state) {
         return{
             status: props.status,
-            deliveries: !props.deliveries? []: props.deliveries,
-            data: props.data
+            //deliveries: !props.deliveries? []: props.deliveries,
+            deliveries: [],
+            data: props.data || []
         }
     }
 

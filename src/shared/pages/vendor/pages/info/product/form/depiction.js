@@ -1,14 +1,19 @@
 import React from 'react';
 import FileBase64 from 'react-file-base64';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faTrashAlt }from '@fortawesome/free-solid-svg-icons';
 
-export default class Depiction extends React.Component{
+// Actions
+import { createProduct } from '../../../../../../actions/vendor';
+
+class Depiction extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
             status: props.status,
+            id: props.id,
             data : props.data
         }
     }
@@ -19,6 +24,7 @@ export default class Depiction extends React.Component{
 
         return(
             <React.Fragment>
+                <form onSubmit={this.handleSubnit.bind(this)}>
                     {
                         data.length!=0?(
                             <ul className="depiction-ul">
@@ -56,7 +62,11 @@ export default class Depiction extends React.Component{
                                 </ul>
                             </div>
                     }
-
+                    <ul className="action-ul">
+                        <li><button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button></li>
+                        <li><button className="basic">更新</button></li>
+                    </ul>
+                </form>
             </React.Fragment>
         );
     }
@@ -70,12 +80,15 @@ export default class Depiction extends React.Component{
     }
 
     handleChangDepictionImg = (files) => {
+        const nowDate = new Date();
         let { data } = this.state;
         data = [
             ...data,
             {
+                id: "",
                 type: 'image',
-                description: files['base64']
+                content: files['base64'],
+                modified: nowDate.valueOf()
             }
         ];
         this.setState({
@@ -84,26 +97,29 @@ export default class Depiction extends React.Component{
     }
 
     handleChangeTextarea = (i,e) => {
+        const nowDate = new Date();
         let { data } = this.state;
         let name = e.target.name;
         let val = e.target.value;
         data[i][name] = val;
+        data[i]['modified'] = nowDate.valueOf();
         this.setState({
             data
         })
     }
 
     addCondition = ( method ) => {
-
+        const nowDate = new Date();
         let { data } = this.state;
-
         switch( method ){
             case 'html':
                 data = [
                     ...data,
                     {
+                        id: "",
                         type: 'html',
-                        description: ''
+                        content: '',
+                        modified: nowDate.valueOf()
                     }
                 ]
                 break;
@@ -117,21 +133,44 @@ export default class Depiction extends React.Component{
     renderTypeof = (item,i) => {
         switch( item['type'] ){
             case 'image':
-                return(<img src={item['description']} alt="" title="" />);
+                return(<img src={item['content']} alt="" title="" />);
                 
             case 'html':
                 return(
                     <textarea 
-                        name="description" 
-                        value={item['description']}
+                        name="content" 
+                        value={item['content']}
                         onChange={this.handleChangeTextarea.bind(this,i)} 
                     />
                 );
         }
     }
 
-    returnBack = () => {
-        const { data } = this.state;
-        //this.props.onHandleChange('4',data);
+    handleSubnit = (e) => {
+        e.preventDefault();
+        const { id, data } = this.state;
+        const updateForm = {
+            id: id,
+            descriptions: data
+        }
+        this.props.dispatch( createProduct('product', updateForm , 4 , 'post' ) ).then( res => {
+            switch( res['status'] ){
+                case 200:
+                    const result = res['data']['description'];
+                    this.props.returnResult(result);
+                    break;
+
+                default:
+                    break;
+            }
+        });
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Depiction );

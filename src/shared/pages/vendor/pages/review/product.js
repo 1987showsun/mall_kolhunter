@@ -20,6 +20,7 @@ class Product extends React.Component{
             popupMsg: "",
             selectedResult: [],
             isSelectedAll: true,
+            total: props.total,
             tableHeadKey : [
                 {
                     key: 'checkbox',
@@ -67,6 +68,7 @@ class Product extends React.Component{
     static getDerivedStateFromProps(props,state){
         if( props.list.length!=state.tableBodyData.length ){
             return{
+                total: props.total,
                 tableBodyData: props.list,
                 selectedResult: state.isSelectedAll? [...props.list] : []
             }
@@ -77,6 +79,7 @@ class Product extends React.Component{
     render(){
 
         const { 
+            total,
             tableHeadKey, 
             tableBodyData, 
             selectedResult, 
@@ -97,7 +100,7 @@ class Product extends React.Component{
                     <ul>
                         <li>
                             <div className="label">目前已新增商品</div>
-                            <div className="value">{tableBodyData.length}</div>
+                            <div className="value">{total}</div>
                         </li>
                         <li>
                             <div className="label">目前已選購買方案數</div>
@@ -170,6 +173,7 @@ class Product extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
+        total: state.vendor.total,
         list : state.vendor.list,
     }
 }

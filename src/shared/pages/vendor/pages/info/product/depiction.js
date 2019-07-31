@@ -12,19 +12,19 @@ export default class Depiction extends React.Component{
         this.state = {
             status: props.status,
             update: false,
+            id: props.id,
             data : props.data
         }
     }
 
     static getDerivedStateFromProps(props, state) {
-        if( props.data!=state.data ) return{ data: props.data }
         if( props.status!=state.status ) return{ status: props.status }
         return null;
     }
 
     render(){
 
-         const { data, update, status } = this.state;
+         const { id, data, update, status } = this.state;
 
         return(
             <React.Fragment>
@@ -60,8 +60,10 @@ export default class Depiction extends React.Component{
                             ):(
                                 <FormDescription 
                                     status={status}
+                                    id={id}
                                     data={data}
                                     returnCancel={this.returnCancel.bind(this)}
+                                    returnResult={this.returnResult.bind(this)}
                                 />
                             )
                         }
@@ -73,6 +75,13 @@ export default class Depiction extends React.Component{
 
     returnCancel = () => {
         this.setState({
+            update: false,
+        })
+    }
+
+    returnResult = ( data ) => {
+        this.setState({
+            data,
             update: false,
         })
     }

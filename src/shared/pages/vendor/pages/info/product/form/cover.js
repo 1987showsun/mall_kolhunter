@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faTimes, faMapPin }from '@fortawesome/free-solid-svg-icons';
 
@@ -6,18 +7,24 @@ import { faTimes, faMapPin }from '@fortawesome/free-solid-svg-icons';
 import BlockList from '../../../../../../module/blockList';
 import AvatarCropper from '../../../../../../module/avatarCropper';
 
-export default class Cover extends React.Component{
+// Actions
+import { createProduct } from '../../../../../../actions/vendor';
+
+class Cover extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            selectedIndex: 0,
+            id: props.id,
             status: props.status,
             data: props.data
         }
     }
 
     render(){
-        let { data,status } = this.state;
+
+        let { data,status,selectedIndex } = this.state;
 
         return(
             <React.Fragment>
@@ -35,18 +42,18 @@ export default class Cover extends React.Component{
                             data.length!=0 &&
                                 data.map( (item,i)=> {
                                     return(
-                                        <li key={item['image']} className={ item['sticky']==true? 'active':'' }>
+                                        <li key={i} className={ selectedIndex==i? 'active':'' }>
                                             <figure>
                                                 <img src={item['image']} alt="" title="" />
                                                 {
                                                     status=="none-auth" &&
                                                         <figcaption>
                                                             <ul className="btn-ul">
-                                                                {/* <li>
+                                                                <li>
                                                                     <button className="positioning" type="button" onClick={this.positioning.bind(this,i)}>
                                                                         <i><FontAwesomeIcon icon={faMapPin} /></i>
                                                                     </button>
-                                                                </li> */}
+                                                                </li>
                                                                 <li>
                                                                     <button type="button" onClick={this.removeItem.bind(this,i)}>
                                                                         <i><FontAwesomeIcon icon={faTimes} /></i>
@@ -72,10 +79,19 @@ export default class Cover extends React.Component{
 
     onChangeData = (val) => {
         let { data } = this.state;
-        data = [ ...data, { imagePath: val, sticky: false} ];
+        let nowDate = new Date();
+        data = [ 
+            ...data, 
+            { 
+                id: '',
+                image: val, 
+                modified: nowDate.valueOf()
+            }
+        ];
         if( data.length==1 ){
             data[0]['sticky']=true;
         }
+        
         this.setState({
             data
         });
@@ -90,21 +106,36 @@ export default class Cover extends React.Component{
     }
 
     positioning = (idx) => {
-        let { data } = this.state;
-        data.map( (item,i) => {
-            if( i==idx ){
-                item['sticky'] = true;
-            }else{
-                item['sticky'] = false;
-            }
-            return item;
-        })
         this.setState({
-            data
+            selectedIndex: idx
         })
     }
 
-    handleSubnit = () => {
-        const { data } = this.state;
+    handleSubnit = (e) => {
+        e.preventDefault();
+        const { id, data, selectedIndex } = this.state;
+        const indexData = data.filter( (filterItem,i) => i==selectedIndex);
+        const otherData = data.filter( (filterItem,i) => i!=selectedIndex);
+        const reorganizationData = {
+            id: id,
+            images: [...indexData, ...otherData]
+        };
+
+        this.props.dispatch( createProduct('product', reorganizationData , 2 , 'post' ) ).then( res => {
+            switch( res['status'] ){
+                case 200:
+                    const result = res['data']['img'];
+                    this.props.returnResult(result);
+                    break;
+            }
+        });
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Cover );

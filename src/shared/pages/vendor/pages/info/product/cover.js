@@ -12,6 +12,7 @@ export default class Cover extends React.Component{
         super(props);
         this.state = {
             update: false,
+            id: props.id,
             status: props.status,
             data: props.data
         }
@@ -19,14 +20,14 @@ export default class Cover extends React.Component{
 
     static getDerivedStateFromProps(props, state) {
         return{
+            id: props.id,
             status: props.status,
-            data: props.data
         }
     }
 
     render(){
 
-        const { data, update, status } = this.state;
+        const { id, data, update, status } = this.state;
 
         return(
             <section className="admin-content-row">
@@ -44,10 +45,14 @@ export default class Cover extends React.Component{
                     !update? (
                         <BlockList className="admin-product-img-ul">
                             {
-                                data.map( item => {
+                                data.map( (item,i) => {
                                     return(
-                                        <li key={item['image']}>
+                                        <li key={item['image']} className={ i==0? 'product-main-cover':null }>
                                             <figure>
+                                                {
+                                                    i==0 &&
+                                                        <span className="admin-product-main">主圖</span>
+                                                }
                                                 <img src={item['image']} alt="" title="" />
                                             </figure>
                                         </li>
@@ -58,7 +63,9 @@ export default class Cover extends React.Component{
                     ):(                
                         <FormCover 
                             status={status}
+                            id={id}
                             data={data}
+                            returnResult={this.returnResult.bind(this)}
                             returnCancel={this.returnCancel.bind(this)}
                         />
                     )
@@ -69,6 +76,13 @@ export default class Cover extends React.Component{
 
     returnCancel = () => {
         this.setState({
+            update: false,
+        })
+    }
+
+    returnResult = ( data ) => {
+        this.setState({
+            data,
             update: false,
         })
     }

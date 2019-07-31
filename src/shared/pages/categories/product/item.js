@@ -7,7 +7,7 @@ export default class Item extends React.Component{
             <li>
                 <figure>
                     <div className="product-list-img-wrap">
-                        <Link to=""></Link>
+                        <Link to="/detail/p_id"></Link>
                         <img src="https://s.yimg.com/zp/MerchandiseImages/492510ADE3-Product-22340413.jpg" alt="Rimowa Essential Sleeve Cabin 20吋登機箱 (霧黑色)" title="" />
                     </div>
                     <figcaption>

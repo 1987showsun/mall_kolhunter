@@ -1,7 +1,7 @@
 import Home from "../pages/home";
 import Terms from '../pages/terms';
 import Categories from '../pages/categories';
-import Info from '../pages/info';
+import Detail from '../pages/detail';
 import Store from '../pages/store';
 import StoreInfo from '../pages/store/info';
 import ontSignIn from '../pages/login';
@@ -20,14 +20,14 @@ const common = [
     component: Terms
   },
   {
-    path: "/info/:id",
+    path: "/detail/:id",
     exact: true,
-    component: Info
+    component: Detail
   },
   {
-    path: "/info",
+    path: "/detail",
     exact: true,
-    component: Info
+    component: Detail
   },
   {
     path: "/store/:id",

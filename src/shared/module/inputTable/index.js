@@ -73,9 +73,13 @@ export default class InputTable extends React.Component{
                                                                     <div className="input-box">
                                                                         <select name={headItem['key']} value={bodyItem[headItem['key']]} onChange={this.handleChange.bind(this,b_i)}>
                                                                             {
-                                                                                headItem['option'].map( (optionItem,o_i) => {
-                                                                                    return(<option key={optionItem['id'] || o_i } value={optionItem['id']}>{optionItem['name']}</option>)
-                                                                                })
+                                                                                headItem['options'].length!=0? (
+                                                                                    headItem['options'].map( (optionItem,o_i) => {
+                                                                                        return(<option key={optionItem['id'] || o_i } value={optionItem['id']}>{optionItem['name']}</option>)
+                                                                                    })
+                                                                                ):(
+                                                                                    <option>暫無任何可用運送方式</option>
+                                                                                )
                                                                             }
                                                                         </select>
                                                                     </div>

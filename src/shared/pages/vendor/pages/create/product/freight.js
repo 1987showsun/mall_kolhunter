@@ -20,7 +20,12 @@ class Freight extends React.Component{
                     key: 'id',
                     type: 'select',
                     title: '貨運名稱',
-                    option: []
+                    options: [
+                        {
+                            "id": "001",
+                            "name": "123"
+                        }
+                    ]
                 },
                 {
                     key: 'cost',

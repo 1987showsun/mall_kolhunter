@@ -40,7 +40,6 @@ class Format extends React.Component{
     static getDerivedStateFromProps(props, state) {
         return{
             status: props.status,
-            //data: props.data
         }
     }
 

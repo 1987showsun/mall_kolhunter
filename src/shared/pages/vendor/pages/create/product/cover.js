@@ -12,13 +12,14 @@ export default class Cover extends React.Component{
         super(props);
         this.state = {
             id: props.id,
+            selectedIndex: 0,
             data: props.data
         }
     }
 
     render(){
 
-        let { id,data } = this.state;
+        let { data, selectedIndex } = this.state;
 
         return(
             <React.Fragment>
@@ -36,7 +37,7 @@ export default class Cover extends React.Component{
                             data.length!=0 &&
                                 data.map( (item,i)=> {
                                     return(
-                                        <li key={i} className={ item['sticky']==true? 'active':'' }>
+                                        <li key={i} className={ selectedIndex==i? 'active':'' }>
                                             <figure>
                                                 <img src={item['image']} alt="" title="" />
                                                 <figcaption>
@@ -66,7 +67,14 @@ export default class Cover extends React.Component{
 
     onChangeData = (val) => {
         let { data } = this.state;
-        data = [ ...data, { image: val, sticky: false} ];
+        let nowDate = new Date();
+        data = [ 
+            ...data,{ 
+                id: '',
+                image: val, 
+                modified: nowDate.valueOf()
+            } 
+        ];
         if( data.length==1 ){
             data[0]['sticky']=true;
         }
@@ -88,24 +96,18 @@ export default class Cover extends React.Component{
     }
 
     positioning = (idx) => {
-        let { data } = this.state;
-        data.map( (item,i) => {
-            if( i==idx ){
-                item['sticky'] = true;
-            }else{
-                item['sticky'] = false;
-            }
-            return item;
-        })
         this.setState({
-            data
+            selectedIndex: idx
         },()=>{
             this.returnBack();
         })
     }
 
     returnBack = () => {
-        const { data } = this.state;
-        this.props.onHandleChange('2',data);
+        const { data, selectedIndex } = this.state;
+        const indexData = data.filter( (filterItem,i) => i==selectedIndex);
+        const otherData = data.filter( (filterItem,i) => i!=selectedIndex);
+        const reorganizationData = [...indexData, ...otherData];
+        this.props.onHandleChange('2',reorganizationData);
     }
 }

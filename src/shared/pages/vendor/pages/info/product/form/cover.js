@@ -83,7 +83,7 @@ class Cover extends React.Component{
         data = [ 
             ...data, 
             { 
-                id: '',
+                id: "",
                 image: val, 
                 modified: nowDate.valueOf()
             }

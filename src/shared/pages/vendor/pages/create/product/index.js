@@ -1,9 +1,9 @@
 import React from 'react';
-import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Components
+import Step from './step';
 import Cover from './cover';
 import Basic from './basic';
 import Freight from './freight';
@@ -25,80 +25,104 @@ class Index extends React.Component{
         this.state = {
             open: false,
             popupMsg: "",
+            noteMSG: [],
             maxStep: 5,
             step: 1,
             id: "",
-            formObject : {
-                1: {
-                    name: "",
-                    categories: [],
-                    price: 0,
-                    priceSale: 0
-                },
-                2: [],
-                3: [],
-                4: [],
-                5: []
-            },
-            categoriesItem: []
+            formObject: {},
+            categoriesItem: [],
+            required: {
+                1: ['name','categories','price'],
+                2: ['images'],
+                3: ['spec'],
+                4: ['descriptions'],
+                5: ['deliveries']
+            }
         }
     }
 
     render(){
-        const { open, popupMsg, id, formObject, maxStep, step, categoriesItem } = this.state;
-        const returnStep = () => {
-            let returnView = [];
-            for( let i=1 ;i<=maxStep ; i++){
-                returnView.push( 
-                    <li key={i} className={`${step==i}`}>
-                        <span className={`step-number`}>{i}</span>
-                        <div className="prompt">{ lang['zh-TW']['create']['product'][i] }</div>
-                    </li>
-                );
-            }
-            return returnView;
-        }
+        const { 
+            open,
+            noteMSG,
+            popupMsg,
+            id,
+            formObject,
+            step, 
+            categoriesItem 
+        } = this.state;
 
         return(
             <React.Fragment>
-                <div className="step-wrap">
-                    <ul>
-                        { returnStep() }
-                    </ul>
-                </div>
+                <Step 
+                    maxStep= { this.state.maxStep }
+                    step= { this.state.step }
+                />
 
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     {
                         step==1 &&
-                            <Basic data={formObject['1']} categoriesItem={categoriesItem} onHandleChange={this.handleChange.bind(this)}/>
+                            // 基本
+                            <Basic 
+                                categoriesItem={categoriesItem} 
+                                data={ formObject[step]==undefined? null:formObject[step] } 
+                                onHandleChange={this.handleChange.bind(this)}
+                            />
                     }
                     {
                         step==2 &&
-                            <Cover id={id} data={formObject['2']} onHandleChange={this.handleChange.bind(this)}/>
+                            // 主圖
+                            <Cover 
+                                id={id} 
+                                data={ formObject[step]==undefined? null:formObject[step]['images'] } 
+                                onHandleChange={this.handleChange.bind(this)}
+                            />
                     }
                     {
                         step==3 &&
-                            <Format data={formObject['3']} onHandleChange={this.handleChange.bind(this)}/>
+                            // 規格
+                            <Format 
+                                data={ formObject[step]==undefined? []:formObject[step]['spec'] } 
+                                onHandleChange={this.handleChange.bind(this)}
+                            />
                     }
                     {
                         step==4 &&
-                            <Depiction data={formObject['4']} onHandleChange={this.handleChange.bind(this)}/>
+                            // 敘述
+                            <Depiction
+                                data={ formObject[step]==undefined? []:formObject[step]['descriptions'] } 
+                                onHandleChange={this.handleChange.bind(this)}
+                            />
                     }
                     {
                         step==5 &&
-                            <Freight data={formObject['5']} onHandleChange={this.handleChange.bind(this)}/>
+                            // 運送方式
+                            <Freight 
+                                data={ formObject[step]==undefined? []:formObject[step]['spdeliveriesec'] } 
+                                onHandleChange={this.handleChange.bind(this)}
+                            />
+                    }
+                    {
+                        noteMSG.length!=0 &&
+                            <div className="admin-form-msg">
+                                {
+                                    noteMSG.map( (msgItem,i) => {
+                                        return msgItem;
+                                    })
+                                }
+                            </div>
                     }
                     <div className="admin-form-action">
                         <ul>
                             <li>
                                 <button type="button" className="cancel" onClick={this.handleCancel.bind(this)}>取消</button>
                             </li>
-                            {
+                            {/* {
                                 step!=1 &&
                                     <li>
                                         <button type="button" onClick={ this.onPrevious.bind(this) }>{lang['zh-TW']['Previous']}</button>
                                     </li>
-                            }
+                            } */}
                             <li>
                                 <button type="submit">{ step!=5? lang['zh-TW']['Submit Next'] : lang['zh-TW']['Finish'] }</button>
                             </li>
@@ -195,29 +219,63 @@ class Index extends React.Component{
                 break;
         }
 
-        this.props.dispatch( createProduct( type, formObject[step], step ) ).then( res => {
-            switch( res['status'] ){
-                case 200:
-                    if( step==1 ){
-                        this.setState({
-                            step: step==maxStep? maxStep : step+1,
-                            id: res['data']['id']
-                        })
-                    }else{
-                        if( step>=5 ){
+        const checkRequired = this.checkRequired(step,formObject);
+
+        if( checkRequired ){
+            this.props.dispatch( createProduct( type, formObject[step], step ) ).then( res => {
+                switch( res['status'] ){
+                    case 200:
+                        if( step==1 ){
                             this.setState({
-                                open: true,
-                                popupMsg: '新增成功'
+                                step: step==maxStep? maxStep : step+1,
+                                noteMSG: [],
+                                id: res['data']['id']
                             })
                         }else{
-                            this.setState({
-                                step: step==maxStep? maxStep : step+1
-                            })
+                            if( step>=5 ){
+                                this.setState({
+                                    open: true,
+                                    popupMsg: '新增成功'
+                                })
+                            }else{
+                                this.setState({
+                                    step: step==maxStep? maxStep : step+1
+                                })
+                            }
                         }
-                    }
-                    break;
+                        break;
+                }
+            });
+        }
+    }
+
+    checkRequired = ( step,formObject ) => {
+        const { required } = this.state;
+        const checkRequired = required[step].filter( (filterItem,i) => {
+
+            if( step==1 ){
+                if( filterItem=='categories' ){
+                    return formObject[step][filterItem].length==0;
+                }else{
+                    return formObject[step][filterItem]=='';
+                }
+            }else{
+                return formObject[step][filterItem].length==0;
             }
-        });
+        })
+
+        if( checkRequired.length==0 ){
+            return true;
+        }else{
+            this.setState({
+                noteMSG: checkRequired.map( (key,i) => {
+                    return (
+                        <div key={key}>{ lang['zh-TW']['note'][`${key} required`] }</div>
+                    )
+                })
+            })
+            return false;
+        }
     }
 }
 

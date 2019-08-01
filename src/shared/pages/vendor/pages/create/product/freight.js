@@ -14,21 +14,17 @@ class Freight extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            data : props.data,
+            deliveries: [],
+            data : props.data || [],
             tableHeadKey : [
                 {
-                    key: 'id',
+                    key: 'deliveryID',
                     type: 'select',
                     title: '貨運名稱',
-                    options: [
-                        {
-                            "id": "001",
-                            "name": "123"
-                        }
-                    ]
+                    options: []
                 },
                 {
-                    key: 'cost',
+                    key: 'deliveryCost',
                     type: 'number',
                     title: '費用',
                     className: 'number'
@@ -71,11 +67,14 @@ class Freight extends React.Component{
     componentDidMount() {
         const { tableHeadKey } = this.state;
         this.props.dispatch( deliveries() ).then( res => {
-            tableHeadKey[0]['option'] = res['data'];
+            tableHeadKey[0]['options'] = res['data'];
             this.setState({
+                deliveries: res['data'],
                 tableHeadKey
             })
-        })
+        });
+        
+        this.returnBack();
     }
 
     onChangeData = ( data ) => {
@@ -87,12 +86,15 @@ class Freight extends React.Component{
     }
     
     addCondition = () => {
-        let { data } = this.state;
+        const nowDate = new Date();
+        let { deliveries, data } = this.state;
         data = [
             ...data, 
             {
-                id: 0,
-                cost: 0
+                id: "",
+                deliveryID: deliveries[0]['id'],
+                deliveryCost: 0,
+                modified: nowDate.valueOf()
             }
         ]
         this.setState({
@@ -104,6 +106,9 @@ class Freight extends React.Component{
 
     returnBack = () => {
         const { data } = this.state;
+
+
+
         this.props.onHandleChange('5',data);
     }
 }

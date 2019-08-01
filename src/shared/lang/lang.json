@@ -36,7 +36,14 @@
             "invoice required": "統一編號必填",
             "phone required": "聯絡電話必填",
             "contactor required": "聯絡人必填",
-            "company required": "公司名稱必填"
+            "company required": "公司名稱必填",
+            "name required": "名稱必填",
+            "categories required": "類別必填",
+            "price required": "售價必填",
+            "images required": "圖片必需",
+            "spec required": "規格必需",
+            "descriptions required": "敘述必需",
+            "deliveries required": "運送必需"
         },
         "err": {
             "ID or password error.": "帳號或密碼錯誤",
@@ -78,7 +85,14 @@
             "invoice required": "Invoice required",
             "phone required": "Tel required",
             "contactor required": "Name required",
-            "company required": "Company name required"
+            "company required": "Company name required",
+            "name required": "Name required",
+            "categories required": "Categories required",
+            "price required": "Price required",
+            "images required": "Images required",
+            "spec required": "Spec required",
+            "descriptions required": "Descriptions required",
+            "deliveries required": "Deliveries required"
         },
         "err": {
             "ID or password error.": "ID or password error.",

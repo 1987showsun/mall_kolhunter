@@ -93,7 +93,7 @@ class Freight extends React.Component{
             {
                 id: "",
                 deliveryID: deliveries[0]['id'],
-                deliveryCost: 0,
+                deliveryCost: "0",
                 modified: nowDate.valueOf()
             }
         ]

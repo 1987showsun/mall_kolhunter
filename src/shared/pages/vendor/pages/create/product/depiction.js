@@ -6,7 +6,7 @@ export default class Depiction extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            data : props.data
+            data : props.data || []
         }
     }
 
@@ -54,6 +54,10 @@ export default class Depiction extends React.Component{
                 </section>
             </React.Fragment>
         );
+    }
+
+    componentDidMount() {
+        this.returnBack();
     }
 
     removeItem = (idx) => {

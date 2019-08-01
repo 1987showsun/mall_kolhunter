@@ -10,7 +10,7 @@ export default class Format extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            data: props.data,
+            data: props.data || [],
             tableHeadKey : [
                 {
                     key: 'name',
@@ -61,6 +61,10 @@ export default class Format extends React.Component{
                 </section>
             </React.Fragment>
         );
+    }
+
+    componentDidMount() {
+        this.returnBack();
     }
 
     onChangeData = ( data ) => {

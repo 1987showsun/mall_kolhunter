@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import AvatarEditor from 'react-avatar-editor';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus, faTimes, faCheck }from '@fortawesome/free-solid-svg-icons';
@@ -12,16 +13,21 @@ export default class Index extends React.Component{
             cropperOpen: false,
             img: null,
             zoom: 1,
-            croppedImg: "http://www.fillmurray.com/400/400"
+            width: 300,
+            height: 300
         }
     }
 
     static getDerivedStateFromProps(props){
         return{
+            
         }
     }
 
     render(){
+
+        const { width, height } = this.state;
+
         return(
             <React.Fragment>
                 <label htmlFor="addCover" className="cover-img virtual">
@@ -41,8 +47,8 @@ export default class Index extends React.Component{
                             <AvatarEditor
                                 ref={this.setEditorRef.bind(this)}
                                 image={this.state.img}
-                                width={300}
-                                height={300}
+                                width={width}
+                                height={height}
                                 border={0}
                                 color={[255, 255, 255, 0.6]} // RGBA
                                 scale={this.state.zoom}
@@ -92,9 +98,30 @@ export default class Index extends React.Component{
     handleFileChange(e) {
         window.URL = window.URL || window.webkitURL;
         let url = window.URL.createObjectURL(e.target.files[0]);
+        let win_w = this.state.width;
+        let win_h = this.state.height;
+
+        const getWindowSize = () => {
+            win_w = $(window).width();
+            win_h = $(window).height();
+            if( win_w>win_h ){
+                win_w = win_h = win_h * 0.8;
+            }else{
+                win_h = win_w = win_w * 0.8;
+            }
+            this.setState({
+                width: win_w,
+                height: win_h
+            })
+        }
+        getWindowSize();
+        $(window).resize(()=>{
+            getWindowSize
+        });
+
         this.setState({
             img: url,
-            cropperOpen: true
+            cropperOpen: true,
         })
     }
 

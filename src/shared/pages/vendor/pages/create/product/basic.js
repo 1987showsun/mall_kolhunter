@@ -6,8 +6,15 @@ export default class Product extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            required: ['name','categories','price'],
             categoriesItem: props.categoriesItem,
-            data: props.data,
+            data: props.data || {
+                id: "",
+                name: "",
+                categories: [],
+                price: 0,
+                priceSale: 0
+            },
             categoriesLevel1: {
                 id: "",
                 title: ""
@@ -103,6 +110,11 @@ export default class Product extends React.Component{
         );
     }
 
+    componentDidMount() {
+        const { required, data } = this.state;
+        this.props.onHandleChange('1',data);
+    }
+
     handleChange = (e) => {
         let { data } = this.state;
         let name = e.target.name;
@@ -155,7 +167,19 @@ export default class Product extends React.Component{
     }
 
     returnBack = () => {
-        const { data } = this.state;
+        const { required, data } = this.state;
+        const checkRequired = required.filter( (filterItem,i) => {
+            if( filterItem!='categories' ){
+                if( data['categories'].length<=0 ){
+                    return filterItem;
+                }
+            }else{
+                return data[filterItem]=="";
+            }
+        })
+
+        console.log( checkRequired );
+
         this.props.onHandleChange('1',data);
     }
 }

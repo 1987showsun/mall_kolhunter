@@ -79,8 +79,8 @@ class Format extends React.Component{
     }
 
     addCondition = () => {
+        const nowDate = new Date();
         let { data } = this.state;
-        let nowDate = new Date();
         data = [
             ...data, 
             {

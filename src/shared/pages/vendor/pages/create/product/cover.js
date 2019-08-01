@@ -13,7 +13,7 @@ export default class Cover extends React.Component{
         this.state = {
             id: props.id,
             selectedIndex: 0,
-            data: props.data
+            data: props.data || []
         }
     }
 
@@ -63,6 +63,10 @@ export default class Cover extends React.Component{
                 </section>
             </React.Fragment>
         );
+    }
+
+    componentDidMount() {
+        this.returnBack();
     }
 
     onChangeData = (val) => {

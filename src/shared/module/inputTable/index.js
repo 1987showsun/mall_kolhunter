@@ -1,7 +1,7 @@
 import React from "react";
 import CurrencyFormat from 'react-currency-format';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPlus, faTrashAlt }from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Stylesheets
 import './style.scss';
@@ -71,11 +71,11 @@ export default class InputTable extends React.Component{
                                                             {
                                                                 headItem['type'] == 'select' &&
                                                                     <div className="input-box">
-                                                                        <select name={headItem['key']} value={bodyItem[headItem['key']]} onChange={this.handleChange.bind(this,b_i)}>
+                                                                        <select name={headItem['key']} value={ bodyItem[headItem['key']] || headItem['options'][0]['value'] } onChange={this.handleChange.bind(this,b_i)}>
                                                                             {
                                                                                 headItem['options'].length!=0? (
                                                                                     headItem['options'].map( (optionItem,o_i) => {
-                                                                                        return(<option key={optionItem['value'] || o_i } value={optionItem['value']}>{optionItem['name']}</option>)
+                                                                                        return(<option key={optionItem['value'] } value={optionItem['value']}>{optionItem['name']}</option>)
                                                                                     })
                                                                                 ):(
                                                                                     <option>暫無任何可用運送方式</option>

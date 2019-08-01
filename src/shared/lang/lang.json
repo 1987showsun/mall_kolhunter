@@ -16,6 +16,7 @@
         "Previous": "上一步",
         "This email has been registed as a vendor in the past": "此信箱已註冊，請使用其他信箱",
         "Vendor siginup success": "申請成功，我們將會寄發認證信件至申請信箱",
+        "Are you sure you want to delete this particular product": "您確定要刪除此特定產品嗎？",
         "create": {
             "product": {
                 "1": "基本資料",
@@ -67,6 +68,7 @@
         "Previous": "Previous",
         "This email has been registed as a vendor in the past" : "This email has been registed as a vendor in the past",
         "Vendor siginup success": "Application is successful, we will send a letter to the application box.",
+        "Are you sure you want to delete this particular product": "Are you sure you want to delete this particular product？",
         "create": {
             "product": {
                 "1": "Info",

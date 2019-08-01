@@ -12,6 +12,22 @@ export function listProduct( query ) {
         const method = 'get';
         const url = `${API()['myvendor']['product']['categories']}${query}`;
         Axios({method,url,data: {}}).then( res => {
+
+            const categoryToText = ( arr ) => {
+                let text = "";
+                arr.forEach(( item,i ) => {
+                    if( i==0 ){
+                        text = item['title'];
+                    }else if( i>=arr.length-1 ){
+                        text = `${text}/${item['title']}`;
+                    }else{
+                        text = `${item['title']}/${text}`;
+                    }
+                    //text = i<=arr.length-1? `${item['title']}/${text}` : `${item['title']}${text}`
+                });
+                return text;
+            }
+
             const list = res['data']['list'].map( item => {
                 return {
                     id: item['id'],
@@ -19,6 +35,7 @@ export function listProduct( query ) {
                     cover: item['image'][0]!=undefined? item['image'][0]['image'] : "",
                     name: item['name'],
                     brand: item['brand']!=undefined? item['brand'] : "N/A",
+                    category: item['category']!=undefined? ( categoryToText(item['category']) ) :( "N/A"),
                     store: item['store']!=undefined? item['store'] : 0,
                     price: item['price']!=undefined? item['price'] : 0,
                     sellPrice: item['sellPrice']!=undefined? item['sellPrice'] : item['price'],
@@ -56,7 +73,15 @@ export function reviewlistProduct( query ){
     return (dispatch) => {
         const method = 'get';
         const url = `${API()['myvendor']['product']['review']}${query}`;
-        console.log( method,url );
+    }
+}
+
+// 刪除商品
+export function deleteProduct( id ){
+    return (dispatch)=>{
+        const method = 'delete';
+        const url = `${API()['myvendor']['product']['delete']}`;
+        return Axios({method,url,data: {id}});
     }
 }
 

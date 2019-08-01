@@ -50,6 +50,7 @@ export default function API(){
                 },
                 'put': `${API_ADDRESS()}/v1/vendor/product`,
                 'info': `${API_ADDRESS()}/v1/vendor/product`, // 
+                'delete': `${API_ADDRESS()}/v1/vendor/product`, //
                 'putsale': `${API_ADDRESS()}/v1/vendor/putsale`, // put 廠商商品上架 { product_id }
                 'discontinue': `${API_ADDRESS()}/v1/vendor/discontinue`, // put 廠商商品下架 { product_id }
             },

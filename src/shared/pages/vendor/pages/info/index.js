@@ -28,7 +28,7 @@ export default class Index extends React.Component{
     render(){
 
         const { components }= this.state;
-        const { match,location }= this.props;
+        const { match,location,history }= this.props;
         let _type= match['params']['type'] || 'product';
         let _mainTitle = lang['zh-TW'][ components[_type]['mainTitle'] ];
         let Component = components[_type]['component'];
@@ -40,6 +40,7 @@ export default class Index extends React.Component{
                 </section>
                 <Component 
                     match= {match}
+                    history= {history}
                     location= {location}
                 />
             </React.Fragment>

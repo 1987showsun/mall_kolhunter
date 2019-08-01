@@ -3,6 +3,7 @@ import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 //Compoents
+import Confirm from '../../../../../module/confirm';
 import Table from '../../../../../module/table';
 import Cover from './cover';
 import Basic from './basic';
@@ -11,8 +12,11 @@ import Depiction from './depiction';
 import Format from './format';
 
 // Actions
-import { infoProduct } from '../../../../../actions/vendor';
+import { infoProduct, deleteProduct } from '../../../../../actions/vendor';
 import { deliveries, categories } from '../../../../../actions/common';
+
+// Lang
+import lang from '../../../../../lang/lang.json';
 
 // Demo
 const demoData = [
@@ -47,6 +51,8 @@ class Product extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            open: false,
+            popupMsg: "",
             deliveries: [],
             categories: [],
             tableHeadKey : [
@@ -88,7 +94,15 @@ class Product extends React.Component{
 
     render(){
 
-        const { tableHeadKey, status, data, deliveries, categories } = this.state;
+        const { 
+            open,
+            popupMsg,
+            tableHeadKey, 
+            status, 
+            data, 
+            deliveries, 
+            categories 
+        } = this.state;
         // deliveries 運送方式
         // categories 類別
 
@@ -137,6 +151,32 @@ class Product extends React.Component{
                         tableBodyData={demoData}
                     />
                 </section>
+
+                <div className="admin-content-row" data-content="rigth" >
+                    {
+                        Object.keys(data).length!=0 &&
+                            <button 
+                                className="remove" 
+                                onClick={()=>
+                                    this.setState({
+                                        open: true,
+                                        popupMsg: lang['zh-TW']['Are you sure you want to delete this particular product']
+                                    })
+                                }
+                            >
+                                    刪除
+                                    <span className="p_name">{data['info']['name']}</span>
+                                    商品
+                            </button>
+                    }
+                </div>
+
+                <Confirm 
+                    open={open}
+                    container={popupMsg}
+                    onCancel={this.handleCancel.bind(this)}
+                    onConfirm={this.handleConfirm.bind(this)}
+                />
             </React.Fragment>
         );
     }
@@ -161,6 +201,32 @@ class Product extends React.Component{
             this.setState({
                 categories: res['data']
             })
+        });
+    }
+
+    handleCancel = () => {
+        this.setState({
+            open: false,
+            popupMsg: ""
+        })
+    }
+
+    handleConfirm = () => {
+        const { match } = this.props;
+        const { status } = this.state;
+        const id = match['params']['id'];
+        this.props.dispatch( deleteProduct(id) ).then( res => {
+            if( res['data']['message']=="success" ){
+                if( status=='none-auth' ){
+                    this.props.history.push('/myvendor/categories/product/review?page=1&sort=desc&sortBy=created&limit=30&status=none-auth');
+                }else{
+                    this.props.history.push('/myvendor/categories/product?page=1&sort=desc&sortBy=created&limit=30&status=auth,non-display');
+                }
+                this.setState({
+                    open: false,
+                    popupMsg: ""
+                })
+            }
         });
     }
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 //Components
@@ -45,6 +44,11 @@ class Product extends React.Component{
                     key: 'brand',
                     type: 'text',
                     title: '品牌'
+                },
+                {
+                    key: 'category',
+                    type: 'text',
+                    title: '分類'
                 },
                 {
                     key: 'store',

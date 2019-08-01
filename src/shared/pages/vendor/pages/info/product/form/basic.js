@@ -65,8 +65,8 @@ class Basic extends React.Component{
                     <li>
                         <label>* 商品分類</label>
                         <div>
-                            {
-                                status=="none-auth"? (
+                            {/* {
+                                status=="none-auth"? ( */}
                                     <React.Fragment>
                                         <div className="input-box select">
                                             <select name="categoriesLevel1" value={categoriesLevel1['id']} onChange={this.categoriesChange.bind(this)}>
@@ -101,10 +101,10 @@ class Basic extends React.Component{
                                             })
                                         }
                                     </React.Fragment>
-                                ):(
+                                {/* ):(
                                     renderCategories()
                                 )
-                            }
+                            } */}
                         </div>
                     </li>
                     <li>

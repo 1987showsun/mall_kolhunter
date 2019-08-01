@@ -41,7 +41,7 @@ class Product extends React.Component{
                     path: '/myvendor/info/product'
                 },
                 {
-                    key: 'categories',
+                    key: 'category',
                     type: 'text',
                     title: '分類'
                 },

@@ -11,7 +11,8 @@ export default function vendor(
         "successful_delivery": 10,
         "cancel": 4,
         "return": 2,
-        "list": []
+        "list": [],
+        "info": {}
     },action
 ){
     switch(action.type){
@@ -66,6 +67,13 @@ export default function vendor(
                 list: action.list
             }
             break;
+
+        case 'VENDOR_INFO':
+                state = {
+                    ...state,
+                    info: action.payload
+                }
+                break;
 
     }
     return state;

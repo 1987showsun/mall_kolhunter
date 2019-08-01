@@ -69,7 +69,8 @@ export default function API(){
             },
             'review': {
                 'categories': `${API_ADDRESS()}/v1/vendor/product/list`,
-            }
+            },
+            'vinfo': `${API_ADDRESS()}/v1/vendor/info`
         },
         'account': {
             

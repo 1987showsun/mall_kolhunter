@@ -1,22 +1,33 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import FormBasic from './form/basic';
 
-export default class Index extends React.Component{
+class Index extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
             update: false,
+            data: props.info
+        }
+    }
+
+    static getDerivedStateFromProps( props, state){
+        if( props.info!=state.data ){
+            return{
+                data: props.info
+            }
         }
     }
 
     render(){
 
-        const { update } = this.state;
+        const { update, data } = this.state;
+        console.log( data );
 
         return(
             <React.Fragment>
@@ -33,46 +44,62 @@ export default class Index extends React.Component{
                     </article>
                     {
                         !update? (
-                            <ul className="table-row-list">
-                                <li>
-                                    <label>公司名稱</label>
-                                    <div className="">
-                                        數位軸股份有限公司
+                            Object.keys(data).length!=0 &&
+                                <React.Fragment>
+                                    <div>
+                                        <h3>一般</h3>
                                     </div>
-                                </li>
-                                <li>
-                                    <label>統一編號</label>
-                                    <div className="">
-                                        22222222
+                                    <ul className="table-row-list">
+                                        <li>
+                                            <label>公司名稱</label>
+                                            <div className="">{data['company']}</div>
+                                        </li>
+                                        <li>
+                                            <label>統一編號</label>
+                                            <div className="">{data['invoice']}</div>
+                                        </li>
+                                        <li>
+                                            <label>聯絡人</label>
+                                            <div className="">{data['contactor']}</div>
+                                        </li>
+                                        <li>
+                                            <label>聯絡電話</label>
+                                            <div className="">{data['phone']}</div>
+                                        </li>
+                                        <li>
+                                            <label>聯絡信箱</label>
+                                            <div className="">{data['email']}</div>
+                                        </li>                        
+                                        <li>
+                                            <label>公司地址</label>
+                                            <div className="">{`${data['zipcode']} ${data['city']}${data['district']}${data['address']}`}</div>
+                                        </li>
+                                    </ul>
+                                    <div>
+                                        <h3>匯 / 收款銀行資料</h3>
                                     </div>
-                                </li>
-                                <li>
-                                    <label>聯絡人</label>
-                                    <div className="">
-                                        Sam
-                                    </div>
-                                </li>
-                                <li>
-                                    <label>聯絡電話</label>
-                                    <div className="">
-                                        0912-123-123
-                                    </div>
-                                </li>
-                                <li>
-                                    <label>聯絡信箱</label>
-                                    <div className="">
-                                        Sam@dpc.tw
-                                    </div>
-                                </li>                        
-                                <li>
-                                    <label>公司地址</label>
-                                    <div className="">
-                                        台北市園山區長安西路一段6號3樓
-                                    </div>
-                                </li>
-                            </ul>
+                                    <ul className="table-row-list">
+                                        <li>
+                                            <label>銀行名稱</label>
+                                            <div className="">{data['bankName']}</div>
+                                        </li>
+                                        <li>
+                                            <label>銀行代碼</label>
+                                            <div className="">{data['bankCode']}</div>
+                                        </li>
+                                        <li>
+                                            <label>分行</label>
+                                            <div className="">{data['bankBranch']}</div>
+                                        </li>
+                                        <li>
+                                            <label>帳號</label>
+                                            <div className="">{data['bankAccount']}</div>
+                                        </li>
+                                    </ul>
+                                </React.Fragment>
                         ):(
-                            <FormBasic 
+                            <FormBasic
+                                data={data}
                                 returnCancel={ this.returnCancel.bind(this) }
                             />
                         )
@@ -92,3 +119,11 @@ export default class Index extends React.Component{
         })
     }
 }
+
+const mapStateToProps = state => {
+    return{
+        info: state.vendor.info
+    }
+}
+
+export default connect( mapStateToProps )( Index );

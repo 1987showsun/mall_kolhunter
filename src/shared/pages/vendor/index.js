@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import Nav from './common/nav';
 import Header from './common/header';
 
+// Actions
+import { vinfo } from '../../actions/vendor';
+
 //Stylesheets
 import './public/css/style.scss';
 
@@ -35,6 +38,8 @@ class Index extends React.Component{
         if( token=='' || token==null || token==undefined ){
             this.props.history.push('/vendor');
         }
+
+        this.props.dispatch( vinfo() );
     }
 
     render(){

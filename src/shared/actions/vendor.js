@@ -85,6 +85,22 @@ export function deleteProduct( id ){
     }
 }
 
+// 廠商資料
+export function vinfo( method, formObject ){
+    return (dispatch)=>{
+        method = method || 'get';
+        const url = `${API()['myvendor']['vinfo']}`;
+        const data = formObject || {};
+        return Axios({method,url,data}).then( res => {
+            dispatch({
+                type: "VENDOR_INFO",
+                payload: res['data']
+            })
+            return res;
+        });
+    }
+}
+
 export function incListOrder( form ) {
     return (dispatch) => {
 

@@ -16,7 +16,9 @@ export default class Index extends React.Component{
                             <Cover />
                         </div>
                         <div className="container-row">
-                            123
+                            <div className="detail-cover-wrap">
+                                container
+                            </div>
                         </div>
                     </section>
                 </div>

@@ -10,7 +10,7 @@ export default class Store extends React.Component{
 
         const settings = {
             className: "slider-nromal store-wrap",
-            dots: true,
+            dots: false,
             infinite: false,
             speed: 500,
             slidesToShow: 6,
@@ -21,34 +21,28 @@ export default class Store extends React.Component{
                 breakpoint: 1280,
                 settings: {
                   slidesToShow: 5,
-                  slidesToScroll: 5,
-                  infinite: true,
-                  dots: true
+                  slidesToScroll: 5
                 }
               },
               {
                 breakpoint: 1024,
                 settings: {
                   slidesToShow: 4,
-                  slidesToScroll: 4,
-                  infinite: true,
-                  dots: true
+                  slidesToScroll: 4
                 }
               },
               {
                 breakpoint: 720,
                 settings: {
                   slidesToShow: 3,
-                  slidesToScroll: 3,
-                  initialSlide: 3
+                  slidesToScroll: 3
                 }
               },
               {
                 breakpoint: 600,
                 settings: {
                   slidesToShow: 2,
-                  slidesToScroll: 2,
-                  initialSlide: 2
+                  slidesToScroll: 2
                 }
               }
             ]

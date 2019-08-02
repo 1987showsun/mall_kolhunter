@@ -11,6 +11,7 @@ export default class Category extends React.Component{
             className: "category-wrap",
             centerMode: false,
             infinite: false,
+            dots: true,
             centerPadding: "60px",
             slidesToShow: 1,
             speed: 500,

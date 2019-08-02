@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faSearch }from '@fortawesome/free-solid-svg-icons';
 
 export default class Search extends React.Component{
 
@@ -28,7 +30,10 @@ export default class Search extends React.Component{
                                 <option value="2">網紅名稱</option>
                             </select>
                         </div>
-                        <button type="submit">搜尋</button>
+                        <button type="submit">
+                            <span>搜尋</span>
+                            <FontAwesomeIcon icon={faSearch} />
+                        </button>
                     </div>
                 </form>
                 <div className="hito-search">

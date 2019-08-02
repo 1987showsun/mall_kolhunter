@@ -30,7 +30,7 @@ class Header extends React.Component{
             <header data-content="center">
                 <section className="container">
                     <div className="logo-block">
-                        <img src={Logo} alt="" title="" />
+                        <Link to="/"><img src={Logo} alt="" title="" /></Link>
                     </div>
                     <Search />
                     <div className="header-nav-block">

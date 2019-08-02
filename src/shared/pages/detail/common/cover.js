@@ -99,8 +99,8 @@ export default class Cover extends React.Component{
                     </div>
                     <div className="detail-cover-row cover-action">
                         <ul>
-                            <li><button type="button" className="add-cart">加入購物車</button></li>
-                            <li><button type="button" className="direct-purchase">直接購買</button></li>
+                            <li className="add-cart-li"><button type="button" className="add-cart">加入購物車</button></li>
+                            <li className="direct-purchase-li"><button type="button" className="direct-purchase">直接購買</button></li>
                         </ul>
                     </div>
                 </div>

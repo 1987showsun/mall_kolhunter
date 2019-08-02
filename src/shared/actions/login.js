@@ -58,7 +58,7 @@ export function resetPassword( type, formObject ){
     return (dispatch) => {
         const url = API()['reset_password'][type];
         type = type = type || 'account';
-        return Axios({ method: 'put', url, data: formObject });
+        return Axios({ method: 'put', url, data: formObject }).catch( error => {return error});
     }
 }
 

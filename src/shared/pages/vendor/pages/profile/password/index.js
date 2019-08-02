@@ -40,6 +40,8 @@ class Index extends React.Component{
             msg 
         } = this.state;
 
+        console.log( open, method, popupMsg );
+
         return(
             <React.Fragment>
                 <section className="admin-content-row">
@@ -110,6 +112,7 @@ class Index extends React.Component{
     handleCancel = () => {
         this.setState({
             open: false,
+            method: 'confirm',
             popupMsg: "",
             formObject: {
                 oldPWD: "",
@@ -120,18 +123,32 @@ class Index extends React.Component{
     }
 
     handleConfirm = () => {
-        const { formObject } = this.state;
+        const { formObject,method } = this.state;
         const checkFormat = PWD({password: formObject['newPWD'], confirm: formObject['confirmPWD'] });
-        if( !checkFormat['status'] ){
-            // 錯誤
-            this.setState({
-                msg: lang['zh-TW']['note'][checkFormat['msg']]
-            })
+        if( method!='alert' ){
+            if( !checkFormat['status'] ){
+                // 錯誤
+                this.setState({
+                    msg: lang['zh-TW']['note'][checkFormat['msg']]
+                })
+            }else{
+                // 檢查OK
+                this.props.dispatch( resetPassword('vendor',formObject) ).then( res => {
+                    if( res['status']==200 ){
+                        this.setState({
+                            method: 'alert',
+                            popupMsg: lang['zh-TW']['reset password success']
+                        })
+                    }else{
+                        this.setState({
+                            method: 'alert',
+                            popupMsg: lang['zh-TW'][ res['response']['data']['status_text'] ]
+                        })
+                    }
+                })
+            }
         }else{
-            // 檢查OK
-            this.props.dispatch( resetPassword('vendor',formObject) ).then( res => {
-                console.log( res );
-            })
+            this.handleCancel();
         }
     }
 }

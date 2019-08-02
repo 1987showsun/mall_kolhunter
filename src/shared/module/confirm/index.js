@@ -16,14 +16,12 @@ export default class Index extends React.Component{
     }
 
     static getDerivedStateFromProps(props, state) {
-        if( props.open != state.open ){
-            return{
-                open : props.open,
-                header: props.header,
-                container: props.container
-            }
+        return{
+            method: props.method || 'confirm',
+            open : props.open,
+            header: props.header,
+            container: props.container
         }
-        return null;
     }
 
     render(){

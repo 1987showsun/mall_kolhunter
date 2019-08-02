@@ -1,13 +1,26 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+// Components
+import Confirm from '../../../../../module/confirm';
+
+// Actions
+import { resetPassword } from '../../../../../actions/login';
 
 // Javascript
 import { PWD } from '../../../../../public/javascripts/checkFormat';
 
-export default class Index extends React.Component{
+// Lang
+import lang from '../../../../../lang/lang.json';
+
+class Index extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            open: false,
+            method: 'confirm',
+            popupMsg: "",
             formObject: {
                 oldPWD: "",
                 newPWD: "",
@@ -19,7 +32,13 @@ export default class Index extends React.Component{
 
     render(){
 
-        const { formObject, msg } = this.state;
+        const { 
+            open,
+            method,
+            popupMsg,
+            formObject, 
+            msg 
+        } = this.state;
 
         return(
             <React.Fragment>
@@ -60,6 +79,13 @@ export default class Index extends React.Component{
                         </ul>
                     </form>
                 </section>
+                <Confirm 
+                    open={open}
+                    method={method}
+                    container={popupMsg}
+                    onCancel={this.handleCancel.bind(this)}
+                    onConfirm={this.handleConfirm.bind(this)}
+                />
             </React.Fragment>
         );
     }
@@ -75,15 +101,45 @@ export default class Index extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
+        this.setState({
+            open: true,
+            popupMsg: lang['zh-TW']['Are you sure you want to change your password']
+        })
+    }
+
+    handleCancel = () => {
+        this.setState({
+            open: false,
+            popupMsg: "",
+            formObject: {
+                oldPWD: "",
+                newPWD: "",
+                confirmPWD: ""
+            }
+        })
+    }
+
+    handleConfirm = () => {
         const { formObject } = this.state;
         const checkFormat = PWD({password: formObject['newPWD'], confirm: formObject['confirmPWD'] });
-        if( status ){
-            // 檢查OK
-        }else{
+        if( !checkFormat['status'] ){
             // 錯誤
             this.setState({
-                msg: checkFormat['msg']
+                msg: lang['zh-TW']['note'][checkFormat['msg']]
+            })
+        }else{
+            // 檢查OK
+            this.props.dispatch( resetPassword('vendor',formObject) ).then( res => {
+                console.log( res );
             })
         }
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Index );

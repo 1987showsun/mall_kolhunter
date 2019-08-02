@@ -1,6 +1,7 @@
 import axios from 'axios';
 import API from './apiurl';
 
+// 登入
 export function signin( form ) {
     const { type } = form;
     const url = API()['signin'][type];
@@ -25,6 +26,7 @@ export function signin( form ) {
     }
 }
 
+// 註冊
 export function signup( form ) {
     const { type } = form;
     const url = API()['signup'][type];
@@ -37,6 +39,7 @@ export function signup( form ) {
     }
 }
 
+// 登出
 export function signout( clearSessionStorageKey ) {
     return (dispatch) => {
         Object.keys( sessionStorage ).map( key => {
@@ -48,6 +51,18 @@ export function signout( clearSessionStorageKey ) {
     }
 }
 
+// 忘記密碼
+
+// 重設密碼
+export function resetPassword( type, formObject ){
+    return (dispatch) => {
+        const url = API()['reset_password'][type];
+        type = type = type || 'account';
+        return Axios({ method: 'put', url, data: formObject });
+    }
+}
+
+// 驗證
 export function verify( form ) {
     const { type } = form;
     const uri = API()['verify'][type];
@@ -66,6 +81,7 @@ export function verify( form ) {
     }
 }
 
+// 清除JWT Token
 export function clearJWTToken(){
     return (dispatch) => {
         dispatch({
@@ -77,8 +93,11 @@ export function clearJWTToken(){
 
 const Axios = ( api ) => {
     return axios({
-        method: 'post',
+        method: api['method'],
         url: api['url'],
-        data: api['data']
+        data: api['data'],
+        headers:{
+            Authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
+        }
     });
 }

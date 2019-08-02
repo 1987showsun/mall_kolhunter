@@ -36,6 +36,8 @@ class Basic extends React.Component{
                 bankName: props.data['bankName'],
                 bankCode: props.data['bankCode'],
                 bankBranch: props.data['bankBranch'],
+                //bankBranchCode: props.data['bankBranchCode'] || "",
+                bankAccountName: props.data['bankAccountName'] || "",
                 bankAccount: props.data['bankAccount'],
 
             },
@@ -52,13 +54,13 @@ class Basic extends React.Component{
             formObject
             , msg 
         } = this.state;
-        const areaCode = formObject['area_code'];
-        let areaCodeFormat = "";
-        area_code.map( item => {
-            if( item['code']==areaCode ){
-                areaCodeFormat = item['format'];
-            }
-        });
+        // const areaCode = formObject['area_code'];
+        // let areaCodeFormat = "";
+        // area_code.map( item => {
+        //     if( item['code']==areaCode ){
+        //         areaCodeFormat = item['format'];
+        //     }
+        // });
 
         return(
             <form onSubmit={this.handleSubmit.bind(this)}>
@@ -168,7 +170,7 @@ class Basic extends React.Component{
                         <label>銀行代號</label>
                         <div className="">
                             <div className="input-box">
-                                <input type="text" name="bankCode" value={formObject['bankCode']} onChange={this.handleChange.bind(this)} />
+                                <CurrencyFormat value={formObject['bankCode']} format="###" onValueChange={ value => this.returnTel(value['value'],'bankCode')}/>
                             </div>
                         </div>
                     </li>
@@ -177,6 +179,22 @@ class Basic extends React.Component{
                         <div className="">
                             <div className="input-box">
                                 <input type="text" name="bankBranch" value={formObject['bankBranch']} onChange={this.handleChange.bind(this)} />
+                            </div>
+                        </div>
+                    </li>
+                    {/* <li>
+                        <label>分行代碼</label>
+                        <div className="">
+                            <div className="input-box">
+                                <CurrencyFormat value={formObject['bankBranchCode']} onValueChange={ value => this.returnTel(value['value'],'bankBranchCode')}/>
+                            </div>
+                        </div>
+                    </li> */}
+                    <li>
+                        <label>帳號名稱</label>
+                        <div className="">
+                            <div className="input-box">
+                                <input type="text" name="bankAccountName" value={formObject['bankAccountName']} onChange={this.handleChange.bind(this)} />
                             </div>
                         </div>
                     </li>
@@ -211,16 +229,48 @@ class Basic extends React.Component{
     }
 
     handleChange = (e) => {
-        let { formObject } = this.state;
+
         const name = e.target.name;
         const val = e.target.value;
-        formObject = { ...formObject, [name]: val };
-        if( name=='area_code' ){
-            formObject = { ...formObject, phone: "" };
+        let { formObject } = this.state;
+
+        switch( name ){
+            case 'area_code':
+                formObject = { 
+                    ...formObject,
+                    [name]: val,
+                    phone: "" 
+                };
+                break;
+            
+            case 'city':
+                const districtArr = county_area[val];
+                const district = Object.keys(districtArr)[0];
+                const zipcode = districtArr[district];
+                formObject = { 
+                    ...formObject,
+                    [name]: val,
+                    zipcode: zipcode,
+                    district: district
+                };
+                break;
+            
+            case 'district':
+                formObject = { 
+                    ...formObject,
+                    [name]: val,
+                    zipcode: e.target.options[e.target.selectedIndex].dataset.zipcode 
+                };
+                break;
+
+            default:
+                formObject = { 
+                    ...formObject, 
+                    [name]: val 
+                };
+                break;
         }
-        if( name=='district' ){
-            formObject = { ...formObject, zipcode: e.target.options[e.target.selectedIndex].dataset.zipcode };
-        }
+
         this.setState({
             formObject
         })
@@ -246,7 +296,7 @@ class Basic extends React.Component{
         e.preventDefault();
         this.setState({
             open: true,
-            popupMsg: "asdasdasdasdasd"
+            popupMsg: lang['zh-TW']['Are you sure you want to modify it']
         })
     }
 
@@ -272,24 +322,7 @@ class Basic extends React.Component{
             })
         }else{
             // 填寫完整
-            const result = {
-                company: formObject['company'],
-                email: formObject['email'],
-                phone: formObject['phone'],
-                invoice: formObject['invoice'],
-                contactor: formObject['contactor'],
-                zipcode: formObject['zipcode'],
-                city: formObject['city'],
-                cityarea: formObject['district'],
-                address: formObject['address'],
-                bankName: formObject['bankName'],
-                bankCode: formObject['bankCode'],
-                bankBranch: formObject['bankBranch'],
-                bankAccountNo: formObject['bankAccount']
-            }
-            
-            
-            this.props.dispatch( vinfo('put',result) ).then( res => {
+            this.props.dispatch( vinfo('put',formObject) ).then( res => {
                 if( res['status']==200 ){
                     this.props.returnCancel()
                 }

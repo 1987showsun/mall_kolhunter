@@ -33,6 +33,10 @@ export default function API(){
             'account': `${API_ADDRESS()}/v1/member/reset_password`,
             'vendor': `${API_ADDRESS()}/v1/vendor/reset_password`
         },
+        'reset_password': {
+            'account': `${API_ADDRESS()}/v1/member/password`,
+            'vendor': `${API_ADDRESS()}/v1/vendor/password`
+        },
         'verify': {
             'account': `${API_ADDRESS()}/v1/member/verify`,
             'vendor': `${API_ADDRESS()}/v1/vendor/verify`

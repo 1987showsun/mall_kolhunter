@@ -17,6 +17,8 @@
         "This email has been registed as a vendor in the past": "此信箱已註冊，請使用其他信箱",
         "Vendor siginup success": "申請成功，我們將會寄發認證信件至申請信箱",
         "Are you sure you want to delete this particular product": "您確定要刪除此特定產品嗎？",
+        "Are you sure you want to modify it": "您確定要修改它嗎？",
+        "Are you sure you want to change your password": "您確定要更改密碼嗎？",
         "create": {
             "product": {
                 "1": "基本資料",
@@ -44,7 +46,12 @@
             "images required": "圖片必需",
             "spec required": "規格必需",
             "descriptions required": "敘述必需",
-            "deliveries required": "運送必需"
+            "deliveries required": "運送必需",
+            "password must contain at least six characters": "密碼必須至少包含六個字符",
+            "password must contain at least one number (0-9)": "密碼必須至少包含一個數字（0-9）",
+            "password must contain at least one lowercase letter (a-z)": "密碼必須至少包含一個小寫字母（a-z）",
+            "password must contain at least one uppercase letter (A-Z)": "密碼必須至少包含一個大寫字母（A-Z）",
+            "please check that you've entered and confirmed your password": "請檢查您是否輸入並確認了密碼"
         },
         "err": {
             "ID or password error.": "帳號或密碼錯誤",
@@ -68,7 +75,9 @@
         "Previous": "Previous",
         "This email has been registed as a vendor in the past" : "This email has been registed as a vendor in the past",
         "Vendor siginup success": "Application is successful, we will send a letter to the application box.",
-        "Are you sure you want to delete this particular product": "Are you sure you want to delete this particular product？",
+        "Are you sure you want to delete this particular product": "Are you sure you want to delete this particular product?",
+        "Are you sure you want to modify it": "Are you sure you want to modify it?",
+        "Are you sure you want to change your password": "Are you sure you want to change your password?",
         "create": {
             "product": {
                 "1": "Info",
@@ -94,7 +103,12 @@
             "images required": "Images required",
             "spec required": "Spec required",
             "descriptions required": "Descriptions required",
-            "deliveries required": "Deliveries required"
+            "deliveries required": "Deliveries required",
+            "password must contain at least six characters": "Password must contain at least six characters",
+            "password must contain at least one number (0-9)": "Password must contain at least one number (0-9)",
+            "password must contain at least one lowercase letter (a-z)": "Password must contain at least one lowercase letter (a-z)",
+            "password must contain at least one uppercase letter (A-Z)": "Password must contain at least one uppercase letter (A-Z)",
+            "please check that you've entered and confirmed your password": "Please check that you've entered and confirmed your password"
         },
         "err": {
             "ID or password error.": "ID or password error.",

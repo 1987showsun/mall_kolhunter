@@ -46,7 +46,7 @@ class Index extends React.Component{
                         !update? (
                             Object.keys(data).length!=0 &&
                                 <React.Fragment>
-                                    <div>
+                                    <div className="unit-head">
                                         <h3>一般</h3>
                                     </div>
                                     <ul className="table-row-list">
@@ -75,7 +75,7 @@ class Index extends React.Component{
                                             <div className="">{`${data['zipcode']} ${data['city']}${data['district']}${data['address']}`}</div>
                                         </li>
                                     </ul>
-                                    <div>
+                                    <div className="unit-head">
                                         <h3>匯 / 收款銀行資料</h3>
                                     </div>
                                     <ul className="table-row-list">
@@ -90,6 +90,14 @@ class Index extends React.Component{
                                         <li>
                                             <label>分行</label>
                                             <div className="">{data['bankBranch']}</div>
+                                        </li>
+                                        {/* <li>
+                                            <label>分行代碼</label>
+                                            <div className="">{data['bankBranchCode']}</div>
+                                        </li> */}
+                                        <li>
+                                            <label>帳戶名稱</label>
+                                            <div className="">{data['bankAccountName']}</div>
                                         </li>
                                         <li>
                                             <label>帳號</label>

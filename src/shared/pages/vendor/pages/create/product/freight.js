@@ -67,9 +67,17 @@ class Freight extends React.Component{
     componentDidMount() {
         const { tableHeadKey } = this.state;
         this.props.dispatch( deliveries() ).then( res => {
-            tableHeadKey[0]['options'] = res['data'];
+
+            const options = res['data'].map( (item,i)=> {
+                return{
+                    value: item['id'],
+                    name: item['name']
+                }
+            })
+            tableHeadKey[0]['options'] = options;
+
             this.setState({
-                deliveries: res['data'],
+                deliveries: options,
                 tableHeadKey
             })
         });
@@ -87,12 +95,13 @@ class Freight extends React.Component{
     
     addCondition = () => {
         const nowDate = new Date();
-        let { deliveries, data } = this.state;
+        const { deliveries } = this.state;
+        let { data } = this.state;
         data = [
             ...data, 
             {
                 id: "",
-                deliveryID: deliveries[0]['id'],
+                deliveryID: deliveries[0]['value'],
                 deliveryCost: 0,
                 modified: nowDate.valueOf()
             }
@@ -106,9 +115,6 @@ class Freight extends React.Component{
 
     returnBack = () => {
         const { data } = this.state;
-
-
-
         this.props.onHandleChange('5',data);
     }
 }

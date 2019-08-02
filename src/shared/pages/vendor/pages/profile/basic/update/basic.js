@@ -26,20 +26,19 @@ class Basic extends React.Component{
                 company : props.data['company'],
                 email: props.data['email'],
                 //area_code: area_code['0']['code'],
-                phone: props.data['phone'],
-                invoice: props.data['invoice'],
-                contactor: props.data['contactor'],
-                zipcode: props.data['zipcode'],
-                city: props.data['city']==""? city : props.data['city'],
+                phone: props.data['phone'] || "",
+                invoice: props.data['invoice'] || "",
+                contactor: props.data['contactor'] || "",
+                zipcode: props.data['zipcode'] || "",
+                city: props.data['city']==""? city : props.data['city'] || "",
                 district: props.data['district']==""? district : props.data['district'],
-                address: props.data['address'],
-                bankName: props.data['bankName'],
-                bankCode: props.data['bankCode'],
-                bankBranch: props.data['bankBranch'],
+                address: props.data['address'] || "",
+                bankName: props.data['bankName'] || "",
+                bankCode: props.data['bankCode'] || "",
+                bankBranch: props.data['bankBranch'] || "",
                 //bankBranchCode: props.data['bankBranchCode'] || "",
                 bankAccountName: props.data['bankAccountName'] || "",
-                bankAccount: props.data['bankAccount'],
-
+                bankAccount: props.data['bankAccount'] || "",
             },
             required: ['email','phone','contactor'],
             msg:[]
@@ -61,6 +60,8 @@ class Basic extends React.Component{
         //         areaCodeFormat = item['format'];
         //     }
         // });
+
+        console.log( formObject['district'] || "123" );
 
         return(
             <form onSubmit={this.handleSubmit.bind(this)}>
@@ -126,7 +127,8 @@ class Basic extends React.Component{
                         <label>公司地址</label>
                         <div className="">
                             <div className="input-box select">
-                                <select name="city" value={formObject['city']} onChange={ this.handleChange.bind(this) }>
+                                <select name="city" value={formObject['city'] || ""} onChange={ this.handleChange.bind(this) }>
+                                    <option value="">請選擇縣市</option>
                                     {
                                         Object.keys(county_area).map( item => {
                                             return(
@@ -137,18 +139,23 @@ class Basic extends React.Component{
                                 </select>
                             </div>
                             <div className="input-box select">
-                                <select name="district" value={formObject['district']} onChange={ this.handleChange.bind(this) }>
+                                <select name="district" value={formObject['district'] || ""} onChange={ this.handleChange.bind(this) }>
+                                    <option value="">請選擇鄉鎮市區</option>
                                     {
-                                        Object.keys(county_area[formObject['city']]).map( (item) => {
-                                            return(
-                                                <option key={`${item}`} value={item} data-zipcode={county_area[formObject['city']][item]} >{item}</option>
-                                            )
-                                        })
+                                        formObject['city']!=undefined && formObject['city']!=""? (
+                                            Object.keys(county_area[formObject['city']]).map( (item) => {
+                                                return(
+                                                    <option key={`${item}`} value={item} data-zipcode={county_area[formObject['city']][item]} >{item}</option>
+                                                )
+                                            })
+                                        ):(
+                                            null
+                                        )
                                     }
                                 </select>
                             </div>
                             <div className="input-box">
-                                <input type="text" name="address" value={ formObject['address'] } onChange={ this.handleChange.bind(this) } placeholder=""/>
+                                <input type="text" name="address" value={ formObject['address'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
                             </div>
                         </div>
                     </li>
@@ -162,7 +169,7 @@ class Basic extends React.Component{
                         <label>銀行名稱</label>
                         <div className="">
                             <div className="input-box">
-                                <input type="text" name="bankName" value={formObject['bankName']} onChange={this.handleChange.bind(this)} />
+                                <input type="text" name="bankName" value={formObject['bankName'] || ""} onChange={this.handleChange.bind(this)} />
                             </div>
                         </div>
                     </li>
@@ -170,7 +177,7 @@ class Basic extends React.Component{
                         <label>銀行代號</label>
                         <div className="">
                             <div className="input-box">
-                                <CurrencyFormat value={formObject['bankCode']} format="###" onValueChange={ value => this.returnTel(value['value'],'bankCode')}/>
+                                <CurrencyFormat value={formObject['bankCode'] || ""} format="###" onValueChange={ value => this.returnTel(value['value'],'bankCode')}/>
                             </div>
                         </div>
                     </li>
@@ -178,7 +185,7 @@ class Basic extends React.Component{
                         <label>分行</label>
                         <div className="">
                             <div className="input-box">
-                                <input type="text" name="bankBranch" value={formObject['bankBranch']} onChange={this.handleChange.bind(this)} />
+                                <input type="text" name="bankBranch" value={formObject['bankBranch'] || ""} onChange={this.handleChange.bind(this)} />
                             </div>
                         </div>
                     </li>
@@ -194,7 +201,7 @@ class Basic extends React.Component{
                         <label>帳號名稱</label>
                         <div className="">
                             <div className="input-box">
-                                <input type="text" name="bankAccountName" value={formObject['bankAccountName']} onChange={this.handleChange.bind(this)} />
+                                <input type="text" name="bankAccountName" value={formObject['bankAccountName'] || ""} onChange={this.handleChange.bind(this)} />
                             </div>
                         </div>
                     </li>
@@ -202,7 +209,7 @@ class Basic extends React.Component{
                         <label>帳號</label>
                         <div className="">
                             <div className="input-box">
-                                <input type="text" name="bankAccount" value={formObject['bankAccount']} onChange={this.handleChange.bind(this)} />
+                                <input type="text" name="bankAccount" value={formObject['bankAccount'] || ""} onChange={this.handleChange.bind(this)} />
                             </div>
                         </div>
                     </li>
@@ -325,6 +332,12 @@ class Basic extends React.Component{
             this.props.dispatch( vinfo('put',formObject) ).then( res => {
                 if( res['status']==200 ){
                     this.props.returnCancel()
+                }else{
+                    this.setState({
+                        msg: [<div>{lang['zh-TW']['note'][res['response']['data']['status_text']]}</div>]
+                    },()=>{
+                        this.handleCancel();
+                    })
                 }
             });
         }

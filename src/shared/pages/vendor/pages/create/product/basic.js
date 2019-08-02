@@ -177,9 +177,6 @@ export default class Product extends React.Component{
                 return data[filterItem]=="";
             }
         })
-
-        console.log( checkRequired );
-
         this.props.onHandleChange('1',data);
     }
 }

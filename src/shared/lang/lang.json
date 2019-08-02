@@ -53,7 +53,15 @@
             "password must contain at least one number (0-9)": "密碼必須至少包含一個數字（0-9）",
             "password must contain at least one lowercase letter (a-z)": "密碼必須至少包含一個小寫字母（a-z）",
             "password must contain at least one uppercase letter (A-Z)": "密碼必須至少包含一個大寫字母（A-Z）",
-            "please check that you've entered and confirmed your password": "請檢查您是否輸入並確認了密碼"
+            "please check that you've entered and confirmed your password": "請檢查您是否輸入並確認了密碼",
+            "company cannot be empty": "公司名稱必填",
+            "invoice cannot be empty": "統一編號必填",
+            "bankName cannot be empty": "銀行名稱必填",
+            "bankAccount cannot be empty": "銀行帳號必填",
+            "bankAccountName cannot be empty": "銀行帳號必填",
+            "bankCode cannot be empty": "銀行代號必填",
+            "bankBranch cannot be empty": "帳號分行必填",
+            "address cannot be empty": "聯絡地址必填"
         },
         "err": {
             "ID or password error.": "帳號或密碼錯誤",
@@ -112,7 +120,15 @@
             "password must contain at least one number (0-9)": "Password must contain at least one number (0-9)",
             "password must contain at least one lowercase letter (a-z)": "Password must contain at least one lowercase letter (a-z)",
             "password must contain at least one uppercase letter (A-Z)": "Password must contain at least one uppercase letter (A-Z)",
-            "please check that you've entered and confirmed your password": "Please check that you've entered and confirmed your password"
+            "please check that you've entered and confirmed your password": "Please check that you've entered and confirmed your password",
+            "company cannot be empty": "Company cannot be empty",
+            "invoice cannot be empty": "Invoice cannot be empty",
+            "bankName cannot be empty": "BankName cannot be empty",
+            "bankAccount cannot be empty": "BankAccount cannot be empty",
+            "bankCode cannot be empty": "BankCode cannot be empty",
+            "bankAccountName cannot be empty": "BankAccountName cannot be empty",
+            "bankBranch cannot be empty": "BankBranch cannot be empty",
+            "address cannot be empty": "Address cannot be empty"
         },
         "err": {
             "ID or password error.": "ID or password error.",

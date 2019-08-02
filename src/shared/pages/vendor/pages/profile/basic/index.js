@@ -4,7 +4,7 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Components
-import FormBasic from './form/basic';
+import FormBasic from './update/basic';
 
 class Index extends React.Component{
 
@@ -52,27 +52,27 @@ class Index extends React.Component{
                                     <ul className="table-row-list">
                                         <li>
                                             <label>公司名稱</label>
-                                            <div className="">{data['company']}</div>
+                                            <div className="">{data['company'] || "N/A"}</div>
                                         </li>
                                         <li>
                                             <label>統一編號</label>
-                                            <div className="">{data['invoice']}</div>
+                                            <div className="">{data['invoice'] || "N/A"}</div>
                                         </li>
                                         <li>
                                             <label>聯絡人</label>
-                                            <div className="">{data['contactor']}</div>
+                                            <div className="">{data['contactor'] || "N/A"}</div>
                                         </li>
                                         <li>
                                             <label>聯絡電話</label>
-                                            <div className="">{data['phone']}</div>
+                                            <div className="">{data['phone'] || "N/A"}</div>
                                         </li>
                                         <li>
                                             <label>聯絡信箱</label>
-                                            <div className="">{data['email']}</div>
+                                            <div className="">{data['email'] || "N/A"}</div>
                                         </li>                        
                                         <li>
                                             <label>公司地址</label>
-                                            <div className="">{`${data['zipcode']} ${data['city']}${data['district']}${data['address']}`}</div>
+                                            <div className="">{`${data['zipcode'] || "N/A"} ${data['city'] || "N/A"}${data['district'] || "N/A"}${data['address'] || "N/A"}`}</div>
                                         </li>
                                     </ul>
                                     <div className="unit-head">
@@ -81,15 +81,15 @@ class Index extends React.Component{
                                     <ul className="table-row-list">
                                         <li>
                                             <label>銀行名稱</label>
-                                            <div className="">{data['bankName']}</div>
+                                            <div className="">{data['bankName'] || "N/A"}</div>
                                         </li>
                                         <li>
                                             <label>銀行代碼</label>
-                                            <div className="">{data['bankCode']}</div>
+                                            <div className="">{data['bankCode'] || "N/A"}</div>
                                         </li>
                                         <li>
                                             <label>分行</label>
-                                            <div className="">{data['bankBranch']}</div>
+                                            <div className="">{data['bankBranch'] || "N/A"}</div>
                                         </li>
                                         {/* <li>
                                             <label>分行代碼</label>
@@ -97,11 +97,11 @@ class Index extends React.Component{
                                         </li> */}
                                         <li>
                                             <label>帳戶名稱</label>
-                                            <div className="">{data['bankAccountName']}</div>
+                                            <div className="">{data['bankAccountName'] || "N/A"}</div>
                                         </li>
                                         <li>
                                             <label>帳號</label>
-                                            <div className="">{data['bankAccount']}</div>
+                                            <div className="">{data['bankAccount'] || "N/A"}</div>
                                         </li>
                                     </ul>
                                 </React.Fragment>

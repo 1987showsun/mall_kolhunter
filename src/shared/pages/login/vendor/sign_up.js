@@ -17,6 +17,7 @@ class SignUp extends React.Component{
         super(props);
         this.state = {
             open: false,
+            popupMsg: "",
             success: false,
             form : {
                 type: 'vendor',
@@ -26,7 +27,6 @@ class SignUp extends React.Component{
                 invoice: '',
                 contactor: ''
             },
-            popupMsg: "",
             msg : ""
         }
     }
@@ -152,7 +152,7 @@ class SignUp extends React.Component{
             open: false,
             success: val
         },()=>{
-            this.props.history.push('/login/vendor');
+            this.props.history.push('/vendor');
         })
     }
 }

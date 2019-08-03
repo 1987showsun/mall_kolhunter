@@ -7,6 +7,9 @@ import { faUser, faUserPlus, faShoppingCart, faTruck }from '@fortawesome/free-so
 //Compoents
 import Search from './search/';
 
+// Actions
+import { ainfo } from '../../actions/account';
+
 // stylesheets
 import './css/header.scss';
 
@@ -18,13 +21,23 @@ class Header extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            accountInfo: props.accountInfo,
             token: this.getJWTToken(props),
         }
     }
 
+    static getDerivedStateFromProps(props, state){
+        if( props.accountInfo!=state.accountInfo ){
+            return{
+                accountInfo: props.accountInfo
+            }
+        }
+        return null;
+    }
+
     render(){
 
-        const { token } = this.state;
+        const { accountInfo, token } = this.state;
 
         return(
             <header data-content="center">
@@ -42,7 +55,7 @@ class Header extends React.Component{
                                             <span className="icon-block">
                                                 <FontAwesomeIcon icon={faUserPlus} />
                                             </span>
-                                            <div className="prompt-block">Sam</div>
+                                            <div className="prompt-block">{accountInfo['name']}</div>
                                         </Link>
                                     </li>
                                 ):(
@@ -89,6 +102,10 @@ class Header extends React.Component{
         );
     }
 
+    componentDidMount() {
+        this.props.dispatch( ainfo() );
+    }
+
     getJWTToken = (props) => {
         if( typeof window !== 'undefined' ){
             const type = 'account';
@@ -101,6 +118,7 @@ class Header extends React.Component{
 const mapStateToProps = state => {
     return{
         token: state.login.token,
+        accountInfo: state.account.info
     }
 }
 

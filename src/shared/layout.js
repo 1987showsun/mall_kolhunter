@@ -11,6 +11,7 @@ import Header from './components/common/header';
 import Footer from './components/common/footer';
 
 //Actions
+import { getCartID } from './actions/common';
 
 //Jsons
 
@@ -24,11 +25,9 @@ class Layout extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            cartID : props.cartID,
             token: props.login.token
         }
-    }
-
-    componentDidMount(){
     }
 
     static getDerivedStateFromProps(props) {
@@ -60,6 +59,9 @@ class Layout extends React.Component{
                 }
             </React.Fragment>
         );
+    }
+
+    componentDidMount(){
     }
 }
 

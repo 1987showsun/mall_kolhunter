@@ -17,6 +17,14 @@ export function categories(){
     }
 }
 
+export function getCartID(){
+    return (dispatch) => {
+        const method = 'get';
+        const url = API()['shopping']['cartID'];
+        return Axios({method,url,data:{}});
+    }
+}
+
 const Axios = ( api ) => {
     return axios({
         method: api['method'],

@@ -76,14 +76,17 @@ export default function API(){
             },
             'vinfo': `${API_ADDRESS()}/v1/vendor/info`
         },
-        'account': {
-            
+        'myaccount': {
+            'info': `${API_ADDRESS()}/v1/member/info`
         },
         'delivery': {
             'list': `${API_ADDRESS()}/v1/mall/deliveries`
         },
         'categories': {
             'list': `${API_ADDRESS()}/v1/mall/categories`
+        },
+        'shopping': {
+            'cartID': `${API_ADDRESS()}/v1/shop/cart/init`
         }
     }
 }

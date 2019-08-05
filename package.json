@@ -25,7 +25,7 @@
     "dayjs": "^1.8.10",
     "donejs-spdy": "^3.4.7",
     "eslint-loader": "^2.1.2",
-    "express": "^5.0.0-alpha.2",
+    "express": "^4.17.1",
     "http-proxy-middleware": "^0.19.1",
     "http2": "^3.3.7",
     "i18next": "^17.0.6",

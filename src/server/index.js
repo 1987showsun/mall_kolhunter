@@ -3,7 +3,6 @@ import cors from "cors";
 import fs from "fs";
 import React from "react";
 import logger from "morgan";
-import http2 from "spdy";
 import https from "https";
 import path from "path";
 import { renderToString } from "react-dom/server";
@@ -18,8 +17,6 @@ import "source-map-support/register";
 
 const app = express();
 const httpsOptions = {
-  //cert: fs.readFileSync( path.join('public/ssl/localhost.pem') ),
-  //key: fs.readFileSync( path.join('public/ssl/localhost-key.pem') ),
   cert: fs.readFileSync( path.join('public/ssl/localhost-new.pem') ),
   key: fs.readFileSync( path.join('public/ssl/localhost-new-key.pem') ),
   requestCert: false,
@@ -31,14 +28,12 @@ app.use(cors());
 app.use(express.static( path.join('public') ));
 
 app.all('*', function(req, res, next) {
-  const _lang = req.headers['accept-language'].split(',')[0];
-  console.log( req.headers["accept-language"] )
   const store = configureStore();
   const promises = routes.reduce((acc, route) => {
     if (matchPath(req.path, route) && route.component && route.component.initialAction) {
       acc.push(
         Promise.resolve(
-          store.dispatch(route.component.initialAction(req.path,req.query,_lang)),
+          store.dispatch(route.component.initialAction(req.path,req.query)),
         )
       );
     }
@@ -51,14 +46,14 @@ app.all('*', function(req, res, next) {
       const markup = renderToString(
         <Provider store={store}>
           <StaticRouter location={req.url} context={context}>
-            <Route component={App} ddd="123"/>
+            <Route component={App} />
           </StaticRouter>
         </Provider>
       );
       
-      const initialData    = store.getState();
-      const helmet         = Helmet.renderStatic();
-      let date = new Date().valueOf();
+      const initialData= store.getState();
+      const helmet= Helmet.renderStatic();
+      const date= new Date().valueOf();
       
       res.send(`
         <!DOCTYPE html>

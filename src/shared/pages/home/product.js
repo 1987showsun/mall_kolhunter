@@ -1,11 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 // Components
 import BlockList from '../../module/blockList';
 import Item from './productItem';
 
-export default class Store extends React.Component{
+class Latest extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            data: props.data || []
+        }
+    }
+
+    static getDerivedStateFromProps( props,state ){
+        return{
+            data: props.data || []
+        }
+    }
+
     render(){
+
+        const { data } = this.state;
+
         return(
             <div className="row">
                 <section className="container" data-direction="column" >
@@ -14,36 +32,13 @@ export default class Store extends React.Component{
                             <h2>熱門商品</h2>
                         </div>
                         <BlockList className="product-card">
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
-                            <Item />
+                            {
+                                data.map( (item,i) => {
+                                    return(
+                                        <Item key={item['id']} data={item}/>
+                                    )
+                                })
+                            }
                         </BlockList>
                     </div>
                 </section>
@@ -51,3 +46,11 @@ export default class Store extends React.Component{
         );
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect()( Latest );

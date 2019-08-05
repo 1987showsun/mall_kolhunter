@@ -1,22 +1,54 @@
-import axios              from 'axios';
-import queryString        from 'query-string';
-import apiUrl             from './apiurl';
+import axios from 'axios';
+import API from './apiurl';
 
 //Actions
 
-export function getHome( method,search,data ){
+export function kv( method,formObject ){
     return function( dispatch ){
-        return null;
+        method = method || 'get';
+        const url = API()['mall']['home']['kv'];
+        return Axios({method, url, data:{} }).then( res => {
+            dispatch({
+                type: "HOME_KV",
+                data: res['data']
+            })
+            return res;
+        });
     }
 }
 
-const Axios = (method,url,data) => {
+export function latest( method,formObject ){
+    return (dispatch) => {
+        method = method || 'get';
+        const url = API()['mall']['home']['latest'];
+        return Axios({method, url }).then( res => {
+            dispatch({
+                type: "HOME_LATEST",
+                data: res['data']
+            })
+            return res;
+        })
+    }
+}
+
+export function ssrUse(){
+    return(dispatch) => {
+        const ssrKv = kv()(dispatch);
+        const ssrLatest = latest()(dispatch);
+        return{
+            ssrLatest,
+            ssrKv
+        }
+    }
+}
+
+const Axios = ( api ) => {
     return axios({
-        method      : method,
-        url         : url,
-        data        : data,
-        headers     : {
-            Authorization : typeof window !== 'undefined'? (sessionStorage.getItem('token') == null? "" : sessionStorage.getItem('token')) : ""
+        method: api['method'],
+        url: api['url'],
+        data: api['data'],
+        headers:{
+            Authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
         }
     });
 }

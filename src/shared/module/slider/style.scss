@@ -265,8 +265,12 @@
 }
 
 .slider-item{
-    >img{
+    img{
         width: 100%;
+    }
+    a{
+        width: 100%;
+        display: block;
     }
 }
 

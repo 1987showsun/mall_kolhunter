@@ -5,11 +5,11 @@ axios.interceptors.request.use(function (config) {
     return error;
 });
 
-axios.interceptors.response.use(function (response) {
-    return response;
-}, function (error) {
-    return Promise.reject(error);
-});
+// axios.interceptors.response.use(function (response) {
+//     return response;
+// }, function (error) {
+//     return Promise.reject(error);
+// });
 
 const API_ADDRESS = () => {
     if( process.env.NODE_ENV_DEV==true ){

@@ -3,21 +3,24 @@ import { Link } from 'react-router-dom';
 
 export default class Item extends React.Component{
     render(){
+
+        const { data } = this.props;
+
         return(
             <li>
                 <figure>
                     <div className="product-list-img-wrap">
-                        <Link to=""></Link>
-                        <img src="https://s.yimg.com/zp/MerchandiseImages/492510ADE3-Product-22340413.jpg" alt="Rimowa Essential Sleeve Cabin 20吋登機箱 (霧黑色)" title="" />
+                        <Link to={`/detail/${data['id']}`}></Link>
+                        <img src={data['image']} alt={data['name']} title="" />
                     </div>
                     <figcaption>
                         <section className="figcaption-row">
-                            <h3><Link to="">Rimowa Essential Sleeve Cabin 20吋登機箱 (霧黑色)</Link></h3>
-                            <h4><Link to="">Rimowa</Link></h4>
+                            <h3><Link to={`/detail/${data['id']}`}>{data['name']}</Link></h3>
+                            {/* <h4><Link to="">Rimowa</Link></h4> */}
                         </section>
                         <div className="figcaption-row money">
-                            <span className="price">37,000</span>
-                            <span className="priceSale">27,000</span>
+                            <span className="price">{data['price']}</span>
+                            <span className="priceSale">{data['sellPrice']}</span>
                         </div>
                     </figcaption>
                 </figure>

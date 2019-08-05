@@ -87,6 +87,12 @@ export default function API(){
         },
         'shopping': {
             'cartID': `${API_ADDRESS()}/v1/shop/cart/init`
+        },
+        'mall': {
+            'home': {
+                'kv': `${API_ADDRESS()}/v1/mall/banner`,
+                'latest': `${API_ADDRESS()}/v1/mall/product/latest`
+            }
         }
     }
 }

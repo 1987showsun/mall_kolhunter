@@ -9,6 +9,7 @@ import Search from './search/';
 
 // Actions
 import { ainfo } from '../../actions/account';
+import { getCartID } from '../../actions/common';
 
 // stylesheets
 import './css/header.scss';
@@ -104,6 +105,18 @@ class Header extends React.Component{
 
     componentDidMount() {
         this.props.dispatch( ainfo() );
+
+        // 檢查 localStorage 有無購物車編號，沒有向後端要一組
+        if( typeof window !== 'undefined' ){
+            if( !localStorage.getItem('cartID') ){
+                this.props.dispatch( getCartID() ).then( res => {
+                    if( res['status']==200 ){
+                        const cartID = res['data']['cart'];
+                        localStorage.setItem('cartID',cartID);
+                    }
+                });
+            }
+        }
     }
 
     getJWTToken = (props) => {

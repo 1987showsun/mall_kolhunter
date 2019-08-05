@@ -10,9 +10,6 @@ import routers from './routers';
 import Header from './components/common/header';
 import Footer from './components/common/footer';
 
-//Actions
-import { getCartID } from './actions/common';
-
 //Jsons
 
 //Stylesheets

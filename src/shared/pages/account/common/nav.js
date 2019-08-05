@@ -5,9 +5,6 @@ import { Link } from 'react-router-dom';
 // Actions
 import { signout } from '../../../actions/login';
 
-// Stylesheets
-import './style.scss';
-
 class Nav extends React.Component{
 
     constructor(props){
@@ -36,7 +33,7 @@ class Nav extends React.Component{
                 <article className="account-nav-wrap-row">
                     <ul className="account-nav-ul">
                         <li className="account-nav-header">一般</li>
-                        <li className={`${type=="infoSetting"}`}><Link to="/myaccount">基本設定</Link></li>
+                        <li className={`${type=="profile"}`}><Link to="/myaccount">基本設定</Link></li>
                         <li className={`${type=="carts"}`}><Link to="/myaccount/carts">我的購物車</Link></li>
                         <li className={`${type=="orders"}`}><Link to="/myaccount/orders">訂單查詢 / 退貨</Link></li>
                         <li ><button onClick={this.signout.bind(this)}>登出</button></li>

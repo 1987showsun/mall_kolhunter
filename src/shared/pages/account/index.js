@@ -3,13 +3,16 @@ import { connect } from 'react-redux';
 
 // Components
 import Nav from './common/nav';
-import InfoSetting from './pages/InfoSetting';
+import Profile from './pages/profile';
 import Order from './pages/order';
 import Product from './pages/product';
 import Mystore from './pages/mystore';
 import Fansorders from './pages/fansorders';
 import Account from './pages/account';
 import Carts from './pages/carts';
+
+// Stylesheets
+import './public/stylesheets/style.scss';
 
 class Index extends React.Component{
 
@@ -18,9 +21,9 @@ class Index extends React.Component{
         this.state = {
             token: props.jwt_account,
             components: {
-                infoSetting: {
+                profile: {
                     mainTitle: "會員設定",
-                    component: InfoSetting
+                    component: Profile
                 },
                 orders: {
                     mainTitle: "訂單管理",
@@ -113,14 +116,14 @@ class Index extends React.Component{
         const { components } = this.state;
         const { location, history } = this.props;
         const pathname = location['pathname'].split('/').filter( item => item!='' );
-        let _type = pathname['1'] || 'infoSetting';
+        let _type = pathname['1'] || 'profile';
         let _class = pathname['2'] || null;
 
         const checkKeys = Object.keys( components ).some( key => {
             return key==_type;
         })
         if( !checkKeys ){
-            _type = 'infoSetting';
+            _type = 'profile';
             if( turn ){
                 history.push({
                     pathname: '/myaccount'

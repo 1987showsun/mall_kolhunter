@@ -25,7 +25,7 @@ const Axios = ( api ) => {
         url: api['url'],
         data: api['data'],
         headers:{
-            Authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : '',
+            authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : '',
         }
     }).catch( error => {
         if( error['response']['data']['status_text']=="get user info error" ){

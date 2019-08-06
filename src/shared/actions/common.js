@@ -31,7 +31,7 @@ const Axios = ( api ) => {
         url: api['url'],
         data: api['data'],
         headers:{
-            Authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
+            authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
         }
     });
 }

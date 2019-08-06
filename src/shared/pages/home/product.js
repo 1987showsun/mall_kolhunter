@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Components
 import BlockList from '../../module/blockList';
-import Item from './productItem';
+import Item from '../../module/item/product';
 
 class Latest extends React.Component{
 
@@ -35,7 +35,9 @@ class Latest extends React.Component{
                             {
                                 data.map( (item,i) => {
                                     return(
-                                        <Item key={item['id']} data={item}/>
+                                        <li key={item['id']}>
+                                            <Item data={item}/>
+                                        </li>
                                     )
                                 })
                             }

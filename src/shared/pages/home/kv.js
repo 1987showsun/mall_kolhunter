@@ -70,7 +70,7 @@ class Kv extends React.Component{
                 {
                   data.map( (item,i) => {
                     return(
-                      <div className="slider-item">
+                      <div key={i} className="slider-item">
                         <a href={item['url']} target="_blank">
                           <img src={item['image']} alt={item['title']} title={item['title']} />
                         </a>

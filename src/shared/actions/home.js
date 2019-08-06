@@ -2,43 +2,40 @@ import axios from 'axios';
 import API from './apiurl';
 
 //Actions
-
 export function kv( method,formObject ){
-    return function( dispatch ){
+    return function( dispatch,NODE_ENV,pathname,jquery ){
         method = method || 'get';
-        const url = API()['mall']['home']['kv'];
+        const url = API(NODE_ENV,pathname,jquery)['mall']['home']['kv'];
         return Axios({method, url, data:{} }).then( res => {
             dispatch({
                 type: "HOME_KV",
                 data: res['data']
             })
-            return res;
         });
     }
 }
 
 export function latest( method,formObject ){
-    return (dispatch) => {
+    return (dispatch,NODE_ENV,pathname,jquery) => {
         method = method || 'get';
-        const url = API()['mall']['home']['latest'];
+        const url = API(NODE_ENV,pathname,jquery)['mall']['home']['latest'];
         return Axios({method, url }).then( res => {
             dispatch({
                 type: "HOME_LATEST",
                 data: res['data']
             })
-            return res;
         })
     }
 }
 
-export function ssrUse(){
+export function getHome(NODE_ENV,pathname,jquery){
     return(dispatch) => {
-        const ssrKv = kv()(dispatch);
-        const ssrLatest = latest()(dispatch);
-        return{
-            ssrLatest,
-            ssrKv
-        }
+        const ssrKv = kv()(dispatch,NODE_ENV,pathname,jquery);
+        const ssrLatest = latest()(dispatch,NODE_ENV,pathname,jquery);
+        return (
+            ssrKv,
+            ssrLatest
+        )
     }
 }
 

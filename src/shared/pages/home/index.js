@@ -8,15 +8,15 @@ import Category from './category';
 import Product from './product';
 
 // Actions
-import { ssrUse } from '../../actions/home';
+import { getHome, test } from '../../actions/home';
 
 // Stylesheets
 import './style.scss';
 
 class Home extends React.Component{
 
-    static initialAction( url,query ) {
-        return ssrUse(url,query );
+    static initialAction( NODE_ENV ) {
+        return getHome( NODE_ENV );
     }
 
     constructor(props){
@@ -40,20 +40,16 @@ class Home extends React.Component{
 
         return(
             <React.Fragment>
-                <Kv 
-                    data={kv}
-                />
+                <Kv data={kv} />
                 <Store />
                 <Category />
-                <Product 
-                    data={latest}
-                />
+                <Product data={latest} />
             </React.Fragment>
         );
     }
 
     componentDidMount() {
-        this.props.dispatch( ssrUse() );
+        this.props.dispatch( getHome() );
     }
 }
 

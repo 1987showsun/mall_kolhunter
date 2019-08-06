@@ -11,6 +11,7 @@ export function listProduct( query ) {
 
         const method = 'get';
         const url = `${API()['myvendor']['product']['categories']}${query}`;
+        console.log( url );
         Axios({method,url,data: {}}).then( res => {
 
             const categoryToText = ( arr ) => {
@@ -64,6 +65,7 @@ export function infoProduct( query ) {
     return (dispatch) => {
         const method = 'get';
         const url = `${API()['myvendor']['product']['info']}${query!=""? `?${query}`:''}`;
+        console.log( url );
         return Axios({method,url,data: {}});
     }
 }

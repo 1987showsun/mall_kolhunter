@@ -1,13 +1,15 @@
 import express from "express";
 import cors from "cors";
-import fs from "fs";
 import React from "react";
 import logger from "morgan";
+import request from 'request';
+import fs from "fs";
+import axios from 'axios';
 import https from "https";
 import path from "path";
 import { renderToString } from "react-dom/server";
 import { Provider } from "react-redux";
-import { StaticRouter, matchPath, Route, Switch, Redirect } from "react-router-dom";
+import { StaticRouter, matchPath, Route } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import serialize from "serialize-javascript";
 import configureStore from "../shared/redux/store";
@@ -28,17 +30,22 @@ app.use(cors());
 app.use(express.static( path.join('public') ));
 
 app.all('*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  const NODE_ENV = process.env['NODE_ENV'];
   const store = configureStore();
   const promises = routes.reduce((acc, route) => {
     if (matchPath(req.path, route) && route.component && route.component.initialAction) {
       acc.push(
         Promise.resolve(
-          store.dispatch(route.component.initialAction(req.path,req.query)),
+          store.dispatch(route.component.initialAction(NODE_ENV,req.path,req.query)),
         )
       );
     }
     return acc;
   }, []);
+
 
   Promise.all(promises)
     .then((data,qw) => {
@@ -63,7 +70,7 @@ app.all('*', function(req, res, next) {
             <meta name="theme-color" content="#131722">
             <meta name="robots" content="none , noarchive, nosnippet, noimageindex, notranslate">
             <meta name="apple-mobile-web-app-capable" content="yes">
-            <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no">
+            <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no">
             <meta name="apple-mobile-web-app-title" content="Musik">
             <meta http-equiv="Content-Language" content="zh-TW">
             <meta name="author" content="Sun Li">

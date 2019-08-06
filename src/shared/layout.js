@@ -1,7 +1,9 @@
-import React                             from 'react';
-import { connect }                       from 'react-redux';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Route, Redirect, Switch } from "react-router-dom";
-import { renderRoutes } from "react-router-config";
+
+// Actions
+import { ssrUse } from './actions/home';
 
 //Routes
 import routers from './routers';
@@ -18,7 +20,6 @@ import './public/stylesheets/common.scss';
 //socket test
 
 class Layout extends React.Component{
-
     constructor(props){
         super(props);
         this.state = {
@@ -59,6 +60,7 @@ class Layout extends React.Component{
     }
 
     componentDidMount(){
+
     }
 }
 

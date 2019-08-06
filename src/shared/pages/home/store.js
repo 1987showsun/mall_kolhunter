@@ -4,6 +4,7 @@ import CurrencyFormat from 'react-currency-format';
 
 // Components
 import Slider from '../../module/slider';
+import StroeItem from '../../module/item/store';
 
 export default class Store extends React.Component{
     render(){
@@ -56,138 +57,21 @@ export default class Store extends React.Component{
                             <h2>熱門網紅店家</h2>
                         </div>
                         <Slider settings={settings}>
-                            <figure>
-                                <div className="card-item-img">
-                                    <img src="https://static.kolhunter.com/kol/235/20190703/90d5b6148eb40ee9ae2f523d962a37a6.jpeg" alt="" title="" />
-                                </div>
-                                <figcaption>
-                                    <div className="figcaption-row">
-                                        <h3><Link to="">飆捍-館長成吉思汗</Link></h3>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">品項數</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="246981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">累計銷量</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="12456981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <figure>
-                                <div className="card-item-img">
-                                    <img src="https://static.kolhunter.com/kol/cyberImg-2875.jpg" alt="" title="" />
-                                </div>
-                                <figcaption>
-                                    <div className="figcaption-row">
-                                        <h3><Link to="">在不瘋狂就等死</Link></h3>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">品項數</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="2456981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">累計銷量</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="2456981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <figure>
-                                <div className="card-item-img">
-                                    <img src="https://static.kolhunter.com/kol/cyberImg-644.jpg" alt="" title="" />
-                                </div>
-                                <figcaption>
-                                    <div className="figcaption-row">
-                                        <h3><Link to="">這群人TGOP</Link></h3>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">品項數</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="2456981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">累計銷量</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="2456981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <figure>
-                                <div className="card-item-img">
-                                    <img src="https://static.kolhunter.com/kol/cyberImg-1429.jpg" alt="" title="" />
-                                </div>
-                                <figcaption>
-                                    <div className="figcaption-row">
-                                        <h3><Link to="">蔡阿嘎</Link></h3>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">品項數</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="2456981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">累計銷量</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="2456981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <figure>
-                                <div className="card-item-img">
-                                    <img src="https://static.kolhunter.com/kol/cyberImg-2366.jpg" alt="" title="" />
-                                </div>
-                                <figcaption>
-                                    <div className="figcaption-row">
-                                        <h3><Link to="">Sandy & Mandy</Link></h3>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">品項數</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="2456981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">累計銷量</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="2456981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
-                            <figure>
-                                <div className="card-item-img">
-                                    <img src="https://static.kolhunter.com/kol/cyberImg-2366.jpg" alt="" title="" />
-                                </div>
-                                <figcaption>
-                                    <div className="figcaption-row">
-                                        <h3><Link to="">Sandy & Mandy</Link></h3>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">品項數</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="56981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                    <div className="figcaption-row" data-content="space-between">
-                                        <div className="label">累計銷量</div>
-                                        <div className="value">
-                                            <CurrencyFormat value="2456981" displayType={'text'} thousandSeparator={true} />
-                                        </div>
-                                    </div>
-                                </figcaption>
-                            </figure>
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
+                            <StroeItem />
                         </Slider>
                     </div>
                 </section>

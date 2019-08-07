@@ -187,7 +187,7 @@ class Basic extends React.Component{
             "sellPrice": data['sellPrice'],
             "categories": data['categories']
         }
-        this.props.dispatch( createProduct( 'product',formObject,1,'post' ) ).then( res => {
+        this.props.dispatch( createProduct( 'product',formObject,1,'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     this.props.returnStatus(data);

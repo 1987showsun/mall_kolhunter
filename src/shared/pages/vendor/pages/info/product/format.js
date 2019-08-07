@@ -5,7 +5,7 @@ import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import Table from '../../../../../module/table';
-import FormFormat from './form/format';
+import FormFormat from './update/format';
 
 class Format extends React.Component{
 

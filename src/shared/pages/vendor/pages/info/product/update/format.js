@@ -79,16 +79,13 @@ class Format extends React.Component{
     }
 
     addCondition = () => {
-        const nowDate = new Date();
         let { data } = this.state;
         data = [
             ...data, 
             {
-                id: "",
                 name: "",
                 sku: "",
-                quantity: 0,
-                modified: nowDate.valueOf()
+                quantity: 0
             }
         ]
         this.setState({
@@ -103,7 +100,7 @@ class Format extends React.Component{
             id: id,
             spec: data
         }
-        this.props.dispatch( createProduct('product', updateForm , 3 , 'post' ) ).then( res => {
+        this.props.dispatch( createProduct('product', updateForm , 3 , 'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     this.props.returnResult(data);

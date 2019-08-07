@@ -46,7 +46,7 @@ export default function API( NODE_ENV ){
             'product': {
                 'categories': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/list`,
                 'create': {
-                    '1': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/info`,
+                    '1': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product`,
                     '2': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/img`,
                     '3': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/spec`,
                     '4': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/desc`,

@@ -94,16 +94,13 @@ class Freight extends React.Component{
     }
     
     addCondition = () => {
-        const nowDate = new Date();
         const { deliveries } = this.state;
         let { data } = this.state;
         data = [
             ...data, 
             {
-                id: "",
                 deliveryID: deliveries[0]['value'],
-                deliveryCost: 0,
-                modified: nowDate.valueOf()
+                deliveryCost: 0
             }
         ]
         this.setState({

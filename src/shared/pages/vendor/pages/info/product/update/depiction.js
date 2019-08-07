@@ -116,10 +116,8 @@ class Depiction extends React.Component{
                 data = [
                     ...data,
                     {
-                        id: "",
                         type: 'html',
-                        content: '',
-                        modified: nowDate.valueOf()
+                        content: ''
                     }
                 ]
                 break;
@@ -153,7 +151,7 @@ class Depiction extends React.Component{
             id: id,
             descriptions: data
         }
-        this.props.dispatch( createProduct('product', updateForm , 4 , 'post' ) ).then( res => {
+        this.props.dispatch( createProduct('product', updateForm , 4 , 'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     const result = res['data']['description'];

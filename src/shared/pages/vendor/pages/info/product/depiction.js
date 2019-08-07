@@ -3,7 +3,7 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Compoents
-import FormDescription from './form/depiction';
+import FormDescription from './update/depiction';
 
 export default class Depiction extends React.Component{
 

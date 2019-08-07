@@ -71,12 +71,9 @@ export default class Cover extends React.Component{
 
     onChangeData = (val) => {
         let { data } = this.state;
-        let nowDate = new Date();
         data = [ 
             ...data,{ 
-                id: '',
                 image: val, 
-                modified: nowDate.valueOf()
             } 
         ];
         if( data.length==1 ){
@@ -100,6 +97,7 @@ export default class Cover extends React.Component{
     }
 
     positioning = (idx) => {
+        console.log( 'idx',idx );
         this.setState({
             selectedIndex: idx
         },()=>{
@@ -111,7 +109,10 @@ export default class Cover extends React.Component{
         const { data, selectedIndex } = this.state;
         const indexData = data.filter( (filterItem,i) => i==selectedIndex);
         const otherData = data.filter( (filterItem,i) => i!=selectedIndex);
-        const reorganizationData = [...indexData, ...otherData];
+        const reorganizationData = [...indexData, ...otherData].map( item => { 
+            delete item['sticky'];
+            return item;
+        });
         this.props.onHandleChange('2',reorganizationData);
     }
 }

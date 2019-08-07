@@ -4,7 +4,7 @@ import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import BlockList from '../../../../../module/blockList';
-import FormCover from './form/cover';
+import FormCover from './update/cover';
 
 export default class Cover extends React.Component{
 

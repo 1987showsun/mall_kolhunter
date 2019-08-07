@@ -184,6 +184,7 @@ class Index extends React.Component{
         const { id, formObject, step, maxStep } = this.state;
         const { match } = this.props;
         const { type } = match['params'];
+        let method = "post";
         
         switch( step ){
 
@@ -191,6 +192,7 @@ class Index extends React.Component{
                 break;
 
             case 2:
+                method = 'put';
                 formObject[step] = {
                     id : id,
                     images: formObject[step]
@@ -198,6 +200,7 @@ class Index extends React.Component{
                 break;
 
             case 3:
+                method = 'put';
                 formObject[step] = {
                     id : id,
                     spec: formObject[step]
@@ -205,6 +208,7 @@ class Index extends React.Component{
                 break;
 
             case 4:
+                method = 'put';
                 formObject[step] = {
                     id : id,
                     descriptions: formObject[step]
@@ -212,6 +216,7 @@ class Index extends React.Component{
                 break;
 
             case 5:
+                method = 'put';
                 formObject[step] = {
                     id : id,
                     deliveries: formObject[step]
@@ -222,7 +227,7 @@ class Index extends React.Component{
         const checkRequired = this.checkRequired(step,formObject);
 
         if( checkRequired ){
-            this.props.dispatch( createProduct( type, formObject[step], step ) ).then( res => {
+            this.props.dispatch( createProduct( type, formObject[step], step, method ) ).then( res => {
                 switch( res['status'] ){
                     case 200:
                         if( step==1 ){
@@ -242,6 +247,14 @@ class Index extends React.Component{
                                     step: step==maxStep? maxStep : step+1
                                 })
                             }
+                        }
+                        break;
+                    
+                    default :
+                        if( res['status']==502 ){
+                            this.setState({
+                                noteMSG: [<div>{lang['zh-TW']['note']['server busy line']}</div>],
+                            })
                         }
                         break;
                 }

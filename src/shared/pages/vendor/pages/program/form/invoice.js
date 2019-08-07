@@ -33,49 +33,21 @@ export default class Invoice extends React.Component{
             <React.Fragment>
                 <ul className="program-form-ul">
                     <li>
-                        <label>＊統一編號</label>
+                        <label>統一編號</label>
                         <div className="input-box">
                             <CurrencyFormat format="########" onValueChange={ value => this.returnInvoice(value['formattedValue'],'invoice')}/>
                         </div>
                     </li>
                     <li>
-                        <label>＊發票抬頭</label>
+                        <label>發票抬頭</label>
                         <div className="input-box">
                             <input type="text" name="title" value={formObject['title']} onChange={ this.handleChange.bind(this) } placeholder="" />
                         </div>
                     </li>
                     <li>
-                        <label>＊發票收件人</label>
+                        <label>發票收件人</label>
                         <div className="input-box">
                             <input type="text" name="recipient" value={formObject['recipient']} onChange={ this.handleChange.bind(this) } placeholder="" />
-                        </div>
-                    </li>
-                    <li>
-                        <label>＊寄送地址</label>
-                        <div className="input-box select">
-                            <select name="county" onChange={ this.handleChange.bind(this) }>
-                                {
-                                    Object.keys(county_area).map( item => {
-                                        return(
-                                            <option key={`county_${item}`} value={item}>{item}</option>
-                                        )
-                                    })
-                                }
-                            </select>
-                        </div>
-                        <div className="input-box select">
-                            <select name="county_area" onChange={ this.handleChange.bind(this) }>
-                                {
-                                    Object.keys(county_area[formObject['county']]).map( item => {
-                                        return(
-                                            <option key={`${formObject['county']}_${item}`} value={item}>{item}</option>
-                                        )
-                                    })
-                                }
-                            </select>
-                        </div>
-                        <div className="input-box">
-                            <input type="text" name="address" value={ formObject['address'] } onChange={ this.handleChange.bind(this) } placeholder=""/>
                         </div>
                     </li>
                 </ul>

@@ -64,7 +64,9 @@
             "bankAccountName cannot be empty": "銀行帳號必填",
             "bankCode cannot be empty": "銀行代號必填",
             "bankBranch cannot be empty": "帳號分行必填",
-            "address cannot be empty": "聯絡地址必填"
+            "address cannot be empty": "聯絡地址必填",
+            "unable to update product image": "無法更新產品圖片",
+            "server busy line": "伺服器忙線中"
         },
         "err": {
             "ID or password error.": "帳號或密碼錯誤",
@@ -135,7 +137,9 @@
             "bankCode cannot be empty": "BankCode cannot be empty",
             "bankAccountName cannot be empty": "BankAccountName cannot be empty",
             "bankBranch cannot be empty": "BankBranch cannot be empty",
-            "address cannot be empty": "Address cannot be empty"
+            "address cannot be empty": "Address cannot be empty",
+            "unable to update product image": "Unable to update product image",
+            "server busy line": "Server busy line"
         },
         "err": {
             "ID or password error.": "ID or password error.",

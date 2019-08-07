@@ -1,7 +1,7 @@
 import React from 'react';
 
 //Compoents
-import Table from '../../../../module/table';
+import Table from '../../../../../module/table';
 
 // Demo
 const demoData = [

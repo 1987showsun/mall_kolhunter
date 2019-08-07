@@ -86,15 +86,12 @@ class Freight extends React.Component{
     }
     
     addCondition = () => {
-        const nowDate = new Date();
         let { data, deliveries } = this.state;
         data = [
             ...data, 
             {
-                id: "",
                 deliveryID: deliveries[0]['id'],
-                deliveryCost: "0",
-                modified: nowDate.valueOf()
+                deliveryCost: "0"
             }
         ]
         this.setState({
@@ -109,7 +106,7 @@ class Freight extends React.Component{
             id,
             deliveries: data
         }
-        this.props.dispatch( createProduct('product', updateForm , 5 , 'post' ) ).then( res => {
+        this.props.dispatch( createProduct('product', updateForm , 5 , 'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     const result = data;

@@ -104,17 +104,14 @@ export default class Depiction extends React.Component{
     }
 
     addCondition = ( method ) => {
-        const nowDate = new Date();
         let { data } = this.state;
         switch( method ){
             case 'html':
                 data = [
                     ...data,
                     {
-                        id: null,
                         type: 'html',
-                        content: '',
-                        modified: nowDate.valueOf()
+                        content: ''
                     }
                 ]
                 break;

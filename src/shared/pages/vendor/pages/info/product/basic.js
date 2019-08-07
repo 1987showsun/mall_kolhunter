@@ -4,7 +4,7 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Components
-import FormBasic from './form/basic';
+import FormBasic from './update/basic';
 
 export default class Product extends React.Component{
 

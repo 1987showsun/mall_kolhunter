@@ -5,7 +5,7 @@ import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import Table from '../../../../../module/table';
-import FormFreight from './form/freight';
+import FormFreight from './update/freight';
 
 class Freight extends React.Component{
 

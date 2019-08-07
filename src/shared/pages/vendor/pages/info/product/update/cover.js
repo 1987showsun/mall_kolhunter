@@ -10,11 +10,15 @@ import AvatarCropper from '../../../../../../module/avatarCropper';
 // Actions
 import { createProduct } from '../../../../../../actions/vendor';
 
+// Lang
+import lang from '../../../../../../lang/lang.json';
+
 class Cover extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            msg: "",
             selectedIndex: 0,
             id: props.id,
             status: props.status,
@@ -24,7 +28,7 @@ class Cover extends React.Component{
 
     render(){
 
-        let { data,status,selectedIndex } = this.state;
+        let { msg, data,status,selectedIndex } = this.state;
 
         return(
             <React.Fragment>
@@ -68,6 +72,10 @@ class Cover extends React.Component{
                                 })
                         }
                     </BlockList>
+                    {
+                        msg.length!=0 &&
+                            <div className="form-msg">{msg}</div>
+                    }
                     <ul className="action-ul">
                         <li><button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button></li>
                         <li><button className="basic">更新</button></li>
@@ -79,13 +87,10 @@ class Cover extends React.Component{
 
     onChangeData = (val) => {
         let { data } = this.state;
-        let nowDate = new Date();
         data = [ 
             ...data, 
             { 
-                id: "",
                 image: val, 
-                modified: nowDate.valueOf()
             }
         ];
         if( data.length==1 ){
@@ -120,12 +125,17 @@ class Cover extends React.Component{
             id: id,
             images: [...indexData, ...otherData]
         };
-
-        this.props.dispatch( createProduct('product', reorganizationData , 2 , 'post' ) ).then( res => {
+        this.props.dispatch( createProduct('product', reorganizationData , 2 , 'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     const result = res['data']['img'];
                     this.props.returnResult(result);
+                    break;
+
+                default:
+                    this.setState({
+                        msg: [<div>{lang['zh-TW']['note']['unable to update product image']}</div>]
+                    })
                     break;
             }
         });

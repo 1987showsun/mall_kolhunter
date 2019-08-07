@@ -19,7 +19,8 @@ export default class PurchaseInfo extends React.Component{
                 name: "",
                 department: "",
                 email: "",
-                area_code: area_code['0']['code'],
+                //area_code: area_code['0']['code'],
+                //tel: "",
                 phone: "",
                 county: initCounty,
                 county_area: initCountyArea,
@@ -62,7 +63,7 @@ export default class PurchaseInfo extends React.Component{
                     </li>
                     <li>
                         <label>* 聯絡電話</label>
-                        <div className="input-box select">
+                        {/* <div className="input-box select">
                             <select name="area_code" onChange={ this.handleChange.bind(this) }>
                                 {
                                     area_code.map( (item,i) => {
@@ -74,7 +75,10 @@ export default class PurchaseInfo extends React.Component{
                             </select>
                         </div>
                         <div className="input-box">
-                            <CurrencyFormat value={formObject['tel']} format={areaCodeFormat} mask="_" onValueChange={ value => this.returnTel(value['formattedValue'],'phone')}/>
+                            <CurrencyFormat value={formObject['tel']} format={areaCodeFormat} mask="_" onValueChange={ value => this.returnTel(value['formattedValue'],'tel')}/>
+                        </div> */}
+                        <div className="input-box">
+                            <CurrencyFormat value={formObject['phone']} format="##########" onValueChange={ value => this.returnTel(value['formattedValue'],'phone')}/>
                         </div>
                     </li>
                     <li>

@@ -188,11 +188,11 @@ export function incListAccount( form ) {
 }
 
 // 新增商品
-export function createProduct( type, formObject, step, method1 ) {
+export function createProduct( type, formObject, step, method ) {
     return (dispatch) => {
-        const method = method1 || 'post';
+        method = method || 'post';
         const url = API()['myvendor'][type]['create'][step];
-        return Axios({method,url,data: formObject});
+        return Axios({ method, url, data: formObject });
     }
 }
 

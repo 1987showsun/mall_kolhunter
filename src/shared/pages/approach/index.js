@@ -90,7 +90,7 @@ class Index extends React.Component{
                                 <h1>盛夏必備涼感單品．棉麻舒適抽繩短褲</h1>
                             </div>
                             <div className="container-row unit">
-                                <Link to={`/detail/p_id`}>立即觀看商品介紹</Link> 
+                                <Link to={`/detail/p_id`} className="buy-now">立即觀看商品介紹</Link> 
                             </div>
                         </div>
                         <div className="container-col right">
@@ -102,25 +102,25 @@ class Index extends React.Component{
                                 <Search />
                                 <BlockList className="store-card">
                                     <li>
-                                        <StoreItem />
+                                        <StoreItem path={`/detail/p_id?store=store_id`}/>
                                     </li>
                                     <li>
-                                        <StoreItem />
+                                        <StoreItem path={`/detail/p_id?store=store_id`}/>
                                     </li>
                                     <li>
-                                        <StoreItem />
+                                        <StoreItem path={`/detail/p_id?store=store_id`}/>
                                     </li>
                                     <li>
-                                        <StoreItem />
+                                        <StoreItem path={`/detail/p_id?store=store_id`}/>
                                     </li>
                                     <li>
-                                        <StoreItem />
+                                        <StoreItem path={`/detail/p_id?store=store_id`}/>
                                     </li>
                                     <li>
-                                        <StoreItem />
+                                        <StoreItem path={`/detail/p_id?store=store_id`}/>
                                     </li>
                                     <li>
-                                        <StoreItem />
+                                        <StoreItem path={`/detail/p_id?store=store_id`}/>
                                     </li>
                                 </BlockList>
                             </div>

@@ -1,10 +1,10 @@
 import React from 'react';
 
 // Components
-import Cover from './common/cover';
+import Cover from './cover';
 
 // Stylesheets
-import './style.scss';
+import './public/stylesheets/style.scss';
 
 export default class Index extends React.Component{
     render(){

@@ -4,14 +4,18 @@ import { Link } from 'react-router-dom';
 
 export default class StoreItem extends React.Component{
     render(){
+
+        const { path, data } = this.props;
+
         return(
             <figure>
                 <div className="card-item-img">
+                    <Link to={`${path || ""}`}></Link>
                     <img src="https://static.kolhunter.com/kol/235/20190703/90d5b6148eb40ee9ae2f523d962a37a6.jpeg" alt="" title="" />
                 </div>
                 <figcaption>
                     <div className="figcaption-row">
-                        <h3><Link to="">飆捍-館長成吉思汗</Link></h3>
+                        <h3><Link to={`${path || ""}`}>飆捍-館長成吉思汗</Link></h3>
                     </div>
                     <div className="figcaption-row" data-content="space-between">
                         <div className="label">品項數</div>

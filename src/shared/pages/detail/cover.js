@@ -3,7 +3,7 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus }from '@fortawesome/free-solid-svg-icons';
 
 // Components
-import CoverSlider from '../../../module/coverSlider';
+import CoverSlider from '../../module/coverSlider';
 
 export default class Cover extends React.Component{
 
@@ -145,7 +145,16 @@ export default class Cover extends React.Component{
                     </div>
                     <div className="detail-cover-row cover-quantity">
                         <label>購買店家</label>
-                        <div>asasasas</div>
+                        <div>
+                            <div className="detail-store-wrap">
+                                <div className="img">
+                                    <img src="https://static.kolhunter.com/kol/cyberImg-1429.jpg" alt="蔡阿嘎" title="" />
+                                </div>
+                                <div className="name">
+                                    <h3>蔡阿嘎</h3>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className="detail-cover-row cover-action">
                         <ul>

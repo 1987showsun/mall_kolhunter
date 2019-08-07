@@ -57,21 +57,21 @@ export default class Store extends React.Component{
                             <h2>熱門網紅店家</h2>
                         </div>
                         <Slider settings={settings}>
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
-                            <StroeItem />
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
+                            <StroeItem path={`/store/store_id`}/>
                         </Slider>
                     </div>
                 </section>

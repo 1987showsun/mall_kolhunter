@@ -3,6 +3,9 @@ import CurrencyFormat from 'react-currency-format';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faTrashAlt }from '@fortawesome/free-solid-svg-icons';
 
+// Components
+import Loading from '../loading';
+
 // Stylesheets
 import './style.scss';
 
@@ -30,6 +33,7 @@ export default class InputTable extends React.Component{
 
         return(
             <div className="input-table-wrap">
+                <Loading loading={ this.props.loading || false } />
                 {
                     body.length!=0?(
                         <ul className="input-table">
@@ -59,7 +63,7 @@ export default class InputTable extends React.Component{
                                                             {
                                                                 headItem['type'] == 'number' &&
                                                                     <div className="input-box">
-                                                                        <CurrencyFormat value={bodyItem[headItem['key']]} thousandSeparator={true} onValueChange={(values) => this.handleMemberChange( headItem['key'], values['value'], b_i )}/>
+                                                                        <CurrencyFormat value={bodyItem[headItem['key']] || ""} thousandSeparator={true} onValueChange={(values) => this.handleMemberChange( headItem['key'], values['value'], b_i )}/>
                                                                     </div>
                                                             }
                                                             {
@@ -106,6 +110,10 @@ export default class InputTable extends React.Component{
                 }
             </div>
         );
+    }
+
+    componentWillUnmount(){
+        return null;
     }
 
     handleChange = ( b_idx, e ) => {

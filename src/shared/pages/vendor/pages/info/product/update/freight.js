@@ -22,6 +22,7 @@ class Freight extends React.Component{
 
         super(props);
         this.state = {
+            loading: false,
             id: props.id,
             deliveries: props.deliveries,
             data : props.data,
@@ -47,11 +48,13 @@ class Freight extends React.Component{
         }
     }
 
-
-
     render(){
 
-        const { inputTableHeadKey, data } = this.state;
+        const { 
+            loading,
+            inputTableHeadKey,
+            data
+        } = this.state;
 
         return(
             <section className="admin-content-row">
@@ -65,9 +68,10 @@ class Freight extends React.Component{
                 <div className="admin-content-container">     
                     <form onSubmit={this.handleSubnit.bind(this)}>
                         <InputTable 
-                            tableHeadData={inputTableHeadKey}
-                            tableBodyData={data}
-                            onChangeData={this.onChangeData.bind(this)}
+                            loading= {loading}
+                            tableHeadData= {inputTableHeadKey}
+                            tableBodyData= {data}
+                            onChangeData= {this.onChangeData.bind(this)}
                         />
                         <ul className="action-ul">
                             <li><button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button></li>
@@ -77,6 +81,10 @@ class Freight extends React.Component{
                 </div>
             </section>
         );
+    }
+
+    componentWillUnmount(){
+        
     }
 
     onChangeData = ( data ) => {
@@ -102,15 +110,18 @@ class Freight extends React.Component{
     handleSubnit = (e) => {
         e.preventDefault();
         const { id, data } = this.state;
-        const updateForm = {
-            id,
-            deliveries: data
-        }
+        const updateForm = { id, deliveries: data };
+        this.setState({
+            loading: true
+        })
         this.props.dispatch( createProduct('product', updateForm , 5 , 'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     const result = data;
                     this.props.returnResult( result );
+                    this.setState({
+                        loading: false
+                    })
                     break;
             }
         });

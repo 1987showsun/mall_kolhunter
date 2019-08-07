@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 //Components
@@ -14,6 +15,14 @@ class Product extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: true,
+            initQuery: {
+                limit: "30",
+                page: "1",
+                sort: "desc",
+                sortBy: "created",
+                status: "auth,non-display"
+            },
             selected: [],
             tableHeadKey : [
                 {
@@ -97,7 +106,7 @@ class Product extends React.Component{
 
     render(){
 
-        const { total, tableHeadKey, tableBodyData } = this.state;
+        const { loading, total, tableHeadKey, tableBodyData } = this.state;
         const { match, location, history } = this.props;
 
         return(
@@ -108,6 +117,7 @@ class Product extends React.Component{
                     location= {location}
                 />
                 <Table 
+                    loading={loading}
                     tableHeadData={tableHeadKey}
                     tableBodyData={tableBodyData}
                     tableButtonAction={this.tableButtonAction.bind(this)}
@@ -123,8 +133,17 @@ class Product extends React.Component{
     }
 
     componentDidMount() {
-        const locationSearch = this.props.location['search'];
-        this.props.dispatch( listProduct( locationSearch ) );
+        const { location } = this.props;
+        const { search } = location;
+        let initQuery = { ...this.state.initQuery, ...queryString.parse(search) }
+        this.setState({
+            initQuery
+        })
+        this.props.dispatch( listProduct( `?${queryString.stringify(initQuery)}` ) ).then( res => {
+            this.setState({
+                loading: false
+            })
+        });
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState){

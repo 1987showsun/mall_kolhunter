@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 import CurrencyFormat from 'react-currency-format';
 
 //Components
@@ -17,10 +18,18 @@ class Product extends React.Component{
         super(props);
         this.state = {
             open: false,
+            loading: true,
             popupMsg: "",
             selectedResult: [],
             isSelectedAll: true,
             total: props.total,
+            initQuery: {
+                page: "1",
+                sort: 'desc',
+                sortBy: 'created',
+                limit: "30",
+                status: 'none-auth'
+            },
             tableHeadKey : [
                 {
                     key: 'checkbox',
@@ -61,7 +70,7 @@ class Product extends React.Component{
                     title: '特價'
                 }
             ],
-            tableBodyData : props.list.filter( filterItem => filterItem['status']=='none-auth' )
+            tableBodyData : props.list
         }
     }
 
@@ -79,6 +88,7 @@ class Product extends React.Component{
     render(){
 
         const { 
+            loading,
             total,
             tableHeadKey, 
             tableBodyData, 
@@ -91,6 +101,7 @@ class Product extends React.Component{
             <React.Fragment>
                 <Head />
                 <Table 
+                    loading={loading}
                     isSelectedAll={isSelectedAll}
                     tableHeadData={tableHeadKey}
                     tableBodyData={tableBodyData}
@@ -132,8 +143,15 @@ class Product extends React.Component{
 
     componentDidMount() {
         const { location } = this.props; 
-        let { search } = location;
-        this.props.dispatch( listProduct(search) );
+        const { search } = location;
+        let loading = this.state.loading;
+        let initQuery = { ...this.state.initQuery };
+        initQuery = { ...initQuery, ...queryString.parse(search) }
+        this.props.dispatch( listProduct( `?${queryString.stringify(initQuery)}` ) ).then( res => {
+            this.setState({
+                loading: false
+            })
+        });
     }
 
     returnCheckbox = ( val ) => {

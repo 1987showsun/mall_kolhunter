@@ -11,9 +11,10 @@ export function listProduct( query ) {
 
         const method = 'get';
         const url = `${API()['myvendor']['product']['categories']}${query}`;
-        console.log( url );
-        Axios({method,url,data: {}}).then( res => {
+        
+        return Axios({method,url,data: {}}).then( res => {
 
+            // 商品類別 陣列 -> 字串
             const categoryToText = ( arr ) => {
                 let text = "";
                 arr.forEach(( item,i ) => {
@@ -24,7 +25,6 @@ export function listProduct( query ) {
                     }else{
                         text = `${item['title']}/${text}`;
                     }
-                    //text = i<=arr.length-1? `${item['title']}/${text}` : `${item['title']}${text}`
                 });
                 return text;
             }
@@ -56,6 +56,8 @@ export function listProduct( query ) {
                 type: 'VENDOR_PRODUCT_LIST',
                 list: list,
             });
+
+            return res;
         });
     }
 }

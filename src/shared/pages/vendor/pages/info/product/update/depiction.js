@@ -85,7 +85,6 @@ class Depiction extends React.Component{
         data = [
             ...data,
             {
-                id: "",
                 type: 'image',
                 content: files['base64'],
                 modified: nowDate.valueOf()
@@ -147,10 +146,7 @@ class Depiction extends React.Component{
     handleSubnit = (e) => {
         e.preventDefault();
         const { id, data } = this.state;
-        const updateForm = {
-            id: id,
-            descriptions: data
-        }
+        const updateForm = { id, descriptions: data }
         this.props.dispatch( createProduct('product', updateForm , 4 , 'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:

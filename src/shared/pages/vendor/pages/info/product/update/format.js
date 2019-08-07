@@ -14,6 +14,7 @@ class Format extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             id: props.id,
             status: props.status,
             data: props.data,
@@ -45,7 +46,11 @@ class Format extends React.Component{
 
     render(){
 
-        const { data, inputTableHeadKey } = this.state;
+        const {
+            loading,
+            data, 
+            inputTableHeadKey
+        } = this.state;
         return(
             <section className="admin-content-row">
                 <article className="admin-content-title">
@@ -57,7 +62,8 @@ class Format extends React.Component{
                 </article>
                 <div className="admin-content-container">
                     <form onSubmit={this.handleSubnit.bind(this)}>
-                        <InputTable 
+                        <InputTable
+                            loading={loading}
                             tableHeadData={inputTableHeadKey}
                             tableBodyData={data}
                             onChangeData={this.onChangeData.bind(this)}
@@ -96,14 +102,17 @@ class Format extends React.Component{
     handleSubnit = (e) => {
         e.preventDefault();
         const { id, data } = this.state;
-        const updateForm = {
-            id: id,
-            spec: data
-        }
+        const updateForm = { id, spec: data }
+        this.setState({
+            loading: true
+        })
         this.props.dispatch( createProduct('product', updateForm , 3 , 'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     this.props.returnResult(data);
+                    this.setState({
+                        loading: false
+                    })
                     break;
             }
         });

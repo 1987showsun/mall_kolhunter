@@ -3,6 +3,7 @@ import React from 'react';
 //Components
 import Head from './head';
 import Item from './item';
+import Loading from '../../module/loading';
 
 // Stylesheets
 import './style.scss';
@@ -30,7 +31,7 @@ export default class Index extends React.Component{
             }
 
             return{
-                body : props.tableBodyData,
+                body: props.tableBodyData,
                 selectedBefore
             }
         }
@@ -40,6 +41,7 @@ export default class Index extends React.Component{
     render(){
 
         const { 
+            loading,
             head, 
             body, 
             isSelectedAll, 
@@ -48,6 +50,7 @@ export default class Index extends React.Component{
 
         return(
             <div className="table-wrap">
+                <Loading loading={this.props.loading || false}/>
                 <ul className="table-ul">
                     <Head 
                         data={head}

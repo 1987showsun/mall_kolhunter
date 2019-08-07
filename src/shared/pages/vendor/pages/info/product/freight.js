@@ -80,8 +80,8 @@ class Freight extends React.Component{
                             </article>
                             <div className="admin-content-container">     
                                 <Table 
-                                    tableHeadData={tableHeadKey}
-                                    tableBodyData={reorganizationBodyData}
+                                    tableHeadData= {tableHeadKey}
+                                    tableBodyData= {reorganizationBodyData}
                                 />
                             </div>
                         </section>

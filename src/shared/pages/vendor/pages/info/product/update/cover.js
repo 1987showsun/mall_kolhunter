@@ -4,6 +4,7 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faTimes, faMapPin }from '@fortawesome/free-solid-svg-icons';
 
 // Components
+import Loading from '../../../../../../module/loading';
 import BlockList from '../../../../../../module/blockList';
 import AvatarCropper from '../../../../../../module/avatarCropper';
 
@@ -18,6 +19,7 @@ class Cover extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             msg: "",
             selectedIndex: 0,
             id: props.id,
@@ -28,12 +30,19 @@ class Cover extends React.Component{
 
     render(){
 
-        let { msg, data,status,selectedIndex } = this.state;
+        let { 
+            loading, 
+            msg, 
+            data,
+            status,
+            selectedIndex 
+        } = this.state;
 
         return(
             <React.Fragment>
-                <form onSubmit={this.handleSubnit.bind(this)}>
+                <form onSubmit={this.handleSubnit.bind(this)} className="relative">
                     <BlockList className="admin-product-img-ul">
+                        <Loading loading={loading} />
                         {
                             status=="none-auth" &&
                                 <li>
@@ -121,15 +130,18 @@ class Cover extends React.Component{
         const { id, data, selectedIndex } = this.state;
         const indexData = data.filter( (filterItem,i) => i==selectedIndex);
         const otherData = data.filter( (filterItem,i) => i!=selectedIndex);
-        const reorganizationData = {
-            id: id,
-            images: [...indexData, ...otherData]
-        };
+        const reorganizationData = { id, images: [...indexData, ...otherData] };
+        this.setState({
+            loading: true,
+        })
         this.props.dispatch( createProduct('product', reorganizationData , 2 , 'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     const result = res['data']['img'];
                     this.props.returnResult(result);
+                    this.setState({
+                        loading: false,
+                    })
                     break;
 
                 default:

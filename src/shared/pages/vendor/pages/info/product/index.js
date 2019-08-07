@@ -152,7 +152,7 @@ class Product extends React.Component{
                     />
                 </section>
 
-                <div className="admin-content-row" data-content="rigth" >
+                <div className="admin-content-row action" data-content="rigth" >
                     {
                         Object.keys(data).length!=0 &&
                             <button 

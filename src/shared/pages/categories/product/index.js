@@ -57,12 +57,14 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            data: demoData
         }
     }
 
     render(){
         
         const { match, location } = this.props;
+        const { data } = this.state;
 
         return(
             <React.Fragment>
@@ -76,7 +78,7 @@ class Index extends React.Component{
                             <Breadcrumbs />
                             <BlockList className="product-card">
                                 {
-                                    demoData.map( item => {
+                                    data.map( item => {
                                         return(
                                             <li>
                                                 <Item path={`/approach/${item['id']}`} data={item}/>

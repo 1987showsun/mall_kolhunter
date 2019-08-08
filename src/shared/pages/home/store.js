@@ -10,7 +10,7 @@ export default class Store extends React.Component{
     render(){
 
         const settings = {
-            className: "slider-nromal store-wrap",
+            className: "slider-nromal store-card",
             dots: false,
             infinite: false,
             speed: 500,

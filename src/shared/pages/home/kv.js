@@ -68,15 +68,16 @@ class Kv extends React.Component{
         <div className="row">
             <Slider settings={settings} >
                 {
-                  data.map( (item,i) => {
-                    return(
-                      <div key={i} className="slider-item">
-                        <a href={item['url']} target="_blank">
-                          <img src={item['image']} alt={item['title']} title={item['title']} />
-                        </a>
-                      </div>
-                    )
-                  })
+                  data.length!=0 &&
+                    data.map( (item,i) => {
+                      return(
+                        <div key={i} className="slider-item">
+                          <a href={item['url']} target="_blank">
+                            <img src={item['image']} alt={item['title']} title={item['title']} />
+                          </a>
+                        </div>
+                      )
+                    })
                 }
             </Slider>
         </div>

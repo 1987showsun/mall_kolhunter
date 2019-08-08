@@ -74,7 +74,8 @@ export default class Index extends React.Component{
 
         return(
             <React.Fragment>
-                <div className="row store-cover-wrap" style={{backgroundImage: `url(${coverBG})`}}>
+                <div className="row store-cover-wrap">
+                    <div className="store-cover-background-img" style={{backgroundImage: `url(${coverBG})`}}></div>
                     <section className="container store-cover">
                         <figure>
                             <div className="figure-img">

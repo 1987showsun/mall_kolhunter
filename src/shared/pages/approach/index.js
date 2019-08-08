@@ -9,6 +9,9 @@ import Search from './search';
 import BlockList from '../../module/blockList';
 import StoreItem from '../../module/item/store';
 
+// Lang
+import lang from '../../lang/lang.json';
+
 // Stylesheets
 import './public/stylesheets/style.scss';
 
@@ -87,17 +90,17 @@ class Index extends React.Component{
                                 />
                             </div>
                             <div className="container-row unit">
-                                <h1>盛夏必備涼感單品．棉麻舒適抽繩短褲</h1>
+                                <h1>Apple IPhone XS Max 64GB 太空灰/銀/金 6.5吋 原廠保固 蝦皮24h 現貨</h1>
                             </div>
                             <div className="container-row unit">
-                                <Link to={`/detail/p_id`} className="buy-now">立即觀看商品介紹</Link> 
+                                <Link to={`/detail/p_id`} className="buy-now">{lang['zh-TW']['button']['watch the product introduction now']}</Link> 
                             </div>
                         </div>
                         <div className="container-col right">
                             <Breadcrumbs />
                             <div className="container-row unit">
-                                <div className="unit-head">
-                                    <h4>選擇您喜歡的網紅店舖購買</h4>
+                                <div className="unit-head approach">
+                                    <h4>{lang['zh-TW']['choose which store you want to buy this item from']}</h4>
                                 </div>
                                 <Search />
                                 <BlockList className="store-card">

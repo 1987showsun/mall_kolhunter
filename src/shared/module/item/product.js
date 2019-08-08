@@ -9,12 +9,12 @@ export default class Product extends React.Component{
         return(
             <figure>
                 <div className="product-list-img-wrap">
-                    <Link to={path}></Link>
+                    <Link to={path || ""}></Link>
                     <img src={data['image']} alt={data['name']} title="" />
                 </div>
                 <figcaption>
                     <section className="figcaption-row">
-                        <h3><Link to={path}>{data['name']}</Link></h3>
+                        <h3><Link to={path || ""}>{data['name']}</Link></h3>
                         {/* <h4><Link to="">Rimowa</Link></h4> */}
                     </section>
                     <div className="figcaption-row money">

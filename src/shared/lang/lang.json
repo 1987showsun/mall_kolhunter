@@ -22,6 +22,7 @@
         "Are you sure you want to change your password": "您確定要更改密碼嗎？",
         "reset password success": "密碼重設成功",
         "unable to update vendor password": "舊密碼錯誤",
+        "choose which store you want to buy this item from": "選擇您要從哪個商店購買此商品",
         "create": {
             "product": {
                 "1": "基本資料",
@@ -72,6 +73,16 @@
             "ID or password error.": "帳號或密碼錯誤",
             "get user info error": "該帳號已於其他地方登入，系統已將您強制登出",
             "email already exists": "電子郵件已經存在"
+        },
+        "button": {
+            "search": "搜尋",
+            "watch the product introduction now": "立即觀看產品介紹"
+        },
+        "placeholder": {
+            "store name": "店家名稱"
+        },
+        "label":{
+            "number of stores": "店家數量"
         }
     },
     "en": {
@@ -97,6 +108,7 @@
         "Are you sure you want to change your password": "Are you sure you want to change your password?",
         "reset password success": "Reset password success",
         "unable to update vendor password": "Unable to update vendor password",
+        "choose which store you want to buy this item from": "Choose which store you want to buy this item from",
         "create": {
             "product": {
                 "1": "Info",
@@ -145,6 +157,16 @@
             "ID or password error.": "ID or password error.",
             "get user info error": "The account has been logged in elsewhere and you have been forced to log out.",
             "email already exists": "Email already exists"
+        },
+        "button": {
+            "search": "Search",
+            "watch the product introduction now": "Watch the product introduction now"
+        },
+        "placeholder": {
+            "store name": "Store name"
+        },
+        "label":{
+            "number of stores": "Number of stores"
         }
     }
 }

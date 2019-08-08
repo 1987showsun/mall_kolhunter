@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import queryString from 'query-string';
-import CurrencyFormat from 'react-currency-format';
+import { connect } from 'react-redux';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faArrowRight }from '@fortawesome/free-solid-svg-icons';
 
 //Components
 import Head from './headAction/product';
@@ -99,7 +99,11 @@ class Product extends React.Component{
 
         return(
             <React.Fragment>
-                <Head />
+                <Head 
+                    addProductTotal= {total}
+                    selectedQuantity= {selectedResult.length}
+                    totalAmount= {selectedResult.length*50000}
+                />
                 <Table 
                     loading={loading}
                     isSelectedAll={isSelectedAll}
@@ -109,25 +113,13 @@ class Product extends React.Component{
                 />
                 <div className="admin-content-footer">
                     <ul>
-                        <li>
-                            <div className="label">目前已新增商品</div>
-                            <div className="value">{total}</div>
-                        </li>
-                        <li>
-                            <div className="label">目前已選購買方案數</div>
-                            <div className="value">{selectedResult.length}</div>
-                        </li>
-                        <li>
-                            <div className="label">購買方案總價</div>
-                            <div className="value">
-                                <CurrencyFormat value={selectedResult.length*50000} displayType={'text'} thousandSeparator={true} />
-                            </div>
-                        </li>
                     </ul>
-
                     <ul>
                         <li>
-                            <button className="basic" onClick={this.onBuy.bind(this)}>我已確定選擇購買的數量，並下一步</button>
+                            <button className="basic" onClick={this.onBuy.bind(this)}>
+                                我已確定選擇購買的數量，並下一步
+                                <i style={{marginLeft: "10px"}}><FontAwesomeIcon icon={faArrowRight} /></i>
+                            </button>
                         </li>
                     </ul>
                 </div>

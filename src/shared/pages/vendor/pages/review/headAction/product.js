@@ -1,4 +1,5 @@
 import React from 'react';
+import CurrencyFormat from 'react-currency-format';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
@@ -12,18 +13,17 @@ class HeadProduct extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            formSearchObject: {
-                search: "",
-                query_key: 0,
-                filter: 0
-            }
+            
         }
     }
 
     render(){
 
-        const { formSearchObject } = this.state;
-        const { total,on_shelves,no_longer_be_sold,number_of_shelves_available } = this.props;
+        const {
+            addProductTotal,
+            selectedQuantity,
+            totalAmount
+        } = this.props;
 
         return(
             <React.Fragment>
@@ -38,6 +38,13 @@ class HeadProduct extends React.Component{
                             </li>
                         </ul>
                     </div>
+                </div>
+                <div className="page-alert-info">
+                    <ul>
+                        <li>已新增商品：{addProductTotal}</li>
+                        <li>已選方案數：{selectedQuantity}</li>
+                        <li>總金額：<CurrencyFormat value={totalAmount} displayType={'text'} thousandSeparator={true} /></li>
+                    </ul>
                 </div>
             </React.Fragment>
         );

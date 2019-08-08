@@ -1,0 +1,17 @@
+{
+  "name": "Musik",
+  "short_name": "Musik",
+  "description": "一個線上聽歌的好夥伴",
+  "icons": [
+    {
+      "src": "./images/app_logo.png",
+      "sizes": "152x152 120x120 76x76 60x60",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "scope": "/src/"
+}

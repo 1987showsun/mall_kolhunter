@@ -1,0 +1,65 @@
+@mixin embed{
+    @media all and (min-width: 1280px) {
+      @content;
+    }
+}
+
+@mixin pc{
+    @media all and (max-width: 1279px) and (min-width: 1024px) {
+      @content;
+    }
+}
+
+@mixin pad{
+    @media all and (max-width: 1023px) and (min-width: 700px) {
+      @content;
+    }
+}
+
+@mixin min{
+    @media all and (max-width: 699px) and (min-width: 600px) {
+      @content;
+    }
+}
+
+@mixin mobile{
+    @media all and (max-width: 599px){
+      @content;
+    }
+}
+
+@mixin nav_max{
+  @media all and (min-width: 600px){
+    @content;
+  }
+}
+
+@mixin nav_min{
+  @media all and (max-width: 599px){
+    @content;
+  }
+}
+
+@mixin album_max{
+  @media all and (min-width: 600px){
+    @content;
+  }
+}
+
+@mixin album_min{
+  @media all and (max-width: 599px){
+    @content;
+  }
+}
+
+@mixin btn_max{
+  @media all and (min-width: 1024px){
+    @content;
+  }
+}
+
+@mixin btn_min{
+  @media all and (max-width: 1023px){
+    @content;
+  }
+}

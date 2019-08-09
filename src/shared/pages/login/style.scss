@@ -1,9 +1,18 @@
 .login-wrap{
     width: 100%;
     min-height: 100%;
+    padding: 10px 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    .login-logo{
+        max-width: 380px;
+        text-align: center;
+        img{
+            width: 55%;
+        }
+    }
     .login-form{
         max-width: 380px;
         padding: 10px;

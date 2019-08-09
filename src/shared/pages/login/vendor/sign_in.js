@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
@@ -42,7 +41,13 @@ class SignIn extends React.Component{
     }
 
     render(){
-        const { form, msg, record } = this.state;
+
+        const { 
+            form, 
+            msg, 
+            record 
+        } = this.state;
+
         return(
             <React.Fragment>
                 <form onSubmit={this.handleSubmit.bind(this)} className="login-form">

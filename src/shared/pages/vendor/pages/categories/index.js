@@ -1,10 +1,10 @@
 import React from 'react';
 
 //Components
-import Product from './product';
-import Order from './order';
-import Account from './account';
-import Program from './program';
+import Product from './product/';
+import Order from './order/';
+import Account from './account/';
+import Program from './program/';
 
 //Lang
 import lang from '../../../../lang/lang.json';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import $ from 'jquery';
-import axios from 'axios';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faCheck }from '@fortawesome/free-solid-svg-icons';
 
 // Actions
 import { signin } from '../../../actions/login';
@@ -14,18 +14,40 @@ class SignIn extends React.Component{
 
     constructor(props){
         super(props);
+
+        let userID="";
+        let userPWD="";
+        let record=false;
+        if (typeof window !== 'undefined') {
+            const filterAfter = Object.entries(localStorage).filter( filterItem => {
+                return filterItem.includes(`accountLoginRecord`);
+            })
+            if( filterAfter.length!=0 ){
+                userID = JSON.parse(filterAfter[0][1])['userID'];
+                userPWD = JSON.parse(filterAfter[0][1])['userPWD'];
+            }
+            record = Boolean(localStorage.getItem('accountRecordStatus')) || false;
+        }
+
         this.state = {
             form : {
                 type: 'account',
-                userID : "",
-                userPWD : "",
+                userID,
+                userPWD,
             },
-            msg : ""
+            msg : "",
+            record
         }
     }
 
     render(){
-        const { form, msg } = this.state;
+
+        const { 
+            form, 
+            msg,
+            record
+        } = this.state;
+
         return(
             <React.Fragment>
                 <form onSubmit={this.handleSubmit.bind(this)} className="login-form">
@@ -48,6 +70,17 @@ class SignIn extends React.Component{
                             </label>
                         </li>
                     </ul>
+                    <div className="form-row">
+                        <div className="form-row-col">
+                            <label htmlFor="record" className="checkbox-label">
+                                <input type="checkbox" id="record" name="record" className="admin-checkbox" onChange={this.handleChangeRecord.bind(this)} checked={record}/>
+                                <i className="checkbox_icon">
+                                    <FontAwesomeIcon icon={faCheck} />
+                                </i>
+                            </label>
+                            <div className="form-row-col-label">記住帳號密碼</div>
+                        </div>
+                    </div>
                     {
                         msg!='' &&
                             <div className="form-row msg" data-content="center" dangerouslySetInnerHTML={{__html: msg}}></div>
@@ -67,6 +100,25 @@ class SignIn extends React.Component{
     }
 
     componentDidMount() {
+    }
+
+    handleChangeRecord = (e) => {
+        // 記住帳號密碼
+        const name = e.target.name;
+        const checked = e.target.checked;
+        this.setState({
+            [name]: checked
+        },()=>{
+            const {form} = this.state;
+            const type = form['type'];
+            if( this.state[name] ){
+                localStorage.setItem( `${type}LoginRecord` , JSON.stringify(form) );
+                localStorage.setItem( `${type}RecordStatus` , checked );
+            }else{
+                localStorage.removeItem( `${type}LoginRecord` );
+                localStorage.removeItem( `${type}RecordStatus` );
+            }
+        })
     }
 
     handleChange = (e) => {

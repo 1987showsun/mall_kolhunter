@@ -21,10 +21,10 @@ export default class Breadcrumbs extends React.Component{
                         <Link to="/">首頁</Link>
                     </li>
                     <li>
-                        <Link to="/">男性衣著</Link>
+                        <Link to="/">3C</Link>
                     </li>
                     <li>
-                        盛夏必備涼感單品．棉麻舒適抽繩短褲
+                        Apple IPhone XS Max 64GB 太空灰/銀/金 6.5吋 原廠保固 蝦皮24h 現貨
                     </li>
                 </ul>
             </div>

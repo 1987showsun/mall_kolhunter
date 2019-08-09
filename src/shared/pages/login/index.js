@@ -1,5 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Components
@@ -11,6 +12,9 @@ import VendorSignUp from './vendor/sign_up';
 import VendorLeading from './vendor/leading';
 import VendorVverify from './vendor/verify';
 import VendorForget from './vendor/forgetPWD';
+
+// Images
+import Logo from '../../public/images/logo2.png';
 
 // Stylesheets
 import './style.scss';
@@ -72,6 +76,11 @@ class Index extends React.Component{
             let Component = this.state.components[_type][_class];
             return(
                 <div className="login-wrap">
+                    <div className="login-logo">
+                        <Link to="/">
+                            <img src={Logo} alt="網紅電商" title="網紅電商" />
+                        </Link>
+                    </div>
                     <Component 
                         history= {history}
                         match= {match}

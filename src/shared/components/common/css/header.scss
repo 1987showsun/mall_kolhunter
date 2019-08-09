@@ -16,6 +16,7 @@ header{
         justify-content: space-between;
     }
     .logo-block{
+        max-width: 200px;
         display: inline-flex;
         align-items: center;
         a{
@@ -24,15 +25,37 @@ header{
         }
         img{
             width: 100%;
+            &.normal{
+                display: block;
+            }
+            &.mobile{
+                display: none;
+            }
         }
         @media (max-width: 720px) and (min-width: 421px) {
-            width: 100px;
+            width: 45px;
             min-width: 50px;
             margin-right: 10px;
+            img{
+                &.normal{
+                    display: none;
+                }
+                &.mobile{
+                    display: block;
+                }
+            }
         }
         @media (max-width: 420px) {
-            width: 90px;
-            padding: 0px 5px;
+            width: 45px;
+            margin: 0px 10px 0px 5px;
+            img{
+                &.normal{
+                    display: none;
+                }
+                &.mobile{
+                    display: block;
+                }
+            }
         }
     }
     .search-block{
@@ -66,7 +89,26 @@ header{
                     display: none;
                 }
             }
-            @media (max-width: 720px) {
+            @media (max-width: 720px) and (min-width: 421px) {
+                .input-box{
+                    height: 100%;
+                    border: none;
+                    padding-right: 35px;
+                    &.select{
+                        max-width: 120px;
+                    }
+                }
+                [type=submit]{
+                    width: 30px;
+                    span{
+                        display: none;
+                    }
+                    svg{
+                        display: block;
+                    }
+                }
+            }
+            @media (max-width: 420px) {
                 .input-box{
                     height: 40px;
                     border: none;

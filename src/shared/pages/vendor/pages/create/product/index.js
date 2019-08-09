@@ -9,6 +9,7 @@ import Basic from './basic';
 import Freight from './freight';
 import Format from './format';
 import Depiction from './depiction';
+import Loading from '../../../../../module/loading';
 import Confirm from '../../../../../module/confirm';
 
 // Actions
@@ -23,6 +24,7 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             open: false,
             popupMsg: "",
             noteMSG: [],
@@ -43,6 +45,7 @@ class Index extends React.Component{
 
     render(){
         const { 
+            loading,
             open,
             noteMSG,
             popupMsg,
@@ -59,7 +62,8 @@ class Index extends React.Component{
                     step= { this.state.step }
                 />
 
-                <form onSubmit={this.handleSubmit.bind(this)}>
+                <form className="create-form" onSubmit={this.handleSubmit.bind(this)}>
+                    <Loading loading={loading} />
                     {
                         step==1 &&
                             // 基本
@@ -126,9 +130,9 @@ class Index extends React.Component{
                             <li>
                                 <button type="submit">{ step!=5? lang['zh-TW']['Submit Next'] : lang['zh-TW']['Finish'] }</button>
                             </li>
-                            <li>
+                            {/* <li>
                                 <Link to="/myvendor/preview/product">預覽</Link>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </form>
@@ -227,37 +231,46 @@ class Index extends React.Component{
         const checkRequired = this.checkRequired(step,formObject);
 
         if( checkRequired ){
+            
+            this.setState({
+                loading: true,
+            })
+
             this.props.dispatch( createProduct( type, formObject[step], step, method ) ).then( res => {
-                switch( res['status'] ){
-                    case 200:
-                        if( step==1 ){
-                            this.setState({
-                                step: step==maxStep? maxStep : step+1,
-                                noteMSG: [],
-                                id: res['data']['id']
-                            })
-                        }else{
-                            if( step>=5 ){
+                this.setState({
+                    loading: false
+                },()=>{
+                    switch( res['status'] ){
+                        case 200:
+                            if( step==1 ){
                                 this.setState({
-                                    open: true,
-                                    popupMsg: '新增成功'
+                                    step: step==maxStep? maxStep : step+1,
+                                    noteMSG: [],
+                                    id: res['data']['id']
                                 })
                             }else{
+                                if( step>=5 ){
+                                    this.setState({
+                                        open: true,
+                                        popupMsg: '新增成功'
+                                    })
+                                }else{
+                                    this.setState({
+                                        step: step==maxStep? maxStep : step+1
+                                    })
+                                }
+                            }
+                            break;
+                        
+                        default :
+                            if( res['status']==502 ){
                                 this.setState({
-                                    step: step==maxStep? maxStep : step+1
+                                    noteMSG: [<div>{lang['zh-TW']['note']['server busy line']}</div>],
                                 })
                             }
-                        }
-                        break;
-                    
-                    default :
-                        if( res['status']==502 ){
-                            this.setState({
-                                noteMSG: [<div>{lang['zh-TW']['note']['server busy line']}</div>],
-                            })
-                        }
-                        break;
-                }
+                            break;
+                    }
+                })
             });
         }
     }

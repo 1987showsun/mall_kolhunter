@@ -16,6 +16,7 @@ import './css/header.scss';
 
 // Images
 import Logo from '../../public/images/logo.png';
+import LogoMobile from '../../public/images/logo-mobile.png';
 
 class Header extends React.Component{
 
@@ -44,7 +45,10 @@ class Header extends React.Component{
             <header data-content="center">
                 <section className="container">
                     <div className="logo-block">
-                        <Link to="/"><img src={Logo} alt="" title="" /></Link>
+                        <Link to="/">
+                            <img className="normal" src={Logo} alt="" title="" />
+                            <img className="mobile" src={LogoMobile} alt="" title="" />
+                        </Link>
                     </div>
                     <Search />
                     <div className="header-nav-block">

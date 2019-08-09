@@ -315,6 +315,8 @@ form {
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column; }
+  form.create-form {
+    position: relative; }
   form .form-msg {
     width: 100%;
     display: -webkit-box;
@@ -611,11 +613,8 @@ nav.inc_nav {
       -webkit-box-pack: center;
       -ms-flex-pack: center;
       justify-content: center; }
-    @media (max-width: 720px) {
-      nav.inc_nav .logo {
-        padding: 10px 10px 10px 10px; }
-        nav.inc_nav .logo img {
-          width: 75%; } }
+    nav.inc_nav .logo img {
+      width: 70%; }
   nav.inc_nav ul {
     width: 100%; }
     nav.inc_nav ul > li {
@@ -722,10 +721,13 @@ nav.inc_nav {
     display: -ms-flexbox;
     display: flex; }
     .container .path-breadcrumbs ul > li {
-      display: -webkit-inline-box;
-      display: -ms-inline-flexbox;
-      display: inline-flex;
-      margin-right: 10px; }
+      max-width: 130px;
+      display: inline-block;
+      margin-right: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
       .container .path-breadcrumbs ul > li:last-child {
         margin-right: 0px; }
       .container .path-breadcrumbs ul > li a {
@@ -925,7 +927,10 @@ footer {
         flex-wrap: wrap; }
         footer .footer-slogn > li {
           width: 50%;
-          padding: 10px; }
+          padding: 10px;
+          -webkit-box-pack: start;
+          -ms-flex-pack: start;
+          justify-content: flex-start; }
         footer .footer-slogn .slogn-head {
           width: 45px;
           min-width: 45px;
@@ -1017,6 +1022,7 @@ header {
     -ms-flex-pack: justify;
     justify-content: space-between; }
   header .logo-block {
+    max-width: 200px;
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: inline-flex;
@@ -1032,15 +1038,27 @@ header {
       align-items: flex-start; }
     header .logo-block img {
       width: 100%; }
+      header .logo-block img.normal {
+        display: block; }
+      header .logo-block img.mobile {
+        display: none; }
     @media (max-width: 720px) and (min-width: 421px) {
       header .logo-block {
-        width: 100px;
+        width: 45px;
         min-width: 50px;
-        margin-right: 10px; } }
+        margin-right: 10px; }
+        header .logo-block img.normal {
+          display: none; }
+        header .logo-block img.mobile {
+          display: block; } }
     @media (max-width: 420px) {
       header .logo-block {
-        width: 90px;
-        padding: 0px 5px; } }
+        width: 45px;
+        margin: 0px 10px 0px 5px; }
+        header .logo-block img.normal {
+          display: none; }
+        header .logo-block img.mobile {
+          display: block; } }
   header .search-block {
     width: 100%;
     max-width: 700px;
@@ -1073,7 +1091,20 @@ header {
         right: 5px; }
         header .search-block form [type=submit] svg {
           display: none; }
-      @media (max-width: 720px) {
+      @media (max-width: 720px) and (min-width: 421px) {
+        header .search-block form .input-box {
+          height: 100%;
+          border: none;
+          padding-right: 35px; }
+          header .search-block form .input-box.select {
+            max-width: 120px; }
+        header .search-block form [type=submit] {
+          width: 30px; }
+          header .search-block form [type=submit] span {
+            display: none; }
+          header .search-block form [type=submit] svg {
+            display: block; } }
+      @media (max-width: 420px) {
         header .search-block form .input-box {
           height: 40px;
           border: none;
@@ -1634,10 +1665,7 @@ header {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
-    flex-direction: column;
-    /*position: sticky;
-        z-index: 9;
-        top: 60px;*/ }
+    flex-direction: column; }
     .admin-main .page-head-action .page-head-action-row {
       margin-bottom: 10px; }
       .admin-main .page-head-action .page-head-action-row:last-child {
@@ -2821,6 +2849,7 @@ header {
 .login-wrap {
   width: 100%;
   min-height: 100%;
+  padding: 10px 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2829,7 +2858,16 @@ header {
   align-items: center;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center; }
+  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+  .login-wrap .login-logo {
+    max-width: 380px;
+    text-align: center; }
+    .login-wrap .login-logo img {
+      width: 55%; }
   .login-wrap .login-form {
     max-width: 380px;
     padding: 10px;

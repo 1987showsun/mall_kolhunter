@@ -43,6 +43,10 @@ export default class Index extends React.Component{
             });
         });
     }
+
+    componentWillUnmount() {
+        RWD();
+    }
 }
 
 const RWD = ( theBlockToResponseTo ) => {

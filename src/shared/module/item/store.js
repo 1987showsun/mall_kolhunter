@@ -14,22 +14,22 @@ export default class StoreItem extends React.Component{
             <figure className="card">
                 <div className="img" data-round="true" >
                     <Link to={`${path || ""}`}></Link>
-                    <img src="https://static.kolhunter.com/kol/cyberImg-1429.jpg" alt="蔡阿嘎" title="蔡阿嘎" />
+                    <img src={data['image']} alt={data['storeName']} title={data['storeName']} />
                 </div>
                 <figcaption>
                     <div className="figcaption-row">
-                        <h3><Link to={`${path || ""}`}>蔡阿嘎</Link></h3>
+                        <h3><Link to={`${path || ""}`}>{data['storeName']}</Link></h3>
                     </div>
                     <div className="figcaption-row" data-content="space-between">
                         <div className="label">品項數</div>
                         <div className="value">
-                            <CurrencyFormat value="246981" displayType={'text'} thousandSeparator={true} />
+                            <CurrencyFormat value={data['productCount']} displayType={'text'} thousandSeparator={true} />
                         </div>
                     </div>
                     <div className="figcaption-row" data-content="space-between">
                         <div className="label">累計銷量</div>
                         <div className="value">
-                            <CurrencyFormat value="12456981" displayType={'text'} thousandSeparator={true} />
+                            <CurrencyFormat value={data['productTotal']||0} displayType={'text'} thousandSeparator={true} />
                         </div>
                     </div>
                 </figcaption>

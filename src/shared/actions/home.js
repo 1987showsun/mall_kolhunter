@@ -3,9 +3,9 @@ import API from './apiurl';
 
 //Actions
 export function kv( method,formObject ){
-    return function( dispatch,NODE_ENV,pathname,jquery ){
+    return function( dispatch,NODE_ENV,pathname,query ){
         method = method || 'get';
-        const url = API(NODE_ENV,pathname,jquery)['mall']['home']['kv'];
+        const url = API(NODE_ENV,pathname,query)['mall']['home']['kv'];
         return Axios({method, url, data:{} }).then( res => {
             dispatch({
                 type: "HOME_KV",
@@ -16,9 +16,9 @@ export function kv( method,formObject ){
 }
 
 export function latest( method,formObject ){
-    return (dispatch,NODE_ENV,pathname,jquery) => {
+    return (dispatch,NODE_ENV,pathname,query) => {
         method = method || 'get';
-        const url = API(NODE_ENV,pathname,jquery)['mall']['home']['latest'];
+        const url = API(NODE_ENV,pathname,query)['mall']['home']['latest'];
         return Axios({method, url }).then( res => {
             dispatch({
                 type: "HOME_LATEST",
@@ -28,10 +28,10 @@ export function latest( method,formObject ){
     }
 }
 
-export function getHome(NODE_ENV,pathname,jquery){
+export function getHome(NODE_ENV,pathname,query){
     return(dispatch) => {
-        const ssrKv = kv()(dispatch,NODE_ENV,pathname,jquery);
-        const ssrLatest = latest()(dispatch,NODE_ENV,pathname,jquery);
+        const ssrKv = kv()(dispatch,NODE_ENV,pathname,query);
+        const ssrLatest = latest()(dispatch,NODE_ENV,pathname,query);
         return (
             ssrKv,
             ssrLatest

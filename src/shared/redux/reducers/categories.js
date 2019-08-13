@@ -23,6 +23,13 @@ export default function categories(
                 list: action.list,
             };
             break;
+
+        case 'CATRGORIES_PRODUCT_LIST':
+            state = { 
+                ...state,
+                list: action.list,
+            };
+            break;
     }
     return state;
 }

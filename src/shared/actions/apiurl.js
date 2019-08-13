@@ -92,6 +92,12 @@ export default function API( NODE_ENV ){
             'home': {
                 'kv': `${API_ADDRESS(NODE_ENV)}/v1/mall/banner`,
                 'latest': `${API_ADDRESS(NODE_ENV)}/v1/mall/product/latest`
+            },
+            'product': {
+                'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/product/list`
+            },
+            'store': {
+                'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/store/list`
             }
         }
     }

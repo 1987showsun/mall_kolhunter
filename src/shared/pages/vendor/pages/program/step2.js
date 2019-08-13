@@ -11,17 +11,7 @@ class Step2 extends React.Component{
         super(props);
         this.state = {
             profile: props.profile,
-            formObject: {
-                payment_method: {
-                    
-                },
-                invoice: {
-                    invoice: 0,
-                    title: "",
-                    addressee: "",
-                    address: ""
-                }
-            }
+            formObject: {}
         }
     }
     
@@ -39,13 +29,16 @@ class Step2 extends React.Component{
         const { profile } = this.state;
 
         return(
-            <React.Fragment>
+            <form onSubmit={this.hanleSubmit.bind(this)}>
                 <section className="admin-content-row">
                     <article className="admin-content-title">
                         <h4>購買資料</h4>
                     </article>
                     <div className="admin-content-container">
-                        <PurchaseInfo data={profile}/>
+                        <PurchaseInfo 
+                            data={profile}
+                            returnHandleChange= {this.returnHandleChange.bind(this)}
+                        />
                     </div>
 
                     <article className="admin-content-title">
@@ -64,7 +57,13 @@ class Step2 extends React.Component{
                         <h4>發票</h4>
                     </article>
                     <div className="admin-content-container">
-                        <Invoice />
+                        {
+                            profile['invoice']!="" || profile['invoice']!=undefined? (
+                                <div>三聯式發票</div>
+                            ):(
+                                <div>二聯式發票</div>
+                            )
+                        }
                     </div>
 
                     <div className="admin-content-action">
@@ -73,21 +72,29 @@ class Step2 extends React.Component{
                                 <button type="button" className="cancel" onClick={this.actionBtn.bind(this,'cancel')}>取消</button>
                             </li>
                             <li>
-                                <button type="button" className="basic" onClick={this.actionBtn.bind(this,'ok')}>確定，下一步</button>
+                                <button type="submit" className="basic">確定，下一步</button>
                             </li>
                         </ul>
                     </div>
                 </section>
-            </React.Fragment>
+            </form>
         );
+    }
+
+    returnHandleChange = ( data ) => {
+        this.setState({
+            formObject: { ...this.state.formObject, ...data }
+        })
+    }
+
+    hanleSubmit = (e) => {
+        e.preventDefault();
+        const { formObject } = this.state;
+        console.log( formObject );
     }
 
     actionBtn = ( val ) => {
         switch( val ){
-            case 'ok':
-                this.props.history.push('/myvendor/program/product?step=3');
-                break;
-                
             default:
                 this.props.history.push('/myvendor/categories/product/review');
                 break;

@@ -9,7 +9,6 @@ import Confirm from '../../../../../../module/confirm';
 import { vinfo } from '../../../../../../actions/vendor';
 
 // Json
-import area_code from '../../../../../../public/json/TWareacode.json';
 import county_area from '../../../../../../public/json/TWzipcode.json';
 import lang from '../../../../../../lang/lang.json';
 
@@ -22,10 +21,10 @@ class Basic extends React.Component{
         this.state = {
             open: false,
             popupMsg: "",
+            data: props.data,
             formObject: {
                 company : props.data['company'],
                 email: props.data['email'],
-                //area_code: area_code['0']['code'],
                 phone: props.data['phone'] || "",
                 invoice: props.data['invoice'] || "",
                 contactor: props.data['contactor'] || "",
@@ -35,14 +34,23 @@ class Basic extends React.Component{
                 address: props.data['address'] || "",
                 bankName: props.data['bankName'] || "",
                 bankCode: props.data['bankCode'] || "",
-                bankBranch: props.data['bankBranch'] || "",
-                //bankBranchCode: props.data['bankBranchCode'] || "",
+                bankBranchName: props.data['bankBranchName'] || "",
                 bankAccountName: props.data['bankAccountName'] || "",
                 bankAccount: props.data['bankAccount'] || "",
             },
             required: ['email','phone','contactor'],
             msg:[]
         }
+    }
+
+    static getDerivedStateFromProps( props, state){
+        if( Object.keys( state.data ).length==0 ){
+            return{
+                data: props.data,
+                formObject: { ...props.data }
+            }
+        }
+        return null;
     }
 
     render(){
@@ -53,15 +61,6 @@ class Basic extends React.Component{
             formObject
             , msg 
         } = this.state;
-        // const areaCode = formObject['area_code'];
-        // let areaCodeFormat = "";
-        // area_code.map( item => {
-        //     if( item['code']==areaCode ){
-        //         areaCodeFormat = item['format'];
-        //     }
-        // });
-
-        console.log( formObject['district'] || "123" );
 
         return(
             <form onSubmit={this.handleSubmit.bind(this)}>
@@ -96,20 +95,6 @@ class Basic extends React.Component{
                     <li>
                         <label>＊聯絡電話</label>
                         <div className="">
-                            {/* <div className="input-box select">
-                                <select name="area_code" onChange={ this.handleChange.bind(this) }>
-                                    {
-                                        area_code.map( (item,i) => {
-                                            return(
-                                                <option key={item['code']} value={item['code']}>{item['code']}</option>
-                                            )
-                                        })
-                                    }
-                                </select>
-                            </div> 
-                            <div className="input-box">
-                                <CurrencyFormat value={formObject['phone']} format={areaCodeFormat} mask="_" onValueChange={ value => this.returnTel(value['value'],'phone')}/>
-                            </div>*/}
                             <div className="input-box">
                                 <CurrencyFormat value={formObject['phone']} format="##########" onValueChange={ value => this.returnTel(value['value'],'phone')}/>
                             </div>
@@ -143,9 +128,9 @@ class Basic extends React.Component{
                                     <option value="">請選擇鄉鎮市區</option>
                                     {
                                         formObject['city']!=undefined && formObject['city']!=""? (
-                                            Object.keys(county_area[formObject['city']]).map( (item) => {
+                                            Object.keys(county_area[formObject['city']]).map( (item,i) => {
                                                 return(
-                                                    <option key={`${item}`} value={item} data-zipcode={county_area[formObject['city']][item]} >{item}</option>
+                                                    <option key={`district_${i}`} value={item} data-zipcode={county_area[formObject['city']][item]} >{item}</option>
                                                 )
                                             })
                                         ):(
@@ -185,18 +170,10 @@ class Basic extends React.Component{
                         <label>分行</label>
                         <div className="">
                             <div className="input-box">
-                                <input type="text" name="bankBranch" value={formObject['bankBranch'] || ""} onChange={this.handleChange.bind(this)} />
+                                <input type="text" name="bankBranchName" value={formObject['bankBranchName'] || ""} onChange={this.handleChange.bind(this)} />
                             </div>
                         </div>
                     </li>
-                    {/* <li>
-                        <label>分行代碼</label>
-                        <div className="">
-                            <div className="input-box">
-                                <CurrencyFormat value={formObject['bankBranchCode']} onValueChange={ value => this.returnTel(value['value'],'bankBranchCode')}/>
-                            </div>
-                        </div>
-                    </li> */}
                     <li>
                         <label>帳號名稱</label>
                         <div className="">
@@ -316,25 +293,27 @@ class Basic extends React.Component{
 
     handleConfirm = () => {
         const { formObject,required } = this.state;
+
+        // 檢查必填欄位
         const requiredFilter = required.filter( filterItem => {
             return formObject[filterItem]=='';
         })
+
         if( requiredFilter.length ){
             // 未填寫完整
-            const noteMSG = requiredFilter.map( (item,i) => {
-                return <div key={item}>{lang['zh-TW']['note'][`${item} required`] }</div>;
-            })
             this.setState({
-                msg: noteMSG
+                msg: requiredFilter.map( (item,i) => {
+                    return <div key={`msg_${item}`}>{lang['zh-TW']['note'][`${item} required`] }</div>;
+                })
             })
         }else{
             // 填寫完整
             this.props.dispatch( vinfo('put',formObject) ).then( res => {
                 if( res['status']==200 ){
-                    this.props.returnCancel()
+                    this.props.returnCancel( formObject );
                 }else{
                     this.setState({
-                        msg: [<div>{lang['zh-TW']['note'][res['response']['data']['status_text']]}</div>]
+                        msg: [<div key="note">{lang['zh-TW']['note'][res['response']['data']['status_text']]}</div>]
                     },()=>{
                         this.handleCancel();
                     })

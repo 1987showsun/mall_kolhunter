@@ -17,17 +17,17 @@ class Index extends React.Component{
     }
 
     static getDerivedStateFromProps( props, state){
-        if( props.info!=state.data ){
+        if( Object.keys( state.data ).length==0 ){
             return{
                 data: props.info
             }
         }
+        return null;
     }
 
     render(){
 
         const { update, data } = this.state;
-        console.log( data );
 
         return(
             <React.Fragment>
@@ -89,12 +89,8 @@ class Index extends React.Component{
                                         </li>
                                         <li>
                                             <label>分行</label>
-                                            <div className="">{data['bankBranch'] || "N/A"}</div>
+                                            <div className="">{data['bankBranchName'] || "N/A"}</div>
                                         </li>
-                                        {/* <li>
-                                            <label>分行代碼</label>
-                                            <div className="">{data['bankBranchCode']}</div>
-                                        </li> */}
                                         <li>
                                             <label>帳戶名稱</label>
                                             <div className="">{data['bankAccountName'] || "N/A"}</div>
@@ -121,9 +117,10 @@ class Index extends React.Component{
 
     }
 
-    returnCancel = () => {
+    returnCancel = ( data ) => {
         this.setState({
-            update: false
+            update: false,
+            data
         })
     }
 }

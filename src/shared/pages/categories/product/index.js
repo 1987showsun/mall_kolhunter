@@ -23,7 +23,7 @@ class Index extends React.Component{
 
     render(){
         
-        const { match, location } = this.props;
+        const { match, location, history } = this.props;
         const { data } = this.state;
 
         return(
@@ -31,6 +31,7 @@ class Index extends React.Component{
                 <div className="row">
                     <section className="container main-content">
                         <Filter
+                            history= {history}
                             match= {match}
                             location= {location}
                         />

@@ -21,7 +21,7 @@ export default class Breadcrumbs extends React.Component{
                         <Link to="/">首頁</Link>
                     </li>
                     <li>
-                        男性衣著
+                        蔡阿嘎的商店
                     </li>
                 </ul>
                 <div className="input-box select">

@@ -18,7 +18,6 @@ const initQuery = {
 class Index extends React.Component{
 
     static initialAction( NODE_ENV,pathname,query ) {
-
         query = {
             ...initQuery,
             ...query
@@ -33,9 +32,7 @@ class Index extends React.Component{
     }
 
     render(){
-
         const { match, location, history } = this.props;
-
         return(
             <React.Fragment>             
                 <Product 
@@ -52,6 +49,10 @@ class Index extends React.Component{
         const query = { ...initQuery, ...queryString.parse(location['search']) };
         const pathname = location['pathname'];
         this.props.dispatch( productList(pathname,query) );
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        
     }
 }
 

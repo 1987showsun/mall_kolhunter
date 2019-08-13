@@ -87,7 +87,7 @@ export default class Index extends React.Component{
                                         <li>
                                             <div className="figcaption-ul-head">總成交數</div>
                                             <div className="figcaption-ul-content">
-                                                <CurrencyFormat value={13456981} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                                <CurrencyFormat value={13456981} displayType={'text'} thousandSeparator={true} />
                                             </div>
                                         </li>
                                         <li>
@@ -120,7 +120,7 @@ export default class Index extends React.Component{
                                 {
                                     data.map( item => {
                                         return(
-                                            <li>
+                                            <li key={item['id']}>
                                                 <Item path={`/detail/${item['id']}?store=store_id`} data={item}/>
                                             </li>
                                         )

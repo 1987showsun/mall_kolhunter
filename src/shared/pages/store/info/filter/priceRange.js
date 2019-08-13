@@ -27,13 +27,13 @@ export default class PriceRange extends React.Component{
                         <ul className="priceRange-ul">
                             <li>
                                 <div className="input-box">
-                                    <CurrencyFormat value={ priceRange['min'] } thousandSeparator={true} prefix={'$'} onValueChange={ this.handlePriceRange.bind(this) } />
+                                    <CurrencyFormat value={ priceRange['min'] } thousandSeparator={true} onValueChange={ this.handlePriceRange.bind(this) } />
                                 </div>
                             </li>
                             <li>-</li>
                             <li>
                                 <div className="input-box">
-                                    <CurrencyFormat value={ priceRange['max'] } thousandSeparator={true} prefix={'$'} onValueChange={this.handlePriceRange.bind(this)} />
+                                    <CurrencyFormat value={ priceRange['max'] } thousandSeparator={true} onValueChange={this.handlePriceRange.bind(this)} />
                                 </div>
                             </li>
                         </ul>

@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 import PurchaseInfo from './form/purchase_info';
 import Invoice from './form/invoice';
 
-export default class Step1 extends React.Component{
+class Step2 extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            profile: props.profile,
             formObject: {
                 payment_method: {
                     
@@ -23,8 +24,19 @@ export default class Step1 extends React.Component{
             }
         }
     }
+    
+    static getDerivedStateFromProps( props,state ) {
+        if( Object.keys(state.profile).length==0 ){
+            return{
+                profile: props.profile
+            }
+        }
+        return null;
+    }
 
     render(){
+
+        const { profile } = this.state;
 
         return(
             <React.Fragment>
@@ -33,7 +45,7 @@ export default class Step1 extends React.Component{
                         <h4>購買資料</h4>
                     </article>
                     <div className="admin-content-container">
-                        <PurchaseInfo />
+                        <PurchaseInfo data={profile}/>
                     </div>
 
                     <article className="admin-content-title">
@@ -82,3 +94,11 @@ export default class Step1 extends React.Component{
         }
     }
 }
+
+const mapStateToProps = state => {
+    return{
+        profile: state.vendor.info
+    }
+}
+
+export default connect( mapStateToProps )( Step2 );

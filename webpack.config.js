@@ -1,7 +1,6 @@
 const webpack           = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer      = require('autoprefixer');
-const proxy = require('http-proxy-middleware');
 
 const keyName= {};
 let SETUP= {};
@@ -12,8 +11,7 @@ Object.keys(process.env).map((key, i) => {
   }
 });
 if( keyName['NODE_ENV']=='development' ){
-  SETUP.push({'NODE_ENV_DEV': true});
-  //SETUP = { ...SETUP, 'NODE_ENV_DEV': true }
+  SETUP = { ...SETUP, 'NODE_ENV_DEV': true }
 }
 
 const browserConfig = {

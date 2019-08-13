@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start-dev": "NODE_ENV=development webpack -w & NODE_ENV=development nodemon server.js",
+    "bundle": "NODE_ENV=development webpack",
     "start": "NODE_ENV=development nodemon server.js",
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"

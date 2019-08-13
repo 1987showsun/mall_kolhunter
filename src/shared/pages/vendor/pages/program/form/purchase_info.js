@@ -6,27 +6,46 @@ import { connect } from 'react-redux';
 import area_code from '../../../../../public/json/TWareacode.json';
 import county_area from '../../../../../public/json/TWzipcode.json';
 
+const city = Object.keys(county_area)[0];
+const district = Object.keys(county_area[city])[0];
+
 export default class PurchaseInfo extends React.Component{
 
     constructor(props){
-
-        const initCounty = Object.keys(county_area)[0];
-        const initCountyArea = Object.keys(county_area[initCounty])[0];
-
         super(props);
         this.state = {
+            data: props.data,
             formObject:{
-                name: "",
-                department: "",
+                company: "",
+                contactor: "",
                 email: "",
-                //area_code: area_code['0']['code'],
-                //tel: "",
                 phone: "",
-                county: initCounty,
-                county_area: initCountyArea,
+                zipcode: "",
+                city: "",
+                district: "",
                 address: ""
             }
         }
+    }
+
+    static getDerivedStateFromProps( props,state ) {
+        if( Object.keys(state.data).length==0 ){
+
+            let formObject = { ...props.data };
+            console.log( 'formObject',formObject );
+            if( props.data['city']==undefined || props.data['city']=="" ){
+                formObject = { ...formObject,city: city }
+            }
+            if( props.data['district']==undefined || props.data['district']=="" ){
+                formObject = { ...formObject,district: district }
+            }
+
+            return{
+                data: props.data,
+                formObject
+            }
+        }
+        return null;
     }
 
     render(){
@@ -44,47 +63,33 @@ export default class PurchaseInfo extends React.Component{
             <React.Fragment>
                 <ul className="program-form-ul">
                     <li>
-                        <label>* 承辦人 / 公司</label>
+                        <label>* 公司</label>
                         <div className="input-box">
-                            <input type="text" name="name" value={ formObject['name'] } onChange={ this.handleChange.bind(this) } placeholder=""/>
+                            <input type="text" name="company" value={ formObject['company'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
                         </div>
                     </li>
                     <li>
-                        <label>* 部門 / 職稱</label>
+                        <label>* 聯絡人</label>
                         <div className="input-box">
-                            <input type="text" name="department" value={ formObject['department'] } onChange={ this.handleChange.bind(this) } placeholder=""/>
+                            <input type="text" name="contactor" value={ formObject['contactor'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
                         </div>
                     </li>
                     <li>
-                        <label>* 連絡信箱</label>
+                        <label>* 信箱</label>
                         <div className="input-box">
-                            <input type="email" name="email" value={ formObject['email'] } onChange={ this.handleChange.bind(this) } placeholder=""/>
+                            <input type="email" name="email" value={ formObject['email'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
                         </div>
                     </li>
                     <li>
                         <label>* 聯絡電話</label>
-                        {/* <div className="input-box select">
-                            <select name="area_code" onChange={ this.handleChange.bind(this) }>
-                                {
-                                    area_code.map( (item,i) => {
-                                        return(
-                                            <option key={item['code']} value={item['code']}>{item['code']}</option>
-                                        )
-                                    })
-                                }
-                            </select>
-                        </div>
                         <div className="input-box">
-                            <CurrencyFormat value={formObject['tel']} format={areaCodeFormat} mask="_" onValueChange={ value => this.returnTel(value['formattedValue'],'tel')}/>
-                        </div> */}
-                        <div className="input-box">
-                            <CurrencyFormat value={formObject['phone']} format="##########" onValueChange={ value => this.returnTel(value['formattedValue'],'phone')}/>
+                            <CurrencyFormat value={ formObject['phone'] || "" } format="##########" onValueChange={ value => this.returnTel(value['formattedValue'],'phone')}/>
                         </div>
                     </li>
                     <li>
                         <label>* 聯絡地址</label>
                         <div className="input-box select">
-                            <select name="county" onChange={ this.handleChange.bind(this) }>
+                            <select name="city" onChange={ this.handleChange.bind(this) }>
                                 {
                                     Object.keys(county_area).map( item => {
                                         return(
@@ -95,18 +100,18 @@ export default class PurchaseInfo extends React.Component{
                             </select>
                         </div>
                         <div className="input-box select">
-                            <select name="county_area" onChange={ this.handleChange.bind(this) }>
+                            {/* <select name="district" onChange={ this.handleChange.bind(this) }>
                                 {
-                                    Object.keys(county_area[formObject['county']]).map( item => {
+                                    Object.keys(county_area[formObject['city']]).map( item => {
                                         return(
-                                            <option key={`${formObject['county']}_${item}`} value={item}>{item}</option>
+                                            <option key={`${formObject['city']}_${item}`} value={item}>{item}</option>
                                         )
                                     })
                                 }
-                            </select>
+                            </select> */}
                         </div>
                         <div className="input-box">
-                            <input type="text" name="address" value={ formObject['address'] } onChange={ this.handleChange.bind(this) } placeholder=""/>
+                            <input type="text" name="address" value={ formObject['address'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
                         </div>
                     </li>
                 </ul>

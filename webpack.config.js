@@ -12,7 +12,8 @@ Object.keys(process.env).map((key, i) => {
   }
 });
 if( keyName['NODE_ENV']=='development' ){
-  SETUP = { ...SETUP, 'NODE_ENV_DEV': true }
+  SETUP.push({'NODE_ENV_DEV': true});
+  //SETUP = { ...SETUP, 'NODE_ENV_DEV': true }
 }
 
 const browserConfig = {

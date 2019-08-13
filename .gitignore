@@ -1,7 +1,7 @@
 node_modules
 
-public/css*
-public/bundle.js
+public/css
+//public/bundle.js
 public/bundle.js.map
 
 // server.js

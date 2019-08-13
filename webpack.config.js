@@ -3,7 +3,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer      = require('autoprefixer');
 
 const keyName= {};
-var SETUP= {};
+let SETUP= {
+  "NODE_ENV_DEV" : false
+};
 
 Object.keys(process.env).map((key, i) => {
   if (key.indexOf("NODE_ENV") == 0) {

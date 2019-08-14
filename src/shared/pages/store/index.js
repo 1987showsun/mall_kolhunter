@@ -20,7 +20,6 @@ const initQuery = {
 class Index extends React.Component{
 
     static initialAction( NODE_ENV,pathname,query ) {
-
         query = {
             ...initQuery,
             ...query
@@ -57,7 +56,7 @@ class Index extends React.Component{
                                     data.map( item => {
                                         return(
                                             <li key={item['id']}>
-                                                <Item path={`/approach/${item['id']}`} data={item}/>
+                                                <Item path={`/store/${item['id']}`} data={item}/>
                                             </li>
                                         )
                                     })

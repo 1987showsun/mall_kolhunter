@@ -36,13 +36,17 @@ class Layout extends React.Component{
 
     render(){
         const isNowPagesNoShow = ['vendor','account','myvendor'];
-        const { location, match } = this.props;
+        const { location, match, history } = this.props;
         let pathname = location['pathname'].split('/').filter( item => item!='' );
         return(
             <React.Fragment>
                 {
                     !isNowPagesNoShow.includes( pathname[0] ) &&
-                        <Header />
+                        <Header 
+                            history= {history}
+                            match= {match}
+                            location= {location} 
+                        />
                 }
                 <Switch>
                     {
@@ -53,7 +57,11 @@ class Layout extends React.Component{
                 </Switch>
                 {
                     !isNowPagesNoShow.includes( pathname[0] ) &&
-                        <Footer />
+                        <Footer 
+                            history= {history}
+                            match= {match}
+                            location= {location} 
+                        />
                 }
             </React.Fragment>
         );

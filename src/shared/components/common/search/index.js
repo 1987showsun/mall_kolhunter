@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faSearch }from '@fortawesome/free-solid-svg-icons';
@@ -6,11 +7,13 @@ import { faSearch }from '@fortawesome/free-solid-svg-icons';
 export default class Search extends React.Component{
 
     constructor(props){
+        const { location } = props;
+        const search = queryString.parse(location['search']);
         super(props);
         this.state = {
             formObject : {
-                type : 1,
-                search : ""
+                type : search['type'] || "product",
+                keyword : search['keyword'] || ""
             }
         }
     }
@@ -23,11 +26,11 @@ export default class Search extends React.Component{
             <div className="search-block">
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="input-box">
-                        <input type="text" name="search" value={formObject['search']} placeholder="" onChange={this.handleChange.bind(this)}/>
+                        <input type="text" name="keyword" value={formObject['keyword']} placeholder="" onChange={this.handleChange.bind(this)}/>
                         <div className="input-box select">
-                            <select name="type" onChange={this.handleChange.bind(this)}>
-                                <option value="1">商品名稱</option>
-                                <option value="2">網紅名稱</option>
+                            <select name="type" value={formObject['type']} onChange={this.handleChange.bind(this)}>
+                                <option value="product">商品名稱</option>
+                                <option value="store">網紅名稱</option>
                             </select>
                         </div>
                         <button type="submit">
@@ -59,6 +62,12 @@ export default class Search extends React.Component{
     handleSubmit = ( e ) => {
         e.preventDefault();
         const { formObject } = this.state;
-        console.log(formObject);
+        const { history, location } = this.props;
+        let search = queryString.parse( location['search'] );
+        search = { ...search, ...formObject };
+        history.push({
+            pathname: '/search',
+            search: queryString.stringify( search )
+        })
     }
 }

@@ -4,6 +4,7 @@ import { combineReducers }             from "redux";
 import home from './home';
 import login from './login';
 import store from './store';
+import search from './search';
 import vendor from './vendor';
 import account from './account';
 import categories from './categories';
@@ -12,6 +13,7 @@ export default combineReducers({
     home,
     login,
     store,
+    search,
     vendor,
     account,
     categories

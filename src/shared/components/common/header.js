@@ -39,7 +39,15 @@ class Header extends React.Component{
 
     render(){
 
-        const { accountInfo, token } = this.state;
+        const { 
+            accountInfo, 
+            token 
+        } = this.state;
+        const {
+            history,
+            match,
+            location
+        } = this.props;
 
         return(
             <header data-content="center">
@@ -50,7 +58,11 @@ class Header extends React.Component{
                             <img className="mobile" src={LogoMobile} alt="" title="" />
                         </Link>
                     </div>
-                    <Search />
+                    <Search 
+                        history= {history}
+                        match= {match}
+                        location= {location}
+                    />
                     <div className="header-nav-block">
                         <ul>
                             {

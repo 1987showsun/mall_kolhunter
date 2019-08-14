@@ -8,12 +8,18 @@ import StoreInfo from '../pages/store/info';
 import ontSignIn from '../pages/login';
 import IncIndex from '../pages/vendor';
 import AccountIndex from '../pages/account';
+import SearchIndex from '../pages/search'; 
 
 const common = [
   {
     path: "/",
     exact: true,
     component: Home
+  },
+  {
+    path: "/search",
+    exact: true,
+    component: SearchIndex
   },
   {
     path: "/terms",

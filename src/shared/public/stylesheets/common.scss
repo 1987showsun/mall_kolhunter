@@ -223,11 +223,14 @@ html,body{
         margin: auto;
         display: flex;
         &.main-content {
+            min-height: 500px;
             padding: 20px 0px;
             @media (max-width: 720px) and (min-width: 421px) {
+                min-height: 300px;
                 padding: 10px;
             }
             @media (max-width: 420px) {
+                min-height: 300px;
                 padding: 5px;
             }
         }
@@ -367,6 +370,9 @@ form{
                 background-repeat: no-repeat;
                 background-position: 93% center;
             }
+        }
+        .input-box{
+            border: none;
         }
     }
     .input-box:first-child{

@@ -63,7 +63,7 @@ const Axios = ( api ) => {
         url: api['url'],
         data: api['data'],
         headers:{
-            authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
+            authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : '',
         }
     });
 }

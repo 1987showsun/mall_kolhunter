@@ -12,6 +12,7 @@ axios.interceptors.response.use(function (response) {
 });
 
 const API_ADDRESS = (NODE_ENV) => {
+    NODE_ENV = NODE_ENV || 'development';
     if( process.env.NODE_ENV_DEV==true || NODE_ENV=="development" ){
         return "https://sapi.kolhunter.com";
     }else{
@@ -83,7 +84,8 @@ export default function API( NODE_ENV ){
             'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/deliveries`
         },
         'categories': {
-            'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/categories`
+            'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/categories`,
+            'mall': `${API_ADDRESS(NODE_ENV)}/v1/mall/categories`
         },
         'shopping': {
             'cartID': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart/init`

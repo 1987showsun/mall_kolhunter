@@ -22,7 +22,6 @@ const initQuery = {
 class Index extends React.Component{
 
     static initialAction( NODE_ENV,pathname,query ) {
-        console.log('--->',pathname,query);
         query = {
             ...initQuery,
             ...query
@@ -70,12 +69,17 @@ class Index extends React.Component{
                             <Breadcrumbs keyword={keyword}/>
                             {
                                 data.length==0? (
-                                    <div>無可搜尋資料</div>
+                                    // 沒有任何資料
+                                    !loading &&
+                                        // API調用完成後
+                                        <div className="list-nodata" >無可搜尋資料</div>
                                 ):(
+                                    // 如有資料
                                     <BlockList className={`${type}-card`}>
                                         {
                                             data.map( (item,i)=> {
                                                 if( type == 'product' ){
+                                                    // 調用 Product items components
                                                     return (
                                                         <li key={item['id']}>
                                                             <ProductItem
@@ -85,6 +89,7 @@ class Index extends React.Component{
                                                         </li>
                                                     );
                                                 }else{
+                                                    // 調用 Store items components
                                                     return (
                                                         <li key={item['id']}>
                                                             <StoreItem 

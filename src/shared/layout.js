@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Route, Redirect, Switch } from "react-router-dom";
 
 // Actions
-import { ssrUse } from './actions/home';
+import { allCategories } from './actions/common';
 
 //Routes
 import routers from './routers';
@@ -12,12 +12,8 @@ import routers from './routers';
 import Header from './components/common/header';
 import Footer from './components/common/footer';
 
-//Jsons
-
 //Stylesheets
 import './public/stylesheets/common.scss';
-
-//socket test
 
 class Layout extends React.Component{
     constructor(props){

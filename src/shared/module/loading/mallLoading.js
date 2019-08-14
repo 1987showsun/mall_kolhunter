@@ -23,7 +23,7 @@ export default class Loading extends React.Component{
         if( loading ){
             return(
                 <div className="mall-loding-wrap">
-                    <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                    <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                 </div>
             );
         }else{

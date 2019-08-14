@@ -1,8 +1,7 @@
 export default function home(
     state = {
         kv: [],
-        latest: [],
-        test: ""
+        latest: []
     },action
 ){
     switch(action.type){
@@ -18,13 +17,6 @@ export default function home(
                 ...state, 
                 latest: action.data
             };
-            break;
-
-        case 'TEST':
-            state= {
-                ...state,
-                test: action.payload
-            }
             break;
     }
     return state;

@@ -790,8 +790,7 @@ nav.inc_nav {
   align-items: center;
   border-bottom: 1px solid #E4E4EB; }
   .container .block-title h2 {
-    font-size: 1.2em;
-    color: var(--blockTitle); }
+    font-size: 1.1em; }
   @media (max-width: 420px) {
     .container .block-title {
       height: 45px;
@@ -866,6 +865,20 @@ figure {
 
 .relative {
   position: relative; }
+
+.list-nodata {
+  height: 75%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 0.8em;
+  color: #aaa; }
 footer {
   width: 100%;
   padding: 20px 0px 0px 0px;
@@ -4620,8 +4633,7 @@ figure.card {
       display: none !important; } }
 
 .filter-nav-ul {
-  width: 100%;
-  font-size: 1em; }
+  width: 100%; }
   .filter-nav-ul > li {
     width: 100%;
     height: 27px; }
@@ -4634,7 +4646,11 @@ figure.card {
       -webkit-box-align: center;
       -ms-flex-align: center;
       align-items: center;
-      color: #666666; }
+      color: #666666;
+      font-size: 0.9rem; }
+    .filter-nav-ul > li.true a {
+      color: var(--main);
+      font-weight: bold; }
   @media (max-width: 720px) and (min-width: 420px) {
     .filter-nav-ul {
       font-size: 0.9em; }

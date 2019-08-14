@@ -2,39 +2,57 @@ import axios from 'axios';
 import API from './apiurl';
 
 //Actions
-export function kv( method,formObject ){
-    return function( dispatch,NODE_ENV,pathname,query ){
-        method = method || 'get';
-        const url = API(NODE_ENV,pathname,query)['mall']['home']['kv'];
+export function kv( pathname,query ){
+    return( dispatch,NODE_ENV )=>{
+        const method = 'get';
+        const url = API(NODE_ENV)['mall']['home']['kv'];
         return Axios({method, url, data:{} }).then( res => {
             dispatch({
                 type: "HOME_KV",
                 data: res['data']
             })
+            return res;
         });
     }
 }
 
-export function latest( method,formObject ){
-    return (dispatch,NODE_ENV,pathname,query) => {
-        method = method || 'get';
-        const url = API(NODE_ENV,pathname,query)['mall']['home']['latest'];
+export function latest( pathname,query ){
+    return( dispatch,NODE_ENV ) => {
+        const method = 'get';
+        const url = API(NODE_ENV)['mall']['home']['latest'];
         return Axios({method, url }).then( res => {
             dispatch({
                 type: "HOME_LATEST",
                 data: res['data']
             })
+            return res;
+        })
+    }
+}
+
+export function mallCategories(pathname,query){
+    return( dispatch,NODE_ENV )=>{
+        const method = 'get';
+        const url = API(NODE_ENV)['categories']['mall'];
+        return Axios({method, url, data:{} }).then( res => {
+            dispatch({
+                type: "MALL_CATEGORIES_LIST",
+                list: res['data']
+            })
+            return res;
         })
     }
 }
 
 export function getHome(NODE_ENV,pathname,query){
     return(dispatch) => {
-        const ssrKv = kv()(dispatch,NODE_ENV,pathname,query);
-        const ssrLatest = latest()(dispatch,NODE_ENV,pathname,query);
+        const ssrMallCat =  mallCategories(pathname,query)(dispatch,NODE_ENV);
+        const ssrKv = kv(pathname,query)(dispatch,NODE_ENV).then( res => {
+            return latest(pathname,query)(dispatch,NODE_ENV);
+        });
         return (
-            ssrKv,
-            ssrLatest
+            ssrMallCat,
+            ssrKv
         )
     }
 }

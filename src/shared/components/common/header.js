@@ -121,7 +121,6 @@ class Header extends React.Component{
 
     componentDidMount() {
         this.props.dispatch( ainfo() );
-
         // 檢查 localStorage 有無購物車編號，沒有向後端要一組
         if( typeof window !== 'undefined' ){
             if( !localStorage.getItem('cartID') ){

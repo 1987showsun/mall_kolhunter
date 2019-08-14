@@ -5,8 +5,22 @@ import { Link } from 'react-router-dom';
 import Slider from '../../module/slider';
 
 export default class Category extends React.Component{
-    render(){
 
+    constructor(props){
+        super(props);
+        this.state = {
+            data: props.data
+        }
+    }
+
+    static getDerivedStateFromProps( props,state ){
+        return{
+            data: props.data
+        }
+    }
+
+    render(){
+        const { data } = this.state;
         const settings = {
             className: "category-wrap",
             centerMode: false,
@@ -61,14 +75,27 @@ export default class Category extends React.Component{
                   }
                 }
             ]
-          };
+        };
 
         return(
             <div className="row category-wrap">
                 <section className="container" data-direction="column" >
                     <div className="unit">
                         <Slider settings={settings}>
-                            <figure>
+                            {
+                                data.map( item => {
+                                    return(
+                                        <figure key={item['id']}>
+                                            <Link to={`/categories/${item['id']}`} />
+                                            <div className="category-figure-img">
+                                                <img src="https://cf.shopee.tw/file/17f3879a1872099681d7b85101e187db_tn" alt="" title="" />
+                                            </div>
+                                            <figcaption>{item['title']}</figcaption>
+                                        </figure>
+                                    )
+                                })
+                            }
+                            {/* <figure>
                                 <Link to="/categories" />
                                 <div className="category-figure-img">
                                     <img src="https://cf.shopee.tw/file/17f3879a1872099681d7b85101e187db_tn" alt="" title="" />
@@ -207,7 +234,7 @@ export default class Category extends React.Component{
                                     <img src="https://cf.shopee.tw/file/2ce3822327a87bd4e3e96a131e5ea082_tn" alt="" title="" />
                                 </div>
                                 <figcaption>遊戲王</figcaption>
-                            </figure>
+                            </figure> */}
                         </Slider>
                     </div>
                 </section>

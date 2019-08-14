@@ -3,10 +3,9 @@ import API from './apiurl';
 import queryString from 'query-string';
 
 export function productList( url,query ) {
-    return (dispatch,NODE_ENV,ssrPathname,ssrQuery) => {
-        const search = queryString.stringify({ ...query,...ssrQuery });
+    return (dispatch,NODE_ENV) => {
+        const search = queryString.stringify({ ...query });
         const url = `${API(NODE_ENV)['mall']['product']['list']}?${search}`;
-        console.log( url );
         return Axios({method:'get',url,data:{}}).then(res=>{
 
             dispatch({
@@ -18,11 +17,21 @@ export function productList( url,query ) {
 
             dispatch({
                 type: "CATRGORIES_PRODUCT_LIST",
-                list: res['data']['list'],
-                limit: res['data']['limit'],
-                total: res['data']['total'],
-                current: res['data']['page'],
-                totalPages: res['data']['pages']
+                list: res['data']['list']
+            })
+            return res;
+        })
+    }
+}
+
+export function mallCategories(pathname,query){
+    return( dispatch,NODE_ENV )=>{
+        const method = 'get';
+        const url = API(NODE_ENV)['categories']['mall'];
+        return Axios({method, url, data:{} }).then( res => {
+            dispatch({
+                type: "MALL_CATEGORIES_LIST",
+                list: res['data']
             })
             return res;
         })
@@ -31,7 +40,7 @@ export function productList( url,query ) {
 
 export function ssrProductList( NODE_ENV,pathname,query ){
     return(dispatch)=>{
-        const ssrProduct = productList()(dispatch,NODE_ENV,pathname,query);
+        const ssrProduct = productList(pathname,query)(dispatch,NODE_ENV);
         return(
             ssrProduct
         );

@@ -722,8 +722,7 @@ nav{
         align-items: center;
         border-bottom: 1px solid #E4E4EB;
         h2 {
-            font-size: 1.2em;
-            color: var(--blockTitle);
+            font-size: 1.1em;
         }
         @media (max-width: 420px) {
             height: 45px;
@@ -792,4 +791,13 @@ figure{
 
 .relative{
     position: relative;
+}
+
+.list-nodata{
+    height: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    color: #aaa;
 }

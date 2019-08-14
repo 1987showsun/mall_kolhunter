@@ -22,8 +22,8 @@ export default class Product extends React.Component{
                         {/* <h4><Link to="">Rimowa</Link></h4> */}
                     </section>
                     <div className="figcaption-row money">
-                        <span className="price">{data['price']}</span>
-                        <span className="priceSale">{data['sellPrice']}</span>
+                        <span className="price">{ Math.floor(data['price']) }</span>
+                        <span className="priceSale">{ Math.floor(data['sellPrice']) }</span>
                     </div>
                 </figcaption>
             </figure>

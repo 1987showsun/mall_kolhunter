@@ -30,7 +30,8 @@ class Info extends React.Component{
                 email: props.accountInfo['email'] || '',
                 zipcode: props.accountInfo['zipcode'] || '',
                 city: city || '',
-                district: district || ''
+                district: district || '',
+                address: props.accountInfo['address'] || ''
             },
             msg: []
         }
@@ -53,7 +54,8 @@ class Info extends React.Component{
                     email: props.accountInfo['email'] || '',
                     zipcode: props.accountInfo['zipcode'] || '',
                     city: city || '',
-                    district: district || ''
+                    district: district || '',
+                    address: props.accountInfo['address'] || ''
                 }
             }            
         }
@@ -124,7 +126,7 @@ class Info extends React.Component{
                             </div>
                         </div>
                     </li>
-                    <li>
+                    {/* <li>
                         <label htmlFor="">聯絡電話</label>
                         <div>
                             <div className="input-box select">
@@ -142,7 +144,7 @@ class Info extends React.Component{
                                 <CurrencyFormat value={formObject['tel']} format={areaCodeFormat} mask="_" onValueChange={ value => this.returnTel(value['value'],'tel')}/>
                             </div>
                         </div>
-                    </li>
+                    </li> */}
                     <li>
                         <label htmlFor="">＊手機號碼</label>
                         <div>

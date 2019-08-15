@@ -137,7 +137,9 @@ export default class Cover extends React.Component{
                             <button type="button" onClick={this.quantityChange.bind(this,"minus")}>
                                 <FontAwesomeIcon icon={faMinus} />
                             </button>
-                            <input type="member" name="quantity" value={formObject['quantity']} onChange={this.handleChange.bind(this)} /> 
+                            <div className="input-box">
+                                <input type="member" name="quantity" value={formObject['quantity']} onChange={this.handleChange.bind(this)} /> 
+                            </div>
                             <button type="button" onClick={this.quantityChange.bind(this,"plus")}>
                                 <FontAwesomeIcon icon={faPlus} />
                             </button>

@@ -27,7 +27,7 @@ export function productList( url,query ) {
 export function mallCategories(pathname,query){
     return( dispatch,NODE_ENV )=>{
         const method = 'get';
-        const url = API(NODE_ENV)['categories']['mall'];
+        const url = API(NODE_ENV)['categories']['list'];
         return Axios({method, url, data:{} }).then( res => {
             dispatch({
                 type: "MALL_CATEGORIES_LIST",

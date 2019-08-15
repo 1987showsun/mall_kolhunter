@@ -84,8 +84,7 @@ export default function API( NODE_ENV ){
             'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/deliveries`
         },
         'categories': {
-            'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/categories`,
-            'mall': `${API_ADDRESS(NODE_ENV)}/v1/mall/categories`
+            'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/categories`
         },
         'shopping': {
             'cartID': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart/init`

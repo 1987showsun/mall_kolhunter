@@ -1,5 +1,7 @@
+// 產品列表
 import React from 'react';
 import { connect } from 'react-redux';
+import CurrencyFormat from 'react-currency-format';
 
 import Item from './item';
 
@@ -20,7 +22,19 @@ class Index extends React.Component{
                     "itemNum": 1,
                     "cartPrice": 19800,
                     "actualPrice": 19800,
-                    "addTimeMs": 1565687018438
+                    "addTimeMs": 1565687018431,
+                    "deliveryMethods": [
+                        {
+                            "productDeliveryID": "delivery0001",
+                            "deliveryName": "7-11",
+                            "cost": 300
+                        },
+                        {
+                            "productDeliveryID": "delivery0002",
+                            "deliveryName": "全家",
+                            "cost": 100
+                        }
+                    ]
                 },
                 {
                     "storeToken": "storeid-00000002",
@@ -33,7 +47,19 @@ class Index extends React.Component{
                     "itemNum": 1,
                     "cartPrice": 19800,
                     "actualPrice": 19800,
-                    "addTimeMs": 1565687018438
+                    "addTimeMs": 1565687018432,
+                    "deliveryMethods": [
+                        {
+                            "productDeliveryID": "delivery0001",
+                            "deliveryName": "7-11",
+                            "cost": 300
+                        },
+                        {
+                            "productDeliveryID": "delivery0002",
+                            "deliveryName": "全家",
+                            "cost": 100
+                        }
+                    ]
                 },
                 {
                     "storeToken": "storeid-00000003",
@@ -46,7 +72,19 @@ class Index extends React.Component{
                     "itemNum": 1,
                     "cartPrice": 19800,
                     "actualPrice": 19800,
-                    "addTimeMs": 1565687018438
+                    "addTimeMs": 1565687018433,
+                    "deliveryMethods": [
+                        {
+                            "productDeliveryID": "delivery0001",
+                            "deliveryName": "7-11",
+                            "cost": 300
+                        },
+                        {
+                            "productDeliveryID": "delivery0002",
+                            "deliveryName": "全家",
+                            "cost": 100
+                        }
+                    ]
                 },
                 {
                     "storeToken": "storeid-00000004",
@@ -59,7 +97,14 @@ class Index extends React.Component{
                     "itemNum": 1,
                     "cartPrice": 19800,
                     "actualPrice": 19800,
-                    "addTimeMs": 1565687018438
+                    "addTimeMs": 1565687018434,
+                    "deliveryMethods": [
+                        {
+                            "productDeliveryID": "delivery0001",
+                            "deliveryName": "7-11",
+                            "cost": 300
+                        }
+                    ]
                 }
             ]
         }
@@ -68,17 +113,20 @@ class Index extends React.Component{
     render(){
 
         const { list } = this.state;
-        console.log( list );
 
         return(
             <div className="cart-product-wrap">
                 {
-                    list.map( (items,i) => {
+                    list.map( item => {
                         return(
-                            <Item key={i} data={items} />
+                            <Item key={item['addTimeMs']} data={item} />
                         )
                     })
                 }
+                <div className="total-wrap">
+                    <span className="label">購買總金額：</span>
+                    <CurrencyFormat className="total-money" value="11,222" displayType={'text'} thousandSeparator={true}/>
+                </div>
             </div>
         );
     }

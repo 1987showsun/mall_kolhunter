@@ -45,12 +45,12 @@ export default class List extends React.Component{
                         { data['birthday'] }
                     </div>
                 </li>
-                <li>
+                {/* <li>
                     <label htmlFor="">聯絡電話</label>
                     <div>
                         {`(${data['tel_code'] || ""}) ${data['tel'] || ""}`}
                     </div>
-                </li>
+                </li> */}
                 <li>
                     <label htmlFor="">手機號碼</label>
                     <div>

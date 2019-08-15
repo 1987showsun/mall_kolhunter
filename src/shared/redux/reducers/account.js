@@ -1,11 +1,6 @@
 export default function account(
     state = {
-        "info": {
-            celebrity: "",
-            email: "",
-            name: "",
-            photo: ""
-        }
+        "info": {}
     },action
 ){
     switch(action.type){

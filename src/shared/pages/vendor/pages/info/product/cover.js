@@ -74,6 +74,9 @@ export default class Cover extends React.Component{
         );
     }
 
+    componentWillUnmount(){
+    }
+
     returnCancel = () => {
         this.setState({
             update: false,

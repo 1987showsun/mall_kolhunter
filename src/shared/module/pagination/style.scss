@@ -10,7 +10,6 @@
             margin-right: 5px;
             a{
                 width: 30px;
-                background: #ccc;
             }
             &:last-child{
                 margin-right: 0px;
@@ -18,8 +17,6 @@
             &.true{
                 a{
                     color: #fff;
-                    background: var(--primary);
-
                 }
             }
         }
@@ -49,5 +46,16 @@
         font-size: 0.9em;
         color: #ccc;
         cursor: no-drop;
+    }
+    &.nromal{
+        a{
+            background: #ccc;
+            color: #333;
+        }
+        .true{
+            a{
+                background: var(--primary);
+            }
+        }
     }
 }

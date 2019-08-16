@@ -10,7 +10,18 @@ export default class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            className: props.className || 'nromal',
+            pageNumber: [],
             method: props.method || 'normal',
+            query: props.query || {},
+            current: Number( props.current ) || 1,
+            limit: Number( props.limit ) || 30,
+            total: Number( props.total ) || 0
+        }
+    }
+
+    static getDerivedStateFromProps( props,state ){
+        return {
             current: Number( props.current ) || 1,
             limit: Number( props.limit ) || 30,
             total: Number( props.total ) || 0
@@ -21,42 +32,21 @@ export default class Index extends React.Component{
 
         const { location } = this.props;
         const { pathname, search } = location;
-        const { total, method } = this.state;
+        const { className, total, method, query } = this.state;
         const searchObject = queryString.parse(search);
         const limit = Number(searchObject['limit']) || this.state.limit;
         const current = Number(searchObject['page']) || this.state.current;
         const pageVal = Math.ceil(total/limit);
 
         if( method=='normal' ){
-            const totalPage = () => {
-                let returnView = [];
-                for( let i=1 ; i<=pageVal ; i++ ){
-                    returnView.push(
-                        <li key={i} className={`${current==i}`}>
-                            <Link to={{
-                                pathname: pathname,
-                                search: `?${ queryString.stringify({...searchObject,page:i}) }`,
-                                hash: "",
-                            }}>
-                                {i}
-                            </Link>
-                        </li>
-                    );
-                }
-
-                return returnView;
-            }
-
             return(
-                <div className="pagination-wrap">
-                    <ul>
-                        {totalPage()}
-                    </ul>
+                <div className={`pagination-wrap ${className}`}>
+                    <ul>{this.totalPage()}</ul>
                 </div>
             );
         }else{
             return(
-                <div className="pagination-wrap">
+                <div className={`pagination-wrap ${className}`}>
                     {
                         pageVal<=current?(
                             <div className="noData">暫無更多資料</div>
@@ -71,5 +61,34 @@ export default class Index extends React.Component{
                 </div>
             );
         }
+    }
+
+    totalPage = () => {
+        const { location } = this.props;
+        const { pathname, search } = location;
+        const { total, query } = this.state;
+        const searchObject = queryString.parse(search);
+        const limit = Number(searchObject['limit']) || this.state.limit;
+        const current = Number(searchObject['page']) || this.state.current;
+        const pageVal = Math.ceil(total/limit)==0? 1 : Math.ceil(total/limit);
+        let pageNumber = [ ...this.state.pageNumber ];
+
+        for( let i=0 ; i<pageVal ; i++ ){
+            let page = i+1;
+            pageNumber = [
+                ...pageNumber,
+                <li key={i} className={`${current==page}`}>
+                    <Link to={{
+                        pathname: pathname,
+                        search: `?${ queryString.stringify({ ...query, ...searchObject, page}) }`,
+                        hash: "",
+                    }}>
+                        {i+1}
+                    </Link>
+                </li>
+            ]
+        }
+
+        return pageNumber;
     }
 }

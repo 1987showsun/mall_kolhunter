@@ -113,31 +113,31 @@ class Product extends React.Component{
                         <React.Fragment>
                             <Cover 
                                 status= {status}
-                                id={data['info']['id']}
+                                id={data['id']}
                                 data={data['img']}
                             />
                             <Basic 
                                 status= {status}
                                 categories= {categories}
                                 data={{
-                                    ...data['info'], 
+                                    ...data, 
                                     categories:data['category']
                                 }}
                             />
                             <Format
                                 status= {status}
-                                id={data['info']['id']}
+                                id={data['id']}
                                 data={data['spec']}
                             />
                             <Freight
                                 status= {status}
-                                id={data['info']['id']}
+                                id={data['id']}
                                 data={data['delivery']}
                                 deliveries={deliveries} 
                             />
                             <Depiction 
                                 status= {status}
-                                id={data['info']['id']}
+                                id={data['id']}
                                 data={data['description']}
                             />
                         </React.Fragment>
@@ -165,7 +165,7 @@ class Product extends React.Component{
                                 }
                             >
                                     刪除
-                                    <span className="p_name">{data['info']['name']}</span>
+                                    <span className="p_name">{data['name']}</span>
                                     商品
                             </button>
                     }
@@ -188,7 +188,7 @@ class Product extends React.Component{
         const query = queryString.stringify({ ...serach, id: p_id });
         this.props.dispatch( infoProduct(query) ).then(res => {
             this.setState({
-                status: res['data']['info']['status'],
+                status: res['data']['status'],
                 data: res['data']
             })
         });
@@ -218,9 +218,9 @@ class Product extends React.Component{
         this.props.dispatch( deleteProduct(id) ).then( res => {
             if( res['data']['message']=="success" ){
                 if( status=='none-auth' ){
-                    this.props.history.push('/myvendor/categories/product/review?page=1&sort=desc&sortBy=created&limit=30&status=none-auth');
+                    this.props.history.goBack();
                 }else{
-                    this.props.history.push('/myvendor/categories/product?page=1&sort=desc&sortBy=created&limit=30&status=auth,non-display');
+                    this.props.history.goBack();
                 }
                 this.setState({
                     open: false,

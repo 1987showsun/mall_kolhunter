@@ -55,6 +55,7 @@ class Index extends React.Component{
         const { match, location, history } = this.props;
         const { loading, current, limit, total, data } = this.state;
         const { pathname } = location;
+        const query = { ...initQuery, ...queryString.parse(location['search']) }
 
         return(
             <React.Fragment>
@@ -82,7 +83,8 @@ class Index extends React.Component{
                                     })
                                 }
                             </BlockList>
-                            <Pagination 
+                            <Pagination
+                                query= {query}
                                 current= {current}
                                 limit= {limit}
                                 total= {total}

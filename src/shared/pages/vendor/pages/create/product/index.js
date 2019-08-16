@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Beforeunload } from 'react-beforeunload';
 
 // Components
 import Step from './step';
@@ -19,6 +20,7 @@ import { categories } from '../../../../../actions/common';
 
 // Lang
 import lang from '../../../../../lang/lang.json';
+import { faUnlock } from '@fortawesome/free-solid-svg-icons';
 
 class Index extends React.Component{
     constructor(props){
@@ -57,6 +59,7 @@ class Index extends React.Component{
 
         return(
             <React.Fragment>
+                <Beforeunload onBeforeunload={this.reload.bind(this)} />
                 <Step 
                     maxStep= { this.state.maxStep }
                     step= { this.state.step }
@@ -153,6 +156,9 @@ class Index extends React.Component{
                 categoriesItem: res['data']
             })
         });
+    }
+
+    componentWillUnmount() {
     }
 
     handleConfirm = ( val ) => {
@@ -301,6 +307,14 @@ class Index extends React.Component{
                 })
             })
             return false;
+        }
+    }
+
+    reload = (e) => {
+        e.preventDefault();
+        const id = this.state.id;
+        if( id!="" ){
+            
         }
     }
 }

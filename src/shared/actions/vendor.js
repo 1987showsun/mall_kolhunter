@@ -11,6 +11,11 @@ export function listProduct( query ) {
 
         const method = 'get';
         const url = `${API()['myvendor']['product']['categories']}${query}`;
+
+        dispatch({
+            type: 'VENDOR_PRODUCT_LIST',
+            list: []
+        });
         
         return Axios({method,url,data: {}}).then( res => {
 

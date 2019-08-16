@@ -44,7 +44,6 @@ input, select, button, textarea {
   resize: none; }
   input[type=submit], select[type=submit], button[type=submit], textarea[type=submit] {
     width: 100%;
-    height: 40px;
     background: var(--main);
     color: #fff;
     cursor: pointer; }
@@ -173,7 +172,7 @@ select {
   z-index: 2; }
 
 button {
-  height: 40px;
+  height: 35px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2186,7 +2185,8 @@ figure.card {
 .table-row-list {
   width: 100%;
   font-size: 0.9em;
-  color: var(--content); }
+  color: var(--content);
+  position: relative; }
   .table-row-list > li {
     min-height: 55px;
     -webkit-box-align: center;
@@ -3484,13 +3484,11 @@ figure.card {
       display: inline-flex;
       margin-right: 5px; }
       .pagination-wrap ul > li a {
-        width: 30px;
-        background: #ccc; }
+        width: 30px; }
       .pagination-wrap ul > li:last-child {
         margin-right: 0px; }
       .pagination-wrap ul > li.true a {
-        color: #fff;
-        background: var(--primary); }
+        color: #fff; }
   .pagination-wrap .loadMore {
     width: 140px;
     border: 1px solid var(--primary); }
@@ -3525,6 +3523,11 @@ figure.card {
     font-size: 0.9em;
     color: #ccc;
     cursor: no-drop; }
+  .pagination-wrap.nromal a {
+    background: #ccc;
+    color: #333; }
+  .pagination-wrap.nromal .true a {
+    background: var(--primary); }
 .login-wrap {
   width: 100%;
   min-height: 100%;

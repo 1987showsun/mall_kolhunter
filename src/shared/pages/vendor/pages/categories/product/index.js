@@ -10,19 +10,20 @@ import Pagination from '../../../../../module/pagination';
 // Actions
 import { listProduct, productPutsaleAndDiscontinue } from '../../../../../actions/vendor';
 
+const initQuery = {
+    page:1,
+    limit:30,
+    sort:"desc",
+    sortBy:"created",
+    status: "auth,non-display"
+}
+
 class Product extends React.Component{
 
-    constructor(props){
+    constructor(props){        
         super(props);
         this.state = {
             loading: true,
-            initQuery: {
-                limit: "30",
-                page: "1",
-                sort: "desc",
-                sortBy: "created",
-                status: "auth,non-display"
-            },
             selected: [],
             tableHeadKey : [
                 {
@@ -79,18 +80,6 @@ class Product extends React.Component{
                     type: 'percent',
                     title: '分潤比'
                 }
-                // {
-                //     key: 'other',
-                //     type: 'other',
-                //     title: '其他',
-                //     link: [
-                //         {
-                //             text: '編輯',
-                //             path: '/myvendor/update/product',
-                //             search: ['id']
-                //         }
-                //     ]
-                // }
             ],
             tableBodyData : [],
             total: 0
@@ -108,6 +97,7 @@ class Product extends React.Component{
 
         const { loading, total, tableHeadKey, tableBodyData } = this.state;
         const { match, location, history } = this.props;
+        const query = { ...initQuery ,...queryString.parse(location['search']) }
 
         return(
             <React.Fragment>
@@ -121,9 +111,9 @@ class Product extends React.Component{
                     tableHeadData={tableHeadKey}
                     tableBodyData={tableBodyData}
                     tableButtonAction={this.tableButtonAction.bind(this)}
-                    returnCheckBoxVal={this.returnCheckBoxVal.bind(this)}
                 />
-                <Pagination 
+                <Pagination
+                    query= {query}
                     total= {total}
                     match= {match}
                     location= {location}
@@ -135,11 +125,8 @@ class Product extends React.Component{
     componentDidMount() {
         const { location } = this.props;
         const { search } = location;
-        let initQuery = { ...this.state.initQuery, ...queryString.parse(search) }
-        this.setState({
-            initQuery
-        })
-        this.props.dispatch( listProduct( `?${queryString.stringify(initQuery)}` ) ).then( res => {
+        let query = { ...initQuery, ...queryString.parse(search) }
+        this.props.dispatch( listProduct( `?${queryString.stringify(query)}` ) ).then( res => {
             this.setState({
                 loading: false
             })
@@ -169,10 +156,6 @@ class Product extends React.Component{
             type= 'discontinue';
         }
         this.props.dispatch( productPutsaleAndDiscontinue( type, val ) );
-    }
-
-    returnCheckBoxVal = ( val ) => {
-        //console.log( val );
     }
 }
 

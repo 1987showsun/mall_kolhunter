@@ -2,15 +2,18 @@ import React from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { connect } from 'react-redux';
 
+// Components
+import Loading from '../../../../../../module/loading';
+
 // Actions
 import { createProduct } from '../../../../../../actions/vendor';
 
 class Basic extends React.Component{
 
     constructor(props){
-        console.log( props.categories );
         super(props);
         this.state = {
+            loading: false,
             id: props.id,
             categories: props.categories || [],
             status: props.status,
@@ -36,7 +39,7 @@ class Basic extends React.Component{
 
     render(){
 
-        const { status, data, categories, categoriesLevel1, categoriesLevel2 } = this.state;
+        const { loading, status, data, categories, categoriesLevel1, categoriesLevel2 } = this.state;
         const renderCategories = () => {
             let ddd = [];
             data['categories'].map( item => {
@@ -46,7 +49,8 @@ class Basic extends React.Component{
         }
 
         return(
-            <form onSubmit={this.handleSubnit.bind(this)}>
+            <form onSubmit={this.handleSubnit.bind(this)} style={{'position': 'relative '}}>
+                <Loading loading={loading} />
                 <ul className="table-row-list">
                     <li>
                         <label>* 商品名稱</label>
@@ -65,46 +69,38 @@ class Basic extends React.Component{
                     <li>
                         <label>* 商品分類</label>
                         <div>
-                            {/* {
-                                status=="none-auth"? ( */}
-                                    <React.Fragment>
-                                        <div className="input-box select">
-                                            <select name="categoriesLevel1" value={categoriesLevel1['id']} onChange={this.categoriesChange.bind(this)}>
-                                                <option value="" >請選擇主分類</option>
-                                                {
-                                                    categories.map( (cItem,i)=> {
-                                                        return(
-                                                            <option key={cItem['id']} value={cItem['id']}>{cItem['title']}</option>
-                                                        );
-                                                    })
-                                                }
-                                            </select>
-                                        </div>
-                                        {
-                                            categories.map( (cItem,i)=> {
-                                                if(cItem['id']==categoriesLevel1['id'] && cItem['children'].length!=0){                                  
-                                                    return(
-                                                        <div className="input-box select" key={i}>
-                                                            <select name="categoriesLevel2" value={categoriesLevel2['id']} onChange={this.categoriesChange.bind(this)}>
-                                                                <option value="" >請選擇次分類</option>
-                                                                {
-                                                                    cItem['children'].map( (childrenItem,c_i) => {
-                                                                        return(
-                                                                            <option key={childrenItem['id']} value={childrenItem['id']}>{childrenItem['title']}</option>
-                                                                        )
-                                                                    })
-                                                                }
-                                                            </select>
-                                                        </div>
-                                                    )
-                                                }
-                                            })
-                                        }
-                                    </React.Fragment>
-                                {/* ):(
-                                    renderCategories()
-                                )
-                            } */}
+                            <div className="input-box select">
+                                <select name="categoriesLevel1" value={categoriesLevel1['id']} onChange={this.categoriesChange.bind(this)}>
+                                    <option value="" >請選擇主分類</option>
+                                    {
+                                        categories.map( (cItem,i)=> {
+                                            return(
+                                                <option key={cItem['id']} value={cItem['id']}>{cItem['title']}</option>
+                                            );
+                                        })
+                                    }
+                                </select>
+                            </div>
+                            {
+                                categories.map( (cItem,i)=> {
+                                    if(cItem['id']==categoriesLevel1['id'] && cItem['children'].length!=0){                                  
+                                        return(
+                                            <div className="input-box select" key={i}>
+                                                <select name="categoriesLevel2" value={categoriesLevel2['id']} onChange={this.categoriesChange.bind(this)}>
+                                                    <option value="" >請選擇次分類</option>
+                                                    {
+                                                        cItem['children'].map( (childrenItem,c_i) => {
+                                                            return(
+                                                                <option key={childrenItem['id']} value={childrenItem['id']}>{childrenItem['title']}</option>
+                                                            )
+                                                        })
+                                                    }
+                                                </select>
+                                            </div>
+                                        )
+                                    }
+                                })
+                            }
                         </div>
                     </li>
                     <li>
@@ -187,13 +183,21 @@ class Basic extends React.Component{
             "sellPrice": data['sellPrice'],
             "categories": data['categories']
         }
-        this.props.dispatch( createProduct( 'product',formObject,1,'put' ) ).then( res => {
-            switch( res['status'] ){
-                case 200:
-                    this.props.returnStatus(data);
-                    break;
-            }
-        });
+        this.setState({
+            loading: true
+        },()=>{
+            this.props.dispatch( createProduct( 'product',formObject,1,'put' ) ).then( res => {
+                this.setState({
+                    loading: false
+                },()=>{
+                    switch( res['status'] ){
+                        case 200:
+                            this.props.returnStatus(data);
+                            break;
+                    }
+                })
+            });
+        })
     }
 }
 

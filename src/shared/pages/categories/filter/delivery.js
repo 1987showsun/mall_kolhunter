@@ -75,22 +75,24 @@ export default class Delivery extends React.Component{
         let { delivery } = this.state;
         let { search } = this.props.location;
         const value = e.target.value;
+
+        // 檢查有無相同條件
         if( !delivery.includes(value) ){
             delivery = [ ...delivery, value ]
         }else{
             delivery = delivery.filter( filterItem => filterItem!=value );
         }
+
         this.setState({
             delivery
         },()=>{
-            let searchObject = {};
+            let searchObject = { ...queryString.parse(search), page:1 };
             if( delivery.length!=0 ){
-                searchObject = { ...queryString.parse(search),delivery: delivery.toString()};
+                searchObject = { ...searchObject, delivery: delivery.toString()};
                 this.props.history.push({
                     search: `?${queryString.stringify(searchObject)}`
                 })
             }else{
-                searchObject = { ...queryString.parse(search) };
                 delete searchObject['delivery'];
                 this.props.history.push({
                     search: `?${queryString.stringify(searchObject)}`

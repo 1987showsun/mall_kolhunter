@@ -26,7 +26,7 @@ class Index extends React.Component{
                     component: Profile
                 },
                 orders: {
-                    mainTitle: "訂單管理",
+                    mainTitle: "訂單查詢 / 退換貨",
                     component: Order
                 },
                 product: {

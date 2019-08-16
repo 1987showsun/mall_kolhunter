@@ -1,0 +1,22 @@
+.product-tab{
+    width: 100%;
+    display: flex;
+    background: #E2E2E2;
+    >li{
+        display: inline-flex;
+        a{
+            height: 40px;
+            display: flex;
+            padding: 0px 20px;
+            align-items: center;
+            color: #5A6268;
+            font-size: 0.9rem;
+        }
+        &.true{
+            a{
+                background: var(--orange);
+                color: #fff;
+            }
+        }
+    }
+}

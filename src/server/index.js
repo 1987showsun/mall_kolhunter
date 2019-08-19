@@ -16,12 +16,12 @@ import App from "../shared/layout";
 import "source-map-support/register";
 
 const app = express();
-const httpsOptions = {
-  cert: fs.readFileSync( path.join('public/ssl/localhost-new.pem') ),
-  key: fs.readFileSync( path.join('public/ssl/localhost-new-key.pem') ),
-  requestCert: false,
-  rejectUnauthorized: false
-}
+// const httpsOptions = {
+//   cert: fs.readFileSync( path.join('public/ssl/localhost-new.pem') ),
+//   key: fs.readFileSync( path.join('public/ssl/localhost-new-key.pem') ),
+//   requestCert: false,
+//   rejectUnauthorized: false
+// }
 
 app.use(logger('dev'));
 app.use(cors());

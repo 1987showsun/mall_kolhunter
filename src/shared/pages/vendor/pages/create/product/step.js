@@ -1,5 +1,4 @@
 import React from 'react';
-import renderEmpty from 'antd/lib/config-provider/renderEmpty';
 
 // Lang
 import lang from '../../../../../lang/lang.json';

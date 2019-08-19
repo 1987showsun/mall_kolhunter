@@ -1,6 +1,7 @@
 const webpack           = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer      = require('autoprefixer');
+const nodeExternals     = require('webpack-node-externals');
 
 const keyName= {};
 let SETUP= {
@@ -15,7 +16,7 @@ Object.keys(process.env).map((key, i) => {
 if( keyName['NODE_ENV']=='development' ){
   //SETUP.push({'NODE_ENV_DEV': true})
   SETUP['NODE_ENV_DEV'] = true;
-  //SETUP = { ...SETUP, 'NODE_ENVnpm install webpack webpack-cli --save-dev_DEV': true }
+  //SETUP = { ...SETUP, 'NODE_ENV_DEV': true }
 }
 
 const browserConfig = {
@@ -68,6 +69,9 @@ const browserConfig = {
     new webpack.DefinePlugin({
       "process.env": SETUP
     })
+  ],
+  externals: [
+    nodeExternals()
   ]
 };
 
@@ -110,7 +114,10 @@ const serverConfig = {
         query: { presets: ["react-app"] }
       }
     ]
-  }
+  },
+  externals: [
+    nodeExternals()
+  ]
 };
 
 module.exports = [browserConfig, serverConfig];

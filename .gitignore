@@ -1,8 +1,6 @@
 node_modules
 
-public/css/*.css
-//public/bundle.js
-public/bundle.js.map
+public
 
-// server.js
 server.js.map
+server.js

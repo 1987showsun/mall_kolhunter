@@ -1,7 +1,7 @@
 const webpack           = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer      = require('autoprefixer');
-const nodeExternals     = require('webpack-node-externals');
+//const nodeExternals     = require('webpack-node-externals');
 
 const keyName= {};
 let SETUP= {
@@ -70,9 +70,9 @@ const browserConfig = {
       "process.env": SETUP
     })
   ],
-  externals: [
-    nodeExternals()
-  ]
+  // externals: [
+  //   nodeExternals()
+  // ]
 };
 
 const serverConfig = {
@@ -115,9 +115,9 @@ const serverConfig = {
       }
     ]
   },
-  externals: [
-    nodeExternals()
-  ]
+  // externals: [
+  //   nodeExternals()
+  // ]
 };
 
 module.exports = [browserConfig, serverConfig];

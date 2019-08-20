@@ -4,12 +4,8 @@ import { connect } from 'react-redux';
 // Components
 import Nav from './common/nav';
 import Profile from './pages/profile';
-import Order from './pages/order';
-import Product from './pages/product';
-import Mystore from './pages/mystore';
-import Fansorders from './pages/fansorders';
-import Account from './pages/account';
 import Carts from './pages/carts';
+import Order from './pages/order';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -25,29 +21,13 @@ class Index extends React.Component{
                     mainTitle: "會員設定",
                     component: Profile
                 },
-                orders: {
-                    mainTitle: "訂單查詢 / 退換貨",
-                    component: Order
-                },
-                product: {
-                    mainTitle: "商品清單",
-                    component: Product
-                },
-                mystore: {
-                    mainTitle: "我的商店",
-                    component: Mystore
-                },
-                fansorders: {
-                    mainTitle: "粉絲訂單",
-                    component: Fansorders
-                },
-                account: {
-                    mainTitle: "我的帳戶",
-                    component: Account
-                },
                 carts: {
                     mainTitle: "我的購物車",
                     component: Carts
+                },
+                orders: {
+                    mainTitle: "訂單查詢 / 退換貨",
+                    component: Order
                 }
             }
         }
@@ -73,6 +53,7 @@ class Index extends React.Component{
 
     render(){
 
+        const { location, history } = this.props;
         const { token, components } = this.state;
         const type = this.typeAndClass()['type'];
         const Component = components[type]['component'];
@@ -83,6 +64,8 @@ class Index extends React.Component{
                 <div className="row account-wrap">
                     <section className="container main-content">
                         <Nav 
+                            location= {location}
+                            history= {history}
                             type={this.typeAndClass()['type']}
                         />
                         <section className="container-col" data-flexdirection="column">

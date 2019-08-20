@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faUser, faUserPlus, faShoppingCart, faTruck }from '@fortawesome/free-solid-svg-icons';
+import { faUser, faStore, faUserPlus, faShoppingCart, faTruck }from '@fortawesome/free-solid-svg-icons';
 
 //Compoents
 import Search from './search/';
@@ -67,14 +67,24 @@ class Header extends React.Component{
                         <ul>
                             {
                                 token!=null || token!=undefined ? (
-                                    <li>
-                                        <Link to="/myaccount">
-                                            <span className="icon-block">
-                                                <FontAwesomeIcon icon={faUserPlus} />
-                                            </span>
-                                            <div className="prompt-block">{accountInfo['name']}</div>
-                                        </Link>
-                                    </li>
+                                    <React.Fragment>
+                                        <li>
+                                            <Link to="/myaccount">
+                                                <span className="icon-block">
+                                                    <FontAwesomeIcon icon={faUserPlus} />
+                                                </span>
+                                                <div className="prompt-block">{accountInfo['name']}</div>
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/mystore">
+                                                <span className="icon-block">
+                                                    <FontAwesomeIcon icon={faStore} />
+                                                </span>
+                                                <div className="prompt-block">店舖管理</div>
+                                            </Link>
+                                        </li>
+                                    </React.Fragment>
                                 ):(
                                     <React.Fragment>
                                         <li>

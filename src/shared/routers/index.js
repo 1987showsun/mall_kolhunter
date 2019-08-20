@@ -6,8 +6,9 @@ import Approach from '../pages/approach';
 import Store from '../pages/store';
 import StoreInfo from '../pages/store/info';
 import ontSignIn from '../pages/login';
-import IncIndex from '../pages/vendor';
-import AccountIndex from '../pages/account';
+import MyVendor from '../pages/myvendor';
+import MyAccount from '../pages/myaccount';
+import MyStore from '../pages/mystore';
 import SearchIndex from '../pages/search'; 
 
 const common = [
@@ -75,11 +76,15 @@ const common = [
   },
   {
     path: "/myvendor",
-    component: IncIndex
+    component: MyVendor
   },
   {
     path: "/myaccount",
-    component: AccountIndex
+    component: MyAccount
+  },
+  {
+    path: "/mystore",
+    component: MyStore
   },
   {
     path: "/account/:class",

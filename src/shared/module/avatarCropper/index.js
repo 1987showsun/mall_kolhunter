@@ -2,13 +2,14 @@ import React from 'react';
 import $ from 'jquery';
 import AvatarEditor from 'react-avatar-editor';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus, faTimes, faCheck }from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faPlus, faMinus, faTimes, faCheck }from '@fortawesome/free-solid-svg-icons';
 
 export default class Index extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            id: props.id || 'addCover',
             idx: props.idx,
             cropperOpen: false,
             img: null,
@@ -26,20 +27,20 @@ export default class Index extends React.Component{
 
     render(){
 
-        const { width, height } = this.state;
+        const { id, width, height } = this.state;
 
         return(
             <React.Fragment>
-                <label htmlFor="addCover" className="cover-img virtual">
+                <label htmlFor={id} className="cover-img virtual">
                     {
                         this.props.children!=null&&
                             this.props.children
                     }
                     {
                         this.props.children==null&&
-                            <i><FontAwesomeIcon icon={faPlus}/></i>
+                            <i><FontAwesomeIcon icon={faCamera}/></i>
                     }
-                    <input ref="in" type="file" name="newImage" id="addCover" onChange={this.handleFileChange.bind(this)}/>
+                    <input ref="in" type="file" name="newImage" id={id} onChange={this.handleFileChange.bind(this)}/>
                 </label>
                 {this.state.cropperOpen && 
                     <div className="cropper-wrapper">

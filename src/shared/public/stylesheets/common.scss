@@ -309,9 +309,9 @@ main{
         background: #fff;
     }
 }
-.col{
-    display: inline-flex;
-}
+.col{ display: inline-flex; }
+.none-margin{ margin: 0px !important; }
+.none-padding{ padding: 0px !important; }
 
 .input-box{
     width: 100%;
@@ -778,8 +778,8 @@ nav{
         margin-bottom: 15px;
         margin-top: 15px;
         background: #fff;
-        &:first-child{ margin-top: 0px; }
         &:last-child{ margin-bottom: 0px; }
+        &:first-child{ margin-top: 0px; }
         .container-unit-head{
             width: 100%;
             margin: 5px 0px 10px 0px;
@@ -918,6 +918,7 @@ figure{
     }
     .input-box{
         width: calc(100% - 50px);
+        height: 100%;
         display: inline-flex;
         margin: 0px;
         border: none;

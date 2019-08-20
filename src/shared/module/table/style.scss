@@ -8,8 +8,8 @@
         height: 35px;
         color: #fff;
         &.status-non-display{ background: var(--main); }
-        &.status-auth{ background: var(--green); }
-        &.status-none-auth{ background: var(--gray-dark); }
+        &.status-auth,&.status-on{ background: var(--green); }
+        &.status-none-auth,&.status-off{ background: var(--gray-dark); }
     }
     .table-ul{
         width: 100%;
@@ -153,6 +153,32 @@
                 &:last-child{
                     &:after{
                         display: none;
+                    }
+                }
+            }
+        }
+    }
+    @media ( max-width: 420px ) {
+        >li{
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            &:last-child{
+                margin-bottom: 0px;
+            }
+            >label{
+                width: auto;
+                min-width: none;
+                justify-content: flex-start;
+                margin-bottom: 5px;
+            }
+            >div{
+                flex-wrap: wrap;
+                .input-box{
+                    margin: 0px;
+                    margin-top: 5px;
+                    margin-right: 10px;
+                    &:last-child{
+                        margin-right: 0px;
                     }
                 }
             }

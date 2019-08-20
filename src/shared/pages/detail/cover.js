@@ -1,4 +1,5 @@
 import React from 'react';
+import CurrencyFormat from 'react-currency-format';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus }from '@fortawesome/free-solid-svg-icons';
 
@@ -12,7 +13,7 @@ export default class Cover extends React.Component{
         this.state = {
             formObject: {
                 variant: "太空灰",
-                quantity: 1
+                itemNum: 1
             },
             mainSettings: {
                 dots: false,
@@ -138,7 +139,7 @@ export default class Cover extends React.Component{
                                 <FontAwesomeIcon icon={faMinus} />
                             </button>
                             <div className="input-box">
-                                <input type="member" name="quantity" value={formObject['quantity']} onChange={this.handleChange.bind(this)} /> 
+                                <CurrencyFormat value={formObject['itemNum']} format={this.cardExpiry} thousandSeparator={true} onValueChange={ values => this.handleQuantity.bind(this,values)} />
                             </div>
                             <button type="button" onClick={this.quantityChange.bind(this,"plus")}>
                                 <FontAwesomeIcon icon={faPlus} />
@@ -185,28 +186,44 @@ export default class Cover extends React.Component{
         })
     }
 
-    quantityChange = ( action ) => {
-        
-        let { formObject } = this.state;
-        let nu = Number(formObject['quantity']);
-
-        switch( action ){
-            case "plus":
-                nu++;
-                break;
-
-            case "minus":
-                nu--;
-                if( nu<=0 ){
-                    nu = 1;
-                }
-                break;
-        }
-
-        formObject = { ...formObject, quantity: nu }
-
+    handleQuantity = (values) => {
+        const formObject = { ...this.state.formObject, itemNum: values['value'] }
         this.setState({
             formObject
         })
+    }
+
+    quantityChange = ( method ) => {
+        const { itemNumMax, formObject } = this.state;
+        let itemNum = formObject['itemNum'];
+        switch( method ){
+            case 'minus':
+                // 減
+                itemNum<=1? 1 : itemNum--;
+                break;
+
+            default:
+                // 加
+                itemNum>=itemNumMax? itemNumMax : itemNum++;
+                break;
+        }
+
+        this.setState({
+            formObject : { ...formObject, itemNum } 
+        },()=>{
+            // 更新該商品數量 調用 API 位子
+        })
+    }
+
+    cardExpiry = ( val ) =>{
+        const { itemNumMax } = this.state;
+        val = Number( val );
+        if( val<=0 ){
+            val = 1;
+        }else if( val>=itemNumMax ){
+            val = itemNumMax;
+        } 
+
+        return String(val);
     }
 }

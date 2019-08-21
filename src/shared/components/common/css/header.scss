@@ -33,7 +33,7 @@ header{
             }
         }
         @media (max-width: 720px) and (min-width: 421px) {
-            width: 45px;
+            width: 40px;
             min-width: 50px;
             margin-right: 10px;
             img{
@@ -46,7 +46,7 @@ header{
             }
         }
         @media (max-width: 420px) {
-            width: 45px;
+            width: 35px;
             margin: 0px 10px 0px 5px;
             img{
                 &.normal{
@@ -110,14 +110,19 @@ header{
             }
             @media (max-width: 420px) {
                 .input-box{
-                    height: 40px;
+                    height: 30px;
                     border: none;
-                    padding-right: 35px;
+                    padding-right: 0px;
                     &.select{
                         max-width: 100px;
                     }
+                    select{
+                        min-height:30px;
+                        height: 30px;
+                    }
                 }
                 [type=submit]{
+                    display: none;
                     width: 30px;
                     span{
                         display: none;
@@ -196,6 +201,19 @@ header{
             display: flex;
             align-items: center;
             justify-content: center;
+            @media (max-width: 720px) and (min-width: 421px) {
+                width: 30px;
+                height: 30px;
+                color: #666;
+                font-size: 1.2rem;
+            }
+            @media (max-width: 420px) {
+                width: 25px;
+                height: 25px;
+                margin-bottom: 0px;
+                color: #666;
+                font-size: 1rem;
+            }
         }
         .prompt-block{
             width: 100%;
@@ -204,7 +222,48 @@ header{
             justify-content: center;
             color: #fff;
             font-size: 0.8em;
-            font-weight: bolder;
+        }
+        @media (max-width: 720px) {
+            width: 100%;
+            border-top: 1px solid #E7E7E7;
+            background: #fff;
+            position: fixed;
+            z-index: 100;
+            bottom: 0px;
+            left: 0px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,.1);
+            .prompt-block{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #666666;
+                font-size: 0.7em;
+            }
+            ul{
+                width: 100%;
+                >li{
+                    width: 100%;
+                    padding-right: 0px;
+                    &.true{
+                        .prompt-block, .icon-block{
+                            color: var(--main);
+                        }
+                    }
+                }
+            }
+        }
+        @media (max-width: 720px) and (min-width: 421px) {
+            height: 60px;
+            .prompt-block{
+                font-size: 0.7em;
+            }
+        }
+        @media (max-width: 420px) {
+            height: 50px;
+            .prompt-block{
+                font-size: 0.6em;
+            }
         }
     }
 
@@ -219,42 +278,6 @@ header{
         }
         .input-box{
             height: 100%;
-        }
-        .header-nav-block{
-            width: 100%;
-            height: 60px;
-            border-top: 1px solid #E7E7E7;
-            background: #fff;
-            position: fixed;
-            z-index: 100;
-            bottom: 0px;
-            left: 0px;
-            box-shadow: 0px 0px 7px rgba(0,0,0,.1);
-            ul{
-                width: 100%;
-                >li{
-                    width: 100%;
-                    padding-right: 0px;
-                }
-            }
-            .icon-block{
-                width: 30px;
-                height: 30px;
-                border-radius: 100px;
-                color: #666;
-                font-size: 1.2rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .prompt-block{
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: #666666;
-                font-size: 0.7em;
-            }
         }
     }
 }

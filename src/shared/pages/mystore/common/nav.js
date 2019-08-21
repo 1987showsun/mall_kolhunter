@@ -59,10 +59,14 @@ class Nav extends React.Component{
         const { location, history } = this.props;
         const search = location['search'];
         const value = e.target.value;
-        history.push({
-            pathname: `/mystore/${value}`,
-            search
-        })
+        if( value!='signout' ){
+            history.push({
+                pathname: `/mystore/${value}`,
+                search
+            })
+        }else{
+            this.signout();
+        }
     }
 
     signout = () => {

@@ -98,8 +98,14 @@ label{
         z-index: 2;
         top: 0px;
         left: 0px;
+        opacity: 0.8;
+        transition: opacity .2s;
+        cursor: pointer;
         input{
             display: none;
+        }
+        &:hover{
+            opacity: 1;
         }
     }
 

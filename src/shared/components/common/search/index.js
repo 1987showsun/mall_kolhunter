@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faSearch }from '@fortawesome/free-solid-svg-icons';
 
+// Lang
+import lang from '../../../lang/lang.json';
+
 export default class Search extends React.Component{
 
     constructor(props){
@@ -26,11 +29,11 @@ export default class Search extends React.Component{
             <div className="search-block">
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="input-box">
-                        <input type="text" name="keyword" value={formObject['keyword']} placeholder="" onChange={this.handleChange.bind(this)}/>
+                        <input type="text" name="keyword" value={formObject['keyword']} placeholder={`${lang['zh-TW']['placeholder'][`${formObject['type']} name`]}`} onChange={this.handleChange.bind(this)}/>
                         <div className="input-box select">
                             <select name="type" value={formObject['type']} onChange={this.handleChange.bind(this)}>
                                 <option value="product">商品名稱</option>
-                                <option value="store">網紅名稱</option>
+                                <option value="store">店家名稱</option>
                             </select>
                         </div>
                         <button type="submit">

@@ -1,0 +1,127 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faPlus }from '@fortawesome/free-solid-svg-icons';
+
+// Components
+import TableOrder from '../../../../../components/orderProductTable';
+
+export default class Index extends React.Component{
+    render(){
+        return(
+            <React.Fragment>
+                <section className="container-unit">
+                    <div className="order-head-wrap">
+                        <input type="checkbox" name="order-info-switch" id="CART8bef7e72f6cc8548f932" className="order-info-switch"/>
+                        <label htmlFor="CART8bef7e72f6cc8548f932" className="order-info-label">
+                            <span className="lable">訂單編號</span>CART8bef7e72f6cc8548f932
+                            <i className="icon">
+                                <FontAwesomeIcon icon={faPlus} />
+                            </i>
+                        </label>
+                        <ul className="table-row-list">
+                            <li>
+                                <label>處理狀態</label>
+                                <div>待出貨中</div>
+                            </li>
+                            <li>
+                                <label>購買數量</label>
+                                <div>2</div>
+                            </li>
+                            <li>
+                                <label>購買日期</label>
+                                <div>2019/12/12</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <TableOrder 
+                    />
+                    <div className="order-action-wrap">
+                        <ul>
+                            <li><Link to={`/myaccount/orders/return/${`order_id`}`}>取消訂單</Link></li>
+                            <li><Link to={`/myaccount/orders/message/${`order_id`}`}>我要詢問</Link></li>
+                        </ul>
+                    </div>
+                </section>
+                <section className="container-unit">
+                    <div className="order-head-wrap">
+                        <input type="checkbox" name="order-info-switch" id="CART8bef7e72f6cc8548f933" className="order-info-switch"/>
+                        <label htmlFor="CART8bef7e72f6cc8548f933" className="order-info-label">
+                            <span className="lable">訂單編號</span>CART8bef7e72f6cc8548f933
+                            <i className="icon">
+                                <FontAwesomeIcon icon={faPlus} />
+                            </i>
+                        </label>
+                        <ul className="table-row-list">
+                            <li>
+                                <label>處理狀態</label>
+                                <div>完成</div>
+                            </li>
+                            <li>
+                                <label>購買數量</label>
+                                <div>2</div>
+                            </li>
+                            <li>
+                                <label>購買日期</label>
+                                <div>2019/12/12</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <TableOrder 
+
+                    />
+                    <div className="order-action-wrap">
+                        <ul>
+                            <li><Link to={`/myaccount/orders/return/${`order_id`}`}>我要退貨</Link></li>
+                            <li><Link to={`/myaccount/orders/message/${`order_id`}`}>我要詢問</Link></li>
+                        </ul>
+                    </div>
+                </section>
+                <section className="container-unit">
+                    <div className="order-head-wrap">
+                        <input type="checkbox" name="order-info-switch" id="CART8bef7e72f6cc8548f934" className="order-info-switch"/>
+                        <label htmlFor="CART8bef7e72f6cc8548f934" className="order-info-label">
+                            <span className="lable">訂單編號</span>CART8bef7e72f6cc8548f934
+                            <i className="icon">
+                                <FontAwesomeIcon icon={faPlus} />
+                            </i>
+                        </label>
+                        <ul className="table-row-list">
+                            <li>
+                                <label>處理狀態</label>
+                                <div>退貨中</div>
+                            </li>
+                            <li>
+                                <label>購買數量</label>
+                                <div>2</div>
+                            </li>
+                            <li>
+                                <label>購買日期</label>
+                                <div>2019/12/12</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <TableOrder 
+
+                    />
+                    <div className="order-action-wrap">
+                        <ul>
+                            <li><Link to={`/myaccount/orders/message/${`order_id`}`}>我要詢問</Link></li>
+                        </ul>
+                    </div>
+                </section>
+
+                {/* 備註聲明 */}
+                <ul className="remarks-ul">
+                    <li>商品將於您付款成功後1~3個工作天左右送達；預購/特殊商品寄送請參考各商品網頁或店家說明為準。</li>
+                    <li>查詢訂單詳情 (如商品明細/付款資料等)，請點選訂購日期後面的 (查看明細) 進行查詢。</li>
+                    <li>建議您可先參考 維修 / 換貨 / 退貨 / 取消 相關辦法後，再點選維修/退貨/換貨/取消等服務。</li>
+                    <li>若需要購買證明 (做為購買憑證/保固維修等)，待商品出貨後您可點選購買證明自行列印。</li>
+                    <li>發票將在付款完成、出貨後開立，將會email通知您，更多詳情可參考「電子發票流程說明」。</li>
+                    <li>三聯式發票將於廠商完成出貨後5個工作天平信寄出，約2-7個工作天內送達，如遇國定假日將順延寄送。</li>
+                    <li>若有任何訂單問題請聯絡「客服中心」，我們將在當天儘速以mail回覆您。</li>
+                </ul>
+            </React.Fragment>
+        );
+    }
+}

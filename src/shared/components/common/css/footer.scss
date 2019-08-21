@@ -114,7 +114,10 @@ footer{
         font-size: 0.8em;
         color: #979BA7;
     }
-    @media (max-width: 600px) {
+    @media (max-width: 720px) and (min-width: 421px) {
         padding: 10px 0px 60px 0px;
+    }
+    @media (max-width: 420px) {
+        padding: 10px 0px 50px 0px;
     }
 }

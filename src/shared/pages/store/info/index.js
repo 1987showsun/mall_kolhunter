@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import CurrencyFormat from 'react-currency-format';
 
 // Components
@@ -6,6 +7,9 @@ import Item from '../../../module/item/product';
 import BlockList from '../../../module/blockList';
 import Filter from './filter';
 import Breadcrumbs from './breadcrumbs';
+
+// Actions
+import { ssrStoreProduct, storeProduct } from '../../../actions/store';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -58,7 +62,11 @@ const demoData = [
     }
 ]
 
-export default class Index extends React.Component{
+class Index extends React.Component{
+
+    // static initialAction( NODE_ENV,pathname,query ) {
+    //     return ssrStoreProduct( NODE_ENV,pathname,query );
+    // }
 
     constructor(props){
         super(props);
@@ -133,4 +141,18 @@ export default class Index extends React.Component{
             </React.Fragment>
         );
     }
+
+    componentDidMount() {
+        const { location, match } = this.props;
+        const { pathname, search } = location;
+        this.props.dispatch( storeProduct( pathname,search ) );
+    }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Index );

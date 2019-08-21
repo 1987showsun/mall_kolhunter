@@ -2,11 +2,16 @@ import axios from 'axios';
 import API from './apiurl';
 import queryString from 'query-string';
 
-export function storeList( url,query ) {
-    return (dispatch,NODE_ENV,ssrPathname,ssrQuery) => {
-
-        const search = queryString.stringify({ ...query,...ssrQuery })
-        const url = `${API(NODE_ENV)['mall']['store']['list']}?${search}`;
+export function storeList( pathname,query ) {
+    return (dispatch,NODE_ENV) => {
+        const initQuery = {
+            page: 1,
+            limit: 30,
+            sort: "desc",
+            sortBy: "created"
+        };
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API(NODE_ENV)['mall']['store']['list']}${search!=''? `?{search}`: ''}`;
         
         return Axios({method:'get',url,data:{}}).then(res=>{
             dispatch({
@@ -28,15 +33,48 @@ export function storeList( url,query ) {
     }
 }
 
+export function storeProduct( pathname,query ) {
+    return (dispatch,NODE_ENV) => {
+        const initQuery = {};
+        const store_id = pathname.split('/').filter( item => item!='' )[1];
+        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url = `${API(NODE_ENV)['mall']['store']['product']}${search!=''? `?${search}`: ''}`;
+        return Axios({
+            method:'get',
+            url,
+            data:{
+                storeID: store_id
+            }
+        }).then(res=>{
+            dispatch({
+                type: 'STORE_PRODUCT',
+                list: []
+            })
+            return res;
+        });
+    }
+}
+
+// Server side Render
 export function ssrStoreList( NODE_ENV,pathname,query ){
     return(dispatch) => {
-        const ssrStore = storeList()(dispatch,NODE_ENV,pathname,query);
+        const ssrStore = storeList( pathname,query )(dispatch,NODE_ENV);
         return (
             ssrStore
         )
     }
 }
 
+export function ssrStoreProduct( NODE_ENV,pathname,query ){
+    return(dispatch) => {
+        const ssrStoreProduct = storeProduct( pathname,query )(dispatch,NODE_ENV);
+        return (
+            ssrStoreProduct
+        )
+    }
+}
+
+// Axios function
 const Axios = ( api ) => {
     return axios({
         method: api['method'],

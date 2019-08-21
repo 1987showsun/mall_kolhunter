@@ -39,7 +39,16 @@
             width: 100%;
             padding: 20px 15px;
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
+            .items{
+                width: 100%;
+                padding: 5px 0px;
+                font-size: 0.8rem;
+                white-space: nowrap; 
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
         .confirm-container-action{
             width: 100%;

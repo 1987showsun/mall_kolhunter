@@ -79,7 +79,8 @@
             "watch the product introduction now": "立即觀看產品介紹"
         },
         "placeholder": {
-            "store name": "店家名稱"
+            "store name": "店家名稱",
+            "product name": "商品名稱"
         },
         "label":{
             "number of stores": "店家數量"
@@ -163,7 +164,8 @@
             "watch the product introduction now": "Watch the product introduction now"
         },
         "placeholder": {
-            "store name": "Store name"
+            "store name": "Store name",
+            "product name": "Product name"
         },
         "label":{
             "number of stores": "Number of stores"

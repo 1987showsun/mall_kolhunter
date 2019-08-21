@@ -19,10 +19,6 @@ export default class Item extends React.Component{
                 <div>
                     <CurrencyFormat value={`19800`} displayType={'text'} thousandSeparator={true}/>
                 </div>
-                <div>
-                    <Link to="">我要退貨</Link>
-                    <Link to="">我要詢問</Link>
-                </div>
             </li>
         );
     }

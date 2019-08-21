@@ -49,6 +49,9 @@ class Header extends React.Component{
             location
         } = this.props;
 
+        const pathname = location['pathname'].split('/').filter( item => item!='' );
+        console.log( pathname );
+
         return(
             <header data-content="center">
                 <section className="container">
@@ -68,15 +71,15 @@ class Header extends React.Component{
                             {
                                 token!=null || token!=undefined ? (
                                     <React.Fragment>
-                                        <li>
+                                        <li className={``}>
                                             <Link to="/myaccount">
                                                 <span className="icon-block">
-                                                    <FontAwesomeIcon icon={faUserPlus} />
+                                                    <FontAwesomeIcon icon={faUser} />
                                                 </span>
                                                 <div className="prompt-block">{accountInfo['name']}</div>
                                             </Link>
                                         </li>
-                                        <li>
+                                        <li className={`${pathname[0]=='mystore'}`}>
                                             <Link to="/mystore">
                                                 <span className="icon-block">
                                                     <FontAwesomeIcon icon={faStore} />
@@ -106,7 +109,7 @@ class Header extends React.Component{
                                     </React.Fragment>
                                 )
                             }
-                            <li>
+                            <li className={`${pathname[1]=='carts'}`}>
                                 <Link to="/myaccount/carts">
                                     <span className="icon-block">
                                         <FontAwesomeIcon icon={faShoppingCart} />
@@ -114,7 +117,7 @@ class Header extends React.Component{
                                     <div className="prompt-block">購物車</div>
                                 </Link>
                             </li>
-                            <li>
+                            <li className={`${pathname[1]=='orders'}`}>
                                 <Link to="/myaccount/orders">
                                     <span className="icon-block">
                                         <FontAwesomeIcon icon={faTruck} />

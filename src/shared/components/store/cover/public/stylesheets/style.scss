@@ -8,8 +8,7 @@
     .store-cover-background-img{
         width: 120%;
         height: 120%;
-        opacity: .5;
-        filter: blur(2px);
+        opacity: .4;
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -41,15 +40,15 @@
             background: #000;
             border-radius: 100%;
             overflow: hidden;
-            box-shadow: 0px 0px 10px rgba(0,0,0,.1);
+            box-shadow: 0px 0px 10px rgba(0,0,0,.2);
             position: relative;
             img{
                 width: 100%;
                 display: block;
             }
             @media (max-width: 420px) {
-                width: 100px;
-                height: 100px;
+                width: 90px;
+                height: 90px;
                 margin-bottom: 15px;
             }
         }
@@ -140,6 +139,7 @@
                 font-size: 1em;
                 margin-bottom: 10px;
                 @media ( max-width: 420px ) {
+                    margin-bottom: 5px;
                     font-size: 0.8em;
                 }
             }
@@ -147,8 +147,9 @@
                 width: 100%;
                 text-align: center;
                 font-size: 1.4em;
+                font-weight: bolder;
                 @media ( max-width: 420px ) {
-                    font-size: 1.2em;
+                    font-size: 1.1em;
                 }
             }
         }

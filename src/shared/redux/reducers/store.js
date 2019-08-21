@@ -4,6 +4,7 @@ export default function store(
         limit: 30,
         current: 1,
         list: [],
+        product: []
     },action
 ){
     switch(action.type){
@@ -21,6 +22,13 @@ export default function store(
             state = { 
                 ...state,
                 list: action.list,
+            };
+            break;
+
+        case 'STORE_PRODUCT':
+            state = { 
+                ...state,
+                product: action.list,
             };
             break;
     }

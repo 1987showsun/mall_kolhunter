@@ -24,9 +24,11 @@ class Kv extends React.Component{
     const settings = {
       className: "center kv-slider-wrap",
       dots: true,
+      autoplay: true,
       centerMode: true,
       infinite: true,
       centerPadding: "14%",
+      autoplaySpeed: 4000,
       speed: 500,
       responsive: [
         {
@@ -48,6 +50,7 @@ class Kv extends React.Component{
         {
           breakpoint: 600,
           settings: {
+            arrows: false,
             centerPadding: "0px",
             slidesToShow: 1,
             slidesToScroll: 1
@@ -56,6 +59,7 @@ class Kv extends React.Component{
         {
           breakpoint: 420,
           settings: {
+            arrows: false,
             centerPadding: "0px",
             slidesToShow: 1,
             slidesToScroll: 1

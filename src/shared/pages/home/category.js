@@ -71,7 +71,7 @@ export default class Category extends React.Component{
                   breakpoint: 480,
                   settings: {
                     centerPadding: "0px",
-                    slidesPerRow: 3
+                    slidesPerRow: 4
                   }
                 }
             ]

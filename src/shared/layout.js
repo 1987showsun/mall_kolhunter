@@ -64,7 +64,6 @@ class Layout extends React.Component{
     }
 
     componentDidMount(){
-
     }
 }
 

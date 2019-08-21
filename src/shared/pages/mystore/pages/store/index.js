@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 // Components
@@ -6,6 +7,9 @@ import Cover from '../../../../components/store/cover';
 
 // Modules
 import Table from '../../../../module/table';
+
+// Actions
+import { myStoreStoreProduct } from '../../../../actions/mystore';
 
 const demoData = [
     {
@@ -155,6 +159,12 @@ class Index extends React.Component{
                 </section>
             </React.Fragment>
         );
+    }
+
+    componentDidMount() {
+        const { location } = this.props;
+        const { pathname, search } = location;
+        this.props.dispatch( myStoreStoreProduct( pathname, queryString.parse(search) ) );
     }
 
     tableButtonAction = ( val ) => {

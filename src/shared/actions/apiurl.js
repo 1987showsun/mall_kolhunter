@@ -81,6 +81,7 @@ export default function API( NODE_ENV ){
             'info': `${API_ADDRESS(NODE_ENV)}/v1/member/info`
         },
         'mystore': {
+            'storeProductList': `${API_ADDRESS(NODE_ENV)}/v1/store/products`,
             'addProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // post 網紅新增要賣的商品
             'deleteProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // delete 網紅要移出販賣此商品
             'salesInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/sales` // get 店舖銷售銷售資訊

@@ -50,7 +50,6 @@ class Header extends React.Component{
         } = this.props;
 
         const pathname = location['pathname'].split('/').filter( item => item!='' );
-        console.log( pathname );
 
         return(
             <header data-content="center">
@@ -79,14 +78,15 @@ class Header extends React.Component{
                                                 <div className="prompt-block">{accountInfo['name']}</div>
                                             </Link>
                                         </li>
-                                        <li className={`${pathname[0]=='mystore'}`}>
-                                            <Link to="/mystore">
-                                                <span className="icon-block">
-                                                    <FontAwesomeIcon icon={faStore} />
-                                                </span>
-                                                <div className="prompt-block">店舖管理</div>
-                                            </Link>
-                                        </li>
+
+                                                <li className={`${pathname[0]=='mystore'}`}>
+                                                    <Link to="/mystore">
+                                                        <span className="icon-block">
+                                                            <FontAwesomeIcon icon={faStore} />
+                                                        </span>
+                                                        <div className="prompt-block">店舖管理</div>
+                                                    </Link>
+                                                </li>
                                     </React.Fragment>
                                 ):(
                                     <React.Fragment>

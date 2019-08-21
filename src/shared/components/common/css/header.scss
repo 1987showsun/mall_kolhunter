@@ -32,7 +32,7 @@ header{
                 display: none;
             }
         }
-        @media (max-width: 720px) and (min-width: 421px) {
+        @media (max-width: 768px) and (min-width: 421px) {
             width: 40px;
             min-width: 50px;
             margin-right: 10px;
@@ -89,7 +89,7 @@ header{
                     display: none;
                 }
             }
-            @media (max-width: 720px) and (min-width: 421px) {
+            @media (max-width: 768px) and (min-width: 421px) {
                 .input-box{
                     height: 100%;
                     border: none;
@@ -159,10 +159,10 @@ header{
                 }
             }
         }
-        @media (max-width: 1280px) and (min-width: 721px) {
+        @media (max-width: 1280px) and (min-width: 769px) {
             max-width: 50%;
         }
-        @media (max-width: 720px) {
+        @media (max-width: 768px) {
             padding: 0px;
             .hito-search{
                 display: none;
@@ -201,7 +201,7 @@ header{
             display: flex;
             align-items: center;
             justify-content: center;
-            @media (max-width: 720px) and (min-width: 421px) {
+            @media (max-width: 768px) and (min-width: 421px) {
                 width: 30px;
                 height: 30px;
                 color: #666;
@@ -223,7 +223,7 @@ header{
             color: #fff;
             font-size: 0.8em;
         }
-        @media (max-width: 720px) {
+        @media (max-width: 768px) {
             width: 100%;
             border-top: 1px solid #E7E7E7;
             background: #fff;
@@ -253,7 +253,7 @@ header{
                 }
             }
         }
-        @media (max-width: 720px) and (min-width: 421px) {
+        @media (max-width: 768px) and (min-width: 421px) {
             height: 60px;
             .prompt-block{
                 font-size: 0.7em;
@@ -267,7 +267,7 @@ header{
         }
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 768px) {
         padding: 5px;
         min-height: auto;
         position: sticky;

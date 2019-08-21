@@ -67,7 +67,7 @@ class Index extends React.Component{
                             history= {history}
                             type={this.typeAndClass()['type']}
                         />
-                        <section className="container-col" data-flexdirection="column">
+                        <section className="container-col account-container-wrap" data-flexdirection="column">
                             <section className="container-unit-title">
                                 <h2>{mainTitle}</h2>
                             </section>

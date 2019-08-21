@@ -1,7 +1,7 @@
 .container{
     &.approach-content{
         padding: 20px 0px !important;
-        @media (max-width: 720px) and (min-width: 421px) {
+        @media (max-width: 768px) and (min-width: 421px) {
             flex-wrap: wrap;
             padding: 10px !important;
         }
@@ -34,7 +34,7 @@
                 flex-wrap: wrap;
             }
         }
-        @media (max-width: 860px) and (min-width: 721px) {
+        @media (max-width: 860px) and (min-width: 769px) {
             &.left{
                 width: 260px;
                 min-width: 260px;
@@ -48,7 +48,7 @@
                 }
             }
         }
-        @media (max-width: 720px) {
+        @media (max-width: 768px) and (max-width: 421px) {
             &.left{
                 width: 100%;
                 min-width: 100%;
@@ -64,6 +64,25 @@
                 margin-bottom: 10px !important;
                 h1{
                     font-size: 1.1rem !important;
+                }
+            }
+        }
+        @media (max-width: 420px) {
+            &.left{
+                width: 100%;
+                min-width: 100%;
+                margin-right: 0px;
+            }
+            &.right{
+                flex-wrap: wrap;
+                .path-breadcrumbs,.unit-guide{
+                    display: none !important;
+                }
+            }
+            .unit{
+                margin-bottom: 10px !important;
+                h1{
+                    font-size: 1rem !important;
                 }
             }
         }

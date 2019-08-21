@@ -9,7 +9,7 @@ footer{
         &:last-child{
             border-bottom: none;
         }
-        @media (max-width: 720px) {
+        @media (max-width: 768px) {
             flex-wrap: wrap;
         }
     }
@@ -43,7 +43,7 @@ footer{
         .slogn-text{
             font-size: 1.1em;
         }
-        @media (max-width: 720px) {
+        @media (max-width: 768px) {
             flex-wrap: wrap;
             >li{
                 width: 50%;
@@ -72,7 +72,7 @@ footer{
     
     .footer-col-nav{
         width: 75%;
-        @media (max-width: 720px) {
+        @media (max-width: 768px) {
             width: 100%;
             padding: 0px 15px;
             flex-wrap: wrap;
@@ -94,7 +94,7 @@ footer{
                 }
             }
         }
-        @media (max-width: 720px) {
+        @media (max-width: 768px) {
             width: 50%;
             margin-bottom: 20px;
         }
@@ -106,7 +106,7 @@ footer{
             width: 80%;
             margin-top: -20px;
         }
-        @media (max-width: 720px) {
+        @media (max-width: 768px) {
             display: none;
         }
     }
@@ -114,7 +114,7 @@ footer{
         font-size: 0.8em;
         color: #979BA7;
     }
-    @media (max-width: 720px) and (min-width: 421px) {
+    @media (max-width: 768px) and (min-width: 421px) {
         padding: 10px 0px 60px 0px;
     }
     @media (max-width: 420px) {

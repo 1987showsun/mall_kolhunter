@@ -105,7 +105,7 @@ class SignUp extends React.Component{
                         <button type="submit">送出</button>
                     </div>
                     <div className="form-row form-p" data-content="center">
-                        <Link to="/login" className="signup_link">取消註冊</Link>
+                        <Link to="/account" className="signup_link">取消註冊</Link>
                     </div>
                 </form>
 

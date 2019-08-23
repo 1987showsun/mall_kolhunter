@@ -3,7 +3,8 @@ import Categories from  './pages/categories';
 import Info from './pages/info';
 import Create from './pages/create';
 import Review from './pages/review';
-import Program from './pages/program';
+import Program from './pages/program/payment';
+import Payment from './pages/program/items';
 import Profile from './pages/profile'
 
 export default [
@@ -12,8 +13,9 @@ export default [
         component: Program
     },
     {
-        path: "/myvendor/payment/:type",
-        component: Create
+        path: "/myvendor/payment",
+        exact: true,
+        component: Payment
     },
     {
         path: "/myvendor/create/:type",

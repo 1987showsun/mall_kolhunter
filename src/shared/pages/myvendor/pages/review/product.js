@@ -10,7 +10,7 @@ import Table from '../../../../module/table';
 import Confirm from '../../../../module/confirm';
 
 // Actions
-import { listProduct, programContract } from '../../../../actions/vendor';
+import { listProduct } from '../../../../actions/vendor';
 
 class Product extends React.Component{
 
@@ -135,11 +135,8 @@ class Product extends React.Component{
 
     componentDidMount() {
         const { location } = this.props; 
-        const { search } = location;
-        let loading = this.state.loading;
-        let initQuery = { ...this.state.initQuery };
-        initQuery = { ...initQuery, ...queryString.parse(search) }
-        this.props.dispatch( listProduct( `?${queryString.stringify(initQuery)}` ) ).then( res => {
+        const { pathname ,search } = location;
+        this.props.dispatch( listProduct(pathname,{ ...queryString.parse(search),status: 'none-auth' }) ).then( res => {
             this.setState({
                 loading: false
             })
@@ -162,16 +159,12 @@ class Product extends React.Component{
 
     onBuy = () => {
 
-        const { selectedResult, tableBodyData } = this.state;
-        const selectObject = tableBodyData.filter( filterItem => selectedResult.includes(filterItem['id']));
-        console.log( selectedResult,selectObject );
+        const { selectedResult } = this.state;
+        const purchaseTokens = selectedResult.map( item => item['id'] );
+        sessionStorage.setItem('vendorBuyProgram',JSON.stringify( purchaseTokens ));
 
         if( selectedResult.length!=0 ){
-            //this.props.dispatch( programContract(selected) ).then( res => {
-                if( true ){
-                    this.props.history.push('/myvendor/program/product');
-                }
-            //});
+            this.props.history.push('/myvendor/program/product');
         }else{
             this.setState({
                 open: true,

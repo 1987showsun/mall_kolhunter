@@ -10,14 +10,6 @@ import Pagination from '../../../../../module/pagination';
 // Actions
 import { listProduct, productPutsaleAndDiscontinue } from '../../../../../actions/vendor';
 
-const initQuery = {
-    page:1,
-    limit:30,
-    sort:"desc",
-    sortBy:"created",
-    status: "auth,non-display"
-}
-
 class Product extends React.Component{
 
     constructor(props){        
@@ -97,7 +89,7 @@ class Product extends React.Component{
 
         const { loading, total, tableHeadKey, tableBodyData } = this.state;
         const { match, location, history } = this.props;
-        const query = { ...initQuery ,...queryString.parse(location['search']) }
+        const { search } = location;
 
         return(
             <React.Fragment>
@@ -113,7 +105,12 @@ class Product extends React.Component{
                     tableButtonAction={this.tableButtonAction.bind(this)}
                 />
                 <Pagination
-                    query= {query}
+                    query= {{
+                        status: 'auth,non-display',
+                        sort:'desc',
+                        sortBy:'created',
+                         ...queryString.parse( search )
+                    }}
                     total= {total}
                     match= {match}
                     location= {location}
@@ -123,27 +120,30 @@ class Product extends React.Component{
     }
 
     componentDidMount() {
-        const { location } = this.props;
-        const { search } = location;
-        let query = { ...initQuery, ...queryString.parse(search) }
-        this.props.dispatch( listProduct( `?${queryString.stringify(query)}` ) ).then( res => {
-            this.setState({
-                loading: false
-            })
-        });
+        this.getProductList();
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState){
         const prevlocationSearch = prevProps.location['search'];
         const locationSearch = this.props.location['search'];
         if( prevlocationSearch!=locationSearch ){
-            this.props.dispatch( listProduct( locationSearch ) );
+            this.getProductList();
         }
         return null;
     }
 
     componentDidUpdate(){
         return null;
+    }
+
+    getProductList = () => {
+        const { location } = this.props;
+        const { pathname, search } = location;
+        this.props.dispatch( listProduct(pathname,{ ...queryString.parse(search),status: 'auth,non-display' }) ).then( res => {
+            this.setState({
+                loading: false
+            })
+        });
     }
 
     tableButtonAction = ( val ) => {

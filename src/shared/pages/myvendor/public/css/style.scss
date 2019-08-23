@@ -281,9 +281,11 @@
         }
         ul{
             display: flex;
+            margin-bottom: 0px;
             >li{
                 display: inline-flex;
-                margin-right: 5px;
+                padding: 0px;
+                margin-right: 10px;
                 &:last-child{
                     margin-right: 0px;
                 }
@@ -298,6 +300,11 @@
                 color: #40a9ff;
                 border-color: #40a9ff;
             }
+        }
+        .input-box{
+            border: none;
+            height: 100%;
+            margin: 0px;
         }
         a{
             &.create,&.download{

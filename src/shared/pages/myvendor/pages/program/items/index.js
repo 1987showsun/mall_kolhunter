@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 // Components
 import Head from './head';
@@ -8,10 +7,7 @@ import Head from './head';
 import Table from '../../../../../module/table';
 import Pagination from '../../../../../module/pagination';
 
-// Actions
-import { incListOrder } from '../../../../../actions/vendor';
-
-class Order extends React.Component{
+export default class Index extends React.Component{
 
     constructor(props){
         super(props);
@@ -31,31 +27,20 @@ class Order extends React.Component{
                 {
                     key: 'quantity',
                     type: 'number',
-                    title: '購買數量'
+                    title: '購買方案數量'
                 },
                 {
                     key: 'transport',
                     type: 'text',
-                    title: '運送方式'
+                    title: '付款方式'
                 },
                 {
                     key: 'status',
                     type: 'text',
-                    title: '訂單狀態'
-                },
-                {
-                    key: 'createdate',
-                    type: 'text',
-                    title: '訂購時間'
+                    title: '付款狀態'
                 }
             ],
             tableBodyData: []
-        }
-    }
-
-    static getDerivedStateFromProps ( props,state ){
-        return{
-            tableBodyData: props.list
         }
     }
 
@@ -72,24 +57,11 @@ class Order extends React.Component{
                     tableBodyData={tableBodyData}
                 />
                 <Pagination 
-                    method= "ddd"
-                    total= {61}
+                    total= {10}
                     match= {match}
                     location= {location}
                 />
             </React.Fragment>
         );
     }
-
-    componentDidMount() {
-        this.props.dispatch( incListOrder() );
-    }
 }
-
-const mapStateToProps = (state) => {
-    return{
-        list: state.vendor.list
-    }
-}
-
-export default connect(mapStateToProps)(Order);

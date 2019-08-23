@@ -31,29 +31,24 @@ class Index extends React.Component{
                     </li>
                     <li>
                         <label className="radio">
-                            <input type="radio" name="method" value="card" onChange={this.handleChange.bind(this)} checked={formObject['method']=='card'}/>
+                            <input type="radio" name="method" value="cc" onChange={this.handleChange.bind(this)} checked={formObject['method']=='cc'}/>
                             <div className="box"></div>
                             <div className="radio-container">
-                                <span>Credit card</span>
+                                <span>信用卡</span>
                                 {
                                     formObject['method'] == 'card' &&
-                                        <Card />
+                                        <Card 
+                                            returnHandleChange = {this.returnCardInfo.bind(this)}
+                                        />
                                 }
                             </div>
                         </label>
                     </li>
                     <li>
                         <label className="radio">
-                            <input type="radio" name="method" value="payment-711" onChange={this.handleChange.bind(this)} checked={formObject['method']=='payment-711'}/>
+                            <input type="radio" name="method" value="cvs" onChange={this.handleChange.bind(this)} checked={formObject['method']=='cvs'}/>
                             <div className="box"></div>
-                            <div>7-11 超商付款</div>
-                        </label>
-                    </li>
-                    <li>
-                        <label className="radio">
-                            <input type="radio" name="method" value="payment-family" onChange={this.handleChange.bind(this)} checked={formObject['method']=='payment-family'}/>
-                            <div className="box"></div>
-                            <div>全家 超商付款</div>
+                            <div>超商付款</div>
                         </label>
                     </li>
                 </ul>
@@ -61,16 +56,33 @@ class Index extends React.Component{
         );
     }
 
+    componentDidMount() {
+        this.returnHandleChange();
+    }
+
     handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
         this.setState({
             formObject: { ...this.state.formObject, [name]: value }
+        },()=>{
+            this.returnHandleChange();
         })
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
+    returnCardInfo = ( val ) => {
+        this.setState({
+            formObject: { ...this.state.formObject, ...val }
+        },()=>{
+            this.returnHandleChange();
+        })
+    }
+
+    returnHandleChange = () => {
+        if( this.props.returnHandleChange!=undefined ){
+            const { formObject } = this.state;
+            this.props.returnHandleChange(formObject);
+        }
     }
 }
 

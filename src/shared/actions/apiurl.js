@@ -1,5 +1,6 @@
 import axios from 'axios';
 axios.interceptors.request.use(function (config) {
+    console.log( config );
     return config;
 }, function (error) {
     return error;
@@ -90,7 +91,7 @@ export default function API( NODE_ENV ){
             'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/deliveries` // get 運送方式
         },
         'categories': {
-            'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/categories` // get 分類列表
+            'list': `${API_ADDRESS(NODE_ENV)}/v1/category/list` // get 分類列表
         },
         'shopping': { // 購物
             'cartID': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart/init`
@@ -98,17 +99,23 @@ export default function API( NODE_ENV ){
         'mall': { // 賣場
             'home': {
                 'kv': `${API_ADDRESS(NODE_ENV)}/v1/mall/banner`, // get 輪播banner
-                'latest': `${API_ADDRESS(NODE_ENV)}/v1/mall/product/latest` // get 最新商品
+                'latest': `${API_ADDRESS(NODE_ENV)}/v1/product/latest` // get 最新商品
             },
             'product': {
-                'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/product/list` // get 商品列表
+                'list': `${API_ADDRESS(NODE_ENV)}/v1/product/list` // get 商品列表
             },
             'store': {
-                'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/store/list`, // get 店舖列表
+                'list': `${API_ADDRESS(NODE_ENV)}/v1/store/list`, // get 店舖列表
                 'product': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // get 店鋪商品
                 'recommend': `${API_ADDRESS(NODE_ENV)}/v1/store/recommend`, // get 推薦網紅店舖
                 'salesInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/sales` // get 店舖銷售銷售資訊
             }
+        },
+        "payment": {
+            "addOrder": `${API_ADDRESS(NODE_ENV)}/v1/pay/init`, // post 建立訂單
+            "checkout": `${API_ADDRESS(NODE_ENV)}/v1/pay/checkout`, // post 結帳
+            "verifier": `${API_ADDRESS(NODE_ENV)}/pay/verifier`, // 第三方驗證
+            "result" : `${API_ADDRESS(NODE_ENV)}/v1/pay/result` // 付款結果
         }
     }
 }

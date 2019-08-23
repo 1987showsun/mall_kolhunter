@@ -972,3 +972,18 @@ figure{
         padding: 5px 0px;
     }
 }
+
+.payStatus{
+    min-height: 35px;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 0.8em;
+    padding: 5px 10px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.init{
+        background: var(--main);
+    }
+}

@@ -4,7 +4,6 @@ import React from 'react';
 import Product from './product';
 import Order from './order';
 import Account from './account';
-import Program from './program';
 
 //Lang
 import lang from '../../../../lang/lang.json';
@@ -17,14 +16,12 @@ export default class Index extends React.Component{
             title: {
                 "product": "Commodity management",
                 "order": "Order management",
-                "account": "Account details",
-                "program": "Purchase plan"
+                "account": "Account details"
             },
             components : {
                 product : Product,
                 order : Order,
-                account: Account,
-                program: Program
+                account: Account
             }
         }
     }

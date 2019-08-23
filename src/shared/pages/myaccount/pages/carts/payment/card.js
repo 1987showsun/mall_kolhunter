@@ -28,7 +28,7 @@ export default class Card extends React.Component{
                                 this.setState({
                                     formObject: { ...formObject, cardCode: value['value'] }
                                 },()=>{
-                                    this.returnForm();
+                                    this.returnHandleChange();
                                 })
                             }}/>
                         </div>
@@ -40,7 +40,7 @@ export default class Card extends React.Component{
                                 this.setState({
                                     formObject: { ...formObject, cardVerified: value['value'] }
                                 },()=>{
-                                    this.returnForm();
+                                    this.returnHandleChange();
                                 })
                             }}/>
                         </div>
@@ -52,7 +52,7 @@ export default class Card extends React.Component{
                                 this.setState({
                                     formObject: { ...formObject, cardExpiry: value['value'] }
                                 },()=>{
-                                    this.returnForm();
+                                    this.returnHandleChange();
                                 })
                             }}/>
                         </div>
@@ -83,10 +83,10 @@ export default class Card extends React.Component{
         return month + (year.length ? '/' + year : '');
     }
 
-    returnForm = () => {
-        if( this.props.returnForm!=undefined ){
+    returnHandleChange = () => {
+        if( this.props.returnHandleChange!=undefined ){
             const { formObject } = this.state;
-            this.props.returnForm( formObject )
+            this.props.returnHandleChange(formObject);
         }
-    }
+    } 
 }

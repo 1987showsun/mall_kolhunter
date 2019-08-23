@@ -1,7 +1,8 @@
 import axios from 'axios';
+import queryString from 'query-string';
 import API from './apiurl';
 
-export function listProduct( query ) {
+export function listProduct( pathname,query ) {
     return (dispatch) => {
 
         // auth: 上架
@@ -9,8 +10,15 @@ export function listProduct( query ) {
         // none-auth: 審核中
         // delete: 已刪除
 
+        const initQuery = {
+            page:1,
+            limit:30,
+            sort:'desc',
+            sortBy:'created'
+        };
         const method = 'get';
-        const url = `${API()['myvendor']['product']['categories']}${query}`;
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['myvendor']['product']['categories']}${ search!=''? `?${search}`:'' }`;
 
         dispatch({
             type: 'VENDOR_PRODUCT_LIST',

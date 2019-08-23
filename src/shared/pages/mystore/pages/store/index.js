@@ -9,7 +9,7 @@ import Cover from '../../../../components/store/cover';
 import Table from '../../../../module/table';
 
 // Actions
-import { myStoreStoreProduct } from '../../../../actions/mystore';
+import { mystoreStoreProduct, mystoreStoreProductRemove } from '../../../../actions/mystore';
 
 const demoData = [
     {
@@ -164,11 +164,16 @@ class Index extends React.Component{
     componentDidMount() {
         const { location } = this.props;
         const { pathname, search } = location;
-        this.props.dispatch( myStoreStoreProduct( pathname, queryString.parse(search) ) );
+        this.props.dispatch( mystoreStoreProduct( pathname, queryString.parse(search) ) );
     }
 
     tableButtonAction = ( val ) => {
         console.log( val );
+        const { location } = this.props;
+        const { pathname, search } = location;
+        const productID = val['id'];
+        console.log( productID );
+        //this.props.dispatch( mystoreStoreProductRemove(pathname, search,) );
     }
 }
 

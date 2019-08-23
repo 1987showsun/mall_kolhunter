@@ -8,7 +8,7 @@ import Step2 from './step2';
 import Step3 from './step3';
 
 // Stylesheets
-import './style.scss';
+import '../style.scss';
 
 class Index extends React.Component{
 

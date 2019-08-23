@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 // Components
 import Head from './head';
+
+// Modules
 import Table from '../../../../../module/table';
 import Pagination from '../../../../../module/pagination';
 

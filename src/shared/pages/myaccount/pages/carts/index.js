@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 // Components
 import ProductWrap from './product';
@@ -8,12 +9,13 @@ import Transports from './transport';
 import Invoice from './invoice';
 import Action from './action';
 
-export default class Index extends React.Component{
+class Index extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
             required: [],
+            formObject: {}
         }
     }
 
@@ -39,7 +41,9 @@ export default class Index extends React.Component{
                     <div className="unit-head">
                         <h3>付款方式</h3>
                     </div>
-                    <Payment />
+                    <Payment 
+                        returnHandleChange= {this.returnHandleChange.bind(this)}
+                    />
                 </section>
                 <section className="container-unit">
                     {/* 訂購人 / 收件人資訊 */}
@@ -61,4 +65,25 @@ export default class Index extends React.Component{
             </React.Fragment>
         );
     }
+
+    componentDidMount() {
+        this.returnHandleChange();
+    }
+    
+    returnHandleChange = ( val ) => {
+        console.log( { ...this.state.formObject, ...val } );
+        this.setState({
+            formObject: { ...this.state.formObject, ...val }
+        },()=>{
+            //console.log( '--->',this.state.formObject );
+        })
+    }
 }
+
+const mapStateToProps = state => {
+    return{
+        
+    }
+}
+
+export default connect( mapStateToProps )( Index );

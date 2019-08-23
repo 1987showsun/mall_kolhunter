@@ -3,48 +3,41 @@ import CurrencyFormat from 'react-currency-format';
 import { connect } from 'react-redux';
 
 // Json
-import area_code from '../../../../../public/json/TWareacode.json';
-import county_area from '../../../../../public/json/TWzipcode.json';
+import area_code from '../../../../../../public/json/TWareacode.json';
+import county_area from '../../../../../../public/json/TWzipcode.json';
 
 const city = Object.keys(county_area)[0];
 const district = Object.keys(county_area[city])[0];
 
-export default class PurchaseInfo extends React.Component{
+class PurchaseInfo extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            data: props.data,
             formObject:{
-                company: "",
-                contactor: "",
-                email: "",
-                phone: "",
-                zipcode: "",
-                city: "",
-                district: "",
-                address: ""
+                company: props.profile['company'],
+                contactor: props.profile['contactor'],
+                email: props.profile['email'],
+                phone: props.profile['phone'],
+                zipcode: props.profile['zipcode'],
+                city: props.profile['city'],
+                district: props.profile['district'],
+                address: props.profile['address']
             }
         }
     }
 
     static getDerivedStateFromProps( props,state ) {
-        if( Object.keys(state.data).length==0 ){
 
-            let formObject = { ...props.data };
-            //console.log( 'formObject',formObject );
-            if( props.data['city']==undefined || props.data['city']=="" ){
-                formObject = { ...formObject,city: city }
-            }
-            if( props.data['district']==undefined || props.data['district']=="" ){
-                formObject = { ...formObject,district: district }
-            }
-
+        const profile = { ...props.profile };
+        const formObject = { ...state.formObject };
+        const contrast = Object.keys( formObject ).filter( key => formObject[key]!=profile[key] );
+        if( contrast.length==0 ){
             return{
-                data: props.data,
-                formObject
+                formObject: props.profile 
             }
         }
+
         return null;
     }
 
@@ -125,6 +118,15 @@ export default class PurchaseInfo extends React.Component{
         );
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const prevStateFormObject = prevState.formObject;
+        const formObject = this.state.formObject;
+        if( prevStateFormObject!=formObject ){
+            this.returnHandleChange();
+        }
+    }
+    
+
     handleChange = ( e ) => {
 
         const name = e.target.name;
@@ -192,3 +194,11 @@ export default class PurchaseInfo extends React.Component{
         }
     }
 }
+
+const mapStateToProps = state => {
+    return{
+        profile: state.vendor.info
+    }
+}
+
+export default connect( mapStateToProps )( PurchaseInfo );

@@ -1,26 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import CurrencyFormat from 'react-currency-format';
 
-// Json
-import area_code from '../../../../../public/json/TWareacode.json';
-import county_area from '../../../../../public/json/TWzipcode.json';
-
-export default class Invoice extends React.Component{
+class Invoice extends React.Component{
 
     constructor(props){
-
-        const initCounty = Object.keys(county_area)[0];
-        const initCountyArea = Object.keys(county_area[initCounty])[0];
 
         super(props);
         this.state = {
             formObject: {
                 invoice: "",
                 title: "",
-                recipient: "",
-                county: initCounty,
-                county_area: initCountyArea,
-                address: ""
+                recipient: ""
             }
         }
     }
@@ -84,3 +75,11 @@ export default class Invoice extends React.Component{
         }
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Invoice );

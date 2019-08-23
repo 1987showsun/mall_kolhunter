@@ -30,6 +30,7 @@ class Nav extends React.Component{
                         <li className={ _typeActive &&_class=='product'? 'active':'' }><Link to="/myvendor/categories/product?page=1&sort=desc&sortBy=created&limit=30">商品管理</Link></li>
                         <li className={ _typeActive &&_class=='order'? 'active':'' }><Link to="/myvendor/categories/order">訂單管理</Link></li>
                         <li className={ _typeActive &&_class=='account'? 'active':'' }><Link to="/myvendor/categories/account">帳務明細</Link></li>
+                        <li className={ _type=='payment'? 'active':'' }><Link to="/myvendor/payment">方案管理</Link></li>
                     </ul>
                 </nav>
             </React.Fragment>

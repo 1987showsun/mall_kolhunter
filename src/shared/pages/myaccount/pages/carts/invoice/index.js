@@ -14,7 +14,7 @@ class Index extends React.Component{
         super(props);
         this.state = {
             formObject: {
-                invoiceMethod: "electronic"
+                invoiceType: "electronic"
             }
         }
     }
@@ -28,12 +28,12 @@ class Index extends React.Component{
                 <ul className="card-form-list">
                     <li>
                         <label className="radio full-W">
-                            <input type="radio" name="invoiceMethod" value="electronic" onChange={this.handleChange.bind(this)} checked={formObject['invoiceMethod']=='electronic'}/>
+                            <input type="radio" name="invoiceType" value="2" onChange={this.handleChange.bind(this)} checked={formObject['invoiceType']=='2'}/>
                             <div className="box"></div>
                             <div className="radio-container">
                                 <span>電子發票</span>
                                 {
-                                    formObject['invoiceMethod']=='electronic' &&
+                                    formObject['invoiceType']=='2' &&
                                         <Electronic />
                                 }
                             </div>
@@ -41,12 +41,12 @@ class Index extends React.Component{
                     </li>
                     <li>
                         <label className="radio full-W">
-                            <input type="radio" name="invoiceMethod" value="triplicate" onChange={this.handleChange.bind(this)} checked={formObject['invoiceMethod']=='triplicate'}/>
+                            <input type="radio" name="invoiceType" value="3" onChange={this.handleChange.bind(this)} checked={formObject['invoiceType']=='3'}/>
                             <div className="box"></div>
                             <div className="radio-container">
                                 <span>三聯式發票</span>
                                 {
-                                    formObject['invoiceMethod']=='triplicate' &&
+                                    formObject['invoiceType']=='3' &&
                                         <Triplicate />
                                 }
                             </div>
@@ -54,12 +54,12 @@ class Index extends React.Component{
                     </li>
                     <li>
                         <label className="radio full-W">
-                            <input type="radio" name="invoiceMethod" value="donation" onChange={this.handleChange.bind(this)} checked={formObject['invoiceMethod']=='donation'}/>
+                            <input type="radio" name="invoiceType" value="donate" onChange={this.handleChange.bind(this)} checked={formObject['invoiceType']=='donate'}/>
                             <div className="box"></div>
                             <div className="radio-container">
                                 <span>捐贈發票</span>
                                 {
-                                    formObject['invoiceMethod']=='donation' &&
+                                    formObject['invoiceType']=='donate' &&
                                         <Donation />
                                 }
                             </div>

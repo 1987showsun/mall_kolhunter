@@ -198,3 +198,22 @@
         }
     }
 }
+
+.openFilterWrapLabel{
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,.5);
+    display: flex;
+    border-radius: 100%;
+    position: fixed;
+    z-index: 3;
+    bottom: 100px;
+    right: 20px;
+}
+
+#openFilterWrap{
+    display: none;
+    &:checked ~ .filter-wrap{
+        display: flex !important;
+    }
+}

@@ -27,17 +27,11 @@ class HeadAccount extends React.Component{
                     <div className="page-head-action-row">
                         <ul>
                             <li>
-                                <a href="" className="download">下載報表</a>
-                            </li>
-                            <li>
                                 <div className="input-box select">
                                     <select>
-                                        <option value="0">本期</option>
-                                        <option value="1">第一期</option>
-                                        <option value="2">第二期</option>
-                                        <option value="3">第三期</option>
-                                        <option value="4">第四期</option>
-                                        <option value="5">第五期</option>
+                                        <option value="0">付款完成</option>
+                                        <option value="1">未付款</option>
+                                        <option value="2">取消訂單</option>
                                     </select>
                                 </div>
                             </li>
@@ -45,7 +39,11 @@ class HeadAccount extends React.Component{
                     </div>
                 </div>
                 <div className="page-alert-info">
-                    <p>待出貨：4   運送中：1   完成：4   取消訂單：2   退貨：2   訂單總數：13</p>
+                    <ul>
+                        <li>已付款：2</li>
+                        <li>未付款：1</li>
+                        <li>取消：2</li>
+                    </ul>
                 </div>
             </React.Fragment>
         );

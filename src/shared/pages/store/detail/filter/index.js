@@ -15,13 +15,11 @@ class Filter extends React.Component{
         super(props);
         this.state = {
             filterSwitch: false,
-            subCategory: props.subCategory
         }
     }
 
     static getDerivedStateFromProps( props, state) {
         return{
-            subCategory: props.subCategory
         }
     }
 

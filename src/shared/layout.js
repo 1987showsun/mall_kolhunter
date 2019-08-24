@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 // Actions
 import { allCategories } from './actions/common';
@@ -9,8 +9,8 @@ import { allCategories } from './actions/common';
 import routers from './routers';
 
 //Components
-import Header from './components/common/header';
-import Footer from './components/common/footer';
+import Header from './components/common/header/header';
+import Footer from './components/common/footer/footer';
 
 //Stylesheets
 import './public/stylesheets/common.scss';

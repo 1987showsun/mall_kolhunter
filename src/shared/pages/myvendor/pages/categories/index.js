@@ -6,7 +6,7 @@ import Order from './order';
 import Account from './account';
 
 //Lang
-import lang from '../../../../lang/lang.json';
+import lang from '../../../../public/lang/lang.json';
 
 export default class Index extends React.Component{
 

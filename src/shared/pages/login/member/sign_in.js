@@ -8,7 +8,7 @@ import { faCheck }from '@fortawesome/free-solid-svg-icons';
 import { signin } from '../../../actions/login';
 
 // Json
-import lang from '../../../lang/lang.json';
+import lang from '../../../public/lang/lang.json';
 
 class SignIn extends React.Component{
 

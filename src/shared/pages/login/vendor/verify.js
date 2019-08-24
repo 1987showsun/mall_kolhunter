@@ -13,7 +13,7 @@ import { getVerifyToke } from '../../../actions/vendor';
 import { PWD } from '../../../public/javascripts/checkFormat';
 
 // Lang
-import lang from '../../../lang/lang.json';
+import lang from '../../../public/lang/lang.json';
 
 class Verify extends React.Component{
 

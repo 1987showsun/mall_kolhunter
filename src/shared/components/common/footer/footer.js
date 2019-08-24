@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // stylesheets
-import './css/footer.scss';
+import './footer.scss';
 
 // Images
-import footLogo from '../../public/images/home_about_01.png';
+import footLogo from '../../../public/images/home_about_01.png';
 
 class Footer extends React.Component{
     render(){

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// Components
+// Modules
 import Slider from '../../module/slider';
 
 class Kv extends React.Component{

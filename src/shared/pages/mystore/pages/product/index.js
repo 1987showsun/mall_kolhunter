@@ -1,14 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 // Components
 import Tab from './tab';
 import Search from './search';
 import Table from '../../../../module/table';
 
+// Actions
+import { mystoreProductList } from '../../../../actions/mystore';
+
 // Stylesheets
 import './style.scss';
 
-export default class Index extends React.Component{
+class Index extends React.Component{
 
     constructor( props ){
         super(props);
@@ -80,9 +84,20 @@ export default class Index extends React.Component{
     }
 
     componentDidMount() {
+        this.props.dispatch( mystoreProductList() ).then( res => {
+            
+        });
     }
 
     componentDidUpdate( prevProps,prevState ) {
         
     }
 }
+
+const mapStateToprops = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToprops )( Index );

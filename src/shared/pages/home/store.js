@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-// Components
+// Modules
 import Slider from '../../module/slider';
 import StroeItem from '../../module/item/store';
 
@@ -11,14 +12,14 @@ const demo = [
   {storeName: "Store D", celebName: null, id: "078da2cdeb703149eba3", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
   {storeName: "Store E", celebName: null, id: "82f24beed8161a3c8e0e", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
   {storeName: "Store F", celebName: null, id: "1cb1022a146e32956c95", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
-  {storeName: "Store G", celebName: null, id: "d7068406800c5ca474fb", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
-  {storeName: "Store H", celebName: null, id: "e8f222f1830fea82874a", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
-  {storeName: "Store I", celebName: null, id: "712655c53fb66de05056", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
-  {storeName: "Store J", celebName: null, id: "99250f24900ef7a1569f", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
-  {storeName: "Store K", celebName: null, id: "779df62ece0e17c33e1d", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
-  {storeName: "Store L", celebName: null, id: "058d7b540728b2d89049", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
-  {storeName: "Store M", celebName: null, id: "8f9ccca0424b13596bbd", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
-  {storeName: "Store N", celebName: null, id: "5d0bf4701a0dca17be07", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0}
+  // {storeName: "Store G", celebName: null, id: "d7068406800c5ca474fb", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
+  // {storeName: "Store H", celebName: null, id: "e8f222f1830fea82874a", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
+  // {storeName: "Store I", celebName: null, id: "712655c53fb66de05056", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
+  // {storeName: "Store J", celebName: null, id: "99250f24900ef7a1569f", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
+  // {storeName: "Store K", celebName: null, id: "779df62ece0e17c33e1d", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
+  // {storeName: "Store L", celebName: null, id: "058d7b540728b2d89049", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
+  // {storeName: "Store M", celebName: null, id: "8f9ccca0424b13596bbd", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0},
+  // {storeName: "Store N", celebName: null, id: "5d0bf4701a0dca17be07", image: "https://static.kolhunter.com/vendor/product/2019/0…cb7b82141e2e/9cb362aecf260ba5564b1182905ac16d.jpg", productCount: 0}
 ]
 
 export default class Store extends React.Component{
@@ -49,14 +50,16 @@ export default class Store extends React.Component{
           {
             breakpoint: 720,
             settings: {
-              slidesToShow: 3,
+              arrows: false,
+              slidesToShow: 3.2,
               slidesToScroll: 3
             }
           },
           {
             breakpoint: 600,
             settings: {
-              slidesToShow: 2,
+              arrows: false,
+              slidesToShow: 2.2,
               slidesToScroll: 2
             }
           }
@@ -65,7 +68,7 @@ export default class Store extends React.Component{
 
     return(
         <div className="row">
-            <section className="container" data-direction="column" >
+            <section className="container" data-direction="column" style={{paddingTop: '10px'}}>
                 <div className="unit">
                     <div className="block-title">
                         <h2>熱門網紅店家</h2>
@@ -76,6 +79,12 @@ export default class Store extends React.Component{
                             return <StroeItem key={item['id']} path={`/store/store_id`} data={item}/>
                           })
                         }
+                        {/* <div className="seeMore">
+                          <Link to="/store">
+                            <span className="icon"></span>
+                            <span>查看全部</span>
+                          </Link>
+                        </div> */}
                     </Slider>
                 </div>
             </section>

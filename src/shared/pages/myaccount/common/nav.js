@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faUserCircle, faShoppingBag, faFileAlt, faSignOutAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Actions
 import { signout } from '../../../actions/login';
@@ -43,10 +45,10 @@ class Nav extends React.Component{
                 <article className="account-nav-wrap-row pc">
                     <ul className="account-nav-ul">
                         <li className="account-nav-header">基本會員管理</li>
-                        <li className={`${type=="profile"}`}><Link to="/myaccount">基本設定</Link></li>
-                        <li className={`${type=="carts"}`}><Link to="/myaccount/carts">我的購物車</Link></li>
-                        <li className={`${type=="orders"}`}><Link to="/myaccount/orders">訂單查詢 / 退貨</Link></li>
-                        <li ><button onClick={this.signout.bind(this)}>登出</button></li>
+                        <li className={`${type=="profile"}`}><Link to="/myaccount"><i><FontAwesomeIcon icon={faUserCircle} /></i>基本設定</Link></li>
+                        <li className={`${type=="carts"}`}><Link to="/myaccount/carts"><i><FontAwesomeIcon icon={faShoppingBag} /></i>我的購物車</Link></li>
+                        <li className={`${type=="orders"}`}><Link to="/myaccount/orders"><i><FontAwesomeIcon icon={faFileAlt} /></i>訂單查詢 / 退貨</Link></li>
+                        <li ><button onClick={this.signout.bind(this)}><i><FontAwesomeIcon icon={faSignOutAlt} /></i>登出</button></li>
                     </ul>
                 </article>
             </section>

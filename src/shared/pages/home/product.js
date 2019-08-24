@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// Components
+// Modules
 import BlockList from '../../module/blockList';
 import Item from '../../module/item/product';
 

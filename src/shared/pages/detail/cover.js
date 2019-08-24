@@ -3,7 +3,7 @@ import CurrencyFormat from 'react-currency-format';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus }from '@fortawesome/free-solid-svg-icons';
 
-// Components
+// Modules
 import CoverSlider from '../../module/coverSlider';
 
 export default class Cover extends React.Component{

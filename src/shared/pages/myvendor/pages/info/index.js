@@ -5,7 +5,7 @@ import Product from './product';
 import Order from './order';
 
 //Lang
-import lang from '../../../../lang/lang.json';
+import lang from '../../../../public/lang/lang.json';
 
 export default class Index extends React.Component{
 

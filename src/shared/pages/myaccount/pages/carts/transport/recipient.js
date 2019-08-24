@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CurrencyFormat from 'react-currency-format';
 
-// Json
+// Jsons
 import county_area from '../../../../../public/json/TWzipcode.json';
 
 // Lang
-import lang from '../../../../../lang/lang.json';
+import lang from '../../../../../public/lang/lang.json';
 
 const city = Object.keys(county_area)[0];
 const district = Object.keys(county_area[city])[0];

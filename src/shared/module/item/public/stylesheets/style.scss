@@ -107,6 +107,35 @@ figure {
 }
 
 .store-card{
+    .slick-arrow{
+        width: 25px;
+        height: 25px;
+        background-color: #fff;
+        border-radius: 100%;
+        box-shadow: 0px 0px 5px rgba(0,0,0,.4);
+        &.slick-disabled{
+            visibility: hidden;
+        }
+        &.slick-prev{
+            left: -10px;
+            background-image: url('../images/arrow-prev.png');
+        }
+        &.slick-next{
+            right: -10px;
+            background-image: url('../images/arrow-next.png');
+        }
+        &:hover{
+            width: 35px;
+            height: 35px;
+            &.slick-prev{
+                left: -15px;
+            }
+            &.slick-next{
+                right: -15px;
+            }
+        }
+    }
+
     .slick-track{
         >div{
             padding: 5px;

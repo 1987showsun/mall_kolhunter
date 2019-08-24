@@ -1,4 +1,4 @@
-export default function categories(
+export default function mystore(
     state = {
         total: 0,
         limit: 30,

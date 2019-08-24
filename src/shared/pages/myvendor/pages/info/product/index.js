@@ -2,21 +2,23 @@ import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 
-//Compoents
-import Confirm from '../../../../../module/confirm';
-import Table from '../../../../../module/table';
+// Compoents
 import Cover from './cover';
 import Basic from './basic';
 import Freight from './freight';
 import Depiction from './depiction';
 import Format from './format';
 
+// Module
+import Confirm from '../../../../../module/confirm';
+import Table from '../../../../../module/table';
+
 // Actions
 import { infoProduct, deleteProduct } from '../../../../../actions/vendor';
 import { deliveries, categories } from '../../../../../actions/common';
 
 // Lang
-import lang from '../../../../../lang/lang.json';
+import lang from '../../../../../public/lang/lang.json';
 
 // Demo
 const demoData = [

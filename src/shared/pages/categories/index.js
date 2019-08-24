@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import queryString from 'query-string';
 
 // Components
-import Item from '../../module/item/product';
-import BlockList from '../../module/blockList';
 import Filter from './filter/';
 import Breadcrumbs from './breadcrumbs';
-import Pagination from '../../module/pagination';
+
+// Modules
+import Item from '../../module/item/product';
 import Loading from '../../module/loading/mallLoading';
+import BlockList from '../../module/blockList';
+import Pagination from '../../module/pagination';
 
 // Actions
 import { productList, mallCategories, ssrProductList } from '../../actions/categories';

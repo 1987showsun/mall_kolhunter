@@ -19,7 +19,7 @@ export default class Tab extends React.Component{
                             search: `${ queryString.stringify({ ...search, tabType: 'hito' }) }`
                         }}
                     >
-                        熱門分潤商品
+                        熱門商品
                     </Link>
                 </li>
                 <li className={`${tabType=='new'}`}>
@@ -29,7 +29,7 @@ export default class Tab extends React.Component{
                             search: `${ queryString.stringify({ ...search, tabType: 'new' }) }`
                         }}
                     >
-                        最新上架商品
+                        最新商品
                     </Link>
                 </li>
                 <li className={`${tabType=='preset'}`}>
@@ -39,7 +39,7 @@ export default class Tab extends React.Component{
                             search: `${ queryString.stringify({ ...search, tabType: 'preset' }) }`
                         }}
                     >
-                        系統推薦商品
+                        推薦商品
                     </Link>
                 </li>
             </ul>

@@ -22,6 +22,19 @@
         -o-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
     }
+    .seeMore{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        span{
+            &.icon{
+                border: 2px solid var(--main);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
 }
 
 .slick-list{

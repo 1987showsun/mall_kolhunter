@@ -8,7 +8,7 @@ import Nav from './common/nav';
 import Product from './pages/product';
 import Store from './pages/store';
 import Fansorders from './pages/fansorders';
-import Account from './pages/account';
+import Bank from './pages/bank';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -25,16 +25,16 @@ class Index extends React.Component{
                     component: Product
                 },
                 store: {
-                    mainTitle: "我的商店",
+                    mainTitle: "店舖管理",
                     component: Store
                 },
                 fansorders: {
                     mainTitle: "粉絲訂單",
                     component: Fansorders
                 },
-                account: {
-                    mainTitle: "我的帳戶",
-                    component: Account
+                bank: {
+                    mainTitle: "銀行帳號設定",
+                    component: Bank
                 }
             }
         }
@@ -117,7 +117,7 @@ class Index extends React.Component{
             _type = 'product';
             if( turn ){
                 history.push({
-                    pathname: '/myaccount'
+                    pathname: '/mystore'
                 })
             }
         }

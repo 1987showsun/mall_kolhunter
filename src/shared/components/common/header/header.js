@@ -5,18 +5,18 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faUser, faStore, faUserPlus, faShoppingCart, faTruck }from '@fortawesome/free-solid-svg-icons';
 
 //Compoents
-import Search from './search/';
+import Search from './search';
 
 // Actions
-import { ainfo } from '../../actions/account';
-import { getCartID } from '../../actions/common';
+import { ainfo } from '../../../actions/account';
+import { getCartID } from '../../../actions/common';
 
 // stylesheets
-import './css/header.scss';
+import './header.scss';
 
 // Images
-import Logo from '../../public/images/logo.png';
-import LogoMobile from '../../public/images/logo-mobile.png';
+import Logo from '../../../public/images/logo.png';
+import LogoMobile from '../../../public/images/logo-mobile.png';
 
 class Header extends React.Component{
 

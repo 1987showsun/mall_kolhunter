@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // Lang
-import lang from '../../../lang/lang.json';
+import lang from '../../../public/lang/lang.json';
 
 export default class Leading extends React.Component{
     render(){

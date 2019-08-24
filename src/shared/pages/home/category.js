@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// Components
+// Modules
 import Slider from '../../module/slider';
 
 export default class Category extends React.Component{

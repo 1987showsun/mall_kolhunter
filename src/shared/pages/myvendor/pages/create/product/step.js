@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Lang
-import lang from '../../../../../lang/lang.json';
+import lang from '../../../../../public/lang/lang.json';
 
 export default class Step extends React.Component{
 

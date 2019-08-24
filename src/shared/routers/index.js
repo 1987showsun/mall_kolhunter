@@ -3,8 +3,8 @@ import Terms from '../pages/terms';
 import Categories from '../pages/categories';
 import Detail from '../pages/detail';
 import Approach from '../pages/approach';
-import Store from '../pages/store';
-import StoreInfo from '../pages/store/info';
+import Store from '../pages/store/categories';
+import StoreDetail from '../pages/store/detail';
 import ontSignIn from '../pages/login';
 import MyVendor from '../pages/myvendor';
 import MyAccount from '../pages/myaccount';
@@ -54,7 +54,7 @@ const common = [
   },
   {
     path: "/store/:id",
-    component: StoreInfo
+    component: StoreDetail
   },
   {
     path: "/store",

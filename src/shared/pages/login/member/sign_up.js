@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// Components
+// Modules
 import Confirm from '../../../module/confirm';
 
 // Actions 
@@ -12,7 +12,7 @@ import { signup } from '../../../actions/login';
 import { PWD } from '../../../public/javascripts/checkFormat';
 
 // Lang
-import lang from '../../../lang/lang.json';
+import lang from '../../../public/lang/lang.json';
 
 class SignUp extends React.Component{
 

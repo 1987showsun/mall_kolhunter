@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faTimes, faMapPin }from '@fortawesome/free-solid-svg-icons';
 
-// Components
+// Modules
 import Loading from '../../../../../../module/loading';
 import BlockList from '../../../../../../module/blockList';
 import AvatarCropper from '../../../../../../module/avatarCropper';
@@ -12,7 +12,7 @@ import AvatarCropper from '../../../../../../module/avatarCropper';
 import { createProduct } from '../../../../../../actions/vendor';
 
 // Lang
-import lang from '../../../../../../lang/lang.json';
+import lang from '../../../../../../public/lang/lang.json';
 
 class Cover extends React.Component{
 

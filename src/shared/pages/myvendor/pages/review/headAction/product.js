@@ -6,7 +6,7 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus }from '@fortawesome/free-solid-svg-icons';
 
 // Lang
-import lang from '../../../../../lang/lang.json';
+import lang from '../../../../../public/lang/lang.json';
 
 class HeadProduct extends React.Component{
 

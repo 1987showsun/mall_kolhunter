@@ -45,8 +45,8 @@ $userCoverMobile_W: 150px;
 }
 
 .account-nav-wrap{
-    max-width: 280px;
-    min-width: 280px;
+    max-width: 270px;
+    min-width: 270px;
     margin-right: 25px;
     flex-wrap: wrap;
     align-content: flex-start;
@@ -115,7 +115,7 @@ $userCoverMobile_W: 150px;
 .container{
     .container-col{
         &.account-container-wrap{
-            width: calc(100% - 305px);
+            width: calc(100% - 295px);
         }
     }
     @media (max-width: 768px) and (min-width: 421px) {
@@ -141,33 +141,49 @@ $userCoverMobile_W: 150px;
     background: #fff;
     >li{
         width: 100%;
-        height: 45px;
+        height: 50px;
         display: flex;
         align-items: center;
-        &.account-nav-header{
+        &.account-nav-header {
             height: 50px;
             padding: 0px 10px;
             color: #fff;
-            font-size: 1.1em;
+            font-size: 1em;
             background: var(--main);
         }
-        a{
+        i {
+            width: 26px;
+            height: 26px;
+            margin-right: 10px;
+            font-size: 0.8rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 100px;
+            background: #404040;
+            color:#fff;
+        }
+        a {
             width: 100%;
             height: 100%;
             padding: 0px 10px;
             display: flex;
             align-items: center;
             color: #404040;
+            font-size: 0.9em;
         }
-        button{
+        button {
             width: 100%;
             color: #404040;
             justify-content: flex-start;
-            font-size: 1em;
+            font-size: 0.9em;
         }
-        &.true{
+        &.true {
+            background: #fff3f4;
             a{
                 color: var(--main);
+                i{
+                    background: var(--main);
+                }
             }
         }
     }

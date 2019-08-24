@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // Lang
-import lang from '../../lang/lang.json';
+import lang from '../../public/lang/lang.json';
 
 class Search extends React.Component{
 

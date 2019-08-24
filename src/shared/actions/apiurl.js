@@ -1,6 +1,5 @@
 import axios from 'axios';
 axios.interceptors.request.use(function (config) {
-    console.log( config );
     return config;
 }, function (error) {
     return error;
@@ -82,6 +81,7 @@ export default function API( NODE_ENV ){
             'info': `${API_ADDRESS(NODE_ENV)}/v1/member/info`
         },
         'mystore': {
+            'candidates': `${API_ADDRESS(NODE_ENV)}/v1/product/candidates`,
             'storeProductList': `${API_ADDRESS(NODE_ENV)}/v1/store/products`,
             'addProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // post 網紅新增要賣的商品
             'deleteProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // delete 網紅要移出販賣此商品

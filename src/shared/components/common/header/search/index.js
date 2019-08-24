@@ -5,7 +5,7 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faSearch }from '@fortawesome/free-solid-svg-icons';
 
 // Lang
-import lang from '../../../lang/lang.json';
+import lang from '../../../../public/lang/lang.json';
 
 export default class Search extends React.Component{
 

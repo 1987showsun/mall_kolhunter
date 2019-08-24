@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// Components
+// Modules
 import Confirm from '../../../../../module/confirm';
 
 // Actions
@@ -11,7 +11,7 @@ import { resetPassword } from '../../../../../actions/login';
 import { PWD } from '../../../../../public/javascripts/checkFormat';
 
 // Lang
-import lang from '../../../../../lang/lang.json';
+import lang from '../../../../../public/lang/lang.json';
 
 class Index extends React.Component{
 

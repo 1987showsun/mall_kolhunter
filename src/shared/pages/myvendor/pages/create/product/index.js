@@ -10,6 +10,8 @@ import Basic from './basic';
 import Freight from './freight';
 import Format from './format';
 import Depiction from './depiction';
+
+// Modules
 import Loading from '../../../../../module/loading';
 import Confirm from '../../../../../module/confirm';
 
@@ -19,8 +21,7 @@ import { categories } from '../../../../../actions/common';
 
 
 // Lang
-import lang from '../../../../../lang/lang.json';
-import { faUnlock } from '@fortawesome/free-solid-svg-icons';
+import lang from '../../../../../public/lang/lang.json';
 
 class Index extends React.Component{
     constructor(props){

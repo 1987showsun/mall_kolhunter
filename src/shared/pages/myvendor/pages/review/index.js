@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Product from './product';
 
 //Lang
-import lang from '../../../../lang/lang.json';
+import lang from '../../../../public/lang/lang.json';
 
 class Index extends React.Component{
 

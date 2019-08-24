@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Components
-import CoverSlider from '../../module/coverSlider';
-import Breadcrumbs from './breadcrumbs';
 import Search from './search';
+import Breadcrumbs from './breadcrumbs';
+
+// Modules
+import CoverSlider from '../../module/coverSlider';
 import BlockList from '../../module/blockList';
 import StoreItem from '../../module/item/store';
 
 // Lang
-import lang from '../../lang/lang.json';
+import lang from '../../public/lang/lang.json';
 
 // Stylesheets
 import './public/stylesheets/style.scss';

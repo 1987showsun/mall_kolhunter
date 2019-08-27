@@ -1,17 +1,16 @@
 import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Components
 import Nav from './common/nav';
 
-// Pages
-import Product from './pages/product';
-import Store from './pages/store';
-import Fansorders from './pages/fansorders';
-import Bank from './pages/bank';
+// Routes
+import Routes from './routes';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
+import { compose } from '../../../../../../../Library/Caches/typescript/3.5/node_modules/redux';
 
 class Index extends React.Component{
 
@@ -19,23 +18,11 @@ class Index extends React.Component{
         super(props);
         this.state = {
             token: props.jwt_account,
-            components: {
-                product: {
-                    mainTitle: "商品清單",
-                    component: Product
-                },
-                store: {
-                    mainTitle: "店舖管理",
-                    component: Store
-                },
-                fansorders: {
-                    mainTitle: "粉絲訂單",
-                    component: Fansorders
-                },
-                bank: {
-                    mainTitle: "銀行帳號設定",
-                    component: Bank
-                }
+            mainTitle: {
+                product: "商品清單",
+                store: "店舖管理",
+                fansorders: "粉絲訂單",
+                bank: "銀行帳號設定"
             }
         }
     }
@@ -49,29 +36,36 @@ class Index extends React.Component{
         return null;
     }
 
-
     render(){
 
-        const { location, history } = this.props;
-        const { token, components } = this.state;
-        const type = this.typeAndClass()['type'];
-        const Component = components[type]['component'];
-        const mainTitle = components[type]['mainTitle'];
+        const { location, match, history } = this.props;
+        const { token, mainTitle } = this.state;
+        const type = location['pathname'].split('/').filter( item => item!="" )[1] || 'product';
 
         if( token!='' || token!=null || token!=undefined ){
             return(
                 <div className="row account-wrap">
                     <section className="container main-content">
                         <Nav 
-                            location= {location}
+                            type= {type}
+                            match= {match}
                             history= {history}
-                            type={this.typeAndClass()['type']}
+                            location= {location}
                         />
                         <section className="container-col account-container-wrap" data-flexdirection="column">
                             <section className="container-unit-title">
-                                <h2>{mainTitle}</h2>
+                                <h2>{mainTitle[type]}</h2>
                             </section>
-                            <Component {...this.props} />
+                            <Switch>
+                                {
+                                    Routes.map( item => {
+                                        return(
+                                            <Route {...item} />
+                                        );
+                                    })
+                                }
+                                <Redirect to="/mystore" />
+                            </Switch>
                         </section>
                     </section>
                 </div>
@@ -84,48 +78,21 @@ class Index extends React.Component{
     componentDidMount() {
         const { token } = this.state;
         if( token=='' || token==null || token==undefined ){
-            this.props.history.push('/account');
-        }else{
-            this.typeAndClass( true );
+            this.props.history.goBack();
         }
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState){
         const token = this.state.token;
         const prevStateToken = prevState.token;
-        if( token!=prevStateToken ){
-            this.props.history.push('/account');
+        if( token=='' || token==null || token==undefined || token!=prevStateToken ){
+            this.props.history.goBack();
         }
         return null;
     }
 
     componentDidUpdate(){
         return null;
-    }
-
-    typeAndClass = ( turn ) => {
-        const { components } = this.state;
-        const { location, history } = this.props;
-        const pathname = location['pathname'].split('/').filter( item => item!='' );
-        let _type = pathname['1'] || 'product';
-        let _class = pathname['2'] || null;
-
-        const checkKeys = Object.keys( components ).some( key => {
-            return key==_type;
-        })
-        if( !checkKeys ){
-            _type = 'product';
-            if( turn ){
-                history.push({
-                    pathname: '/mystore'
-                })
-            }
-        }
-
-        return { 
-            type: _type,
-            class: _class
-        }
     }
 }
 

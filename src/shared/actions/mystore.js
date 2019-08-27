@@ -2,6 +2,7 @@ import axios from 'axios';
 import API from './apiurl';
 import queryString from 'query-string';
 
+// 網紅可販賣的商品列表
 export function mystoreProductList( pathname,query ) {
     return (dispatch,NODE_ENV) => {
         
@@ -14,45 +15,21 @@ export function mystoreProductList( pathname,query ) {
         const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
         const url = `${API(NODE_ENV)['mystore']['candidates']}${search!=''? `?${search}`: ''}`;
 
-        return Axios({
-            method:'get',
-            url,
-            data: null
-        }).then(res=>{
-            console.log('mystoreProductList',res);
-            // dispatch({
-            //     type: 'MYSTORE_STOREPRODUCT_STATUS',
-            //     total: res['data']['total'],
-            //     limit: res['data']['limit'],
-            //     current: res['data']['pages']
-            // })
-            // dispatch({
-            //     type: 'MYSTORE_STOREPRODUCT_LIST',
-            //     list: res['data']['list']
-            // })
-            return res;
-        });
-    }
-}
-
-export function mystoreStoreProductList( pathname,query ) {
-    return (dispatch,NODE_ENV) => {
-        
-        const initQuery = {
-            page: 1,
+        dispatch({
+            type: 'MYSTORE_STOREPRODUCT_STATUS',
+            total: 0,
             limit: 30,
-            sort: "desc",
-            sortBy: "created"
-        };
-        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url = `${API(NODE_ENV)['mystore']['storeProductList']}${search!=''? `?${search}`: ''}`;
-
+            current: 1
+        })
+        dispatch({
+            type: 'MYSTORE_STOREPRODUCT_LIST',
+            list: []
+        })
         return Axios({
             method:'get',
             url,
             data: null
         }).then(res=>{
-            console.log('mystoreStoreProductList',res);
             dispatch({
                 type: 'MYSTORE_STOREPRODUCT_STATUS',
                 total: res['data']['total'],
@@ -68,15 +45,69 @@ export function mystoreStoreProductList( pathname,query ) {
     }
 }
 
+// 網紅店舖管理內已在販售的商品列表 
+export function mystoreStoreProductList( pathname,query ) {
+    return (dispatch,NODE_ENV) => {
+        
+        const initQuery = {
+            page: 1,
+            limit: 30,
+            sort: "desc",
+            sortBy: "created"
+        };
+        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url = `${API(NODE_ENV)['mystore']['storeProductList']}${search!=''? `?${search}`: ''}`;
+
+        dispatch({
+            type: 'MYSTORE_STOREPRODUCT_STATUS',
+            total: 0,
+            limit: 30,
+            current: 1
+        })
+        dispatch({
+            type: 'MYSTORE_STOREPRODUCT_LIST',
+            list: []
+        })
+        return Axios({
+            method:'get',
+            url,
+            data: null
+        }).then(res=>{
+
+            const list = res['data']['list'].map( item => {
+                return{
+                    ...item,
+                    status: "on"
+                }
+            });
+            
+            dispatch({
+                type: 'MYSTORE_STOREPRODUCT_STATUS',
+                total: res['data']['total'],
+                limit: res['data']['limit'],
+                current: res['data']['pages']
+            })
+            dispatch({
+                type: 'MYSTORE_STOREPRODUCT_LIST',
+                list: list
+            })
+            return res;
+        });
+    }
+}
+
 export function mystoreStoreProductAdd( pathname,query,data ) {
     return (dispatch,NODE_ENV) => {
+
+        const method = 'post';
         const initQuery = {};
         const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
         const url = `${API(NODE_ENV)['mystore']['addProduct']}${search!=''? `?${search}`: ''}`;
+
         return Axios({
-            method:'post',
+            method,
             url,
-            data: null
+            data
         }).then(res=>{
             return res;
         });
@@ -85,13 +116,16 @@ export function mystoreStoreProductAdd( pathname,query,data ) {
 
 export function mystoreStoreProductRemove( pathname,query,data ) {
     return (dispatch,NODE_ENV) => {
+
+        const method = 'delete';
         const initQuery = {};
         const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
         const url = `${API(NODE_ENV)['mystore']['deleteProduct']}${search!=''? `?${search}`: ''}`;
+        
         return Axios({
-            method:'delete',
+            method,
             url,
-            data: null
+            data
         }).then(res=>{
             return res;
         });

@@ -105,6 +105,21 @@ export default class Item extends React.Component{
                                                             }
                                                         </div>
                                                 }
+                                                {
+                                                    headItem['type']=='buttonTest' &&
+                                                        <div 
+                                                            className={`table-body ${headItem['className']||''}`} 
+                                                            key={headItem['key']}
+                                                        >
+                                                            <button 
+                                                                className={`${ bodyItem['status']!=undefined? `status-${bodyItem['status']}`: "off" }`} 
+                                                                disabled={ bodyItem['status']=="none-auth" } 
+                                                                onClick={this.tableButtonAction.bind(this,headItem['key'],bodyItem)}
+                                                            >
+                                                                { headItem['text'][ bodyItem['status']==undefined? 'off': bodyItem['status'] ] }
+                                                            </button>
+                                                        </div>
+                                                }
                                             </React.Fragment>
                                         )
                                     })

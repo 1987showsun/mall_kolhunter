@@ -63,6 +63,8 @@ export default class Tab extends React.Component{
     callAPI = () => {
         const { search } = this.props.location;
         const tabType = queryString.parse(search)['tabType'] || "hito";
-        console.log( 'tab' );
+        if( this.props.reCallAPI!=undefined ){
+            this.props.reCallAPI();
+        }
     }
 }

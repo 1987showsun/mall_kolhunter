@@ -108,7 +108,7 @@ class Index extends React.Component{
         const pathname = location['pathname'].split('/').filter( item => item!='' );
         let _type = pathname[0];
         let _class = match['params']['class'] || 'signin';
-
+        console.log( this.props.history );
         if( token==undefined || token==null || token=='' ){
             if( !DoYouHaveType.includes(_type) ||!DoYouHaveClass.includes(_class) ){
                 this.props.history.push(`/${_type}`);

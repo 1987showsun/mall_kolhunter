@@ -7,7 +7,7 @@ import Nav from './common/nav';
 import Header from './common/header';
 
 // Actions
-import { vinfo } from '../../actions/vendor';
+import { vinfo } from '../../actions/myvendor';
 
 //Stylesheets
 import './public/css/style.scss';
@@ -20,12 +20,13 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            token: props.jwt_vendor,
+            token: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : "",
         }
     }
 
     static getDerivedStateFromProps( props, state ){
-        if( props.jwt_vendor!=state.token ){
+        const { token } = state;
+        if( props.jwt_vendor!=token ){
             return {
                 token: props.jwt_vendor
             }
@@ -33,20 +34,13 @@ class Index extends React.Component{
         return null;
     }
 
-    componentDidMount() {
-        const { token } = this.state;
-        if( token=='' || token==null || token==undefined ){
-            this.props.history.push('/vendor');
-        }
-
-        this.props.dispatch( vinfo() );
-    }
-
     render(){
 
         const { token } = this.state;
         
-        if( token!='' || token!=null || token!=undefined ){
+        if( token=='' || token==null || token==undefined ){
+            return null;
+        }else if( token!='' || token!=null || token!=undefined ){
             return(
                 <React.Fragment>
                     <input type="checkbox" id="admin-nav-switch" />
@@ -60,23 +54,30 @@ class Index extends React.Component{
                         <div className="admin-content">
                             {
                                 routers.map( (routeItem,i) => {
-                                    return (<Route key={i} {...routeItem} />);
+                                    return (<Route key={routeItem['path']} {...routeItem} />);
                                 })
                             }
                         </div>
                     </main>
                 </React.Fragment>
             )
+        }
+    }
+
+    componentDidMount() {
+        const { token } = this.state;
+        if( token=='' || token==null || token==undefined ){
+            this.props.history.goBack();
         }else{
-            return null;
+            this.props.dispatch( vinfo() );
         }
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState){
         const token = this.state.token;
         const prevStateToken = prevState.token;
-        if( token!=prevStateToken ){
-            this.props.history.push('/vendor');
+        if( token=='' || token==null || token==undefined || token!=prevStateToken ){
+            this.props.history.goBack();
         }
         return null;
     }

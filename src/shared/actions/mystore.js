@@ -45,6 +45,30 @@ export function mystoreProductList( pathname,query ) {
     }
 }
 
+// 網紅商店店舖管理資訊
+export function mystoreStoreInfo( pathname,query ) {
+    return (dispatch,NODE_ENV) => {
+        
+        const initQuery = {
+        };
+        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url = `${API(NODE_ENV)['mystore']['getInfo']}${search!=''? `?${search}`: ''}`;
+
+        return Axios({
+            method:'get',
+            url,
+            data: null
+        }).then( res =>{
+            console.log( res );
+            dispatch({
+                type: 'MYSTORE_STORE_INFO',
+                info: res['data']
+            })
+            return res;
+        });
+    }
+}
+
 // 網紅店舖管理內已在販售的商品列表 
 export function mystoreStoreProductList( pathname,query ) {
     return (dispatch,NODE_ENV) => {

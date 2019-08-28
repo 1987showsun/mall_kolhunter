@@ -1,5 +1,6 @@
 export default function mystore(
     state = {
+        info: {},
         total: 0,
         limit: 30,
         current: 1,
@@ -22,6 +23,12 @@ export default function mystore(
                 list: action.list,
             };
             break;
+
+        case 'MYSTORE_STORE_INFO':
+            state = {
+                ...state,
+                info: action.info
+            }
 
     }
     return state;

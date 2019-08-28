@@ -16,7 +16,7 @@ import Loading from '../../../../../module/loading';
 import Confirm from '../../../../../module/confirm';
 
 // Actions
-import { createProduct } from '../../../../../actions/vendor';
+import { createProduct } from '../../../../../actions/myvendor';
 import { categories } from '../../../../../actions/common';
 
 

@@ -11,7 +11,7 @@ import Loading from '../../../../module/loading/mallLoading';
 import Pagination from '../../../../module/pagination';
 
 // Actions
-import { mystoreStoreProductList, mystoreStoreProductRemove } from '../../../../actions/mystore';
+import { mystoreStoreInfo, mystoreStoreProductList, mystoreStoreProductRemove } from '../../../../actions/mystore';
 
 class Index extends React.Component{
 
@@ -129,6 +129,7 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
+        this.props.dispatch( mystoreStoreInfo() );
         this.reCallAPI();
     }
 
@@ -170,7 +171,7 @@ class Index extends React.Component{
 
 const mapStateToProps = state => {
     return{
-        accountInfo: state.account.info,
+        accountInfo: state.myaccount.info,
         total: state.mystore.total,
         limit: state.mystore.limit,
         current: state.mystore.current,

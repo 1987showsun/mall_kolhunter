@@ -16,7 +16,7 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            token: props.jwt_account,
+            token: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : "",
             mainTitle: {
                 profile: "會員設定",
                 carts: "我的購物車",
@@ -40,7 +40,9 @@ class Index extends React.Component{
         const { token, mainTitle } = this.state;
         const type = location['pathname'].split('/').filter( item => item!="" )[1] || 'profile';
 
-        if( token!='' || token!=null || token!=undefined ){
+        if( token=='' || token==null || token==undefined ){
+            return null;
+        }else if( token!='' || token!=null || token!=undefined ){
             return(
                 <div className="row account-wrap">
                     <section className="container main-content">
@@ -58,7 +60,7 @@ class Index extends React.Component{
                                 {
                                     Routes.map( item => {
                                         return(
-                                            <Route {...item} />
+                                            <Route key={item['path']} {...item} />
                                         );
                                     })
                                 }
@@ -68,15 +70,13 @@ class Index extends React.Component{
                     </section>
                 </div>
             )
-        }else{
-            return null;
         }
     }
 
     componentDidMount() {
         const { token } = this.state;
         if( token=='' || token==null || token==undefined ){
-            this.props.history.goBack();
+            //this.props.history.goBack();
         }
     }
 
@@ -84,7 +84,7 @@ class Index extends React.Component{
         const token = this.state.token;
         const prevStateToken = prevState.token;
         if( token=='' || token==null || token==undefined || token!=prevStateToken ){
-            this.props.history.goBack();
+            //this.props.history.goBack();
         }
         return null;
     }

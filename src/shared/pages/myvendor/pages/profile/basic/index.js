@@ -127,7 +127,7 @@ class Index extends React.Component{
 
 const mapStateToProps = state => {
     return{
-        info: state.vendor.info
+        info: state.myvendor.info
     }
 }
 

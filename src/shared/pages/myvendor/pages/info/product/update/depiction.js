@@ -5,7 +5,7 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faTrashAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Actions
-import { createProduct } from '../../../../../../actions/vendor';
+import { createProduct } from '../../../../../../actions/myvendor';
 
 class Depiction extends React.Component{
 

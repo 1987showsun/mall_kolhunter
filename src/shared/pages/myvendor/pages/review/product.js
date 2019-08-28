@@ -10,7 +10,7 @@ import Table from '../../../../module/table';
 import Confirm from '../../../../module/confirm';
 
 // Actions
-import { listProduct } from '../../../../actions/vendor';
+import { listProduct } from '../../../../actions/myvendor';
 
 class Product extends React.Component{
 
@@ -176,8 +176,8 @@ class Product extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
-        total: state.vendor.total,
-        list : state.vendor.list,
+        total: state.myvendor.total,
+        list : state.myvendor.list,
     }
 }
 

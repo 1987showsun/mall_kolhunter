@@ -47,7 +47,7 @@ class Index extends React.Component{
 
 const mapStateToprops = state => {
     return{
-        bankInfo: state.account.info
+        bankInfo: state.myaccount.info
     }
 }
 

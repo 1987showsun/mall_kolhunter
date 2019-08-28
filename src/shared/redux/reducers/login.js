@@ -13,10 +13,10 @@ export default function login(
     }
 
     switch(action.type){
-        case 'CLEAR_JWT_TOKEN':
+        case 'CLEAR_ACCOUNT_JWT_TOKEN':
             state = { 
                 ...state, 
-                token: action.token
+                jwt_account: action.token
             };
             break;
 

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Loading from '../../../../../../module/loading';
 
 // Actions
-import { createProduct } from '../../../../../../actions/vendor';
+import { createProduct } from '../../../../../../actions/myvendor';
 
 class Basic extends React.Component{
 

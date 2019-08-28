@@ -9,6 +9,9 @@ import Transports from './transport';
 import Invoice from './invoice';
 import Action from './action';
 
+// Actions
+import { cartsProductList } from '../../../../actions/myaccount';
+
 class Index extends React.Component{
 
     constructor(props){
@@ -67,6 +70,7 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
+        this.props.dispatch( cartsProductList() );
         this.returnHandleChange();
     }
     

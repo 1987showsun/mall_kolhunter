@@ -85,7 +85,7 @@ export function verify( form ) {
 export function clearJWTToken(){
     return (dispatch) => {
         dispatch({
-            type: 'CLEAR_JWT_TOKEN',
+            type: 'CLEAR_ACCOUNT_JWT_TOKEN',
             token: ''
         })
     }

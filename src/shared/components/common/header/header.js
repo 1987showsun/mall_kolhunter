@@ -8,7 +8,7 @@ import { faUser, faStore, faUserPlus, faShoppingCart, faTruck }from '@fortawesom
 import Search from './search';
 
 // Actions
-import { ainfo } from '../../../actions/account';
+import { ainfo } from '../../../actions/myaccount';
 import { getCartID } from '../../../actions/common';
 
 // stylesheets
@@ -23,14 +23,22 @@ class Header extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            accountInfo: props.accountInfo,
-            token: this.getJWTToken(props),
+            token: props.token,
+            accountInfo: props.accountInfo
         }
     }
 
     static getDerivedStateFromProps(props, state){
+
+        if( props.token!=state.token ){
+            return{
+                token: props.token
+            }
+        }
+
         if( props.accountInfo!=state.accountInfo ){
             return{
+                token: props.token,
                 accountInfo: props.accountInfo
             }
         }
@@ -68,7 +76,7 @@ class Header extends React.Component{
                     <div className="header-nav-block">
                         <ul>
                             {
-                                token!=null || token!=undefined ? (
+                                token!="" && token!=null && token!=undefined ? (
                                     <React.Fragment>
                                         <li className={``}>
                                             <Link to="/myaccount">
@@ -146,20 +154,20 @@ class Header extends React.Component{
             }
         }
     }
+}
 
-    getJWTToken = (props) => {
-        if( typeof window !== 'undefined' ){
-            const type = 'account';
-            const token = sessionStorage.getItem(`jwt_${type}`) || null;
-            return token;
-        }
+const getJWTToken = () => {
+    if( typeof window !== 'undefined' ){
+        const type = 'account';
+        const token = sessionStorage.getItem(`jwt_${type}`) || null;
+        return token;
     }
 }
 
 const mapStateToProps = state => {
     return{
-        token: state.login.token,
-        accountInfo: state.account.info
+        token: state.login.jwt_account,
+        accountInfo: state.myaccount.info
     }
 }
 

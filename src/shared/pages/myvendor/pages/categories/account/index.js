@@ -10,7 +10,7 @@ import Table from '../../../../../module/table';
 import Pagination from '../../../../../module/pagination';
 
 // Actions
-import { incListAccount } from '../../../../../actions/vendor';
+import { incListAccount } from '../../../../../actions/myvendor';
 
 class Account extends React.Component{
 
@@ -99,7 +99,7 @@ class Account extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
-        list: state.vendor.list
+        list: state.myvendor.list
     }
 }
 

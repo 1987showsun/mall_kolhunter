@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Confirm from '../../../../../../module/confirm';
 
 // Actions
-import { vinfo } from '../../../../../../actions/vendor';
+import { vinfo } from '../../../../../../actions/myvendor';
 
 // Json
 import county_area from '../../../../../../public/json/TWzipcode.json';

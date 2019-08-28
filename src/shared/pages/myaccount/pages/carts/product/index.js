@@ -3,13 +3,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CurrencyFormat from 'react-currency-format';
 
+// Components
 import Item from './item';
+
+// Actions
+import { removeCartItem } from '../../../../../actions/myaccount';
 
 class Index extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            cartToken: props.cartToken,
             list : [
                 {
                     "storeToken": "storeid-00000001",
@@ -110,6 +115,23 @@ class Index extends React.Component{
         }
     }
 
+    static getDerivedStateFormProps( props,state ){
+
+        if( props.cartToken!=state.cartToken ){
+            return{
+                cartToken: props.cartToken
+            }
+        }
+
+        if( props.list!=state.list ){
+            return{
+
+            }
+        }
+
+        return null;
+    }
+
     render(){
 
         const { list } = this.state;
@@ -119,7 +141,11 @@ class Index extends React.Component{
                 {
                     list.map( item => {
                         return(
-                            <Item key={item['addTimeMs']} data={item} />
+                            <Item 
+                                key={item['addTimeMs']} 
+                                data={item}
+                                actionBtn= {this.actionBtn.bind(this)}
+                            />
                         )
                     })
                 }
@@ -130,11 +156,23 @@ class Index extends React.Component{
             </div>
         );
     }
+
+    actionBtn = ( method,selectedTtem ) => {
+        const { cartToken } = this.state;
+        switch( method ){
+            case 'remove':
+                const data = { cartToken, specToken: selectedTtem['specToken'] };
+                console.log(data);
+                //this.props.dispatch( removeCartItem() );
+                break;
+        }
+    }
 }
 
 const mapStateToProps = state => {
     return{
-
+        cartToken: state.myaccount.cartToken,
+        list: state.myaccount.cartItems
     }
 }
 

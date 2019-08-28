@@ -142,10 +142,10 @@ class HeadProduct extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
-        total: state.vendor.total,
-        auth: state.vendor.auth,
-        nonDisplay: state.vendor.nonDisplay,
-        noneAuth: state.vendor.noneAuth
+        total: state.myvendor.total,
+        auth: state.myvendor.auth,
+        nonDisplay: state.myvendor.nonDisplay,
+        noneAuth: state.myvendor.noneAuth
     }
 }
 

@@ -7,7 +7,7 @@ import Confirm from '../../../module/confirm';
 
 //Actions
 import { verify } from '../../../actions/login';
-import { getVerifyToke } from '../../../actions/vendor';
+import { getVerifyToke } from '../../../actions/myvendor';
 
 //Javascripts
 import { PWD } from '../../../public/javascripts/checkFormat';

@@ -10,14 +10,12 @@ import Routes from './routes';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
-import { compose } from '../../../../../../../Library/Caches/typescript/3.5/node_modules/redux';
 
 class Index extends React.Component{
-
     constructor(props){
         super(props);
         this.state = {
-            token: props.jwt_account,
+            token: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : "",
             mainTitle: {
                 product: "商品清單",
                 store: "店舖管理",
@@ -28,7 +26,8 @@ class Index extends React.Component{
     }
 
     static getDerivedStateFromProps( props, state ){
-        if( props.jwt_account!=state.token ){
+        const { token } = state;
+        if( props.jwt_account!=token ){
             return {
                 token: props.jwt_account
             }
@@ -42,7 +41,9 @@ class Index extends React.Component{
         const { token, mainTitle } = this.state;
         const type = location['pathname'].split('/').filter( item => item!="" )[1] || 'product';
 
-        if( token!='' || token!=null || token!=undefined ){
+        if( token=='' || token==null || token==undefined ){
+            return null;
+        }else if( token!='' || token!=null || token!=undefined ){
             return(
                 <div className="row account-wrap">
                     <section className="container main-content">
@@ -58,9 +59,9 @@ class Index extends React.Component{
                             </section>
                             <Switch>
                                 {
-                                    Routes.map( item => {
+                                    Routes.map( routeItem => {
                                         return(
-                                            <Route {...item} />
+                                            <Route key={routeItem['path']} {...routeItem} />
                                         );
                                     })
                                 }
@@ -70,15 +71,13 @@ class Index extends React.Component{
                     </section>
                 </div>
             )
-        }else{
-            return null;
         }
     }
     
     componentDidMount() {
         const { token } = this.state;
         if( token=='' || token==null || token==undefined ){
-            this.props.history.goBack();
+           //this.props.history.goBack();
         }
     }
 
@@ -86,7 +85,7 @@ class Index extends React.Component{
         const token = this.state.token;
         const prevStateToken = prevState.token;
         if( token=='' || token==null || token==undefined || token!=prevStateToken ){
-            this.props.history.goBack();
+            //this.props.history.goBack();
         }
         return null;
     }

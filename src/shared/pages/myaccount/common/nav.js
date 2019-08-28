@@ -72,7 +72,7 @@ class Nav extends React.Component{
     signout = () => {
         const { clearSessionStorageKey } = this.state;
         this.props.dispatch( signout(clearSessionStorageKey) );
-        this.props.history.goBack();
+        this.props.history.push('/');
     }
 }
 

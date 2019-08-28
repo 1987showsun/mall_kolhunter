@@ -72,7 +72,7 @@ class Item extends React.Component{
                         </li>
                     </ul>
                     <div className="action">
-                        <button className="remove">刪除</button>
+                        <button className="remove" onClick={this.actionBtn.bind(this,'remove',data)}>刪除</button>
                     </div>
                 </figcaption>
             </figure>
@@ -122,6 +122,12 @@ class Item extends React.Component{
 
     handleChange = () => {
 
+    }
+
+    actionBtn = ( method,item ) => {
+        if( this.props.actionBtn!=undefined ){
+            this.props.actionBtn( method,item );
+        }
     }
 }
 

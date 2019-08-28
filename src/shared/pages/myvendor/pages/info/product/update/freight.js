@@ -7,7 +7,7 @@ import { faPlus }from '@fortawesome/free-solid-svg-icons';
 import InputTable from '../../../../../../module/inputTable';
 
 // Actions
-import { createProduct } from '../../../../../../actions/vendor';
+import { createProduct } from '../../../../../../actions/myvendor';
 
 class Freight extends React.Component{
 

@@ -14,7 +14,7 @@ import Confirm from '../../../../../module/confirm';
 import Table from '../../../../../module/table';
 
 // Actions
-import { infoProduct, deleteProduct } from '../../../../../actions/vendor';
+import { infoProduct, deleteProduct } from '../../../../../actions/myvendor';
 import { deliveries, categories } from '../../../../../actions/common';
 
 // Lang

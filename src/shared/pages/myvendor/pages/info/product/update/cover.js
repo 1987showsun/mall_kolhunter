@@ -9,7 +9,7 @@ import BlockList from '../../../../../../module/blockList';
 import AvatarCropper from '../../../../../../module/avatarCropper';
 
 // Actions
-import { createProduct } from '../../../../../../actions/vendor';
+import { createProduct } from '../../../../../../actions/myvendor';
 
 // Lang
 import lang from '../../../../../../public/lang/lang.json';

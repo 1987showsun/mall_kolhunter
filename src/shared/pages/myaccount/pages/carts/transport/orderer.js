@@ -140,7 +140,7 @@ class Orderer extends React.Component{
 
 const mapStateToProps = state =>{
     return{
-        accountInfo: state.account.info
+        accountInfo: state.myaccount.info
     }
 }
 

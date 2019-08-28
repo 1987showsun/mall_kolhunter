@@ -9,7 +9,7 @@ import Table from '../../../../../module/table';
 import Pagination from '../../../../../module/pagination';
 
 // Actions
-import { incListOrder } from '../../../../../actions/vendor';
+import { incListOrder } from '../../../../../actions/myvendor';
 
 class Order extends React.Component{
 
@@ -88,7 +88,7 @@ class Order extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
-        list: state.vendor.list
+        list: state.myvendor.list
     }
 }
 

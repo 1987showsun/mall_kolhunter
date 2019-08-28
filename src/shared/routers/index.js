@@ -5,11 +5,8 @@ import Detail from '../pages/detail';
 import Approach from '../pages/approach';
 import Store from '../pages/store/categories';
 import StoreDetail from '../pages/store/detail';
-import ontSignIn from '../pages/login';
-import MyVendor from '../pages/myvendor';
-import MyAccount from '../pages/myaccount';
-import MyStore from '../pages/mystore';
 import SearchIndex from '../pages/search'; 
+import Site404 from '../pages/site/404';
 
 const common = [
   {
@@ -75,34 +72,8 @@ const common = [
     component: Categories
   },
   {
-    path: "/myvendor",
-    component: MyVendor
-  },
-  {
-    path: "/myaccount",
-    component: MyAccount
-  },
-  {
-    path: "/mystore",
-    component: MyStore
-  },
-  {
-    path: "/account/:class",
-    component: ontSignIn
-  },
-  {
-    path: "/account",
-    exact: true,
-    component: ontSignIn
-  },
-  {
-    path: "/vendor/:class",
-    component: ontSignIn
-  },
-  {
-    path: "/vendor",
-    exact: true,
-    component: ontSignIn
+    path: "/site/404",
+    component: Site404
   }
 ];
 

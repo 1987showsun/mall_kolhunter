@@ -78,9 +78,13 @@ export default function API( NODE_ENV ){
             'vinfo': `${API_ADDRESS(NODE_ENV)}/v1/vendor/info`
         },
         'myaccount': {
-            'info': `${API_ADDRESS(NODE_ENV)}/v1/member/info`
+            'info': `${API_ADDRESS(NODE_ENV)}/v1/member/info`,
+            'carts': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`,
+            'removeCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`
         },
         'mystore': {
+            'getInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`,
+            'putInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`,
             'candidates': `${API_ADDRESS(NODE_ENV)}/v1/product/candidates`,
             'storeProductList': `${API_ADDRESS(NODE_ENV)}/v1/store/products`,
             'addProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // post 網紅新增要賣的商品
@@ -106,7 +110,7 @@ export default function API( NODE_ENV ){
             },
             'store': {
                 'list': `${API_ADDRESS(NODE_ENV)}/v1/store/list`, // get 店舖列表
-                'product': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // get 店鋪商品
+                'product': `${API_ADDRESS(NODE_ENV)}/v1/store/list`, // get 店鋪商品
                 'recommend': `${API_ADDRESS(NODE_ENV)}/v1/store/recommend`, // get 推薦網紅店舖
                 'salesInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/sales` // get 店舖銷售銷售資訊
             }

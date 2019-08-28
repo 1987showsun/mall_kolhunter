@@ -99,9 +99,6 @@ class SignIn extends React.Component{
         );
     }
 
-    componentDidMount() {
-    }
-
     handleChangeRecord = (e) => {
         // 記住帳號密碼
         const name = e.target.name;
@@ -149,7 +146,11 @@ class SignIn extends React.Component{
                 // 完整
                 this.props.dispatch(signin(form)).then( res => {
                     switch( res['status'] ){
-                        case 403:
+                        case 200:
+                            this.props.history.push('/myaccount');
+                            break;
+
+                        default:
                             this.setState({
                                 msg: lang['zh-TW']['err'][ res['data']['status_text'] ]
                             })

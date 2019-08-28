@@ -6,8 +6,8 @@ import login from './login';
 import store from './store';
 import search from './search';
 import common from './common';
-import vendor from './vendor';
-import account from './account';
+import myvendor from './myvendor';
+import myaccount from './myaccount';
 import mystore from './mystore';
 import categories from './categories';
 
@@ -17,8 +17,8 @@ export default combineReducers({
     store,
     common,
     search,
-    vendor,
-    account,
+    myvendor,
+    myaccount,
     mystore,
     categories
 });

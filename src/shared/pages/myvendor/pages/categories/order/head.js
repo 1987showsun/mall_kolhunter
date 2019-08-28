@@ -82,12 +82,12 @@ class HeadProduct extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
-        to_be_shipped_area: state.vendor.to_be_shipped_area,
-        on_passage: state.vendor.on_passage,
-        successful_delivery: state.vendor.successful_delivery,
-        cancel: state.vendor.cancel,
-        returned_purchase: state.vendor.returned_purchase,
-        total: state.vendor.total,
+        to_be_shipped_area: state.myvendor.to_be_shipped_area,
+        on_passage: state.myvendor.on_passage,
+        successful_delivery: state.myvendor.successful_delivery,
+        cancel: state.myvendor.cancel,
+        returned_purchase: state.myvendor.returned_purchase,
+        total: state.myvendor.total,
     }
 }
 

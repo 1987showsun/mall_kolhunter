@@ -35,17 +35,21 @@ export function storeList( pathname,query ) {
 
 export function storeProduct( pathname,query ) {
     return (dispatch,NODE_ENV) => {
-        const initQuery = {};
+        const initQuery = {
+            limit: 30,
+            page: 1,
+            sort: 'desc',
+            sortBy: 'created'
+        };
         const store_id = pathname.split('/').filter( item => item!='' )[1];
-        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query), storeID: store_id });
         const url = `${API(NODE_ENV)['mall']['store']['product']}${search!=''? `?${search}`: ''}`;
         return Axios({
             method:'get',
             url,
-            data:{
-                storeID: store_id
-            }
+            data: null
         }).then(res=>{
+            console.log(res);
             dispatch({
                 type: 'STORE_PRODUCT',
                 list: []

@@ -150,7 +150,11 @@ class SignIn extends React.Component{
             if( checkRequired.length==0 ){
                 this.props.dispatch( signin(form) ).then( res => {
                     switch( res['status'] ){
-                        case 403:
+                        case 200:
+                            this.props.history.puah('/myvendor');
+                            break;
+
+                        default:
                             this.setState({
                                 msg: lang['zh-TW']['err'][ res['data']['message'] ]
                             })
@@ -167,10 +171,6 @@ class SignIn extends React.Component{
             }
         });
     };
-
-    resStatus = ( err ) => {
-        
-    }
 }
 
 const mapStateToProps = state => {

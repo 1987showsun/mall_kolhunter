@@ -55,7 +55,9 @@ export default class Cover extends React.Component{
                     }
                 ]
             },
-            imageData: props.data['images']
+            imageData: props.data['images'].map( item => {
+                return item['path'];
+            })
         }
     }
 

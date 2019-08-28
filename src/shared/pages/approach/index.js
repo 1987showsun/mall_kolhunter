@@ -107,7 +107,9 @@ class Index extends React.Component{
 
     static getDerivedStateFromProps( props,state ){
         return {
-            imageData: props.images,
+            imageData: props.images.map( item => {
+                return item['path'];
+            }),
             info: {
                 ...state.info,
                 token: props.token,

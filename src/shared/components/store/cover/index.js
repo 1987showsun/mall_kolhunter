@@ -1,18 +1,24 @@
 import React from 'react';
+import toaster from 'toasted-notes';
+import { connect } from 'react-redux';
 
 // Components
+import BGImg from './BGImg';
 import Photo from './photo';
 import Name from './name';
 import Digital from './digital';
 import Action from './action';
 
 // Modules
-import AvatarCropper from '../../../module/avatarCropper';
+import Loading from '../../../module/loading/mallLoading';
+
+// Actions
+import { mystoreStoreInfoUpdate } from '../../../actions/mystore';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
 
- export default class Index extends React.Component{
+class Index extends React.Component{
 
     constructor(props){
 
@@ -26,31 +32,50 @@ import './public/stylesheets/style.scss';
 
         super(props);
         this.state = {
+            loading: false,
+            data: props.data,
+            formObject: props.data,
             actionSwitchDisplay: actionSwitchDisplay(),
             className: props.className || "",
-            bgImgSrc: ""
+            photo: ""
         }
     }
 
-     render(){
+    static getDerivedStateFromProps( props,state ){
+        if( Object.keys( state.data ).length==0 ){
+            return {
+                data: props.data,
+                formObject: props.data
+            }
+        }
+        return false;
+    }
 
-        const { data } = this.props;
+    render(){
+
+        const { loading, data, formObject } = this.state;
         const { actionSwitchDisplay, className, bgImgSrc } = this.state;
-        
+        const cover = formObject['cover'] || "";
+        const photo = formObject['photo'] || "";
+        const name = formObject['name'] || "";
+
         return(
             <div className={`row store-cover-wrap ${className}`}>
-                <div className="store-cover-background-img" style={{'backgroundImage':`url(${bgImgSrc})`}} />
+                <BGImg 
+                    cover= {cover}
+                    updateInfo= {this.updateInfo.bind(this)}
+                />
                 <section className="container store-cover">
-                    <AvatarCropper
-                        id= "bgImg"
-                        onChangeData= {this.callAPIFunction.bind(this)}
-                    />
                     <figure>
-                        <Photo />
+                        <Photo 
+                            photo= {photo}
+                            updateInfo= {this.updateInfo.bind(this)}
+                        />
                         <figcaption>
                             <Name 
-                                name= { data['name']!=undefined? data['name'] : "" }
+                                name= {name}
                                 editFormDisplay= {this.props.editFormDisplay}
+                                updateInfo= {this.updateInfo.bind(this)}
                             />
                             <Digital />
                             {
@@ -60,13 +85,46 @@ import './public/stylesheets/style.scss';
                         </figcaption>
                     </figure>
                 </section>
+                <Loading 
+                    loading= {loading}
+                />
             </div>
         );
     }
 
-    callAPIFunction = ( src ) => {
+    updateInfo = ( keynameToUpdate, val ) => {
+        const data = { [keynameToUpdate]: val };
         this.setState({
-            bgImgSrc: src
+            loading: true
+        },()=>{
+            this.props.dispatch( mystoreStoreInfoUpdate( '',{},data ) ).then( res => {
+                this.setState({
+                    loading: false
+                },()=>{
+                    switch( res['status'] ){
+                        case 200:
+                            toaster.notify(
+                                <div className={`toaster-status success`}>更新成功</div>
+                            ,{
+                                position: 'bottom-right',
+                                duration: null
+                            })
+                            break;
+                        
+                        default :
+                            console.log("更新失敗");
+                            break;
+                    }
+                })
+            });
         })
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Index );

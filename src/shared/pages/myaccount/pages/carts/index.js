@@ -23,6 +23,9 @@ class Index extends React.Component{
     }
 
     render(){
+
+        const { history, location, match } = this.props;
+
         return(
             <React.Fragment>
                 <section className="container-unit">
@@ -30,7 +33,11 @@ class Index extends React.Component{
                     <div className="unit-head">
                         <h3>購買清單</h3>
                     </div>
-                    <ProductWrap />
+                    <ProductWrap 
+                        match= {match}
+                        history= {history}
+                        location= {location}
+                    />
                 </section>
                 <section className="container-unit">
                     {/* 代碼 */}

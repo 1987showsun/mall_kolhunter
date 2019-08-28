@@ -12,6 +12,7 @@ export default function vendor(
         "cancel": 4,
         "return": 2,
         "list": [],
+        "orderList": [],
         "info": {}
     },action
 ){
@@ -69,12 +70,18 @@ export default function vendor(
             break;
 
         case 'VENDOR_INFO':
-                state = {
-                    ...state,
-                    info: action.payload
-                }
-                break;
-
+            state = {
+                ...state,
+                info: action.payload
+            }
+            break;
+        
+        case 'VENDOR_ORDERS_LIST':
+            state = {
+                ...state,
+                orderList: action.list
+            }
+            break;
     }
     return state;
 }

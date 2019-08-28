@@ -41,6 +41,24 @@ export function cartsProductList( pathname,query ){
     }
 }
 
+export function removeCartItem( pathname,query,data ){
+    return(dispatch) => {
+        const innitQuery= {};
+        const method= 'delete';
+        const search= queryString.stringify({ ...innitQuery });
+        const url= `${API()['myaccount']['removeCartItem']}${search!=''? `?${search}`: ''}`;
+        
+        return Axios({ method, url, data }).then(res => {
+            dispatch({
+                type: "ACCOUNT_CART_ITEMS",
+                cartToken: res['data']['cartToken'],
+                list: res['data']['items']
+            });
+            return res;
+        })
+    }
+}
+
 const Axios = ( api ) => {
     return axios({
         method: api['method'],

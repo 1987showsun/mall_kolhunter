@@ -15,6 +15,10 @@ export default [
         component: Product
     },
     {
+        path: '/mystore/store/:id',
+        component: Store
+    },
+    {
         path: '/mystore/store',
         component: Store
     },

@@ -18,6 +18,7 @@ import Footer from './components/common/footer/footer';
 
 //Stylesheets
 import './public/stylesheets/common.scss';
+import './public/stylesheets/toasted.scss';
 
 class Layout extends React.Component{
     constructor(props){

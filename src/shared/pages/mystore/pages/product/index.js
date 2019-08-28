@@ -1,4 +1,5 @@
 import React from 'react';
+import toaster from 'toasted-notes';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 
@@ -140,6 +141,12 @@ class Index extends React.Component{
                 switch( res['status'] ){
                     case 200:
                         this.reCallAPI();
+                        toaster.notify(
+                            <div className={`toaster-status success`}>更新成功</div>
+                        ,{
+                            position: 'bottom-right',
+                            duration: null
+                        })
                         break;
 
                     default:

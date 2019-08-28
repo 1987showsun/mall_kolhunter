@@ -1,4 +1,5 @@
 import React from 'react';
+import toaster from 'toasted-notes';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 
@@ -19,6 +20,7 @@ class Index extends React.Component{
         super(props);
         this.state = {
             loading: false,
+            storeInfo: props.storeInfo,
             accountInfo: props.accountInfo,
             total: props.total,
             limit: props.limit,
@@ -74,6 +76,7 @@ class Index extends React.Component{
 
     static getDerivedStateFromProps( props,state ){
         return {
+            storeInfo: props.storeInfo,
             accountInfo: props.accountInfo,
             total: props.total,
             limit: props.limit,
@@ -86,6 +89,7 @@ class Index extends React.Component{
 
         const { 
             loading,
+            storeInfo,
             accountInfo,
             total,
             limit,
@@ -102,7 +106,7 @@ class Index extends React.Component{
                 <section className="container-unit none-padding">
                     <Cover 
                         className= "mystore"
-                        data= {accountInfo}
+                        data= {storeInfo}
                         actionSwitchDisplay= {false}
                         editFormDisplay={ pathname[0]=='mystore' }
                     />
@@ -129,7 +133,9 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
-        this.props.dispatch( mystoreStoreInfo() );
+        const { location, match } = this.props;
+        const { pathname, search } = location;
+        this.props.dispatch( mystoreStoreInfo(pathname, {...queryString.parse(), id: match['params']['id']}) );
         this.reCallAPI();
     }
 
@@ -143,8 +149,13 @@ class Index extends React.Component{
             this.props.dispatch( mystoreStoreProductRemove(pathname, queryString.parse(search), data) ).then( res => {
                 switch( res['status'] ){
                     case 200:
-                        console.log('成功');
                         this.reCallAPI();
+                        toaster.notify(
+                            <div className={`toaster-status success`}>更新成功</div>
+                        ,{
+                            position: 'bottom-right',
+                            duration: null
+                        })
                         break;
 
                     default:
@@ -171,6 +182,7 @@ class Index extends React.Component{
 
 const mapStateToProps = state => {
     return{
+        storeInfo: state.mystore.info,
         accountInfo: state.myaccount.info,
         total: state.mystore.total,
         limit: state.mystore.limit,

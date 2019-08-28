@@ -8,22 +8,15 @@ export default class Name extends React.Component{
         this.state = {
             editFormDisplay: props.editFormDisplay || false,
             formObject: {
-                name: props.name || ""
+                name: ""
             }
         }
     }
 
     static getDerivedStateFromProps( props, state){
-
-        let formObject = { ...state.formObject };
-
-        if( props.name!=undefined && props.name!=state.formObject['name'] ){
-            formObject = { ...formObject, name: props.name };
-        }
-
-        return{
-            formObject
-        }
+        const { formObject } = state;
+        if( formObject['name']=="" ) return{ formObject: { ...formObject, name: props.name} }
+        return null;
     }
 
     render(){
@@ -58,5 +51,7 @@ export default class Name extends React.Component{
 
     handleSubmit = ( e ) => {
         e.preventDefault();
+        const { formObject } = this.state;
+        this.props.updateInfo('name', formObject['name'] );
     }
 }

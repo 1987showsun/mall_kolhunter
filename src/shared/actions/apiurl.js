@@ -60,8 +60,9 @@ export default function API( NODE_ENV ){
                 'discontinue': `${API_ADDRESS(NODE_ENV)}/v1/vendor/discontinue`, // put 廠商商品下架 { product_id }
             },
             'order': {
+                'list': '${API_ADDRESS(NODE_ENV)}/v1/order/list',
                 'categories': `${API_ADDRESS(NODE_ENV)}/v1/vendor/orders`,
-                'info': `${API_ADDRESS(NODE_ENV)}`,
+                'info': `${API_ADDRESS(NODE_ENV)}/v1/order/info`,
                 'delivery_list': `${API_ADDRESS(NODE_ENV)}/v1/order/delivery/list`, // get 取得運送狀態列表
                 'status_list': `${API_ADDRESS(NODE_ENV)}/v1/order/status/list`, // get 取得訂單狀態列表 
                 'delivery': `${API_ADDRESS(NODE_ENV)}/v1/vendor/order/delivery`, // post 訂單運送狀態改變 { order_item_id, status }
@@ -84,7 +85,7 @@ export default function API( NODE_ENV ){
         },
         'mystore': {
             'getInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`,
-            'putInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`,
+            'updateInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`,
             'candidates': `${API_ADDRESS(NODE_ENV)}/v1/product/candidates`,
             'storeProductList': `${API_ADDRESS(NODE_ENV)}/v1/store/products`,
             'addProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // post 網紅新增要賣的商品

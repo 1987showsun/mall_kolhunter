@@ -48,10 +48,9 @@ export function mystoreProductList( pathname,query ) {
 // 網紅商店店舖管理資訊
 export function mystoreStoreInfo( pathname,query ) {
     return (dispatch,NODE_ENV) => {
-        
-        const initQuery = {
-        };
-        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+    
+        const initQuery = {};
+        const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API(NODE_ENV)['mystore']['getInfo']}${search!=''? `?${search}`: ''}`;
 
         return Axios({
@@ -59,7 +58,6 @@ export function mystoreStoreInfo( pathname,query ) {
             url,
             data: null
         }).then( res =>{
-            console.log( res );
             dispatch({
                 type: 'MYSTORE_STORE_INFO',
                 info: res['data']
@@ -153,6 +151,26 @@ export function mystoreStoreProductRemove( pathname,query,data ) {
         }).then(res=>{
             return res;
         });
+    }
+}
+
+// 更新店舖資料
+export function mystoreStoreInfoUpdate( pathname,query,data ) {
+    return (dispatch,NODE_ENV) => {
+
+        const method = 'put';
+        const initQuery = {};
+        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url = `${API(NODE_ENV)['mystore']['updateInfo']}${search!=''? `?${search}`: ''}`;
+        
+        return Axios({
+            method,
+            url,
+            data
+        }).then(res=>{
+            return res;
+        });
+
     }
 }
 

@@ -8,13 +8,22 @@ export default class Photo extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            img: "https://static.kolhunter.com/kol/cyberImg-1429.jpg"
+            src: ""
         }
+    }
+
+    static getDerivedStateFromProps( props,state ){
+        if( state.src=="" ){
+            return {
+                src: props.photo
+            }
+        }
+        return null;
     }
 
     render(){
 
-        const { img } = this.state;
+        const { src } = this.state;
 
         return(
             <React.Fragment>
@@ -23,7 +32,7 @@ export default class Photo extends React.Component{
                         id= "headImg"
                         onChangeData= {this.onChangeData.bind(this)}
                     />
-                    <img src={img} alt="" title="" />
+                    <img src={src} alt="" title="" />
                 </div>
             </React.Fragment>
         );
@@ -31,9 +40,9 @@ export default class Photo extends React.Component{
 
     onChangeData = ( src ) => {
         this.setState({
-            img: src
+            src: src
         },()=>{
-            
+            this.props.updateInfo( 'photo', src );
         })
     }
 }

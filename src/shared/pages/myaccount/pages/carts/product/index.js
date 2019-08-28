@@ -1,5 +1,6 @@
 // 產品列表
 import React from 'react';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import CurrencyFormat from 'react-currency-format';
 
@@ -158,12 +159,13 @@ class Index extends React.Component{
     }
 
     actionBtn = ( method,selectedTtem ) => {
-        const { cartToken } = this.state;
+        const cartToken = localStorage.getItem('cartID');
+        const { location } = this.props;
+        const { pathname, search } = location;
         switch( method ){
             case 'remove':
-                const data = { cartToken, specToken: selectedTtem['specToken'] };
-                console.log(data);
-                //this.props.dispatch( removeCartItem() );
+                const data = { cartToken: cartToken, specToken: selectedTtem['specToken'] };
+                this.props.dispatch( removeCartItem( pathname, queryString.parse(search), data ) );
                 break;
         }
     }

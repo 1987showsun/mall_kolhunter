@@ -8,7 +8,7 @@ import CurrencyFormat from 'react-currency-format';
 import Item from './item';
 
 // Actions
-import { removeCartItem } from '../../../../../actions/myaccount';
+import { removeCartItem, updateCartProductItem } from '../../../../../actions/myaccount';
 
 class Index extends React.Component{
 
@@ -29,6 +29,7 @@ class Index extends React.Component{
                     "cartPrice": 19800,
                     "actualPrice": 19800,
                     "addTimeMs": 1565687018431,
+                    "productDeliveryID": "delivery0001",
                     "deliveryMethods": [
                         {
                             "productDeliveryID": "delivery0001",
@@ -54,6 +55,7 @@ class Index extends React.Component{
                     "cartPrice": 19800,
                     "actualPrice": 19800,
                     "addTimeMs": 1565687018432,
+                    "productDeliveryID": "delivery0002",
                     "deliveryMethods": [
                         {
                             "productDeliveryID": "delivery0001",
@@ -79,6 +81,7 @@ class Index extends React.Component{
                     "cartPrice": 19800,
                     "actualPrice": 19800,
                     "addTimeMs": 1565687018433,
+                    "productDeliveryID": "delivery0002",
                     "deliveryMethods": [
                         {
                             "productDeliveryID": "delivery0001",
@@ -104,6 +107,7 @@ class Index extends React.Component{
                     "cartPrice": 19800,
                     "actualPrice": 19800,
                     "addTimeMs": 1565687018434,
+                    "productDeliveryID": "delivery0001",
                     "deliveryMethods": [
                         {
                             "productDeliveryID": "delivery0001",
@@ -143,8 +147,9 @@ class Index extends React.Component{
                     list.map( item => {
                         return(
                             <Item 
-                                key={item['addTimeMs']} 
-                                data={item}
+                                key= {item['addTimeMs']} 
+                                data= {item}
+                                updateData= {this.updateData.bind(this)}
                                 actionBtn= {this.actionBtn.bind(this)}
                             />
                         )
@@ -156,6 +161,23 @@ class Index extends React.Component{
                 </div>
             </div>
         );
+    }
+
+    updateData = ( val ) => {
+        
+        const cartToken = localStorage.getItem('cartID');
+        const data = {
+            cartToken: cartToken,
+            productToken: val['productToken'],
+            specToken: val['specToken'],
+            itemNumber: val['itemNum'],
+            storeID: val['storeToken'],
+            productDeliveryID: val['productDeliveryID']
+        }
+
+        this.props.dispatch( updateCartProductItem( "",{},data ) ).then( res => {
+            console.log( res );
+        });
     }
 
     actionBtn = ( method,selectedTtem ) => {

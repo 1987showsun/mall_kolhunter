@@ -6,6 +6,7 @@ import login from './login';
 import store from './store';
 import search from './search';
 import common from './common';
+import approach from './approach';
 import myvendor from './myvendor';
 import myaccount from './myaccount';
 import mystore from './mystore';
@@ -15,8 +16,9 @@ export default combineReducers({
     home,
     login,
     store,
-    common,
     search,
+    common,
+    approach,
     myvendor,
     myaccount,
     mystore,

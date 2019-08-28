@@ -38,9 +38,34 @@ export function mallCategories(pathname,query){
     }
 }
 
+export function mallApproachProduct( pathname,query ){
+    return( dispatch,NODE_ENV )=>{
+        const initQuery = {};
+        const method = 'get';
+        const search = queryString.stringify({ ...initQuery, ...query })
+        const url = `${API(NODE_ENV)['mall']['product']['detail']}${search!=''? `?${search}`:''}`;
+        return Axios({method, url, data:{} }).then( res => {
+            dispatch({
+                type: 'PRODUCT_INFO',
+                ...res['data']
+            })
+            return res;
+        })
+    }
+}
+
 export function ssrProductList( NODE_ENV,pathname,query ){
     return(dispatch)=>{
         const ssrProduct = productList(pathname,query)(dispatch,NODE_ENV);
+        return(
+            ssrProduct
+        );
+    }
+}
+
+export function ssrApproachProduct( NODE_ENV,pathname,query ){
+    return(dispatch)=>{
+        const ssrProduct = mallApproachProduct(pathname,query)(dispatch,NODE_ENV);
         return(
             ssrProduct
         );

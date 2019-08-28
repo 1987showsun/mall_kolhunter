@@ -54,7 +54,7 @@ class Item extends React.Component{
                             <label>運送方式</label>
                             <div>
                                 <div className="input-box select">
-                                    <select>
+                                    <select name="productDeliveryID" value={formObject['productDeliveryID']} onChange={this.handleChange.bind(this)}>
                                         {
                                             formObject['deliveryMethods'].map( item => {
                                                 return( <option key={item['productDeliveryID']} value={item['productDeliveryID']}>{`${item['deliveryName']} ＄${item['cost']}`}</option> );
@@ -104,7 +104,7 @@ class Item extends React.Component{
         this.setState({
             formObject : { ...formObject, itemNum } 
         },()=>{
-            // 更新該商品數量 調用 API 位子
+            this.updateData();
         })
     }
 
@@ -120,13 +120,27 @@ class Item extends React.Component{
         return String(val);
     }
 
-    handleChange = () => {
-
+    handleChange = ( e ) => {
+        const { formObject } = this.state;
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({
+            formObject : { ...formObject, [name]: value } 
+        },()=>{
+            this.updateData();
+        })
     }
 
     actionBtn = ( method,item ) => {
         if( this.props.actionBtn!=undefined ){
             this.props.actionBtn( method,item );
+        }
+    }
+
+    updateData = () => {
+        if( this.props.updateData!=undefined ){
+            const { formObject } = this.state;
+            this.props.updateData( formObject );
         }
     }
 }

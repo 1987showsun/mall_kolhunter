@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -10,6 +11,9 @@ import Breadcrumbs from './breadcrumbs';
 import CoverSlider from '../../module/coverSlider';
 import BlockList from '../../module/blockList';
 import StoreItem from '../../module/item/store';
+
+// Actions
+import { ssrApproachProduct, mallApproachProduct } from '../../actions/categories';
 
 // Lang
 import lang from '../../public/lang/lang.json';
@@ -35,6 +39,14 @@ const demo = [
   ]
 
 class Index extends React.Component{
+
+    static initialAction( NODE_ENV,pathname,query ){
+
+        const pathnameArray = pathname.split('/').filter( item => item!="" );
+        query = { ...query, productToken: pathnameArray[1] };
+
+        return ssrApproachProduct(NODE_ENV,pathname,{ ...query, productToken: pathnameArray[1] });
+    }
 
     constructor(props){
         super(props);
@@ -78,23 +90,49 @@ class Index extends React.Component{
                     }
                 ]
             },
-            data: [
-                'https://s.yimg.com/zp/MerchandiseImages/2DBEC82AC9-SP-6083929.jpg',
-                'https://s.yimg.com/zp/MerchandiseImages/91B59BC34D-SP-6083929.jpg',
-                'https://s.yimg.com/zp/MerchandiseImages/39B9537090-SP-6083929.jpg',
-                'https://s.yimg.com/zp/MerchandiseImages/4989B0E6E7-SP-6083929.jpg',
-                'https://s.yimg.com/zp/MerchandiseImages/AE55F5F1FB-SP-6083929.jpg'
-            ]
+            imageData: [],
+            info: {
+                token: "",
+                name: "",
+                images: [],
+                description: [],
+                delivery: [],
+                spec: [],
+                onSale: false,
+                price: 0,
+                sellPrice: 0
+            }
+        }
+    }
+
+    static getDerivedStateFromProps( props,state ){
+        return {
+            imageData: props.images,
+            info: {
+                ...state.info,
+                token: props.token,
+                name: props.name,
+                images: props.images,
+                description: props.description,
+                delivery: props.delivery,
+                spec: props.spec,
+                onSale: props.onSale,
+                price: props.price,
+                sellPrice: props.sellPrice
+            }
         }
     }
 
     render(){
 
+        const { match } = this.props;
         const { 
-            data, 
+            info,
+            imageData, 
             mainSettings, 
             navSettings, 
         } = this.state;
+        const { name } = info;
 
         return(
             <React.Fragment>
@@ -103,16 +141,16 @@ class Index extends React.Component{
                         <div className="container-col left">
                             <div className="container-row unit">
                                 <CoverSlider 
-                                    data= {data}
+                                    data= {imageData}
                                     mainSettings= {mainSettings}
                                     navSettings= {navSettings}
                                 />
                             </div>
                             <div className="container-row unit">
-                                <h1>Apple IPhone XS Max 64GB 太空灰/銀/金 6.5吋 原廠保固 蝦皮24h 現貨</h1>
+                                <h1>{name}</h1>
                             </div>
                             <div className="container-row unit">
-                                <Link to={`/detail/p_id`} className="buy-now">{lang['zh-TW']['button']['watch the product introduction now']}</Link> 
+                                <Link to={`/detail/${match['params']['id']}`} className="buy-now">{lang['zh-TW']['button']['watch the product introduction now']}</Link> 
                             </div>
                         </div>
                         <div className="container-col right">
@@ -140,11 +178,23 @@ class Index extends React.Component{
             </React.Fragment>
         );
     }
+
+    componentDidMount() {
+        const { location, match } = this.props;
+        const { pathname, search } = location;
+        const query = {
+            ...queryString.parse( search ),
+            productToken: match['params']['id'] || ""
+        }
+        this.props.dispatch( mallApproachProduct( pathname, query ) ).then( res => {
+
+        });
+    }
 }
 
 const mapStateToProps = state => {
     return{
-
+        ...state.approach
     }
 }
 

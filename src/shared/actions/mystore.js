@@ -63,6 +63,8 @@ export function mystoreStoreInfo( pathname,query ) {
                 info: res['data']
             })
             return res;
+        }).catch( err => {
+            console.log( 'err',err['response'] );
         });
     }
 }

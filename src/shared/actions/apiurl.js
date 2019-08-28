@@ -81,7 +81,8 @@ export default function API( NODE_ENV ){
         'myaccount': {
             'info': `${API_ADDRESS(NODE_ENV)}/v1/member/info`,
             'carts': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`,
-            'removeCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`
+            'removeCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`,
+            'updateCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`
         },
         'mystore': {
             'getInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`,
@@ -107,7 +108,8 @@ export default function API( NODE_ENV ){
                 'latest': `${API_ADDRESS(NODE_ENV)}/v1/product/latest` // get 最新商品
             },
             'product': {
-                'list': `${API_ADDRESS(NODE_ENV)}/v1/product/list` // get 商品列表
+                'list': `${API_ADDRESS(NODE_ENV)}/v1/product/list`, // get 商品列表
+                'detail': `${API_ADDRESS(NODE_ENV)}/v1/product/info`
             },
             'store': {
                 'list': `${API_ADDRESS(NODE_ENV)}/v1/store/list`, // get 店舖列表

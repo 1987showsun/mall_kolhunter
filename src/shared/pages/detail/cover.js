@@ -11,8 +11,9 @@ export default class Cover extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            data: props.data,
             formObject: {
-                variant: "太空灰",
+                variant: props.data['spec'].length!=0? props.data['spec'][0]['token'] : "",
                 itemNum: 1
             },
             mainSettings: {
@@ -54,32 +55,27 @@ export default class Cover extends React.Component{
                     }
                 ]
             },
-            data: [
-                'https://s.yimg.com/zp/MerchandiseImages/2DBEC82AC9-SP-6083929.jpg',
-                'https://s.yimg.com/zp/MerchandiseImages/91B59BC34D-SP-6083929.jpg',
-                'https://s.yimg.com/zp/MerchandiseImages/39B9537090-SP-6083929.jpg',
-                'https://s.yimg.com/zp/MerchandiseImages/4989B0E6E7-SP-6083929.jpg',
-                'https://s.yimg.com/zp/MerchandiseImages/AE55F5F1FB-SP-6083929.jpg'
-            ]
+            imageData: props.data['images']
         }
     }
 
     render(){
 
-        const { data, mainSettings, navSettings, formObject } = this.state;
+        const { data, imageData, mainSettings, navSettings, formObject } = this.state;
+        console.log(data);
 
         return(
             <div className="detail-cover-wrap">
                 <div className="detail-cover-wrap-col left">
                     <CoverSlider 
-                        data= {data}
+                        data= {imageData}
                         mainSettings= {mainSettings}
                         navSettings= {navSettings}
                     />
                 </div>
                 <div className="detail-cover-wrap-col right">
                     <div className="detail-cover-row cover-title">
-                        <h1>Apple IPhone XS Max 64GB 太空灰/銀/金 6.5吋 原廠保固 蝦皮24h 現貨</h1>
+                        <h1>{data['name']}</h1>
                     </div>
                     <div className="detail-cover-row cover-other">
                         <ul className="cover-other-ul">
@@ -98,8 +94,8 @@ export default class Cover extends React.Component{
                         </ul>
                     </div>
                     <div className="detail-cover-row cover-money">
-                        <div className="cover-money-price">39,900</div>
-                        <div className="cover-money-sellPrice">36,988</div>
+                        <div className="cover-money-price">{data['price']}</div>
+                        <div className="cover-money-sellPrice">{data['sellPrice']}</div>
                     </div>
                     <div className="detail-cover-row cover-delivery">
                         <label>運送方式</label>
@@ -112,7 +108,19 @@ export default class Cover extends React.Component{
                     <div className="detail-cover-row cover-select">
                         <label>型號 / 尺寸 / 顏色</label>
                         <ul className="select-list">
-                            <li>
+                            {
+                                data['spec'].map( item => {
+                                    return(
+                                        <li>
+                                            <label htmlFor={`${item['token']}`}>
+                                                <input type="radio" name="variant" id={`${item['token']}`} className="variant" value={`${item['token']}`} onChange={this.handleChange.bind(this)} checked={formObject['variant']== item['token'] } />
+                                                <span>{item['name']}</span>
+                                            </label>
+                                        </li>
+                                    )
+                                })
+                            }
+                            {/* <li>
                                 <label htmlFor="radio1">
                                     <input type="radio" name="variant" id="radio1" className="variant" value="太空灰" onChange={this.handleChange.bind(this)} checked={formObject['variant']=="太空灰"} />
                                     <span>太空灰</span>
@@ -129,7 +137,7 @@ export default class Cover extends React.Component{
                                     <input type="radio" name="variant" id="radio3" className="variant" value="金色" onChange={this.handleChange.bind(this)} checked={formObject['variant']=="金色"}/>
                                     <span>金色</span>
                                 </label>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     <div className="detail-cover-row cover-quantity">

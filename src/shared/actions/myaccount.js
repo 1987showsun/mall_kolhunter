@@ -20,6 +20,8 @@ export function ainfo(){
     }
 }
 
+
+// 購物車商品 List 
 export function cartsProductList( pathname,query ){
     return(dispatch) => {
         if( typeof window !== 'undefined' ){
@@ -41,6 +43,7 @@ export function cartsProductList( pathname,query ){
     }
 }
 
+// 購物車刪除不要的商品
 export function removeCartItem( pathname,query,data ){
     return(dispatch) => {
         const innitQuery= {};
@@ -59,6 +62,32 @@ export function removeCartItem( pathname,query,data ){
     }
 }
 
+// 購物車修改商品購買的資訊
+export function updateCartProductItem( pathname,query,data ){
+    return(dispatch) => {
+
+        const innitQuery= {};
+        const method= 'post';
+        const search= queryString.stringify({ ...innitQuery });
+        const url= `${API()['myaccount']['updateCartItem']}${search!=''? `?${search}`: ''}`;
+        
+        return Axios({ method, url, data }).then(res => {
+            
+            console.log( 'sss',res['response'] );
+            console.log( 'dddd',res.hasOwnProperty('response') );
+
+            dispatch({
+                type: "ACCOUNT_CART_ITEMS",
+                cartToken: res['data']['cartToken'],
+                list: res['data']['items']
+            });
+            return res;
+        }).catch( err => {
+            console.log( 'err',err['response'] )
+        })
+    }
+}
+
 const Axios = ( api ) => {
     return axios({
         method: api['method'],
@@ -68,10 +97,6 @@ const Axios = ( api ) => {
             authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : '',
         }
     }).catch( error => {
-        // if( error['response']['data']['status_text']=="get user info error" ){
-        //     sessionStorage.removeItem('jwt_account');
-        //     window.location = '/account';
-        // }
         return error;
     });
 }

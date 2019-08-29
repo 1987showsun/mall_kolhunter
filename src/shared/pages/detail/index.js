@@ -76,11 +76,13 @@ class Index extends React.Component{
                                         switch( item['type'] ){
                                             case "image":
                                                 return <img key={item['sort']} src={item['content']} alt="" title="" />;
-                                                break;
 
                                             case "html":
-                                                return <p key={item['sort']}>{item['content']}</p>;
-                                                break;
+                                                return (
+                                                    <div className="detail-container-text">
+                                                        <p key={item['sort']}>{item['content']}</p>
+                                                    </div>
+                                                );
                                         }
                                     })
                                 }

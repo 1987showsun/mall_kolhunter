@@ -13,8 +13,12 @@ export default class Cover extends React.Component{
         this.state = {
             data: props.data,
             formObject: {
-                variant: props.data['spec'].length!=0? props.data['spec'][0]['token'] : "",
-                itemNum: 1
+                cartToken: "",
+                productToken: props.data['token'],
+                productDeliveryID: props.data['delivery'].length!=0? props.data['delivery'][0]['productDeliveryID'] : "",
+                specToken: props.data['spec'].length!=0? props.data['spec'][0]['token'] : "",
+                itemNumber: 1,
+                storeID: ""
             },
             mainSettings: {
                 dots: false,
@@ -61,10 +65,16 @@ export default class Cover extends React.Component{
         }
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if( nextProps.data!=this.state.data ){
+            return true;
+        }
+        return false;
+    }
+
     render(){
 
         const { data, imageData, mainSettings, navSettings, formObject } = this.state;
-        console.log(data);
 
         return(
             <div className="detail-cover-wrap">
@@ -77,7 +87,7 @@ export default class Cover extends React.Component{
                 </div>
                 <div className="detail-cover-wrap-col right">
                     <div className="detail-cover-row cover-title">
-                        <h1>{data['name']}</h1>
+                        <h1>{data['name'] || ""}</h1>
                     </div>
                     <div className="detail-cover-row cover-other">
                         <ul className="cover-other-ul">
@@ -99,12 +109,21 @@ export default class Cover extends React.Component{
                         <div className="cover-money-price">{data['price']}</div>
                         <div className="cover-money-sellPrice">{data['sellPrice']}</div>
                     </div>
-                    <div className="detail-cover-row cover-delivery">
+                    <div className="detail-cover-row cover-select">
                         <label>運送方式</label>
-                        <ul className="delivery-list">
-                            <li>7-11 黑貓宅急便</li>
-                            <li>全家 宅配通</li>
-                            <li>萊爾富</li>
+                        <ul className="select-list">
+                            {
+                                data['delivery'].map( item => {
+                                    return(
+                                        <li key={item['productDeliveryID']}>
+                                            <label htmlFor={`${item['productDeliveryID']}`}>
+                                                <input type="radio" name="productDeliveryID" id={`${item['productDeliveryID']}`} className="variant" value={`${item['productDeliveryID']}`} onChange={this.handleChange.bind(this)} checked={formObject['productDeliveryID']== item['productDeliveryID'] } />
+                                                <span>{item['name']}</span>
+                                            </label>
+                                        </li>
+                                    )
+                                })
+                            }
                         </ul>
                     </div>
                     <div className="detail-cover-row cover-select">
@@ -113,33 +132,15 @@ export default class Cover extends React.Component{
                             {
                                 data['spec'].map( item => {
                                     return(
-                                        <li>
+                                        <li key={item['token']}>
                                             <label htmlFor={`${item['token']}`}>
-                                                <input type="radio" name="variant" id={`${item['token']}`} className="variant" value={`${item['token']}`} onChange={this.handleChange.bind(this)} checked={formObject['variant']== item['token'] } />
+                                                <input type="radio" name="specToken" id={`${item['token']}`} className="variant" value={`${item['token']}`} onChange={this.handleChange.bind(this)} checked={formObject['specToken']== item['token'] } />
                                                 <span>{item['name']}</span>
                                             </label>
                                         </li>
                                     )
                                 })
                             }
-                            {/* <li>
-                                <label htmlFor="radio1">
-                                    <input type="radio" name="variant" id="radio1" className="variant" value="太空灰" onChange={this.handleChange.bind(this)} checked={formObject['variant']=="太空灰"} />
-                                    <span>太空灰</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label htmlFor="radio2">
-                                    <input type="radio" name="variant" id="radio2" className="variant" value="銀色" onChange={this.handleChange.bind(this)} checked={formObject['variant']=="銀色"}/>
-                                    <span>銀色</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label htmlFor="radio3">
-                                    <input type="radio" name="variant" id="radio3" className="variant" value="金色" onChange={this.handleChange.bind(this)} checked={formObject['variant']=="金色"}/>
-                                    <span>金色</span>
-                                </label>
-                            </li> */}
                         </ul>
                     </div>
                     <div className="detail-cover-row cover-quantity">
@@ -149,7 +150,7 @@ export default class Cover extends React.Component{
                                 <FontAwesomeIcon icon={faMinus} />
                             </button>
                             <div className="input-box">
-                                <CurrencyFormat value={formObject['itemNum']} format={this.cardExpiry} thousandSeparator={true} onValueChange={ values => this.handleQuantity.bind(this,values)} />
+                                <CurrencyFormat value={formObject['itemNumber']} format={this.cardExpiry} thousandSeparator={true} onValueChange={ values => this.handleQuantity.bind(this,values)} />
                             </div>
                             <button type="button" onClick={this.quantityChange.bind(this,"plus")}>
                                 <FontAwesomeIcon icon={faPlus} />
@@ -197,9 +198,8 @@ export default class Cover extends React.Component{
     }
 
     handleQuantity = (values) => {
-        const formObject = { ...this.state.formObject, itemNum: values['value'] }
         this.setState({
-            formObject
+            formObject: { ...this.state.formObject, itemNumber: values['value'] }
         })
     }
 

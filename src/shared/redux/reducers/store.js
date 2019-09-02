@@ -4,7 +4,13 @@ export default function store(
         limit: 30,
         current: 1,
         list: [],
-        product: []
+        product: [],
+        info: {
+            cover: "",
+            photo: "",
+            name: "",
+            description: ""
+        }
     },action
 ){
     switch(action.type){
@@ -31,6 +37,13 @@ export default function store(
                 product: action.list,
             };
             break;
+
+        case 'STORE_INFO':
+                state = { 
+                    ...state,
+                    info: action.info,
+                };
+                break;
     }
     return state;
 }

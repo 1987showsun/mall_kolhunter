@@ -11,6 +11,7 @@ export default class Index extends React.Component{
         this.state = {
             id: props.id || 'addCover',
             idx: props.idx,
+            proportion: props.proportion || [1,1],
             cropperOpen: false,
             img: null,
             zoom: 1,
@@ -98,17 +99,22 @@ export default class Index extends React.Component{
     
     handleFileChange(e) {
         window.URL = window.URL || window.webkitURL;
+        const { proportion } = this.state;
         let url = window.URL.createObjectURL(e.target.files[0]);
         let win_w = this.state.width;
         let win_h = this.state.height;
+
+        console.log( proportion );
 
         const getWindowSize = () => {
             win_w = $(window).width();
             win_h = $(window).height();
             if( win_w>win_h ){
-                win_w = win_h = win_h * 0.8;
+                win_w = (win_h*( proportion[0]/proportion[1] )) * 0.8;
+                win_h = win_h * 0.8;
             }else{
-                win_h = win_w = win_w * 0.8;
+                win_w = win_w * 0.8;
+                win_h = (win_w/( proportion[0]/proportion[1] )) * 0.8;
             }
             this.setState({
                 width: win_w,

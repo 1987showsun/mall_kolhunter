@@ -225,6 +225,7 @@ a{
     box-sizing : border-box;
     margin: 0px;
     padding: 0px;
+    font-family: 'Roboto', sans-serif;
     text-decoration: none;
 }
 
@@ -794,9 +795,19 @@ nav{
         margin-bottom: 10px;
         display: flex;
         align-items: center;
+        justify-content: space-between;
         border-bottom: 1px solid #E4E4EB;
         h2 {
             font-size: 1.1em;
+        }
+        a{
+            color: var(--main);
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            i{
+                margin: 0px 0px 0px 5px;
+            }
         }
         @media (max-width: 420px) {
             height: 45px;

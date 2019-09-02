@@ -117,7 +117,8 @@ export default function API( NODE_ENV ){
                 'list': `${API_ADDRESS(NODE_ENV)}/v1/store/list`, // get 店舖列表
                 'product': `${API_ADDRESS(NODE_ENV)}/v1/store/list`, // get 店鋪商品
                 'recommend': `${API_ADDRESS(NODE_ENV)}/v1/store/recommend`, // get 推薦網紅店舖
-                'salesInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/sales` // get 店舖銷售銷售資訊
+                'salesInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/sales`, // get 店舖銷售銷售資訊
+                'info': `${API_ADDRESS(NODE_ENV)}/v1/store/info`
             }
         },
         "payment": {

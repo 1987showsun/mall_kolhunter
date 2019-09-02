@@ -19,7 +19,7 @@ export default [
         type: 'link',
         title: '名稱',
         className: 'table-min-width',
-        path: '/myvendor/info/product'
+        path: '/detail'
     },
     {
         key: 'brand',

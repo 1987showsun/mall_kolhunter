@@ -75,7 +75,7 @@ class Index extends React.Component{
         const { location } = this.props;
         const query = { ...initQuery, ...queryString.parse(location['search']) };
         const pathname = location['pathname'];
-        //this.props.dispatch( storeList(pathname,query) );
+        this.props.dispatch( ssrStoreList(pathname,query) );
     }
 }
 

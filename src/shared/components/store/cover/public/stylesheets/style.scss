@@ -23,7 +23,7 @@
     z-index: 2;
     figure{
         width: 100%;
-        max-width: 400px;
+        max-width: 380px;
         padding: 50px 0px;
         display: flex;
         flex-wrap: wrap;
@@ -37,8 +37,8 @@
             padding: 20px 0px;
         }
         .figure-img{
-            width: 220px;
-            height: 220px;
+            width: 200px;
+            height: 200px;
             margin-bottom: 20px;
             background: #000;
             border-radius: 100%;
@@ -88,9 +88,18 @@
                         border-radius: 0px;
                     }
                 }
+                h2{
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    font-size: 1.6em;
+                }
                 @media ( max-width: 420px ) {
                     .input-box{
                         height: 35px;
+                    }
+                    h2{
+                        font-size: 1em;
                     }
                 }
             }
@@ -144,7 +153,7 @@
             .figcaption-ul-head{
                 width: 100%;
                 text-align: center;
-                font-size: 1em;
+                font-size: 0.9em;
                 margin-bottom: 10px;
                 @media ( max-width: 420px ) {
                     margin-bottom: 5px;
@@ -154,7 +163,7 @@
             .figcaption-ul-content{
                 width: 100%;
                 text-align: center;
-                font-size: 1.4em;
+                font-size: 1.3em;
                 font-weight: bolder;
                 @media ( max-width: 420px ) {
                     font-size: 1.1em;

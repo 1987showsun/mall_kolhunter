@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faChevronCircleRight }from '@fortawesome/free-solid-svg-icons';
 
 // Modules
 import Slider from '../../module/slider';
@@ -72,6 +74,10 @@ export default class Store extends React.Component{
                 <div className="unit">
                     <div className="block-title">
                         <h2>熱門網紅店家</h2>
+                        <Link to="/store">
+                          查看全部
+                          <i><FontAwesomeIcon icon={faChevronCircleRight} /></i>
+                        </Link>
                     </div>
                     <Slider settings={settings}>
                         {
@@ -79,12 +85,6 @@ export default class Store extends React.Component{
                             return <StroeItem key={item['id']} path={`/store/store_id`} data={item}/>
                           })
                         }
-                        {/* <div className="seeMore">
-                          <Link to="/store">
-                            <span className="icon"></span>
-                            <span>查看全部</span>
-                          </Link>
-                        </div> */}
                     </Slider>
                 </div>
             </section>

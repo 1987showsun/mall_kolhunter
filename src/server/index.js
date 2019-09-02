@@ -72,6 +72,7 @@ app.all('*', function(req, res, next) {
             <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/appIcon120.png" />
             <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/appIcon114.png" />
             <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/appIcon57.png" />
+            <link href="https://fonts.googleapis.com/css?family=Roboto:300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
             <link rel="manifest" href="/assets/manifest.json">
           </head>
 

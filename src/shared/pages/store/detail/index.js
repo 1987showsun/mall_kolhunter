@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import CurrencyFormat from 'react-currency-format';
 import { Helmet } from "react-helmet";
 import { connect } from 'react-redux';
@@ -10,7 +11,7 @@ import Filter from './filter';
 import Breadcrumbs from './breadcrumbs';
 
 // Actions
-import { ssrStoreProduct, storeProduct } from '../../../actions/store';
+import { ssrStoreDetail, storeProduct, storeInfo } from '../../../actions/store';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -65,21 +66,30 @@ const demoData = [
 
 class Index extends React.Component{
 
-    // static initialAction( NODE_ENV,pathname,query ) {
-    //     return ssrStoreProduct( NODE_ENV,pathname,query );
-    // }
+    static initialAction( NODE_ENV,pathname,query ) {
+        const pathnameArray = pathname.split('/').filter( item => item!="" );
+        query = { ...query, id: pathnameArray[1] }
+        return ssrStoreDetail( NODE_ENV,pathname,query );
+    }
 
     constructor(props){
         super(props);
         this.state = {
+            info: props.info,
             data: demoData
+        }
+    }
+
+    static getDerivedStateFromProps(props,state){
+        return{
+            info: props.info
         }
     }
 
     render(){
 
         const { match, location, history } = this.props;
-        const { data } = this.state;
+        const { info, data } = this.state;
 
         return(
             <React.Fragment>
@@ -89,13 +99,16 @@ class Index extends React.Component{
                     <meta name="description" content={``} />
                 </Helmet>
                 <div className="row store-cover-wrap">
-                    <div className="store-cover-background-img" style={{backgroundImage: `url(${coverBG})`}}></div>
+                    <div className="store-cover-background-img" style={{backgroundImage: `url(${info['cover']})`}}></div>
                     <section className="container store-cover">
                         <figure>
                             <div className="figure-img">
-                                <img src="https://static.kolhunter.com/kol/cyberImg-1429.jpg" alt="" title="" />
+                                <img src={info['photo']} alt="" title="" />
                             </div>
                             <figcaption>
+                                <div className="name">
+                                    <h2>{info['name']}</h2>
+                                </div>
                                 <div className="figcaption-row">
                                     <ul className="figcaption-info-ul">
                                         <li>
@@ -152,13 +165,14 @@ class Index extends React.Component{
     componentDidMount() {
         const { location, match } = this.props;
         const { pathname, search } = location;
+        this.props.dispatch( storeInfo(pathname, { ...queryString.parse(search), id: match['params']['id'] }) );
         this.props.dispatch( storeProduct( pathname,search ) );
     }
 }
 
 const mapStateToProps = state => {
     return{
-
+        info : state.store.info
     }
 }
 

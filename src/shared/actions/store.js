@@ -2,6 +2,31 @@ import axios from 'axios';
 import API from './apiurl';
 import queryString from 'query-string';
 
+export function storeInfo( pathname,query ) {
+    return (dispatch,NODE_ENV) => {
+        const initQuery = {};
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API(NODE_ENV)['mall']['store']['info']}${search!=''? `?${search}`: ''}`;
+
+        dispatch({
+            type: "STORE_INFO",
+            info: {
+                cover: "",
+                photo: "",
+                name: "",
+                description: ""
+            }
+        });
+        return Axios({method:'get',url,data:{}}).then(res=>{
+            dispatch({
+                type: "STORE_INFO",
+                info: { ...res['data'] }
+            });
+            return res;
+        });
+    }
+}
+
 export function storeList( pathname,query ) {
     return (dispatch,NODE_ENV) => {
         const initQuery = {
@@ -49,7 +74,6 @@ export function storeProduct( pathname,query ) {
             url,
             data: null
         }).then(res=>{
-            console.log(res);
             dispatch({
                 type: 'STORE_PRODUCT',
                 list: []
@@ -62,19 +86,13 @@ export function storeProduct( pathname,query ) {
 // Server side Render
 export function ssrStoreList( NODE_ENV,pathname,query ){
     return(dispatch) => {
-        const ssrStore = storeList( pathname,query )(dispatch,NODE_ENV);
-        return (
-            ssrStore
-        )
+        return storeList( pathname,query )(dispatch,NODE_ENV);
     }
 }
 
-export function ssrStoreProduct( NODE_ENV,pathname,query ){
+export function ssrStoreDetail( NODE_ENV,pathname,query ){
     return(dispatch) => {
-        const ssrStoreProduct = storeProduct( pathname,query )(dispatch,NODE_ENV);
-        return (
-            ssrStoreProduct
-        )
+        return storeInfo( pathname,query )(dispatch,NODE_ENV);
     }
 }
 

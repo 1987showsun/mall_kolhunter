@@ -25,6 +25,7 @@
     "cors": "^2.8.5",
     "dayjs": "^1.8.15",
     "eslint-loader": "^2.2.1",
+    "eslint-plugin-react-hooks": "^2.0.1",
     "express": "^4.17.1",
     "http2": "^3.3.7",
     "i18next": "^17.0.11",

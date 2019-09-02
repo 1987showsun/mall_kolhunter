@@ -63,6 +63,7 @@ class Index extends React.Component{
     }
 
     mergeFunction = ( val ) => {
+        console.log( val );
         this.setState({
             mergeFormObject: { ...this.state.mergeFormObject, ...val }
         },()=>{

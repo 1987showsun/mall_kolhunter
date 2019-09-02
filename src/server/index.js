@@ -23,7 +23,6 @@ app.use(cors());
 app.use(express.static( path.join('public') ));
 
 app.all('*', function(req, res, next) {
-  console.log('fuck123');
   const NODE_ENV = process.env['NODE_ENV'];
   const store = configureStore();
   const promises = routes.reduce((acc, route) => {

@@ -37,13 +37,6 @@ class Cover extends React.Component{
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if( nextProps.data!=this.state.data ){
-            return true;
-        }
-        return false;
-    }
-
     render(){
 
         const { data, imageData, formObject } = this.state;
@@ -52,14 +45,15 @@ class Cover extends React.Component{
             return{
                 id: item['productDeliveryID'],
                 value: item['productDeliveryID'],
-                name: item['name']
+                name: item['name'],
             }
         })
         const spec = data['spec'].map( item => {
             return{
                 id: item['token'],
                 value: item['token'],
-                name: item['name']
+                name: item['name'],
+                quantity: item['storage']
             }
         })
 

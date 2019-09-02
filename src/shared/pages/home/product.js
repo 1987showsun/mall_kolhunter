@@ -36,7 +36,7 @@ class Latest extends React.Component{
                                 data.map( (item,i) => {
                                     return(
                                         <li key={item['id']}>
-                                            <Item  path={`/approach/${item['id']}`} data={item}/>
+                                            <Item  path={`/detail/${item['token']}`} data={item}/>
                                         </li>
                                     )
                                 })

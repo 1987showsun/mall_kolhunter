@@ -16,6 +16,7 @@ export default class Index extends React.Component{
     }
 
     static getDerivedStateToProps( props,state ){
+    
         return{
             itemNumMax: props.itemNumMax || 1
         }

@@ -16,9 +16,6 @@ import { ssrStoreDetail, storeProduct, storeInfo } from '../../../actions/store'
 // Stylesheets
 import './public/stylesheets/style.scss';
 
-// Images
-import coverBG from './public/images/channels4_banner.jpg';
-
 const demoData = [
     {
         id: "62c08bab8215b25e9d90",
@@ -143,7 +140,7 @@ class Index extends React.Component{
                             location= {location}
                         />
                         <section className="container-col" data-flexdirection="column" >
-                            <Breadcrumbs />
+                            <Breadcrumbs name={info['name']}/>
                             <BlockList className="product-card">
                                 {
                                     data.map( item => {

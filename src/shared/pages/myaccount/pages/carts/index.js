@@ -18,7 +18,7 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            required: ['orderName','orderEmail','orderPhone','orderCity','orderDist','orderAddress'],
+            required: ['orderName','orderEmail','orderPhone','orderCity','orderDist','orderAddress','deliveryName','deliveryPhone','deliveryCellPhone','deliveryEmail','deliveryCity','deliveryDist','deliveryAddress','orderDist','orderAddress','payMethod','cardno','cvc','exp','invoiceType'],
             formObject: {
                 cartToken: localStorage.getItem('cartID')
             }
@@ -106,8 +106,16 @@ class Index extends React.Component{
     }
 
     handleSubmit = ( e ) => {
-        const { formObject } = this.state;
-        console.log( formObject );
+        const { formObject, required } = this.state;
+        const checkRequiredFilter = Object.keys(formObject).filter( keys => {
+            if( required.includes( keys ) ){
+                if( formObject[keys]=="" ){
+                    return true;
+                }
+            }
+            return false;
+        })
+        console.log( formObject,checkRequiredFilter );
     }
 }
 

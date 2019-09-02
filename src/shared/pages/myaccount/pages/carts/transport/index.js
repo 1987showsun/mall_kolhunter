@@ -14,6 +14,8 @@ class Index extends React.Component{
         super(props);
         this.state = {
             accountInfo: [],
+            ordererFormObject: {},
+            deliveryFormObject: {},
             mergeFormObject: {}
         }
     }
@@ -44,7 +46,13 @@ class Index extends React.Component{
                                 <Orderer 
                                     key={i}
                                     data={item}
-                                    mergeFunction = {this.mergeFunction.bind(this)}
+                                    mergeFunction = { (val)=> {
+                                        this.setState({
+                                            ordererFormObject: { ...this.state.ordererFormObject, ...val }
+                                        },()=>{
+                                            this.mergeFunction();
+                                        })
+                                    }}
                                 />
                             );
                         })
@@ -55,7 +63,13 @@ class Index extends React.Component{
                         <h4><FontAwesomeIcon icon={faChevronCircleRight}/>收件人</h4>
                     </div>
                     <Recipient
-                        mergeFunction = {this.mergeFunction.bind(this)}
+                        mergeFunction = { (val)=> {
+                            this.setState({
+                                deliveryFormObject: { ...this.state.deliveryFormObject, ...val }
+                            },()=>{
+                                this.mergeFunction();
+                            })
+                        }}
                     />
                 </div>
             </div>
@@ -63,9 +77,9 @@ class Index extends React.Component{
     }
 
     mergeFunction = ( val ) => {
-        console.log( val );
+        const mergeFormObject = { ...this.state.ordererFormObject, ...this.state.deliveryFormObject };
         this.setState({
-            mergeFormObject: { ...this.state.mergeFormObject, ...val }
+            mergeFormObject
         },()=>{
             const { mergeFormObject } = this.state;
             this.props.returnHandleChange( mergeFormObject );

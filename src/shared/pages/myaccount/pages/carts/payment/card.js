@@ -62,6 +62,10 @@ export default class Card extends React.Component{
         );
     }
 
+    componentDidMount(){
+        this.returnHandleChange();
+    }
+
     cardExpiry = (val) => {
 
         const limit = (val, max) => {

@@ -75,15 +75,21 @@ export function updateCartProductItem( pathname,query,data ){
         const url= `${API()['myaccount']['updateCartItem']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res => {
-            dispatch({
-                type: "ACCOUNT_CART_ITEMS",
-                cartToken: res['data']['cartToken'],
-                cartTotalAmount: res['data']['totalAmount'],
-                list: res['data']['items']
-            });
-            return res;
+
+            if( !res.hasOwnProperty('response') ){
+                dispatch({
+                    type: "ACCOUNT_CART_ITEMS",
+                    cartToken: res['data']['cartToken'],
+                    cartTotalAmount: res['data']['totalAmount'],
+                    list: res['data']['items']
+                });
+                return res;
+            }else{
+                return res['response'];
+            }
+            
         }).catch( err => {
-            console.log( 'err',err['response'] )
+            return err;
         })
     }
 }

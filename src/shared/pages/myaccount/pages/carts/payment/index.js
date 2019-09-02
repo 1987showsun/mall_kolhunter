@@ -63,6 +63,7 @@ class Index extends React.Component{
     handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
+
         this.setState({
             formObject: { ...this.state.formObject, [name]: value }
         },()=>{
@@ -81,7 +82,12 @@ class Index extends React.Component{
     returnHandleChange = () => {
         if( this.props.returnHandleChange!=undefined ){
             const { formObject } = this.state;
-            console.log('fuck',formObject);
+            const { payMethod } = formObject;
+            if( payMethod!='cc' ){
+                delete formObject['cardno'];
+                delete formObject['cvc'];
+                delete formObject['exp'];
+            }
             this.props.returnHandleChange(formObject);
         }
     }

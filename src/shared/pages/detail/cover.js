@@ -161,7 +161,9 @@ class Cover extends React.Component{
 
         if( checkLoginStatus ){
             // 登入
+            // console.log('cart',formObject);
             this.props.dispatch( updateCartProductItem(pathname,search,formObject) ).then( res => {
+                // console.log('!!',res);
                 switch( res['status'] ){
                     case 200:
                         // 加入成功
@@ -187,7 +189,12 @@ class Cover extends React.Component{
 
                     default:
                         // 失敗
-                        
+                        toaster.notify(
+                            <div className={`toaster-status failure`}>新增失敗</div>
+                        ,{
+                            position: 'bottom-right',
+                            duration: 5000
+                        })
                         break;
                 }
             });

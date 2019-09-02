@@ -73,7 +73,7 @@ class Index extends React.Component{
                                                     return (
                                                         <li key={item['id']}>
                                                             <ProductItem
-                                                                path={`/approach/${item['id']}`}
+                                                                path={`/detail/${item['token']}`}
                                                                 data={item}
                                                             />
                                                         </li>

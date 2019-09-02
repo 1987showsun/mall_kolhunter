@@ -123,7 +123,6 @@ export default  class Order extends React.Component{
             orderDist: formObject['district'],
             orderAddress: formObject['address']
         }
-        
         if( this.props.mergeFunction!=undefined ){
             this.props.mergeFunction( returnFormObject )
         }

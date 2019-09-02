@@ -26,51 +26,54 @@ export function listProduct( pathname,query ) {
         });
         
         return Axios({method,url,data: {}}).then( res => {
-
             // 商品類別 陣列 -> 字串
-            const categoryToText = ( arr ) => {
-                let text = "";
-                arr.forEach(( item,i ) => {
-                    if( i==0 ){
-                        text = item['title'];
-                    }else if( i>=arr.length-1 ){
-                        text = `${text}/${item['title']}`;
-                    }else{
-                        text = `${item['title']}/${text}`;
-                    }
-                });
-                return text;
-            }
 
-            const list = res['data']['list'].map( item => {
-                return {
-                    id: item['id'],
-                    status: item['status'],
-                    cover: item['image'][0]!=undefined? item['image'][0]['image'] : "",
-                    name: item['name'],
-                    brand: item['brand']!=undefined? item['brand'] : "N/A",
-                    category: item['category']!=undefined? ( categoryToText(item['category']) ) :( "N/A"),
-                    store: item['store']!=undefined? item['store'] : 0,
-                    price: item['price']!=undefined? item['price'] : 0,
-                    sellPrice: item['sellPrice']!=undefined? item['sellPrice'] : item['price'],
-                    divided: item['profitMargin']!=undefined? item['profitMargin'] : 0
+            if( !res.hasOwnProperty('response') ){
+                const categoryToText = ( arr ) => {
+                    let text = "";
+                    arr.forEach(( item,i ) => {
+                        if( i==0 ){
+                            text = item['title'];
+                        }else if( i>=arr.length-1 ){
+                            text = `${text}/${item['title']}`;
+                        }else{
+                            text = `${item['title']}/${text}`;
+                        }
+                    });
+                    return text;
                 }
-            })
 
-            dispatch({
-                type: "VENDOR_PRODUCT_HEAD",
-                total: res['data']['total'] || 0,
-                auth: res['data']['status']!=undefined? res['data']['status']['auth'] : 0,
-                nonDisplay: res['data']['status']!=undefined? res['data']['status']['none-display'] : 0,
-                noneAuth: res['data']['status']!=undefined? res['data']['status']['none-auth'] : 0
-            })
+                const list = res['data']['list'].map( item => {
+                    return {
+                        id: item['id'],
+                        status: item['status'],
+                        cover: item['image'][0]!=undefined? item['image'][0]['image'] : "",
+                        name: item['name'],
+                        brand: item['brand']!=undefined? item['brand'] : "N/A",
+                        category: item['category']!=undefined? ( categoryToText(item['category']) ) :( "N/A"),
+                        store: item['store']!=undefined? item['store'] : 0,
+                        price: item['price']!=undefined? item['price'] : 0,
+                        sellPrice: item['sellPrice']!=undefined? item['sellPrice'] : item['price'],
+                        divided: item['profitMargin']!=undefined? item['profitMargin'] : 0
+                    }
+                })
 
-            dispatch({
-                type: 'VENDOR_PRODUCT_LIST',
-                list: list,
-            });
+                dispatch({
+                    type: "VENDOR_PRODUCT_HEAD",
+                    total: res['data']['total'] || 0,
+                    auth: res['data']['status']!=undefined? res['data']['status']['auth'] : 0,
+                    nonDisplay: res['data']['status']!=undefined? res['data']['status']['none-display'] : 0,
+                    noneAuth: res['data']['status']!=undefined? res['data']['status']['none-auth'] : 0
+                })
 
-            return res;
+                dispatch({
+                    type: 'VENDOR_PRODUCT_LIST',
+                    list: list,
+                });
+
+                return res;
+            }
+            return null;
         });
     }
 }

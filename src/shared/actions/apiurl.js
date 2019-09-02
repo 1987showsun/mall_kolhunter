@@ -105,10 +105,12 @@ export default function API( NODE_ENV ){
         'mall': { // 賣場
             'home': {
                 'kv': `${API_ADDRESS(NODE_ENV)}/v1/mall/banner`, // get 輪播banner
-                'latest': `${API_ADDRESS(NODE_ENV)}/v1/product/latest` // get 最新商品
+                //'latest': `${API_ADDRESS(NODE_ENV)}/v1/product/latest` // get 最新商品
+                'latest': `${API_ADDRESS(NODE_ENV)}/v1/product/bucket` // get 最新商品
             },
             'product': {
-                'list': `${API_ADDRESS(NODE_ENV)}/v1/product/list`, // get 商品列表
+                //'list': `${API_ADDRESS(NODE_ENV)}/v1/product/list`, // get 商品列表 logi開發
+                'list': `${API_ADDRESS(NODE_ENV)}/v1/product/bucket`, // get 商品列表 威廉開發
                 'detail': `${API_ADDRESS(NODE_ENV)}/v1/product/info`
             },
             'store': {

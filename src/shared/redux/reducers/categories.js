@@ -3,6 +3,7 @@ export default function categories(
         total: 0,
         limit: 30,
         current: 1,
+        totalPages: 1,
         list: [],
     },action
 ){
@@ -13,7 +14,8 @@ export default function categories(
                 ...state,
                 total: action.total,
                 limit: action.limit,
-                current: action.current
+                current: action.current,
+                totalPages: action.totalPages
             }
             break;
 

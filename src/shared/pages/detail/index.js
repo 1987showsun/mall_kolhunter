@@ -1,6 +1,7 @@
 import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import { Helmet } from "react-helmet";
 
 // Components
 import Cover from './cover';
@@ -14,10 +15,8 @@ import { ssrApproachProduct, mallApproachProduct } from '../../actions/categorie
 class Index extends React.Component{
 
     static initialAction( NODE_ENV,pathname,query ){
-
         const pathnameArray = pathname.split('/').filter( item => item!="" );
         query = { ...query, productToken: pathnameArray[1] };
-
         return ssrApproachProduct(NODE_ENV,pathname,{ ...query, productToken: pathnameArray[1] });
     }
 
@@ -28,6 +27,7 @@ class Index extends React.Component{
             info: {
                 token: "",
                 name: "",
+                celebrityNum: 0,
                 images: [],
                 description: [],
                 delivery: [],
@@ -46,6 +46,7 @@ class Index extends React.Component{
                 ...state.info,
                 token: props.token,
                 name: props.name,
+                celebrityNum: props.celebrityNum,
                 images: props.images,
                 description: props.description,
                 delivery: props.delivery,
@@ -59,15 +60,32 @@ class Index extends React.Component{
 
     render(){
 
+        const { location, match, history } = this.props;
         const { info } = this.state;
         const { description } = info;
 
         return(
             <React.Fragment>
+                <Helmet encodeSpecialCharacters={false}>
+                    <title>{`網紅電商 - ${info['name']}`}</title>
+                    <meta name="keywords" content={`網紅電商,網紅獵人,幫你賣,電商,網購}`} />
+                    <meta name="description" content={``} />
+                </Helmet>
                 <div className="row">
                     <section className="container detail-content" >
                         <div className="container-row">
-                            <Cover data={info}/>
+                            {
+                                info['token']!=""? (
+                                    <Cover 
+                                        match= {match}
+                                        history= {history}
+                                        location= {location}
+                                        data= {info}
+                                    />
+                                ):(
+                                    <div> Loading... </div>
+                                )
+                            }
                         </div>
                         <div className="container-row">
                             <div className="detail-cover-wrap detail-container">
@@ -79,8 +97,8 @@ class Index extends React.Component{
 
                                             case "html":
                                                 return (
-                                                    <div className="detail-container-text">
-                                                        <p key={item['sort']}>{item['content']}</p>
+                                                    <div key={item['sort']} className="detail-container-text">
+                                                        <p>{item['content']}</p>
                                                     </div>
                                                 );
                                         }

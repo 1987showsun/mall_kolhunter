@@ -10,7 +10,7 @@ class Index extends React.Component{
         super(props);
         this.state = {
             formObject: {
-                method: "atm"
+                payMethod: "atm"
             }
         }
     }
@@ -24,19 +24,19 @@ class Index extends React.Component{
                 <ul className="card-form-list">
                     <li>
                         <label className="radio">
-                            <input type="radio" name="method" value="atm" onChange={this.handleChange.bind(this)} checked={formObject['method']=='atm'}/>
+                            <input type="radio" name="payMethod" value="atm" onChange={this.handleChange.bind(this)} checked={formObject['payMethod']=='atm'}/>
                             <div className="box"></div>
                             <div>ATM</div>
                         </label>
                     </li>
                     <li>
                         <label className="radio">
-                            <input type="radio" name="method" value="cc" onChange={this.handleChange.bind(this)} checked={formObject['method']=='cc'}/>
+                            <input type="radio" name="payMethod" value="cc" onChange={this.handleChange.bind(this)} checked={formObject['payMethod']=='cc'}/>
                             <div className="box"></div>
                             <div className="radio-container">
                                 <span>信用卡</span>
                                 {
-                                    formObject['method'] == 'card' &&
+                                    formObject['payMethod'] == 'cc' &&
                                         <Card 
                                             returnHandleChange = {this.returnCardInfo.bind(this)}
                                         />
@@ -46,7 +46,7 @@ class Index extends React.Component{
                     </li>
                     <li>
                         <label className="radio">
-                            <input type="radio" name="method" value="cvs" onChange={this.handleChange.bind(this)} checked={formObject['method']=='cvs'}/>
+                            <input type="radio" name="payMethod" value="cvs" onChange={this.handleChange.bind(this)} checked={formObject['payMethod']=='cvs'}/>
                             <div className="box"></div>
                             <div>超商付款</div>
                         </label>
@@ -81,6 +81,7 @@ class Index extends React.Component{
     returnHandleChange = () => {
         if( this.props.returnHandleChange!=undefined ){
             const { formObject } = this.state;
+            console.log('fuck',formObject);
             this.props.returnHandleChange(formObject);
         }
     }

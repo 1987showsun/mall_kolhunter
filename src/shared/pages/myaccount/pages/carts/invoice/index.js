@@ -14,7 +14,7 @@ class Index extends React.Component{
         super(props);
         this.state = {
             formObject: {
-                invoiceType: "electronic"
+                invoiceType: "2"
             }
         }
     }
@@ -47,7 +47,9 @@ class Index extends React.Component{
                                 <span>三聯式發票</span>
                                 {
                                     formObject['invoiceType']=='3' &&
-                                        <Triplicate />
+                                        <Triplicate 
+                                            returnForm = { this.returnForm.bind(this) }
+                                        />
                                 }
                             </div>
                         </label>
@@ -75,11 +77,16 @@ class Index extends React.Component{
         const value = e.target.value;
         this.setState({
             formObject: { ...this.state.formObject, [name]: value }
+        },() => {
+            this.returnForm();
         })
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
+    returnForm = ( val ) => {
+        const { formObject } = this.state;
+        if( this.props.returnHandleChange!=undefined ){
+            this.props.returnHandleChange({...formObject, ...val});
+        }
     }
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
 
 // Components
@@ -17,8 +18,10 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            required: [],
-            formObject: {}
+            required: ['orderName','orderEmail','orderPhone','orderCity','orderDist','orderAddress'],
+            formObject: {
+                cartToken: localStorage.getItem('cartID')
+            }
         }
     }
 
@@ -39,13 +42,13 @@ class Index extends React.Component{
                         location= {location}
                     />
                 </section>
-                <section className="container-unit">
-                    {/* 代碼 */}
+                {/* <section className="container-unit">
+                    代碼
                     <div className="unit-head">
                         <h3>優惠券 / 折扣碼</h3>
                     </div>
                     <Coupon />
-                </section>
+                </section> */}
                 <section className="container-unit">
                     {/* 付款方式 */}
                     <div className="unit-head">
@@ -60,34 +63,51 @@ class Index extends React.Component{
                     <div className="unit-head">
                         <h3>訂購人 / 收件人資訊</h3>
                     </div>
-                    <Transports />
+                    <Transports 
+                        returnHandleChange= {this.returnHandleChange.bind(this)}
+                    />
                 </section>
                 <section className="container-unit">
                     {/* 訂購人 / 收件人資訊 */}
                     <div className="unit-head">
                         <h3>發票</h3>
                     </div>
-                    <Invoice />
+                    <Invoice 
+                        returnHandleChange= {this.returnHandleChange.bind(this)}
+                    />
                 </section>
                 <section className="container-unit">
-                    <Action />
+                    <Action 
+                        returnAction= {this.handleSubmit.bind(this)}
+                    />
                 </section>
             </React.Fragment>
         );
     }
 
     componentDidMount() {
+        // 取得購物車商品
         this.props.dispatch( cartsProductList() );
-        this.returnHandleChange();
+        // 取得使用者 IP
+        axios({
+            method: 'post',
+            url:'https://geoip-db.com/json/',
+        }).then( res => {
+            this.setState({
+                formObject: { ...this.state.formObject, memberIPAddress: res['data']['IPv4'] }
+            })
+        })
     }
     
     returnHandleChange = ( val ) => {
-        console.log( { ...this.state.formObject, ...val } );
         this.setState({
             formObject: { ...this.state.formObject, ...val }
-        },()=>{
-            //console.log( '--->',this.state.formObject );
-        })
+        });
+    }
+
+    handleSubmit = ( e ) => {
+        const { formObject } = this.state;
+        console.log( formObject );
     }
 }
 

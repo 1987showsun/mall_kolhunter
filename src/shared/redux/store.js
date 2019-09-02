@@ -4,5 +4,9 @@ import thunk from 'redux-thunk';
 import reducer from './reducers';
 
 export default (preloadedState) => {
-  return createStore(reducer, preloadedState, applyMiddleware(thunk, createLogger()));
+  return createStore(reducer, preloadedState, applyMiddleware(thunk, createLogger({
+    predicate: function(){
+      return true;
+    }
+  })));
 };

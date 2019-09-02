@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from "react-helmet";
 import { connect } from 'react-redux';
 
 // Components
@@ -42,6 +43,11 @@ class Home extends React.Component{
 
         return(
             <React.Fragment>
+                <Helmet encodeSpecialCharacters={false}>
+                    <title>{`網紅電商 - `}</title>
+                    <meta name="keywords" content={`網紅電商,網紅獵人,找網紅就是快,幫你賣,電商,網購}`} />
+                    <meta name="description" content={``} />
+                </Helmet>
                 <Kv data={kv} />
                 <Store />
                 <Category data={categories}/>

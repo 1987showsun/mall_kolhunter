@@ -1,7 +1,8 @@
 const webpack           = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer      = require('autoprefixer');
-//const nodeExternals     = require('webpack-node-externals');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { InjectManifest } = require('workbox-webpack-plugin');
 
 const keyName= {};
 let SETUP= {
@@ -15,8 +16,8 @@ Object.keys(process.env).map((key, i) => {
 });
 if( keyName['NODE_ENV']=='development' ){
   //SETUP.push({'NODE_ENV_DEV': true})
-  SETUP['NODE_ENV_DEV'] = true;
-  //SETUP = { ...SETUP, 'NODE_ENV_DEV': true }
+  //SETUP['NODE_ENV_DEV'] = true;
+  SETUP = { ...SETUP, 'NODE_ENV_DEV': true }
 }
 
 const browserConfig = {
@@ -57,22 +58,32 @@ const browserConfig = {
         test: /js$/,
         exclude: /(node_modules)/,
         loader: "babel-loader",
-        //use: ['babel-loader', 'eslint-loader'],
         query: { presets: ["react-app"] }
       }
     ]
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: "public/css/[name].css?t=1231231"
+      filename: "public/css/[name].css"
     }),
     new webpack.DefinePlugin({
       "process.env": SETUP
-    })
-  ],
-  // externals: [
-  //   nodeExternals()
-  // ]
+    }),
+    new CopyWebpackPlugin([
+      { 
+        from: "./src/server/public", 
+        to: "public/assets"
+      }
+    ]),
+    // new InjectManifest({
+    //   swDest: './public/sw.js',
+    //   swSrc: './src/sw-template.js',
+    //   include: ['/app-shell', /\.js$/, /\.css$/],
+    //   templatedUrls: {
+    //     '/app-shell': new Date().toString(),
+    //   },
+    // }),
+  ]
 };
 
 const serverConfig = {
@@ -110,14 +121,10 @@ const serverConfig = {
         test: /js$/,
         exclude: /(node_modules)/,
         loader: "babel-loader",
-        //use: ['babel-loader', 'eslint-loader'],
         query: { presets: ["react-app"] }
       }
     ]
-  },
-  // externals: [
-  //   nodeExternals()
-  // ]
+  }
 };
 
 module.exports = [browserConfig, serverConfig];

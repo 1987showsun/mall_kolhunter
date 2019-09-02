@@ -14,7 +14,7 @@ export default class Product extends React.Component{
             <figure className="card">
                 <div className="img">
                     <Link to={path || ""}></Link>
-                    <img src={data['image']} alt={data['name']} title={data['name']} />
+                    <img src={this.dataImagesTypeOf(data['images'])} alt={data['name']} title={data['name']} />
                 </div>
                 <figcaption>
                     <section className="figcaption-row">
@@ -28,5 +28,12 @@ export default class Product extends React.Component{
                 </figcaption>
             </figure>
         );
+    }
+
+    dataImagesTypeOf = ( images ) => {
+        if( Array.isArray( images ) ){
+            return images.length!=0? images[0]['path'] : null;
+        }
+        return null;
     }
 }

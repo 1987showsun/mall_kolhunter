@@ -25,6 +25,34 @@ export function getCartID(){
     }
 }
 
+export function mallCategories(pathname,query){
+    return( dispatch,NODE_ENV )=>{
+        const method = 'get';
+        const url = API(NODE_ENV)['categories']['list'];
+        return Axios({method, url, data:{} }).then( res => {
+            dispatch({
+                type: "MALL_CATEGORIES_LIST",
+                list: res['data']
+            })
+            return res;
+        })
+    }
+}
+
+export function mallDelivery(pathname,query){
+    return( dispatch,NODE_ENV )=>{
+        const method = 'get';
+        const url = API()['delivery']['list'];
+        return Axios({method, url, data:{} }).then( res => {
+            dispatch({
+                type: "MALL_DELIVERY_LIST",
+                list: res['data']
+            })
+            return res;
+        })
+    }
+}
+
 const Axios = ( api ) => {
     return axios({
         method: api['method'],

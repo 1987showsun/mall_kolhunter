@@ -16,7 +16,7 @@ export default class Index extends React.Component{
         switch( method ){
             case 'submit':
                 // 結帳
-                
+                this.props.returnAction();
                 break;
             default:
                 // 取消

@@ -11,8 +11,8 @@ export default class PriceRange extends React.Component{
         super(props);
         this.state = {
             priceRange:{
-                min: queryString.parse(search)['priceMin'] || 0,
-                max: queryString.parse(search)['priceMax'] || 0
+                min: queryString.parse(search)['minPrice'] || 0,
+                max: queryString.parse(search)['maxPrice'] || 0
             }
         }
     }
@@ -58,8 +58,8 @@ export default class PriceRange extends React.Component{
         const { pathname, search } = this.props.location;
         const searchObject = { 
             ...queryString.parse( search ),
-            priceMax: priceRange['max'],
-            priceMin: priceRange['min'],
+            maxPrice: priceRange['max'],
+            minPrice: priceRange['min'],
         };
         this.props.history.push({
             pathname,

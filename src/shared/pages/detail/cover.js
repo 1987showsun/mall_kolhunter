@@ -1,12 +1,23 @@
 import React from 'react';
-import CurrencyFormat from 'react-currency-format';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus }from '@fortawesome/free-solid-svg-icons';
+import toaster from 'toasted-notes';
+import queryString from 'query-string';
+import { connect } from 'react-redux';
 
 // Modules
 import CoverSlider from '../../module/coverSlider';
+import Quantity from '../../module/quantity';
+import OpenSelect from '../../module/openSelect';
 
-export default class Cover extends React.Component{
+// Actions
+import { updateCartProductItem } from '../../actions/myaccount';
+
+// Set
+import { main, sub } from './public/set/slider';
+
+// Lang
+import lang from '../../public/lang/lang.json';
+
+class Cover extends React.Component{
 
     constructor(props){
         super(props);
@@ -19,45 +30,6 @@ export default class Cover extends React.Component{
                 specToken: props.data['spec'].length!=0? props.data['spec'][0]['token'] : "",
                 itemNumber: 1,
                 storeID: ""
-            },
-            mainSettings: {
-                dots: false,
-                infinite: false,
-                speed: 500,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                className: 'cover-slick-block cover-slick-main'
-            },
-            navSettings: {
-                dots: false,
-                infinite: false,
-                speed: 500,
-                slidesToShow: 5,
-                slidesToScroll: 5,
-                className: 'cover-slick-block cover-slick-nav',
-                responsive: [
-                    {
-                      breakpoint: 1280,
-                      settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 4
-                      }
-                    },
-                    {
-                      breakpoint: 860,
-                      settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3
-                      }
-                    },
-                    {
-                      breakpoint: 480,
-                      settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
-                      }
-                    }
-                ]
             },
             imageData: props.data['images'].map( item => {
                 return item['path'];
@@ -74,15 +46,30 @@ export default class Cover extends React.Component{
 
     render(){
 
-        const { data, imageData, mainSettings, navSettings, formObject } = this.state;
+        const { data, imageData, formObject } = this.state;
+        const itemNumMax = data['spec'].filter( item => item['token']==formObject['specToken']);
+        const delivery = data['delivery'].map( item => {
+            return{
+                id: item['productDeliveryID'],
+                value: item['productDeliveryID'],
+                name: item['name']
+            }
+        })
+        const spec = data['spec'].map( item => {
+            return{
+                id: item['token'],
+                value: item['token'],
+                name: item['name']
+            }
+        })
 
         return(
             <div className="detail-cover-wrap">
                 <div className="detail-cover-wrap-col left">
                     <CoverSlider 
                         data= {imageData}
-                        mainSettings= {mainSettings}
-                        navSettings= {navSettings}
+                        mainSettings= {main}
+                        navSettings= {sub}
                     />
                 </div>
                 <div className="detail-cover-wrap-col right">
@@ -93,7 +80,7 @@ export default class Cover extends React.Component{
                         <ul className="cover-other-ul">
                             <li>
                                 <label>販賣店家家數</label>
-                                <div>12</div>
+                                <div>{data['celebrityNum']}</div>
                             </li>
                             <li>
                                 <label>已售數量</label>
@@ -101,7 +88,7 @@ export default class Cover extends React.Component{
                             </li>
                             <li>
                                 <label>庫存數量</label>
-                                <div>12</div>
+                                <div>{itemNumMax[0]!=undefined? itemNumMax[0]['storage']:0}</div>
                             </li>
                         </ul>
                     </div>
@@ -110,55 +97,42 @@ export default class Cover extends React.Component{
                         <div className="cover-money-sellPrice">{data['sellPrice']}</div>
                     </div>
                     <div className="detail-cover-row cover-select">
-                        <label>運送方式</label>
-                        <ul className="select-list">
-                            {
-                                data['delivery'].map( item => {
-                                    return(
-                                        <li key={item['productDeliveryID']}>
-                                            <label htmlFor={`${item['productDeliveryID']}`}>
-                                                <input type="radio" name="productDeliveryID" id={`${item['productDeliveryID']}`} className="variant" value={`${item['productDeliveryID']}`} onChange={this.handleChange.bind(this)} checked={formObject['productDeliveryID']== item['productDeliveryID'] } />
-                                                <span>{item['name']}</span>
-                                            </label>
-                                        </li>
-                                    )
+                        <label>{lang['zh-TW']['label']['delivery']}</label>                            
+                        <OpenSelect 
+                            data= {delivery}
+                            name= "productDeliveryID"
+                            returnForm= { val => {
+                                this.setState({
+                                    formObject: { ...this.state.formObject, ...val }
                                 })
-                            }
-                        </ul>
+                            }}
+                        />
                     </div>
                     <div className="detail-cover-row cover-select">
-                        <label>型號 / 尺寸 / 顏色</label>
-                        <ul className="select-list">
-                            {
-                                data['spec'].map( item => {
-                                    return(
-                                        <li key={item['token']}>
-                                            <label htmlFor={`${item['token']}`}>
-                                                <input type="radio" name="specToken" id={`${item['token']}`} className="variant" value={`${item['token']}`} onChange={this.handleChange.bind(this)} checked={formObject['specToken']== item['token'] } />
-                                                <span>{item['name']}</span>
-                                            </label>
-                                        </li>
-                                    )
+                        <label>{lang['zh-TW']['label']['size']}</label>
+                        <OpenSelect 
+                            data= {spec}
+                            name= "specToken"
+                            returnForm= { val => {
+                                this.setState({
+                                    formObject: { ...this.state.formObject, ...val }
                                 })
-                            }
-                        </ul>
+                            }}
+                        />
                     </div>
                     <div className="detail-cover-row cover-quantity">
-                        <label>數量</label>
-                        <div className="quantity-wrap">
-                            <button type="button" onClick={this.quantityChange.bind(this,"minus")}>
-                                <FontAwesomeIcon icon={faMinus} />
-                            </button>
-                            <div className="input-box">
-                                <CurrencyFormat value={formObject['itemNumber']} format={this.cardExpiry} thousandSeparator={true} onValueChange={ values => this.handleQuantity.bind(this,values)} />
-                            </div>
-                            <button type="button" onClick={this.quantityChange.bind(this,"plus")}>
-                                <FontAwesomeIcon icon={faPlus} />
-                            </button>
-                        </div>
+                        <label>{lang['zh-TW']['label']['buy quantity']}</label>
+                        <Quantity 
+                            itemNumMax= { itemNumMax[0]!=undefined? itemNumMax[0]['storage']:0  }
+                            returnForm= { val => {
+                                this.setState({
+                                    formObject: { ...this.state.formObject, itemNumber: val['itemNum'] }
+                                })
+                            }}
+                        />
                     </div>
                     <div className="detail-cover-row cover-quantity">
-                        <label>購買店家</label>
+                        <label>{lang['zh-TW']['label']['by store']}</label>
                         <div>
                             <div className="detail-store-wrap">
                                 <div className="img">
@@ -172,8 +146,8 @@ export default class Cover extends React.Component{
                     </div>
                     <div className="detail-cover-row cover-action">
                         <ul>
-                            <li className="add-cart-li"><button type="button" className="add-cart">加入購物車</button></li>
-                            <li className="direct-purchase-li"><button type="button" className="direct-purchase">直接購買</button></li>
+                            <li className="add-cart-li"><button type="button" className="add-cart" onClick={this.callCarts.bind(this,"add")}>{lang['zh-TW']['button']['add to cart']}</button></li>
+                            <li className="direct-purchase-li"><button type="button" className="direct-purchase" onClick={this.callCarts.bind(this,"direct")}>{lang['zh-TW']['button']['buy now']}</button></li>
                         </ul>
                     </div>
                 </div>
@@ -181,59 +155,62 @@ export default class Cover extends React.Component{
         );
     }
 
-    handleChange = (e) => {
-        const name = e.target.name;
-        const val = e.target.value;
-        let formObject = { ...this.state.formObject, [name]: val }
-        if( name=="quantity" ){
-            let nu = parseInt(val);
-            if( isNaN(nu) || nu<=0 ){
-                nu = 1;
-            }
-            formObject = { ...this.state.formObject, [name]: nu }
-        }
-        this.setState({
-            formObject
-        })
-    }
-
-    handleQuantity = (values) => {
-        this.setState({
-            formObject: { ...this.state.formObject, itemNumber: values['value'] }
-        })
-    }
-
-    quantityChange = ( method ) => {
-        const { itemNumMax, formObject } = this.state;
-        let itemNum = formObject['itemNum'];
-        switch( method ){
-            case 'minus':
-                // 減
-                itemNum<=1? 1 : itemNum--;
-                break;
-
-            default:
-                // 加
-                itemNum>=itemNumMax? itemNumMax : itemNum++;
-                break;
+    callCarts = ( method ) => {
+        const { location } = this.props;
+        const { pathname,search } = location;
+        const checkLoginStatus = sessionStorage.getItem('jwt_account')!=null? true : false;
+        const formObject = {
+            ...this.state.formObject,
+            cartToken: localStorage.getItem('cartID'),
+            storeID: queryString.parse( search )['storeID'] || "",
         }
 
-        this.setState({
-            formObject : { ...formObject, itemNum } 
-        },()=>{
-            // 更新該商品數量 調用 API 位子
-        })
-    }
+        if( checkLoginStatus ){
+            // 登入
+            this.props.dispatch( updateCartProductItem(pathname,search,formObject) ).then( res => {
+                switch( res['status'] ){
+                    case 200:
+                        // 加入成功
+                        switch( method ){
+                            case 'direct':
+                                console.log( '直購' );
+                                this.props.history.push({
+                                    pathname: '/myaccount/carts'
+                                })
+                                break;
+                
+                            case 'add':
+                                console.log( '新增' );
+                                toaster.notify(
+                                    <div className={`toaster-status success`}>新增成功</div>
+                                ,{
+                                    position: 'bottom-right',
+                                    duration: 5000
+                                })
+                                break;
+                        }
+                        break;
 
-    cardExpiry = ( val ) =>{
-        const { itemNumMax } = this.state;
-        val = Number( val );
-        if( val<=0 ){
-            val = 1;
-        }else if( val>=itemNumMax ){
-            val = itemNumMax;
-        } 
-
-        return String(val);
+                    default:
+                        // 失敗
+                        
+                        break;
+                }
+            });
+        }else{
+            // 未登入
+            this.props.history.push({
+                pathname: '/account',
+                search: 'back=true'
+            })
+        }
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Cover );

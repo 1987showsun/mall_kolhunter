@@ -47,7 +47,7 @@ class Footer extends React.Component{
                                 <div className="footer-nav-wrap-title">廠商專區</div>
                                 <ul>
                                     <li><Link to="/vendor/signup">加入經銷商</Link></li>
-                                    <li><Link to="/myvendor">廠商登入</Link></li>
+                                    <li><Link to="/vendor">廠商登入</Link></li>
                                     <li><Link to="">上架快問快答</Link></li>
                                     <li><Link to="">廠商條款</Link></li>
                                 </ul>

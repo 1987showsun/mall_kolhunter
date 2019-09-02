@@ -12,20 +12,9 @@ import Loading from '../../module/loading/mallLoading';
 // Actions
 import {searchList, ssrSearchList} from '../../actions/search';
 
-const initQuery = {
-    page: 1,
-    limit: 30,
-    sort: "desc",
-    sortBy: "created"
-}
-
 class Index extends React.Component{
 
     static initialAction( NODE_ENV,pathname,query ) {
-        query = {
-            ...initQuery,
-            ...query
-        }
         return ssrSearchList( NODE_ENV,pathname,query );
     }
 
@@ -49,7 +38,8 @@ class Index extends React.Component{
         if( type!=state.type || keyword!=state.keyword ){
             return{
                 type: search['type'] || "product",
-                keyword: search['keyword'] || ""
+                keyword: search['keyword'] || "",
+                data: props.searchList
             }
         }
         return {
@@ -115,7 +105,7 @@ class Index extends React.Component{
     componentDidMount() {
         const { location } = this.props;
         const { pathname } = location;
-        const search = {...initQuery,...queryString.parse(location['search'])};
+        const search = {...queryString.parse(location['search'])};
         this.setState({
             loading: true,
         },()=>{
@@ -131,7 +121,7 @@ class Index extends React.Component{
         if( prevState['keyword']!=this.state.keyword || prevState['type']!=this.state.type ){
             const { location } = this.props;
             const { pathname } = location;
-            const search = {...initQuery,...queryString.parse(location['search'])};
+            const search = { ...queryString.parse(location['search']) };
             this.setState({
                 loading: true,
             },()=>{

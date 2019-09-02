@@ -7,9 +7,9 @@ export default class Card extends React.Component{
         super(props);
         this.state = {
             formObject: {
-                cardCode: "",
-                cardVerified: "",
-                cardExpiry: ""
+                cardno: "",
+                cvc: "",
+                exp: ""
             }
         }
     }
@@ -24,9 +24,9 @@ export default class Card extends React.Component{
                     <li>
                         <label>卡號</label>
                         <div className="input-box">
-                            <CurrencyFormat value={ formObject['cardCode'] } format="#### #### #### ####" placeholder="#### #### #### ####" onValueChange={ value => {
+                            <CurrencyFormat value={ formObject['cardno'] } format="#### #### #### ####" placeholder="#### #### #### ####" onValueChange={ value => {
                                 this.setState({
-                                    formObject: { ...formObject, cardCode: value['value'] }
+                                    formObject: { ...formObject, cardno: value['value'] }
                                 },()=>{
                                     this.returnHandleChange();
                                 })
@@ -36,9 +36,9 @@ export default class Card extends React.Component{
                     <li>
                         <label>驗證碼</label>
                         <div className="input-box">
-                            <CurrencyFormat value={ formObject['cardVerified'] } format="####" placeholder="###" onValueChange={ value => {
+                            <CurrencyFormat value={ formObject['cvc'] } format="###" placeholder="###" onValueChange={ value => {
                                 this.setState({
-                                    formObject: { ...formObject, cardVerified: value['value'] }
+                                    formObject: { ...formObject, cvc: value['value'] }
                                 },()=>{
                                     this.returnHandleChange();
                                 })
@@ -48,9 +48,9 @@ export default class Card extends React.Component{
                     <li>
                         <label>到期時間</label>
                         <div className="input-box">
-                            <CurrencyFormat value={ formObject['cardExpiry'] } format={this.cardExpiry} placeholder="MM/YY" onValueChange={ value => {
+                            <CurrencyFormat value={ formObject['exp'] } format={this.cardExpiry} placeholder="MM/YY" onValueChange={ value => {
                                 this.setState({
-                                    formObject: { ...formObject, cardExpiry: value['value'] }
+                                    formObject: { ...formObject, exp: value['value'] }
                                 },()=>{
                                     this.returnHandleChange();
                                 })

@@ -1,5 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
+import { Helmet } from "react-helmet";
 import { connect } from 'react-redux';
 
 // Components
@@ -43,6 +44,11 @@ class Index extends React.Component{
 
         return(
             <React.Fragment>
+                <Helmet encodeSpecialCharacters={false}>
+                    <title>{`網紅電商,網紅店舖列表 - `}</title>
+                    <meta name="keywords" content={`網紅電商,網紅獵人,找網紅就是快,幫你賣,電商,網購}`} />
+                    <meta name="description" content={``} />
+                </Helmet>
                 <div className="row">
                     <section className="container main-content">
                         <section className="container-col" data-flexdirection="column" >

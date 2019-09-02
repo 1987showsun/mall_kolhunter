@@ -1,7 +1,10 @@
 import axios from 'axios';
+import queryString from 'query-string';
 import API from './apiurl';
 
 //Actions
+import { mallCategories } from './common';
+
 export function kv( pathname,query ){
     return( dispatch,NODE_ENV )=>{
         const method = 'get';
@@ -18,26 +21,20 @@ export function kv( pathname,query ){
 
 export function latest( pathname,query ){
     return( dispatch,NODE_ENV ) => {
+        
+        const initQuery = { 
+            page: 1,
+            limit: 30,
+            sort: "desc",
+            order: "time"
+        };
+        const search = queryString.stringify({ ...initQuery, ...query });
         const method = 'get';
-        const url = API(NODE_ENV)['mall']['home']['latest'];
+        const url = `${API(NODE_ENV)['mall']['home']['latest']}${ search!=""? `?${search}`: "" }`;
         return Axios({method, url }).then( res => {
             dispatch({
                 type: "HOME_LATEST",
-                data: res['data']
-            })
-            return res;
-        })
-    }
-}
-
-export function mallCategories(pathname,query){
-    return( dispatch,NODE_ENV )=>{
-        const method = 'get';
-        const url = API(NODE_ENV)['categories']['list'];
-        return Axios({method, url, data:{} }).then( res => {
-            dispatch({
-                type: "MALL_CATEGORIES_LIST",
-                list: res['data']
+                list: res['data']['products'] || []
             })
             return res;
         })
@@ -46,14 +43,11 @@ export function mallCategories(pathname,query){
 
 export function getHome(NODE_ENV,pathname,query){
     return(dispatch) => {
-        const ssrMallCat =  mallCategories(pathname,query)(dispatch,NODE_ENV);
-        const ssrKv = kv(pathname,query)(dispatch,NODE_ENV).then( res => {
-            return latest(pathname,query)(dispatch,NODE_ENV);
+        return kv(pathname,query)(dispatch,NODE_ENV).then( res => {
+            return latest(pathname,query)(dispatch,NODE_ENV).then( res => {
+                return mallCategories(pathname,query)(dispatch,NODE_ENV);
+            })
         });
-        return (
-            ssrMallCat,
-            ssrKv
-        )
     }
 }
 

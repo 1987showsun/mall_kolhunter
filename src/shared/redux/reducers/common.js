@@ -2,7 +2,8 @@ export default function common(
     state = {
         cartID: "",
         deliveries: [],
-        categoriesList: []
+        categoriesList: [],
+        
     },action
 ){
     state['cartID'] = typeof window!=='undefined'? sessionStorage.getItem('cart_id')||"" : "";
@@ -20,6 +21,13 @@ export default function common(
                 ...state, 
                 categoriesList: action.list 
             };
+            break;
+
+        case 'MALL_DELIVERY_LIST':
+            state = {
+                ...state,
+                deliveries: action.list
+            }
             break;
     }
     return state;

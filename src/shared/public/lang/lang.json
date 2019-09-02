@@ -76,14 +76,21 @@
         },
         "button": {
             "search": "搜尋",
-            "watch the product introduction now": "立即觀看產品介紹"
+            "watch the product introduction now": "立即觀看產品介紹",
+            "add to cart": "加入購物車",
+            "buy now": "直接購買",
+            "go back": "返回上一頁"
         },
         "placeholder": {
             "store name": "店家名稱",
             "product name": "商品名稱"
         },
         "label":{
-            "number of stores": "店家數量"
+            "number of stores": "店家數量",
+            "delivery": "運送方式",
+            "size": "型號 / 尺寸 / 顏色",
+            "buy quantity": "購買數量",
+            "by store": "購買店家"
         }
     },
     "en": {
@@ -161,14 +168,21 @@
         },
         "button": {
             "search": "Search",
-            "watch the product introduction now": "Watch the product introduction now"
+            "watch the product introduction now": "Watch the product introduction now",
+            "add to cart": "Add to cart",
+            "buy now": "Buy now",
+            "go back": "Go back"
         },
         "placeholder": {
             "store name": "Store name",
             "product name": "Product name"
         },
         "label":{
-            "number of stores": "Number of stores"
+            "number of stores": "Number of stores",
+            "delivery": "Delivery",
+            "size": "Size / model / color",
+            "buy quantity": "Quantity",
+            "by store": "By store"
         }
     }
 }

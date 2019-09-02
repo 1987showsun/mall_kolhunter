@@ -20,9 +20,9 @@ export default class Recipient extends React.Component{
                 name: "",
                 phone: "",
                 email: "",
-                zipcode: "",
-                city: city || "",
-                district: district || "",
+                zipcode: county_area[city][district],
+                city: city,
+                district: district,
                 address: "",
             }
         }
@@ -35,25 +35,31 @@ export default class Recipient extends React.Component{
         return(
             <ul className="card-form-list">
                 <li>
-                    <label htmlFor="name2">姓名</label>
+                    <label htmlFor="name2">＊姓名</label>
                     <div className="input-box">
                         <input type="text" name="name" value={formObject['name']} id="name2" onChange={this.handleChange.bind(this)} />
                     </div>
                 </li>
                 <li>
-                    <label htmlFor="phone2">手機號碼</label>
+                    <label htmlFor="phone2">＊手機號碼</label>
                     <div className="input-box">
-                        <CurrencyFormat id="phone2" value={formObject['phone']} format="####-######" onValueChange={ value => this.returnTel(value['value'],'phone')}/>
+                        <CurrencyFormat id="phone" value={formObject['phone'] || ""} format="##########" onValueChange={ value => {
+                            this.setState({
+                                formObject: { ...this.state.formObject, phone: value['value'] }
+                            },()=>{
+                                this.returnForm();
+                            })
+                        }}/>
                     </div>
                 </li>
                 <li>
-                    <label htmlFor="email2">電子信箱</label>
+                    <label htmlFor="email2">＊電子信箱</label>
                     <div className="input-box">
                         <input type="email" name="email" value={formObject['email']} id="email2" onChange={this.handleChange.bind(this)} />
                     </div>
                 </li>
                 <li>
-                    <label>地址</label>
+                    <label>＊地址</label>
                     <div className="input-box select">
                         <select name="city" value={formObject['city'] || ""} onChange={ this.handleChange.bind(this) }>
                             <option value="">請選擇縣市</option>
@@ -105,9 +111,19 @@ export default class Recipient extends React.Component{
     }
 
     returnForm = () => {
-        if( this.props.returnForm!=undefined ){
-            const { formObject } = this.state;
-            this.props.returnForm( formObject )
+        const { formObject } = this.state;
+        const returnFormObject = {
+            deliveryName: formObject['name'],
+            deliveryPhone: formObject['phone'],
+            deliveryCellPhone: formObject['phone'],
+            deliveryEmail: formObject['email'],
+            deliveryZipCode: formObject['zipcode'],
+            deliveryCity: formObject['city'],
+            deliveryDist: formObject['district'],
+            deliveryAddress:  formObject['address']
+        }
+        if( this.props.mergeFunction!=undefined ){
+            this.props.mergeFunction( returnFormObject )
         }
     }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
@@ -7,7 +8,7 @@ import { faCheck }from '@fortawesome/free-solid-svg-icons';
 // Actions
 import { signin } from '../../../actions/login';
 
-// Json
+// Lang
 import lang from '../../../public/lang/lang.json';
 
 class SignIn extends React.Component{
@@ -94,6 +95,9 @@ class SignIn extends React.Component{
                         </div>
                         <Link to="/account/signup" className="signup_link">立即註冊</Link>
                     </div>
+                    <div className="form-row" data-direction="column">
+                        <button type="button" className="goBack" onClick={()=> this.props.history.goBack()}>{lang['zh-TW']['button']['go back']}</button>
+                    </div>
                 </form>
             </React.Fragment>
         );
@@ -132,31 +136,22 @@ class SignIn extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         let msg = "";
-        let { form } = this.state;
+        const { location } = this.props;
+        const { search } = location;
+        const { form } = this.state;
+        const back = queryString.parse(search)['back'] || false;
         let checkRequired = Object.keys( form ).filter( key => {
             if( key!='type' ){
                 return form[key]=='';
             }
         })
-        
+
         this.setState({
             msg
         },()=>{
             if( checkRequired.length==0 ){
                 // 完整
-                this.props.dispatch(signin(form)).then( res => {
-                    switch( res['status'] ){
-                        case 200:
-                            this.props.history.push('/myaccount');
-                            break;
-
-                        default:
-                            this.setState({
-                                msg: lang['zh-TW']['err'][ res['data']['status_text'] ]
-                            })
-                            break;
-                    }
-                });
+                this.props.dispatch( signin(form) );
             }else{
                 // 顯示必填欄位
                 checkRequired.map( key => {

@@ -11,43 +11,22 @@ import lang from '../../../../../public/lang/lang.json';
 const city = Object.keys(county_area)[0];
 const district = Object.keys(county_area[city])[0];
 
-class Orderer extends React.Component{
+export default  class Order extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            accountInfo: props.accountInfo,
             formObject: {
-                name: props.accountInfo['name'] || "",
-                phone: props.accountInfo['phone'] || "",
-                email: props.accountInfo['email'] || "",
-                zipcode: props.accountInfo['zipcode'] || "",
-                city: props.accountInfo['city'] || "",
-                district: props.accountInfo['district'] || "",
-                address: props.accountInfo['address'] || ""
+                name: "",
+                email: "",
+                phone: "",
+                zipCode: county_area[city][district],
+                city: city,
+                district: district,
+                address: "",
+                ...props.data
             }
         }
-    }
-
-    static getDerivedStateFromProps( props,state ) {
-        if( Object.keys(state.accountInfo).length==0 ){
-            let formObject = {
-                ...state.formObject,
-                name: props.accountInfo['name'] || "",
-                phone: props.accountInfo['phone'] || "",
-                email: props.accountInfo['email'] || "",
-                zipcode: props.accountInfo['zipcode'] || "",
-                city: props.accountInfo['city'] || "",
-                district: props.accountInfo['district'] || "",
-                address: props.accountInfo['address'] || ""
-            }
-            
-            return{
-                accountInfo: props.accountInfo,
-                formObject
-            }            
-        }
-        return null;
     }
 
     render(){
@@ -57,29 +36,31 @@ class Orderer extends React.Component{
         return(
             <ul className="card-form-list">
                 <li>
-                    <label htmlFor="name">姓名</label>
+                    <label htmlFor="name">＊姓名</label>
                     <div className="input-box">
-                        <input type="text" name="name" value={formObject['name']} id="name" onChange={this.handleChange.bind(this)} placeholder=""/>
+                        <input type="text" name="name" value={formObject['name'] || ""} id="name" onChange={this.handleChange.bind(this)} placeholder=""/>
                     </div>
                 </li>
                 <li>
-                    <label htmlFor="phone">手機號碼</label>
+                    <label htmlFor="phone">＊手機號碼</label>
                     <div className="input-box">
-                        <CurrencyFormat id="phone" value={formObject['phone']} format="##########" onValueChange={ value => {
+                        <CurrencyFormat id="phone" value={formObject['phone'] || ""} format="##########" onValueChange={ value => {
                             this.setState({
                                 formObject: { ...this.state.formObject, phone: value['value'] }
+                            },()=>{
+                                this.returnForm();
                             })
                         }}/>
                     </div>
                 </li>
                 <li>
-                    <label htmlFor="email">電子信箱</label>
+                    <label htmlFor="email">＊電子信箱</label>
                     <div className="input-box">
-                        <input type="email" name="email" value={formObject['email']} id="email" onChange={this.handleChange.bind(this)} />
+                        <input type="email" name="email" value={formObject['email'] || ""} id="email" onChange={this.handleChange.bind(this)} />
                     </div>
                 </li>
                 <li>
-                    <label htmlFor="">地址</label>
+                    <label htmlFor="">＊地址</label>
                     <div className="input-box select">
                         <select name="city" value={formObject['city'] || ""} onChange={ this.handleChange.bind(this) }>
                             <option value="">請選擇縣市</option>
@@ -127,21 +108,24 @@ class Orderer extends React.Component{
             formObject: { ...this.state.formObject, [name]:value }
         },()=>{
             this.returnForm();
-        })
+        });
     }
 
     returnForm = () => {
-        if( this.props.returnForm!=undefined ){
-            const { formObject } = this.state;
-            this.props.returnForm( formObject )
+        const { formObject } = this.state;
+        const returnFormObject = {
+            orderName: formObject['name'],
+            orderEmail: formObject['email'],
+            orderPhone: formObject['phone'],
+            orderCellPhone: formObject['phone'],
+            orderZipCode: formObject['zipCode'],
+            orderCity: formObject['city'],
+            orderDist: formObject['district'],
+            orderAddress: formObject['address']
+        }
+        
+        if( this.props.mergeFunction!=undefined ){
+            this.props.mergeFunction( returnFormObject )
         }
     }
 }
-
-const mapStateToProps = state =>{
-    return{
-        accountInfo: state.myaccount.info
-    }
-}
-
-export default connect( mapStateToProps )( Orderer );

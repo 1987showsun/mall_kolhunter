@@ -2,6 +2,7 @@ export default function account(
     state = {
         "info": {},
         "cartToken": "",
+        "cartTotalAmount": 0,
         "cartItems": []
     },action
 ){
@@ -17,6 +18,7 @@ export default function account(
             state = {
                 ...state,
                 cartToken: action.cartToken,
+                cartTotalAmount: action.cartTotalAmount,
                 cartItems: action.list
             }
             break;

@@ -2,6 +2,7 @@ import React from 'react';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Helmet } from "react-helmet";
 
 // Components
 import Search from './search';
@@ -41,10 +42,8 @@ const demo = [
 class Index extends React.Component{
 
     static initialAction( NODE_ENV,pathname,query ){
-
         const pathnameArray = pathname.split('/').filter( item => item!="" );
         query = { ...query, productToken: pathnameArray[1] };
-
         return ssrApproachProduct(NODE_ENV,pathname,{ ...query, productToken: pathnameArray[1] });
     }
 
@@ -138,6 +137,10 @@ class Index extends React.Component{
 
         return(
             <React.Fragment>
+                <Helmet encodeSpecialCharacters={false}>
+                    <title>{`網紅電商 - ${info['name']}`}</title>
+                    <meta name="keywords" content={`網紅電商 - ${info['name']}`} />
+                </Helmet>
                 <div className="row">
                     <section className="container approach-content" >
                         <div className="container-col left">
@@ -167,7 +170,7 @@ class Index extends React.Component{
                                         demo.map( (item,i) => {
                                             return(
                                                 <li key={item['id']}>
-                                                    <StoreItem path={`/detail/p_id?store=store_id`} data={item} />
+                                                    <StoreItem path={`/detail/${match['params']['id']}?storeID=store_id`} data={item} />
                                                 </li>
                                             )
                                         })

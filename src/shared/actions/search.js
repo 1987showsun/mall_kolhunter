@@ -4,29 +4,73 @@ import queryString from 'query-string';
 
 export function searchList( pathname,query ) {
     return (dispatch,NODE_ENV) => {
-        const type= query['type'];
-        const search = { ...query };
-        const url = `${API(NODE_ENV)['mall'][type]['list']}?${queryString.stringify(search)}`;
 
+        const initQuery = {
+            page: 1,
+            limit: 30,
+            sort: "desc",
+            order: "created"
+        }
+        const type= query['type'];
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API(NODE_ENV)['mall'][type]['list']}${ search!=""? `?${search}`:"" }`;
+
+        // 初始化
+        dispatch({
+            type: "SEARCH_STATUS",
+            limit: 30,
+            total: 0,
+            current: 1,
+            totalPages: 1
+        })
         dispatch({
             type: "SEARCH_LIST",
             list: []
         })
+
         return Axios({method:'get',url,data:{}}).then(res=>{
-            dispatch({
-                type: "SEARCH_STATUS",
-                limit: res['data']['limit'],
-                total: res['data']['total'],
-                current: res['data']['page']
-            })
-            dispatch({
-                type: "SEARCH_LIST",
-                list: res['data']['list']
-            })
+            switch( type ){
+                case 'product':
+                    searchTypeToProduct(dispatch,res);
+                    break;
+
+                case 'store':
+                    searchTypeToStore(dispatch,res);
+                    break;
+            }
             return res;
         })
     }
 }
+
+const searchTypeToProduct = ( dispatch,res ) => {
+    dispatch({
+        type: "CATRGORIES_STATUS",
+        limit: res['data']['condition']['limit'] || 30,
+        total: res['data']['total'],
+        current: res['data']['page'],
+        totalPages: res['data']['pages']
+    })
+
+    dispatch({
+        type: "SEARCH_LIST",
+        list: res['data']['products']
+    })
+}
+
+const searchTypeToStore = ( dispatch,res ) => {
+    dispatch({
+        type: "SEARCH_STATUS",
+        limit: res['data']['limit'],
+        total: res['data']['total'],
+        current: res['data']['page']
+    })
+    dispatch({
+        type: "SEARCH_LIST",
+        list: res['data']['list']
+    })
+}
+
 
 export function ssrSearchList( NODE_ENV,pathname,query ){
     return(dispatch) => {

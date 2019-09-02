@@ -141,9 +141,11 @@ class Header extends React.Component{
     }
 
     componentDidMount() {
-        this.props.dispatch( ainfo() );
         // 檢查 localStorage 有無購物車編號，沒有向後端要一組
         if( typeof window !== 'undefined' ){
+            if( sessionStorage.getItem('jwt_account') ){
+                this.props.dispatch( ainfo() );
+            }
             if( !localStorage.getItem('cartID') ){
                 this.props.dispatch( getCartID() ).then( res => {
                     if( res['status']==200 ){

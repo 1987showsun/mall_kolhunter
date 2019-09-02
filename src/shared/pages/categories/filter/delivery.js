@@ -1,9 +1,10 @@
 import React from 'react';
 import queryString from 'query-string';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faCheck }from '@fortawesome/free-solid-svg-icons';
 
-export default class Delivery extends React.Component{
+class Delivery extends React.Component{
 
     constructor(props){
 
@@ -16,12 +17,19 @@ export default class Delivery extends React.Component{
 
         super(props);
         this.state = {
+            data: [],
             delivery: deliveryArray
         }
     }
 
+    static getDerivedStateFromProps( props,state ){
+        return{
+            data: props.deliveries
+        }
+    }
+
     render(){
-        const { delivery } = this.state;
+        const { data, delivery } = this.state;
         return(
             <div className="filter-unit" data-direction="column" >
                 <div className="filter-unit-row title">
@@ -29,42 +37,21 @@ export default class Delivery extends React.Component{
                 </div>
                 <div className="filter-unit-row">
                     <ul className="filter-list-ul">
-                        <li>
-                            <label htmlFor="delivery_001">
-                                <input type="checkbox" id="delivery_001" name="delivery" value="001" onChange={this.handleChange.bind(this)} checked={delivery.includes('001')}/>
-                                <div className="box">
-                                    <FontAwesomeIcon icon={faCheck} />
-                                </div>
-                                <div className="text">全家 宅配通</div>
-                            </label>
-                        </li>
-                        <li>
-                            <label htmlFor="delivery_002">
-                                <input type="checkbox" id="delivery_002" name="delivery" value="002" onChange={this.handleChange.bind(this)} checked={delivery.includes('002')}/>
-                                <div className="box">
-                                    <FontAwesomeIcon icon={faCheck} />
-                                </div>
-                                <div className="text">7-11 黑貓宅急便</div>
-                            </label>
-                        </li>
-                        <li>
-                            <label htmlFor="delivery_003">
-                                <input type="checkbox" id="delivery_003" name="delivery" value="003" onChange={this.handleChange.bind(this)} checked={delivery.includes('003')}/>
-                                <div className="box">
-                                    <FontAwesomeIcon icon={faCheck} />
-                                </div>
-                                <div className="text">萊爾富</div>
-                            </label>
-                        </li>
-                        <li>
-                            <label htmlFor="delivery_004">
-                                <input type="checkbox" id="delivery_004" name="delivery" value="004" onChange={this.handleChange.bind(this)} checked={delivery.includes('004')}/>
-                                <div className="box">
-                                    <FontAwesomeIcon icon={faCheck} />
-                                </div>
-                                <div className="text">中華郵政</div>
-                            </label>
-                        </li>
+                        {
+                            data.map( item => {
+                                return(
+                                    <li key={ item['id'] }>
+                                        <label htmlFor={ item['id'] }>
+                                            <input type="checkbox" id={ item['id'] } name="delivery" value={item['id']} onChange={this.handleChange.bind(this)} checked={delivery.includes( String(item['id']) )}/>
+                                            <div className="box">
+                                                <FontAwesomeIcon icon={faCheck} />
+                                            </div>
+                                            <div className="text">{ item['name'] }</div>
+                                        </label>
+                                    </li>
+                                );
+                            })
+                        }
                     </ul>
                 </div>
             </div>
@@ -101,3 +88,11 @@ export default class Delivery extends React.Component{
         })
     }
 }
+
+const mapStateToProps = state => {
+    return{
+        deliveries: state.common.deliveries
+    }
+}
+
+export default connect( mapStateToProps )( Delivery );

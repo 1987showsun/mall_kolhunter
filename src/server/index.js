@@ -17,18 +17,13 @@ import App from "../shared/layout";
 import "source-map-support/register";
 
 const app = express();
-// const httpsOptions = {
-//   cert: fs.readFileSync( path.join('public/ssl/localhost-new.pem') ),
-//   key: fs.readFileSync( path.join('public/ssl/localhost-new-key.pem') ),
-//   requestCert: false,
-//   rejectUnauthorized: false
-// }
 
 app.use(logger('dev'));
 app.use(cors());
 app.use(express.static( path.join('public') ));
 
 app.all('*', function(req, res, next) {
+  console.log('fuck123');
   const NODE_ENV = process.env['NODE_ENV'];
   const store = configureStore();
   const promises = routes.reduce((acc, route) => {
@@ -70,16 +65,15 @@ app.all('*', function(req, res, next) {
             <meta name="apple-mobile-web-app-title" content="Musik">
             <meta http-equiv="Content-Language" content="zh-TW">
             <meta name="author" content="Sun Li">
-            <meta name="description" content="">
             ${helmet.title.toString()}
             ${helmet.meta.toString()}
             <link rel="stylesheet" href="/css/main.css?t=${date}">
-            <link rel="shortcut icon" href="/images/favicon.ico">
-            <link rel="apple-touch-icon" href="/images/app_logo.png" />
-            <link rel="apple-touch-icon" sizes="76x76" href="/images/app_logo.png" />
-            <link rel="apple-touch-icon" sizes="120x120" href="/images/app_logo.png" />
-            <link rel="apple-touch-icon" sizes="152x152" href="/images/app_logo.png" />
-            <link rel="manifest" href="/manifest.json">
+            <link rel="shortcut icon" href="/assets/images/favicon.ico">
+            <link rel="apple-touch-icon" sizes="512x512" href="/assets/images/appIcon512.png" />
+            <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/appIcon120.png" />
+            <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/appIcon114.png" />
+            <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/appIcon57.png" />
+            <link rel="manifest" href="/assets/manifest.json">
           </head>
 
           <body>
@@ -97,10 +91,3 @@ app.all('*', function(req, res, next) {
 app.listen(process.env.PORT || 8080, () => {
   console.log("Server is listening");
 });
-
-// https
-// https.createServer( httpsOptions,app ).listen(8080, (err) => {
-//   if (err) {
-//       throw new Error( 'err ---->', err);
-//   }
-// });

@@ -2,6 +2,7 @@ export default function approach(
     state = {
         token: "",
         name: "",
+        celebrityNum: 0,
         images: [],
         description: [],
         delivery: [],
@@ -17,6 +18,7 @@ export default function approach(
                 ...state,
                 token: action.token,
                 name: action.name,
+                celebrityNum: action.celebrityNum,
                 images: action.images,
                 description: action.description,
                 delivery: action.delivery,

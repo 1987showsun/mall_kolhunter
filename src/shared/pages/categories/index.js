@@ -1,6 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import queryString from 'query-string';
+import { connect } from 'react-redux';
+import { Helmet } from "react-helmet";
 
 // Components
 import Filter from './filter/';
@@ -13,22 +14,13 @@ import BlockList from '../../module/blockList';
 import Pagination from '../../module/pagination';
 
 // Actions
-import { productList, mallCategories, ssrProductList } from '../../actions/categories';
-
-const initQuery = {
-    page: 1,
-    limit: 30,
-    sort: "desc",
-    sortBy: "created"
-}
+import { mallDelivery } from '../../actions/common';
+import { productList, ssrProductList } from '../../actions/categories';
 
 class Index extends React.Component{
 
     static initialAction( NODE_ENV,pathname,query ) {
-        query = {
-            ...initQuery,
-            ...query
-        }
+        console.log( pathname,query );
         return ssrProductList( NODE_ENV,pathname,query );
     }
 
@@ -56,11 +48,14 @@ class Index extends React.Component{
         
         const { match, location, history } = this.props;
         const { loading, current, limit, total, data } = this.state;
-        const { pathname } = location;
-        const query = { ...initQuery, ...queryString.parse(location['search']) }
 
         return(
             <React.Fragment>
+                <Helmet encodeSpecialCharacters={false}>
+                    <title>{`網紅電商 - `}</title>
+                    <meta name="keywords" content={`網紅電商 - }`} />
+                    <meta name="description" content={``} />
+                </Helmet>
                 <div className="row">
                     <section className="container main-content">
                         <Filter
@@ -78,15 +73,16 @@ class Index extends React.Component{
                                 {
                                     data.map( item => {
                                         return(
-                                            <li key={item['id']}>
-                                                <Item path={`/approach/${item['id']}`} data={item}/>
+                                            <li key={item['token']}>
+                                                {/* <Item path={`/approach/${item['token']}`} data={item}/> */}
+                                                <Item path={`/detail/${item['token']}`} data={item}/>
                                             </li>
                                         )
                                     })
                                 }
                             </BlockList>
                             <Pagination
-                                query= {query}
+                                query= {{...queryString.parse(location['search'])}}
                                 current= {current}
                                 limit= {limit}
                                 total= {total}
@@ -101,8 +97,6 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
-        const { location } = this.props;
-        this.props.dispatch( mallCategories() );
         this.callAPIFunction();
     }
 
@@ -117,9 +111,13 @@ class Index extends React.Component{
     }
 
     callAPIFunction = () => {
-        const { location } = this.props;
-        const query = { ...initQuery, ...queryString.parse(location['search']) };
-        const pathname = location['pathname'];
+        const { location, match } = this.props;
+        const { pathname, search } = location;
+        const subCategoryID = match['params']['sub'] || match['params']['main']; //如果沒有次選單 id 就取主選單 id 
+        const query = { 
+            ...queryString.parse(search),
+            category: subCategoryID
+        };
         this.setState({
             loading: true
         },() => {
@@ -128,7 +126,8 @@ class Index extends React.Component{
                     loading: false
                 })
             });
-        })
+            this.props.dispatch( mallDelivery(pathname,query) )
+        });
     }
 }
 

@@ -218,7 +218,7 @@
                             align-items: center;
                             padding: 5px 15px;
                             border-radius: 2px;
-                            border: 1px solid #ccc;
+                            border: 1px solid #aaa;
                             @media ( max-width: 420px ) {
                                 min-height: 30px;
                                 padding: 5px 20px;
@@ -352,6 +352,13 @@
                 }
             }
         }
+        &:disabled{
+            + span{
+                color: #ccc;
+                border: 1px dashed #ccc !important;
+                cursor: no-drop;
+            }
+        }
     }
 
     &.detail-container{
@@ -398,9 +405,9 @@
                 max-width: 100%;
             }
             .detail-container-text{
-                margin: 5px 0px;
+                margin: 25px 0px;
                 font-size: 0.8em;
-                line-height: 1.6em;
+                line-height: 2em;
             }
         }
     }
@@ -445,13 +452,18 @@
         }
     }
     &.cover-slick-nav{
-        padding: 3px;
+        padding: 3px 3px 3px 0px;
         .cover-img-nav-item{
             padding: 3px;
         }
         .slick-arrow{
             width: 20px;
             height: 45px;
+        }
+        .slick-track{
+            .slick-slide{
+                padding-left: 3px;
+            }
         }
         @media (max-width: 768px) {
             display: none;

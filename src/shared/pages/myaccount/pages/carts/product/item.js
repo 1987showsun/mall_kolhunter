@@ -1,7 +1,8 @@
 import React from 'react';
+import queryString from 'query-string';
+import CurrencyFormat from 'react-currency-format';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import CurrencyFormat from 'react-currency-format';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus }from '@fortawesome/free-solid-svg-icons';
 
@@ -12,21 +13,32 @@ class Item extends React.Component{
         this.state = {
             itemNumMax: 10,
             formObject: {
-                ...props.data
+                specToken: props.data['specToken'],
+                productToken: props.data['productToken'],
+                productDeliveryID: props.data['productDeliveryID'],
+                storeID: props.data['storeToken'],
+                itemNum: props.data['itemNum']
             }
         }
     }
 
     render(){
+
+        const { data, location } = this.props;
         const { formObject } = this.state;
-        const { data } = this.props;
+        const { search } = location;
+        
         return(
             <figure className="product-item-figure">
                 <div className="img">
-                    <img src={formObject['image']} alt="" title=""/>
+                    <img src={data['image']} alt={data['productName']} title=""/>
                 </div>
                 <figcaption>
-                    <h3><Link to={`/detail/${formObject['productToken']}?store=${formObject['storeToken']}`} target="_blank">{data['productName']}</Link></h3>
+                    <h3> {/* ?store=${formObject['storeID']} */}
+                        <Link to={`/detail/${formObject['productToken']}`} target="_blank">
+                            {data['productName']}
+                        </Link>
+                    </h3>
                     <ul className="product-item-doc-list">
                         <li>
                             <label>尺寸 / 型號</label>
@@ -34,7 +46,7 @@ class Item extends React.Component{
                         </li>
                         <li>
                             <label>消費網紅店家</label>
-                            <div>{data['storeName']}</div>
+                            <div>{data['storeName'] || `Kolhunter`}</div>
                         </li>
                         <li>
                             <label>數量</label>
@@ -56,7 +68,7 @@ class Item extends React.Component{
                                 <div className="input-box select">
                                     <select name="productDeliveryID" value={formObject['productDeliveryID']} onChange={this.handleChange.bind(this)}>
                                         {
-                                            formObject['deliveryMethods'].map( item => {
+                                            data['deliveryMethods'].map( item => {
                                                 return( <option key={item['productDeliveryID']} value={item['productDeliveryID']}>{`${item['deliveryName']} ＄${item['cost']}`}</option> );
                                             })
                                         }
@@ -67,7 +79,7 @@ class Item extends React.Component{
                         <li>
                             <label>小計</label>
                             <div>
-                                <CurrencyFormat value={data['cartPrice']} displayType={'text'} thousandSeparator={true}/>
+                                <CurrencyFormat value={data['amount']} displayType={'text'} thousandSeparator={true}/>
                             </div>
                         </li>
                     </ul>

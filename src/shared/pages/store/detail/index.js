@@ -1,6 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import CurrencyFormat from 'react-currency-format';
+import { Helmet } from "react-helmet";
+import { connect } from 'react-redux';
 
 // Components
 import Item from '../../../module/item/product';
@@ -82,6 +83,11 @@ class Index extends React.Component{
 
         return(
             <React.Fragment>
+                <Helmet encodeSpecialCharacters={false}>
+                    <title>{`網紅電商,網紅店舖 - `}</title>
+                    <meta name="keywords" content={`網紅電商,網紅獵人,找網紅就是快,幫你賣,電商,網購}`} />
+                    <meta name="description" content={``} />
+                </Helmet>
                 <div className="row store-cover-wrap">
                     <div className="store-cover-background-img" style={{backgroundImage: `url(${coverBG})`}}></div>
                     <section className="container store-cover">

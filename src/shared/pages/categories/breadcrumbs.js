@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -8,7 +9,10 @@ class Breadcrumbs extends React.Component{
         super(props);
         this.state = {
             categories: props.categories,
-            filterSort : 0
+            formObject: {
+                sort: "desc",
+                order: "price"
+            }
         }
     }
 
@@ -20,7 +24,7 @@ class Breadcrumbs extends React.Component{
 
     render(){
 
-        const { categories, filterSort } = this.state;
+        const { categories, formObject } = this.state;
         const { location, match } = this.props;
         const mainId = match['params']['main'];
         const current = categories.filter( filterItem => filterItem['id']==mainId );
@@ -37,17 +41,38 @@ class Breadcrumbs extends React.Component{
                     }
                 </ul>
                 <div className="input-box select">
-                    <select name="filterSort" value={filterSort} onChange={this.handleChangeSort.bind(this)}>
-                        <option value="">價格由高到低</option>
-                        <option value="">價格由低到高</option>
+                    <select name="sortMethod" value={`${formObject['sort']}-${formObject['order']}`} onChange={this.handleChangeSort.bind(this)}>
+                        <option value="desc-price">價格由高到低</option>
+                        <option value="asc-price">價格由低到高</option>
+                        <option value="desc-time">創建時間由新到舊</option>
+                        <option value="asc-time">創建時間由舊到新</option>
                     </select>
                 </div>
             </div>
         );
     }
 
-    handleChangeSort = () => {
-
+    handleChangeSort = ( e ) => {
+        const { match, location, history } = this.props;
+        const value = e.target.value;
+        this.setState({
+            formObject: {
+                ...this.state.formObject,
+                sort: value.split('-')[0],
+                order: value.split('-')[1]
+            }
+        },()=>{
+            const { pathname, search } = location;
+            const query = { 
+                ...queryString.parse(search), 
+                sort: this.state.formObject['sort'],
+                order: this.state.formObject['order'],
+            }
+            history.push({
+                pathname,
+                search: queryString.stringify(query)
+            })
+        })
     }
 }
 

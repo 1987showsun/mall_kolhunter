@@ -105,7 +105,7 @@ class SignUp extends React.Component{
                         <button type="submit">送出</button>
                     </div>
                     <div className="form-row form-p" data-content="center">
-                        <Link to="/account" className="signup_link">取消註冊</Link>
+                        <button type="button" className="goBack" onClick={()=> this.props.history.goBack()}>{lang['zh-TW']['button']['go back']}</button>
                     </div>
                 </form>
 

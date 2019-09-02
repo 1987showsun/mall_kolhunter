@@ -15,7 +15,7 @@ export default function home(
         case 'HOME_LATEST':
             state = { 
                 ...state, 
-                latest: action.data
+                latest: action.list
             };
             break;
     }

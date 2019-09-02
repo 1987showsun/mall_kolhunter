@@ -15,13 +15,13 @@ class Triplicate extends React.Component{
         super(props);
         this.state = {
             formObject: {
-                name: "",
-                invoice: "",
-                title: "",
-                zipcode: "",
-                city: city || "",
-                district: district || "",
-                address: ""
+                invoiceCompanyName: "",
+                invoiceCompanyUniNumber: "",
+                invoiceTitle: "",
+                invoiceZipcode: "",
+                invoiceCity: city || "",
+                invoiceDist: district || "",
+                invoiceAddress: ""
             }
         }
     }
@@ -39,15 +39,15 @@ class Triplicate extends React.Component{
                 <li>
                     <label>收件人</label>
                     <div className="input-box">
-                        <input type="text" name="name" value={formObject['name']} onChange={this.handleChange.bind(this)} />
+                        <input type="text" name="invoiceCompanyName" value={formObject['invoiceCompanyName']} onChange={this.handleChange.bind(this)} />
                     </div>
                 </li>
                 <li>
                     <label>統一編號</label>
                     <div className="input-box">
-                        <CurrencyFormat value={formObject['invoice']} format="########" onValueChange={ value => {
+                        <CurrencyFormat value={formObject['invoiceCompanyUniNumber']} format="########" onValueChange={ value => {
                             this.setState({
-                                formObject: { ...this.state.formObject, invoice: value['value'] }
+                                formObject: { ...this.state.formObject, invoiceCompanyUniNumber: value['value'] }
                             })
                         }}/>
                     </div>
@@ -55,13 +55,13 @@ class Triplicate extends React.Component{
                 <li>
                     <label>抬頭</label>
                     <div className="input-box">
-                        <input type="text" name="title" value={formObject['title']} onChange={this.handleChange.bind(this)} />
+                        <input type="text" name="invoiceTitle" value={formObject['invoiceTitle']} onChange={this.handleChange.bind(this)} />
                     </div>
                 </li>
                 <li>
                     <label>寄送地址</label>
                     <div className="input-box select">
-                        <select name="city" value={formObject['city'] || ""} onChange={ this.handleChange.bind(this) }>
+                        <select name="invoiceCity" value={formObject['invoiceCity'] || ""} onChange={ this.handleChange.bind(this) }>
                             <option value="">請選擇縣市</option>
                             {
                                 Object.keys(county_area).map( item => {
@@ -73,13 +73,13 @@ class Triplicate extends React.Component{
                         </select>
                     </div>
                     <div className="input-box select">
-                        <select name="district" value={formObject['district'] || ""} onChange={ this.handleChange.bind(this) }>
+                        <select name="invoiceDist" value={formObject['invoiceDist'] || ""} onChange={ this.handleChange.bind(this) }>
                             <option value="">請選擇鄉鎮市區</option>
                             {
-                                formObject['city']!=undefined && formObject['city']!=""? (
-                                    Object.keys(county_area[formObject['city']]).map( (item) => {
+                                formObject['invoiceCity']!=undefined && formObject['city']!=""? (
+                                    Object.keys(county_area[formObject['invoiceCity']]).map( (item) => {
                                         return(
-                                            <option key={`${item}`} value={item} data-zipcode={county_area[formObject['city']][item]} >{item}</option>
+                                            <option key={`${item}`} value={item} data-zipcode={county_area[formObject['invoiceCity']][item]} >{item}</option>
                                         )
                                     })
                                 ):(
@@ -89,7 +89,7 @@ class Triplicate extends React.Component{
                         </select>
                     </div>
                     <div className="input-box">
-                        <input type="text" name="address" value={ formObject['address'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
+                        <input type="text" name="invoiceAddress" value={ formObject['invoiceAddress'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
                     </div>
                 </li>
             </ul>
@@ -115,23 +115,23 @@ class Triplicate extends React.Component{
                 };
                 break;
             
-            case 'city':
+            case 'invoiceCity':
                 const districtArr = county_area[val];
                 const district = Object.keys(districtArr)[0];
                 const zipcode = districtArr[district];
                 formObject = { 
                     ...formObject,
                     [name]: val,
-                    zipcode: zipcode,
-                    district: district
+                    invoiceZipcode: zipcode,
+                    invoiceDist: district
                 };
                 break;
             
-            case 'district':
+            case 'invoiceDist':
                 formObject = { 
                     ...formObject,
                     [name]: val,
-                    zipcode: e.target.options[e.target.selectedIndex].dataset.zipcode 
+                    invoiceZipcode: e.target.options[e.target.selectedIndex].dataset.invoiceZipcode 
                 };
                 break;
 

@@ -72,9 +72,7 @@
     "socket.io-client": "^2.2.0",
     "source-map-support": "^0.5.13",
     "toasted-notes": "^2.1.6",
-    "webpack-node-externals": "^1.7.2"
-  },
-  "devDependencies": {
+    "webpack-node-externals": "^1.7.2",
     "autoprefixer": "^9.6.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.2",
@@ -92,5 +90,7 @@
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7",
     "workbox-webpack-plugin": "^4.3.1"
+  },
+  "devDependencies": {
   }
 }

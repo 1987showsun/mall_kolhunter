@@ -1,6 +1,7 @@
 import axios from 'axios';
 import API from './apiurl';
 import queryString from 'query-string';
+import { deflate } from 'zlib';
 
 // 建立訂單
 export function paymentAddOrder( pathname, query, data ) {
@@ -11,6 +12,10 @@ export function paymentAddOrder( pathname, query, data ) {
             method:'post',
             url,
             data
+        }).then( res => {
+            return res;
+        }).catch( err => {
+            return err['response'];
         });
     }
 }
@@ -31,12 +36,23 @@ export function paymentResult( pathname, query, data ) {
 }
 
 const Axios = ( api ) => {
+
+    let jwtKeyName = "";
+    switch( api['data']['memberType'] ){
+        case 'member':
+            jwtKeyName = "jwt_account";
+            break;
+        default:
+            jwtKeyName = "jwt_vendor";
+            break;
+    }
+
     return axios({
         method: api['method'],
         url: api['url'],
         data: api['data'],
         headers:{
-            authorization: typeof window !== 'undefined'? sessionStorage.getItem(`jwt_${api['data']['memberType']}`) : '',
+            authorization: typeof window !== 'undefined'? sessionStorage.getItem(jwtKeyName) : '',
         }
     });
 }

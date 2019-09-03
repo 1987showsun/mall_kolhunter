@@ -1,10 +1,18 @@
 // 訂單-退貨
 import React from 'react';
+import dayjs from 'dayjs';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 // Modules
 import Table from '../../../../../module/table';
 import Confirm from '../../../../../module/confirm';
+
+// Actions
+import { ordersInfo } from '../../../../../actions/myaccount';
+
+// Set
+import tableHeadData from './public/set/tableHeadData';
 
 const demo = [
     {
@@ -33,42 +41,15 @@ class Index extends React.Component{
             pupopMSG: "",
             method: 'confirm',
             selected: [],
-            tableHeadData : [
-                {
-                    key: 'checkbox',
-                    type: 'checkbox',
-                    title: ''
-                },
-                {
-                    key: 'cover',
-                    type: 'img',
-                    title: '圖片',
-                    className: 'img-width'
-                },
-                {
-                    key: 'name',
-                    type: 'link',
-                    title: '名稱',
-                    className: 'table-min-width',
-                    path: '/myvendor/info/product'
-                },
-                {
-                    key: 'itemNum',
-                    type: 'number',
-                    title: '數量'
-                },
-                {
-                    key: 'actualPrice',
-                    type: 'number',
-                    title: '購買價格'
-                }
-            ],
+            info: {},
+            tableHeadData : tableHeadData,
+            tableBodyData : []
         }
     }
 
     render(){
 
-        const { loading, open, method, pupopMSG, selected, tableHeadData } = this.state;
+        const { loading, open, method, pupopMSG, selected, info,  tableHeadData, tableBodyData } = this.state;
 
         return(
             <React.Fragment>
@@ -79,21 +60,26 @@ class Index extends React.Component{
                     <ul className="table-row-list">
                         <li>
                             <label>訂單編號</label>
-                            <div>CART417d388aea8223923f9f</div>
+                            <div>{info['orderID']}</div>
+                        </li>
+                        <li>
+                            <label>訂購數量</label>
+                            <div>{tableBodyData.length}</div>
                         </li>
                         <li>
                             <label>訂購日期</label>
-                            <div>2018/10/10</div>
+                            <div>{dayjs(this.state.createTimeMs).format("YYYY / MM / DD")}</div>
                         </li>
                     </ul>
                 </section>
+
                 <section className="container-unit">
                     <div className="unit-head">
                         <h3>該筆訂單商品</h3>
                     </div>
                     <Table 
                         tableHeadData= {tableHeadData}
-                        tableBodyData= {demo}
+                        tableBodyData= {tableBodyData}
                         returnCheckbox= { (val) => {this.setState({ selected: val })} }
                     />
                 </section>
@@ -119,6 +105,37 @@ class Index extends React.Component{
         );
     }
 
+    componentDidMount() {
+        const { location, match } = this.props;
+        const { pathname, search } = location;
+        const orderID = match['params']['id'] || "";
+        this.props.dispatch( ordersInfo(pathname,{orderID: orderID}) ).then( res => {
+            switch( res['status'] ){
+                case 200:
+
+                    const tableBodyData = res['data']['orderDetail'].map( item => {
+                        return{
+                            id: item['productToken'],
+                            cover: item['productImgs'].filter( (filterItem,i) => { if( i==0 ){ return filterItem['images'] } })[0],
+                            name: item['productName'],
+                            count: item['count'],
+                            price: item['amount']
+                        }
+                    })
+
+
+                    this.setState({
+                        info: res['data'],
+                        tableBodyData: tableBodyData
+                    })
+                    break;
+
+                default:
+                    break;
+            }
+        });
+    }
+    
     action = ( method ) => {
         switch( method ){
             case 'submit':

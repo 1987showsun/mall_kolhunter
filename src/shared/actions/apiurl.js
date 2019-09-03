@@ -82,7 +82,11 @@ export default function API( NODE_ENV ){
             'info': `${API_ADDRESS(NODE_ENV)}/v1/member/info`,
             'carts': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`,
             'removeCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`,
-            'updateCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`
+            'updateCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`,
+            'orders': {
+                'list': `${API_ADDRESS(NODE_ENV)}/v1/order/list`, // get 訂單列表
+                'info': `${API_ADDRESS(NODE_ENV)}/v1/order/info`, // get 訂單明細
+            }
         },
         'mystore': {
             'getInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`,

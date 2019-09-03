@@ -1,6 +1,7 @@
 import Profile from './pages/profile';
 import Carts from './pages/carts';
 import Order from './pages/order';
+import Payment from './pages/payment';
 
 export default [
     {
@@ -19,5 +20,9 @@ export default [
     {
         path: "/myaccount/orders",
         component: Order
+    },
+    {
+        path: "/myaccount/payment",
+        component: Payment
     }
 ]

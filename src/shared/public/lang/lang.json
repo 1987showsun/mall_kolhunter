@@ -23,6 +23,10 @@
         "reset password success": "密碼重設成功",
         "unable to update vendor password": "舊密碼錯誤",
         "choose which store you want to buy this item from": "選擇您要從哪個商店購買此商品",
+        "user has no orders": "目前無任何訂單",
+        "invoice type:2,invoiceCarruerType field is required": "發票類型：二聯式發票，寄送方式為必填",
+        "purchase item is sold out": "很抱歉，部分商品目前數量不足",
+        "get cart items error": "很抱歉，購物車需最少放入一項商品",
         "create": {
             "product": {
                 "1": "基本資料",
@@ -117,6 +121,10 @@
         "reset password success": "Reset password success",
         "unable to update vendor password": "Unable to update vendor password",
         "choose which store you want to buy this item from": "Choose which store you want to buy this item from",
+        "user has no orders": "User has no orders",
+        "invoice type:2,invoiceCarruerType field is required": "Invoice type:2,Invoice carruer type field is required",
+        "purchase item is sold out": "Sorry, some items are currently insufficient.",
+        "get cart items error": "Sorry, the shopping cart needs to put at least one item.",
         "create": {
             "product": {
                 "1": "Info",

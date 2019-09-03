@@ -146,14 +146,7 @@ class Header extends React.Component{
             if( sessionStorage.getItem('jwt_account') ){
                 this.props.dispatch( ainfo() );
             }
-            if( !localStorage.getItem('cartID') ){
-                this.props.dispatch( getCartID() ).then( res => {
-                    if( res['status']==200 ){
-                        const cartID = res['data']['cart'];
-                        localStorage.setItem('cartID',cartID);
-                    }
-                });
-            }
+            this.props.dispatch( getCartID() );
         }
     }
 }

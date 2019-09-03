@@ -4,19 +4,23 @@ import API from './apiurl';
 
 export function ainfo(){
     return(dispatch) => {
-        const method = 'get';
-        const url = API()['myaccount']['info'];
         if( typeof window !== 'undefined' ){
+
+            const method = 'get';
+            const url = API()['myaccount']['info'];
             const token = sessionStorage.getItem('jwt_account');
-            if( token!=null ){
+
+            if( token!=null && token!=undefined && token!="" ){
+                // 檢查有無 jwt account token 有代表已登入 
                 return Axios({ method,url,data:{} }).then(res => {
                     dispatch({
                         type: "ACCOUNT_INFO",
                         info: res['data']
                     })
                     return res;
-                })
+                });
             }
+
         }
     }
 }
@@ -26,10 +30,11 @@ export function ainfo(){
 export function cartsProductList( pathname,query ){
     return(dispatch) => {
         if( typeof window !== 'undefined' ){
+
             const cartToken = localStorage.getItem('cartID');
-            const innitQuery= {};
+            const initQuery= {};
             const method= 'get';
-            const search= queryString.stringify({ ...innitQuery, cartToken });
+            const search= queryString.stringify({ ...initQuery, ...query, cartToken });
             const url= `${API()['myaccount']['carts']}${search!=''? `?${search}`: ''}`;
             
             return Axios({ method,url,data:{} }).then(res => {
@@ -40,7 +45,8 @@ export function cartsProductList( pathname,query ){
                     list: res['data']['items']
                 });
                 return res;
-            })
+            });
+
         }
     }
 }
@@ -48,9 +54,10 @@ export function cartsProductList( pathname,query ){
 // 購物車刪除不要的商品
 export function removeCartItem( pathname,query,data ){
     return(dispatch) => {
-        const innitQuery= {};
+
+        const initQuery= {};
         const method= 'delete';
-        const search= queryString.stringify({ ...innitQuery });
+        const search= queryString.stringify({ ...initQuery, ...query });
         const url= `${API()['myaccount']['removeCartItem']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res => {
@@ -61,7 +68,8 @@ export function removeCartItem( pathname,query,data ){
                 list: res['data']['items']
             });
             return res;
-        })
+        });
+
     }
 }
 
@@ -69,14 +77,14 @@ export function removeCartItem( pathname,query,data ){
 export function updateCartProductItem( pathname,query,data ){
     return(dispatch) => {
 
-        const innitQuery= {};
+        const initQuery= {};
         const method= 'post';
-        const search= queryString.stringify({ ...innitQuery });
+        const search= queryString.stringify({ ...initQuery, ...query });
         const url= `${API()['myaccount']['updateCartItem']}${search!=''? `?${search}`: ''}`;
-        
-        return Axios({ method, url, data }).then(res => {
 
+        return Axios({ method, url, data }).then(res => {
             if( !res.hasOwnProperty('response') ){
+                // 檢查 Response Object 有沒有 response key name
                 dispatch({
                     type: "ACCOUNT_CART_ITEMS",
                     cartToken: res['data']['cartToken'],
@@ -84,13 +92,59 @@ export function updateCartProductItem( pathname,query,data ){
                     list: res['data']['items']
                 });
                 return res;
-            }else{
-                return res['response'];
             }
-            
-        }).catch( err => {
-            return err;
-        })
+            return res['response'];
+        });
+
+    }
+}
+
+// 訂單列表
+export function ordersList( pathname,query,data ){
+    return(dispatch) => {
+
+        const initQuery= {};
+        const method= 'get';
+        const search= queryString.stringify({ ...initQuery, ...query });
+        const url= `${API()['myaccount']['orders']['list']}${search!=''? `?${search}`: ''}`;
+        
+        return Axios({ method, url, data }).then(res => {
+            if( !res.hasOwnProperty('response') ){
+                // 檢查 Response Object 有沒有 response key name
+                dispatch({
+                    type: "ACCOUNT_ORDERS_LIST",
+                    list: res['data']
+                });
+                return res['data'];
+            }
+            return res['response'];
+        });
+
+    }
+}
+
+// 訂單明細
+export function ordersInfo( pathname,query,data ){
+    return(dispatch) => {
+        console.log( query );
+        const initQuery= {};
+        const method= 'get';
+        const search= queryString.stringify({ ...initQuery, ...query });
+        const url= `${API()['myaccount']['orders']['info']}${search!=''? `?${search}`: ''}`;
+        
+        return Axios({ method, url, data }).then(res => {
+            if( !res.hasOwnProperty('response') ){
+                // 檢查 Response Object 有沒有 response key name
+                console.log('ordersInfo',res);
+                dispatch({
+                    type: "ACCOUNT_ORDERS_INFO",
+                    info: {}
+                });
+                return res;
+            }
+            return res['response'];
+        });
+
     }
 }
 

@@ -9,12 +9,18 @@ import './style.scss';
 
 export default class Index extends React.Component{
     render(){
+
+        const { tableBodyData } = this.props;
+
         return(
             <div className="order-table-wrap">
                 <ul className="order-table">
                     <Head />
-                    <Item />
-                    <Item />
+                    {
+                        tableBodyData.map( item => {
+                            return <Item key={item['id']} {...item}/>
+                        })
+                    }
                 </ul>
             </div>
         );

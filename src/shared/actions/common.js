@@ -21,7 +21,17 @@ export function getCartID(){
     return (dispatch) => {
         const method = 'get';
         const url = API()['shopping']['cartID'];
-        return Axios({method,url,data:{}});
+        if( typeof window !== 'undefined' ){
+            if( !localStorage.getItem('cartID') ){
+                return Axios({method,url,data:{}}).then( res => {     
+                    const cartID = res['data']['cart'];
+                    localStorage.setItem('cartID',cartID);
+                    return res;
+                }).catch( err => {
+                    return err['response'];
+                });
+            }
+        }
     }
 }
 

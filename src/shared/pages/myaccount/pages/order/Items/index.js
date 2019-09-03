@@ -1,115 +1,37 @@
 import React from 'react';
+import queryString from 'query-string';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus }from '@fortawesome/free-solid-svg-icons';
 
 // Components
-import TableOrder from '../../../../../components/orderProductTable';
+import Items from './items';
+import Loading from '../../../../../module/loading/mallLoading';
 
-export default class Index extends React.Component{
+// Actions
+import { ordersList } from '../../../../../actions/myaccount';
+
+class Index extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            loading: false,
+            list: []
+        }
+    }
+
     render(){
+
+        const { loading, list } = this.state;
         return(
             <React.Fragment>
-                <section className="container-unit">
-                    <div className="order-head-wrap">
-                        <input type="checkbox" name="order-info-switch" id="CART8bef7e72f6cc8548f932" className="order-info-switch"/>
-                        <label htmlFor="CART8bef7e72f6cc8548f932" className="order-info-label">
-                            <span className="lable">訂單編號</span>CART8bef7e72f6cc8548f932
-                            <i className="icon">
-                                <FontAwesomeIcon icon={faPlus} />
-                            </i>
-                        </label>
-                        <ul className="table-row-list">
-                            <li>
-                                <label>處理狀態</label>
-                                <div>待出貨中</div>
-                            </li>
-                            <li>
-                                <label>購買數量</label>
-                                <div>2</div>
-                            </li>
-                            <li>
-                                <label>購買日期</label>
-                                <div>2019/12/12</div>
-                            </li>
-                        </ul>
-                    </div>
-                    <TableOrder 
-                    />
-                    <div className="order-action-wrap">
-                        <ul>
-                            <li><Link to={`/myaccount/orders/return/${`order_id`}`}>取消訂單</Link></li>
-                            <li><Link to={`/myaccount/orders/message/${`order_id`}`}>我要詢問</Link></li>
-                        </ul>
-                    </div>
-                </section>
-                <section className="container-unit">
-                    <div className="order-head-wrap">
-                        <input type="checkbox" name="order-info-switch" id="CART8bef7e72f6cc8548f933" className="order-info-switch"/>
-                        <label htmlFor="CART8bef7e72f6cc8548f933" className="order-info-label">
-                            <span className="lable">訂單編號</span>CART8bef7e72f6cc8548f933
-                            <i className="icon">
-                                <FontAwesomeIcon icon={faPlus} />
-                            </i>
-                        </label>
-                        <ul className="table-row-list">
-                            <li>
-                                <label>處理狀態</label>
-                                <div>完成</div>
-                            </li>
-                            <li>
-                                <label>購買數量</label>
-                                <div>2</div>
-                            </li>
-                            <li>
-                                <label>購買日期</label>
-                                <div>2019/12/12</div>
-                            </li>
-                        </ul>
-                    </div>
-                    <TableOrder 
-
-                    />
-                    <div className="order-action-wrap">
-                        <ul>
-                            <li><Link to={`/myaccount/orders/return/${`order_id`}`}>我要退貨</Link></li>
-                            <li><Link to={`/myaccount/orders/message/${`order_id`}`}>我要詢問</Link></li>
-                        </ul>
-                    </div>
-                </section>
-                <section className="container-unit">
-                    <div className="order-head-wrap">
-                        <input type="checkbox" name="order-info-switch" id="CART8bef7e72f6cc8548f934" className="order-info-switch"/>
-                        <label htmlFor="CART8bef7e72f6cc8548f934" className="order-info-label">
-                            <span className="lable">訂單編號</span>CART8bef7e72f6cc8548f934
-                            <i className="icon">
-                                <FontAwesomeIcon icon={faPlus} />
-                            </i>
-                        </label>
-                        <ul className="table-row-list">
-                            <li>
-                                <label>處理狀態</label>
-                                <div>退貨中</div>
-                            </li>
-                            <li>
-                                <label>購買數量</label>
-                                <div>2</div>
-                            </li>
-                            <li>
-                                <label>購買日期</label>
-                                <div>2019/12/12</div>
-                            </li>
-                        </ul>
-                    </div>
-                    <TableOrder 
-
-                    />
-                    <div className="order-action-wrap">
-                        <ul>
-                            <li><Link to={`/myaccount/orders/message/${`order_id`}`}>我要詢問</Link></li>
-                        </ul>
-                    </div>
-                </section>
+                {
+                    list.map( item => {
+                        return <Items key={item['orderID']} {...item}/>
+                    })
+                }
 
                 {/* 備註聲明 */}
                 <ul className="remarks-ul">
@@ -121,7 +43,37 @@ export default class Index extends React.Component{
                     <li>三聯式發票將於廠商完成出貨後5個工作天平信寄出，約2-7個工作天內送達，如遇國定假日將順延寄送。</li>
                     <li>若有任何訂單問題請聯絡「客服中心」，我們將在當天儘速以mail回覆您。</li>
                 </ul>
+                <Loading 
+                    loading= {loading}
+                />
             </React.Fragment>
         );
     }
+
+    componentDidMount() {
+        this.callAPI();
+    }
+    
+    callAPI = () => {
+        const { location, match } = this.props;
+        const { pathname, search } = location;
+        this.setState({
+            loading: true,
+        },()=>{
+            this.props.dispatch( ordersList(pathname,queryString.parse(search)) ).then( res => {
+                this.setState({
+                    loading: false,
+                    list: res
+                })
+            });
+        })
+    }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Index );

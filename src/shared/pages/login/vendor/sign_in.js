@@ -7,7 +7,7 @@ import { faCheck }from '@fortawesome/free-solid-svg-icons';
 // Actions
 import { signin } from '../../../actions/login';
 
-// lang
+// Lang
 import lang from '../../../public/lang/lang.json';
 
 class SignIn extends React.Component{
@@ -93,6 +93,9 @@ class SignIn extends React.Component{
                             <span className="text">kolhunter 的新廠商？</span>
                         </div>
                         <Link to="/vendor/leading" className="signup_link">立即申請</Link>
+                    </div>
+                    <div className="form-row" data-direction="column">
+                        <button type="button" className="goBack" onClick={()=> this.props.history.goBack()}>{lang['zh-TW']['button']['go back']}</button>
                     </div>
                 </form>
             </React.Fragment>

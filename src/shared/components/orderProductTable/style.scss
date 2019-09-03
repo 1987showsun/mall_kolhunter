@@ -36,10 +36,22 @@
                         max-width: 65px;
                     }
                 }
+                .span-row{
+                    width: 100%;
+                    margin-bottom: 5px;
+                    display: flex;
+                    font-size: 0.8rem;
+                }
+                h3{
+                    min-width: 300px;
+                    max-height: 50px;
+                    margin-bottom: 5px;
+                    font-size: 1rem;
+                    line-height: 1.5em;
+                }
                 a{
                     min-width: 300px;
                     color: var(--primary);
-                    text-decoration: underline;
                     overflow: hidden;
                     display: -webkit-box;
                     text-overflow: ellipsis;
@@ -50,11 +62,9 @@
                     text-overflow: ellipsis;
                     white-space: normal;
                     -webkit-line-clamp: 2;
-                }
-                h3{
-                    min-width: 300px;
-                    max-height: 50px;
-                    line-height: 1.5em;
+                    &:hover{
+                        text-decoration: underline;
+                    }
                 }
 
                 @media (max-width: 768px) {

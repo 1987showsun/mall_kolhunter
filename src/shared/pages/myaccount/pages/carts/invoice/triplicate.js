@@ -16,12 +16,7 @@ class Triplicate extends React.Component{
         this.state = {
             formObject: {
                 invoiceCompanyName: "",
-                invoiceCompanyUniNumber: "",
-                invoiceTitle: "",
-                invoiceZipcode: "",
-                invoiceCity: city || "",
-                invoiceDist: district || "",
-                invoiceAddress: ""
+                invoiceCompanyUniNumber: ""
             }
         }
     }
@@ -37,7 +32,7 @@ class Triplicate extends React.Component{
         return(
             <ul className="card-form-list">
                 <li>
-                    <label>收件人</label>
+                    <label>公司名稱</label>
                     <div className="input-box">
                         <input type="text" name="invoiceCompanyName" value={formObject['invoiceCompanyName']} onChange={this.handleChange.bind(this)} />
                     </div>
@@ -48,48 +43,10 @@ class Triplicate extends React.Component{
                         <CurrencyFormat value={formObject['invoiceCompanyUniNumber']} format="########" onValueChange={ value => {
                             this.setState({
                                 formObject: { ...this.state.formObject, invoiceCompanyUniNumber: value['value'] }
+                            },()=>{
+                                this.returnForm();
                             })
                         }}/>
-                    </div>
-                </li>
-                <li>
-                    <label>抬頭</label>
-                    <div className="input-box">
-                        <input type="text" name="invoiceTitle" value={formObject['invoiceTitle']} onChange={this.handleChange.bind(this)} />
-                    </div>
-                </li>
-                <li>
-                    <label>寄送地址</label>
-                    <div className="input-box select">
-                        <select name="invoiceCity" value={formObject['invoiceCity'] || ""} onChange={ this.handleChange.bind(this) }>
-                            <option value="">請選擇縣市</option>
-                            {
-                                Object.keys(county_area).map( item => {
-                                    return(
-                                        <option key={`city_${item}`} value={item} >{item}</option>
-                                    )
-                                })
-                            }
-                        </select>
-                    </div>
-                    <div className="input-box select">
-                        <select name="invoiceDist" value={formObject['invoiceDist'] || ""} onChange={ this.handleChange.bind(this) }>
-                            <option value="">請選擇鄉鎮市區</option>
-                            {
-                                formObject['invoiceCity']!=undefined && formObject['city']!=""? (
-                                    Object.keys(county_area[formObject['invoiceCity']]).map( (item) => {
-                                        return(
-                                            <option key={`${item}`} value={item} data-zipcode={county_area[formObject['invoiceCity']][item]} >{item}</option>
-                                        )
-                                    })
-                                ):(
-                                    null
-                                )
-                            }
-                        </select>
-                    </div>
-                    <div className="input-box">
-                        <input type="text" name="invoiceAddress" value={ formObject['invoiceAddress'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
                     </div>
                 </li>
             </ul>

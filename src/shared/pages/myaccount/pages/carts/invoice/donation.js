@@ -8,7 +8,7 @@ class Donation extends React.Component{
         super(props);
         this.state = {
             formObject: {
-                invoiceDonation: 510
+                invoiceLoveCode: 510
             }
         }
     }
@@ -21,7 +21,7 @@ class Donation extends React.Component{
             <ul className="card-form-list">
                 <li>
                     <label>受贈單位</label>
-                    <div className="input-box select full-W" value={formObject['invoiceDonation']}>
+                    <div className="input-box select full-W" value={formObject['invoiceLoveCode']}>
                         <select onChange={this.handleChange.bind(this)}>
                             <option value="510">社團法人台灣一起夢想公益協會</option>
                             <option value="88432">喜憨兒社會福利基金會</option>

@@ -150,7 +150,7 @@ class Step2 extends React.Component{
 
 const mapStateToProps = state => {
     return{
-        profile: state.vendor.info
+        profile: state.myvendor.info
     }
 }
 

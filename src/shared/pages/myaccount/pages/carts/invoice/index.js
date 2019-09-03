@@ -13,42 +13,36 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            formObject: {
-                invoiceType: "2"
-            }
+            invoiceType: "2",
+            formObject_2: {},
+            formObject_3: {},
+            formObject_d: {}
         }
     }
 
     render(){
 
-        const { formObject } = this.state;
+        const { invoiceType } = this.state;
 
         return(
             <React.Fragment>
                 <ul className="card-form-list">
                     <li>
                         <label className="radio full-W">
-                            <input type="radio" name="invoiceType" value="2" onChange={this.handleChange.bind(this)} checked={formObject['invoiceType']=='2'}/>
+                            <input type="radio" name="invoiceType" value="2" onChange={this.handleChange.bind(this)} checked={invoiceType=='2'}/>
                             <div className="box"></div>
                             <div className="radio-container">
                                 <span>電子發票</span>
                                 {
-                                    formObject['invoiceType']=='2' &&
-                                        <Electronic />
-                                }
-                            </div>
-                        </label>
-                    </li>
-                    <li>
-                        <label className="radio full-W">
-                            <input type="radio" name="invoiceType" value="3" onChange={this.handleChange.bind(this)} checked={formObject['invoiceType']=='3'}/>
-                            <div className="box"></div>
-                            <div className="radio-container">
-                                <span>三聯式發票</span>
-                                {
-                                    formObject['invoiceType']=='3' &&
-                                        <Triplicate 
-                                            returnForm = { this.returnForm.bind(this) }
+                                    invoiceType=='2' &&
+                                        <Electronic 
+                                            returnForm= {(val)=>{
+                                                this.setState({
+                                                    formObject_2: val
+                                                },()=>{
+                                                    this.returnForm();
+                                                })
+                                            }}
                                         />
                                 }
                             </div>
@@ -56,13 +50,42 @@ class Index extends React.Component{
                     </li>
                     <li>
                         <label className="radio full-W">
-                            <input type="radio" name="invoiceType" value="donate" onChange={this.handleChange.bind(this)} checked={formObject['invoiceType']=='donate'}/>
+                            <input type="radio" name="invoiceType" value="3" onChange={this.handleChange.bind(this)} checked={invoiceType=='3'}/>
+                            <div className="box"></div>
+                            <div className="radio-container">
+                                <span>三聯式發票</span>
+                                {
+                                    invoiceType=='3' &&
+                                        <Triplicate 
+                                            returnForm= {(val)=>{
+                                                this.setState({
+                                                    formObject_3: val
+                                                },()=>{
+                                                    this.returnForm();
+                                                })
+                                            }}
+                                        />
+                                }
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label className="radio full-W">
+                            <input type="radio" name="invoiceType" value="donate" onChange={this.handleChange.bind(this)} checked={invoiceType=='donate'}/>
                             <div className="box"></div>
                             <div className="radio-container">
                                 <span>捐贈發票</span>
                                 {
-                                    formObject['invoiceType']=='donate' &&
-                                        <Donation />
+                                    invoiceType=='donate' &&
+                                        <Donation 
+                                            returnForm= {(val)=>{
+                                                this.setState({
+                                                    formObject_d: val
+                                                },()=>{
+                                                    this.returnForm();
+                                                })
+                                            }}
+                                        />
                                 }
                             </div>
                         </label>
@@ -76,16 +99,30 @@ class Index extends React.Component{
         const name = e.target.name;
         const value = e.target.value;
         this.setState({
-            formObject: { ...this.state.formObject, [name]: value }
+           [name]: value
         },() => {
             this.returnForm();
         })
     }
 
     returnForm = ( val ) => {
-        const { formObject } = this.state;
+        const { invoiceType, formObject_2, formObject_3, formObject_d } = this.state;
+        let mergeFormObject = {};
+        switch( invoiceType ){
+            case "2":
+                mergeFormObject = { ...formObject_2, invoiceType: invoiceType };
+                break;
+
+            case "3":
+                mergeFormObject = { ...formObject_3, invoiceType: invoiceType };
+                break;
+
+            default:
+                mergeFormObject = { ...formObject_d, invoiceType: invoiceType };
+                break;
+        }
         if( this.props.returnHandleChange!=undefined ){
-            this.props.returnHandleChange({...formObject, ...val});
+            this.props.returnHandleChange(mergeFormObject);
         }
     }
 }

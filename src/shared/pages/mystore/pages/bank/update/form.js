@@ -19,7 +19,7 @@ class Form extends React.Component{
             msg: [],
             formObject: {
                 bankAccountName: props.data['bankAccountName'] || "",
-                SocialID: props.data['SocialID'] || "",
+                socialID: props.data['socialID'] || "",
                 bankName: props.data['bankName'] || "",
                 bankCode: props.data['bankCode'] || "",
                 bankBranch: props.data['bankBranch'] || "",
@@ -46,7 +46,7 @@ class Form extends React.Component{
                     <li>
                         <label>＊身分證字號</label>
                         <div className="input-box">
-                            <input type="text" name="SocialID" value={formObject['SocialID']} onChange={this.handleChange.bind(this)} />
+                            <input type="text" name="socialID" value={formObject['socialID']} onChange={this.handleChange.bind(this)} />
                         </div>
                     </li>
                     <li>
@@ -58,7 +58,7 @@ class Form extends React.Component{
                     <li>
                         <label>＊銀行代號</label>
                         <div className="input-box">
-                            <CurrencyFormat value={formObject['bankCode']} onValueChange={(values) => {
+                            <CurrencyFormat value={formObject['bankCode']}  format="#####" onValueChange={(values) => {
                                 this.setState({
                                     formObject: {
                                         ...this.state.formObject,
@@ -143,16 +143,12 @@ class Form extends React.Component{
             this.props.dispatch( mystoreBankInfoUpdate(pathname,{...queryString.parse(search)},formObject) ).then( res => {
                 switch( res['status'] ){
                     case 200:
-                        history.push({
-                            pathname: pathname,
-                            search: search
-                        },()=>{
-                            toaster.notify(
-                                <div className={`toaster-status success`}>更新成功</div>
-                            ,{
-                                position: 'bottom-right',
-                                duration: 3000
-                            })
+                        this.props.returnCancel(this);
+                        toaster.notify(
+                            <div className={`toaster-status success`}>更新成功</div>
+                        ,{
+                            position: 'bottom-right',
+                            duration: 3000
                         })
                         break;
 

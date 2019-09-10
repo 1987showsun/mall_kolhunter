@@ -34,7 +34,7 @@ export default class List extends React.Component{
                     <li>
                         <label htmlFor="">身分證字號</label>
                         <div>
-                            { data['memberID'] || "" }
+                            { data['socialID'] || "" }
                         </div>
                     </li>
                     <li>
@@ -52,13 +52,25 @@ export default class List extends React.Component{
                     <li>
                         <label htmlFor="">分行名稱</label>
                         <div>
-                            { data['bankBranchName'] || "" }
+                            { data['bankBranch'] || "" }
                         </div>
                     </li>
                     <li>
                         <label htmlFor="">帳號</label>
                         <div>
                             { data['bankAccount'] || "" }
+                        </div>
+                    </li>
+                    <li>
+                        <label htmlFor="">公司名稱</label>
+                        <div>
+                            { data['companyName'] || "" }
+                        </div>
+                    </li>
+                    <li>
+                        <label htmlFor="">公司統編</label>
+                        <div>
+                            { data['companyUniNum'] || "" }
                         </div>
                     </li>
                 </ul>

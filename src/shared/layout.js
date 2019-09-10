@@ -4,7 +4,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 
 //Routes
 import routers from './routers';
-import ontSignIn from './pages/login';
 import MyVendor from './pages/myvendor';
 import MyAccount from './pages/myaccount';
 import MyStore from './pages/mystore';
@@ -53,11 +52,6 @@ class Layout extends React.Component{
                             return <Route key={i} {...item}/>
                         })
                     }
-                    <Route path="/account/:class" component={ontSignIn}/>
-                    <Route exact={true} path="/account" component={ontSignIn}/>
-                    <Route path="/vendor/:class" component={ontSignIn}/>
-                    <Route exact={true} path="/vendor" component={ontSignIn}/>
-                    {checkIfThereIsALogin(location)}
                     <Redirect to="/site/404" />
                 </Switch>
                 {
@@ -70,29 +64,6 @@ class Layout extends React.Component{
                 }
             </React.Fragment>
         );
-    }
-}
-
-const checkIfThereIsALogin = ( location ) => {
-    const type = location['pathname'].split('/').filter( item => item!='' )[0];
-    const token = getToken(location);
-    if( type=='myaccount' || type=='mystore' ){
-        if( token!=null ){
-            return (
-                <Switch>
-                    <Route path="/myaccount" component={MyAccount}/>
-                    <Route path="/mystore" component={MyStore}/>
-                </Switch>
-            );
-        }
-    }else if( type=='myvendor' ){
-        if( token!=null ){
-            return (
-                <Switch>
-                    <Route path="/myvendor" component={MyVendor}/>
-                </Switch>
-            );
-        }
     }
 }
 

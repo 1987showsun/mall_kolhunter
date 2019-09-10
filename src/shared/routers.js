@@ -1,12 +1,16 @@
-import Home from "../pages/home";
-import Terms from '../pages/terms';
-import Categories from '../pages/categories';
-import Detail from '../pages/detail';
-import Approach from '../pages/approach';
-import Store from '../pages/store/categories';
-import StoreDetail from '../pages/store/detail';
-import SearchIndex from '../pages/search'; 
-import Site404 from '../pages/site/404';
+import Home from "./pages/home";
+import Terms from './pages/terms';
+import Categories from './pages/categories';
+import Detail from './pages/detail';
+import Approach from './pages/approach';
+import Store from './pages/store/categories';
+import StoreDetail from './pages/store/detail';
+import SearchIndex from './pages/search'; 
+import Site404 from './pages/site/404';
+import ontSignIn from './pages/login';
+import MyVendor from './pages/myvendor';
+import MyAccount from './pages/myaccount';
+import MyStore from './pages/mystore';
 
 const common = [
   {
@@ -70,6 +74,36 @@ const common = [
     path: "/categories",
     exact: true,
     component: Categories
+  },
+  {
+    path: "/account/:class",
+    component: ontSignIn
+  },
+  {
+    path: "/account",
+    exact: true,
+    component: ontSignIn
+  },
+  {
+    path: "/vendor/:class",
+    component: ontSignIn
+  },
+  {
+    path: "/vendor",
+    exact: true,
+    component: ontSignIn
+  },
+  {
+    path: "/myaccount",
+    component: MyAccount
+  },
+  {
+    path: "/mystore",
+    component: MyStore
+  },
+  {
+    path: "/myvendor",
+    component: MyVendor
   },
   {
     path: "/site/404",

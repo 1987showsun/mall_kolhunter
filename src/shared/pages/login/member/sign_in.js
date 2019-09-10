@@ -151,7 +151,18 @@ class SignIn extends React.Component{
         },()=>{
             if( checkRequired.length==0 ){
                 // 完整
-                this.props.dispatch( signin(form) );
+                this.props.dispatch( signin(form) ).then( res => {
+                    switch( res['status'] ){
+                        case 200:
+                            break;
+
+                        default:
+                            this.setState({
+                                msg:  lang['zh-TW']['err'][res['data']['status_text']]
+                            })                           
+                            break;
+                    }
+                });
             }else{
                 // 顯示必填欄位
                 checkRequired.map( key => {

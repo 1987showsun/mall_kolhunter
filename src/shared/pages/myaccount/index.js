@@ -77,7 +77,7 @@ class Index extends React.Component{
     componentDidMount() {
         const { token } = this.state;
         if( token=='' || token==null || token==undefined ){
-            //this.props.history.goBack();
+            this.props.history.goBack();
         }
     }
 
@@ -85,7 +85,7 @@ class Index extends React.Component{
         const token = this.state.token;
         const prevStateToken = prevState.token;
         if( token=='' || token==null || token==undefined || token!=prevStateToken ){
-            //this.props.history.goBack();
+            this.props.history.goBack();
         }
         return null;
     }

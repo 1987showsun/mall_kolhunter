@@ -21,7 +21,7 @@ class HeadProduct extends React.Component{
             endDate: "",
             formSearchObject: {
                 keyword: "",
-                query_key: 0
+                query_key: "orderID"
             }
         }
     }
@@ -43,18 +43,18 @@ class HeadProduct extends React.Component{
                                     </div>
                                     <div className="input-box select">
                                         <select name="query_key" value={ formSearchObject['query_key'] } onChange={this.handleSearchChange.bind(this)}>
-                                            <option value="0">訂單編號</option>
-                                            <option value="1">訂購人</option>
+                                            <option value="orderID">訂單編號</option>
+                                            <option value="orderName">訂購人</option>
                                         </select>
                                     </div>
                                     <Datetime returnForm={ (val) => {
                                         this.setState({
-                                            startDate: val['date']
+                                            startDate: `${val['year']}-${val['month']}-${val['day']}`
                                         })
                                     }}/>
                                     <Datetime returnForm={ (val) => {
                                         this.setState({
-                                            endDate: val['date']
+                                            endDate: `${val['year']}-${val['month']}-${val['day']}`
                                         })
                                     }}/>
                                     <button className="basic">搜尋</button>
@@ -118,12 +118,24 @@ class HeadProduct extends React.Component{
 
     handleSearchSubmit = (e) => {
         e.preventDefault();
+        const { location, history } = this.props;
         const { formSearchObject } = this.state;
-        const searchObject = { 
-            ...formSearchObject,
+        const { pathname, search } = location;
+        let searchObject = {
             startDate: this.state.startDate,
             endDate: this.state.endDate
+        };
+        if( formSearchObject['keyword']!="" ){
+            searchObject = { 
+                ...searchObject,
+                [formSearchObject['query_key']]: formSearchObject['keyword'],
+            }
         }
+        
+        history.push({
+            pathname: pathname,
+            search: queryString.stringify({ ...queryString.parse(search), ...searchObject })
+        })
         console.log( searchObject );
     }
 

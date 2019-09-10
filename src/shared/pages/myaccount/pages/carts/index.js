@@ -186,7 +186,7 @@ class Index extends React.Component{
         })
 
 
-        //if( checkRequiredFilter.length==0 ){
+        if( checkRequiredFilter.length==0 ){
             // 填寫完整        
             this.props.dispatch( paymentAddOrder( pathname, queryString.parse(search),mergeFormObject ) ).then( res => {
 
@@ -238,20 +238,20 @@ class Index extends React.Component{
                         break;
                 }
             });
-        // }else{
-        //     // 沒填寫完整
-        //     //console.log( checkRequiredFilter );
-        //     let checkRequiredText = "";
-        //     checkRequiredFilter.forEach( key => {
-        //         checkRequiredText = `${checkRequiredText}<div class="items">${lang['zh-TW']['note'][`${key} required`]}</div>`;
-        //     })
+        }else{
+            // 沒填寫完整
+            //console.log( checkRequiredFilter );
+            let checkRequiredText = "";
+            checkRequiredFilter.forEach( key => {
+                checkRequiredText = `${checkRequiredText}<div class="items">${lang['zh-TW']['note'][`${key} required`]}</div>`;
+            })
             
-        //     this.setState({
-        //         open: true,
-        //         method: 'alert',
-        //         popupMsg: checkRequiredText
-        //     })
-        // }        
+            this.setState({
+                open: true,
+                method: 'alert',
+                popupMsg: checkRequiredText
+            })
+        }        
     }
 
     onCancel = () => {

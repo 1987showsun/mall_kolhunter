@@ -14,11 +14,19 @@ export function ainfo(){
             if( token!=null && token!=undefined && token!="" ){
                 // 檢查有無 jwt account token 有代表已登入 
                 return Axios({ method,url,data:{} }).then(res => {
-                    dispatch({
-                        type: "ACCOUNT_INFO",
-                        info: res['data']
-                    })
-                    return res;
+                    if( !res.hasOwnProperty('response') ){
+                        dispatch({
+                            type: "ACCOUNT_INFO",
+                            info: res['data']
+                        })
+                        return res;
+                    }
+                    switch( res['response']['status'] ){
+                        case 401:
+                            //renewToken()( dispatch );
+                            break;
+                    }
+                    return res['response'];
                 });
             }
 
@@ -155,7 +163,6 @@ export function ordersList( pathname,query,data ){
 // 訂單明細
 export function ordersInfo( pathname,query,data ){
     return(dispatch) => {
-        console.log( query );
         const initQuery= {};
         const method= 'get';
         const search= queryString.stringify({ ...initQuery, ...query });
@@ -184,11 +191,27 @@ export function ordersInfo( pathname,query,data ){
     }
 }
 
+export function renewToken( pathname,query,data={} ){
+    return(dispatch) => {
+
+        const method= 'get';
+        const url= `${API()['myaccount']['refreshToken']}`;
+
+        return Axios({ method, url, data }).then(res => {
+            sessionStorage.setItem(`jwt_account`,res['data']);
+            dispatch({
+                type: 'ACCOUNT_SIGNIN_SUCCESS',
+                token: res['data']
+            });
+        });
+    }
+}
+
 const Axios = ( api ) => {
     return axios({
         method: api['method'],
         url: api['url'],
-        data: api['data'],
+        data: { ...api['data'], jwt_type: 'account'},
         headers:{
             authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : '',
         }

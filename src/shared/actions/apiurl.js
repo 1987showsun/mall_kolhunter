@@ -1,5 +1,7 @@
 import axios from 'axios';
+
 axios.interceptors.request.use(function (config) {
+    console.log( 'config',config );
     return config;
 }, function (error) {
     return error;
@@ -8,7 +10,30 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
-    return Promise.reject(error);
+    const status = error['response']['status'];
+    switch( status ){
+        case 401:
+            const jwt_type = JSON.parse(error['response']['config']['data'])['jwt_type'];
+            const jwt_token = sessionStorage.getItem(`jwt_${jwt_type}`);
+            const url = API()[`my${jwt_type}`]['refreshToken']
+        
+            return axios({
+                method: 'get',
+                url: url,
+                data: {},
+                headers:{
+                    authorization: jwt_token
+                }
+            }).then( res => {
+                const token = res['data'];
+                sessionStorage.setItem(`jwt_${jwt_type}`,token);
+                error.response.config.headers['authorization'] = token;
+                return axios(error.response.config);
+            });
+        
+        default:
+            return Promise.reject(error);
+    } 
 });
 
 const API_ADDRESS = (NODE_ENV) => {
@@ -16,7 +41,7 @@ const API_ADDRESS = (NODE_ENV) => {
     if( process.env.NODE_ENV_DEV==true || NODE_ENV=="development" ){
         return "https://sapi.kolhunter.com";
     }else{
-        return  "";
+        return "https://api.kolhunter.com";
     }
 }
 
@@ -43,6 +68,7 @@ export default function API( NODE_ENV ){
             'vendor': `${API_ADDRESS(NODE_ENV)}/v1/vendor/verify`
         },
         'myvendor': {
+            'refreshToken': `${API_ADDRESS(NODE_ENV)}/v1/vendor/renewtoken`,
             "productCategories":`${API_ADDRESS(NODE_ENV)}/v1/vendor/categories`,
             'product': {
                 'categories': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/list`,
@@ -78,6 +104,7 @@ export default function API( NODE_ENV ){
             }
         },
         'myaccount': {
+            'refreshToken': `${API_ADDRESS(NODE_ENV)}/v1/member/renewtoken`,
             'info': `${API_ADDRESS(NODE_ENV)}/v1/member/info`, // get 拿取會員資料
             'carts': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`, // get 
             'updateInfo': `${API_ADDRESS(NODE_ENV)}/v1/member/info`, // put 修改會員資料

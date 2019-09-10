@@ -42,7 +42,7 @@ class Index extends React.Component{
             <React.Fragment>
                 <section className="container-unit">
                     <Formcover 
-                        data={ accountInfo['photo'] }
+                        data={ accountInfo['photo'] || "" }
                     />
                     <div className="unit-head">
                         <h3>基本資料</h3>

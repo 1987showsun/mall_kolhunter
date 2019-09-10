@@ -7,21 +7,24 @@ export function signin( form ) {
     const url = API()['signin'][type];
     return (dispatch) => {
         return Axios({ method: 'post', url: url, data: form }).then( (res) => {
-            sessionStorage.setItem(`jwt_${type}`,res['data']);
-            let selectType = "";
-            if( type=='account' ){
-                selectType= "ACCOUNT_SIGNIN_SUCCESS";
-            }else{
-                selectType= "VENDOR_SIGNIN_SUCCESS";
-            }
+            if( !res.hasOwnProperty('response') ){
+                sessionStorage.setItem(`jwt_${type}`,res['data']);
+                let selectType = "";
+                if( type=='account' ){
+                    selectType= "ACCOUNT_SIGNIN_SUCCESS";
+                }else{
+                    selectType= "VENDOR_SIGNIN_SUCCESS";
+                }
 
-            dispatch({
-                type: selectType,
-                token: res['data']
-            })
-            return res;
+                dispatch({
+                    type: selectType,
+                    token: res['data']
+                })
+                return res;
+            }
+            return res['response'];
         }).catch( err => {
-            return err.response;
+            return err['response'];
         })
     }
 }
@@ -41,13 +44,13 @@ export function signup( form ) {
 
 // 登出
 export function signout( clearSessionStorageKey ) {
+    Object.keys( sessionStorage ).map( key => {
+        if( clearSessionStorageKey.includes(key) ){
+            sessionStorage.removeItem(key);
+        }
+    })
+    window.location = "/";
     return (dispatch) => {
-        Object.keys( sessionStorage ).map( key => {
-            if( clearSessionStorageKey.includes(key) ){
-                sessionStorage.removeItem(key);
-            }
-        })
-        clearJWTToken()(dispatch);
     }
 }
 

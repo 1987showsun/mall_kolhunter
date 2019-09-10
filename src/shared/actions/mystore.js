@@ -233,7 +233,7 @@ const Axios = ( api ) => {
     return axios({
         method: api['method'],
         url: api['url'],
-        data: api['data'],
+        data: { ...api['data'], jwt_type: 'account'},
         headers:{
             authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : '',
         }

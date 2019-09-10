@@ -2,7 +2,7 @@ import axios from 'axios';
 import queryString from 'query-string';
 import API from './apiurl';
 
-export function listProduct( pathname,query ) {
+export function listProduct( pathname,query, data={} ) {
     return (dispatch) => {
 
         // auth: 上架
@@ -25,7 +25,7 @@ export function listProduct( pathname,query ) {
             list: []
         });
         
-        return Axios({method,url,data: {}}).then( res => {
+        return Axios({method,url,data}).then( res => {
             // 商品類別 陣列 -> 字串
 
             if( !res.hasOwnProperty('response') ){
@@ -315,7 +315,7 @@ const Axios = ( api ) => {
     return axios({
         method: api['method'],
         url: api['url'],
-        data: api['data']!=undefined? api['data']:{},
+        data: { ...api['data'], jwt_type: 'account'},
         headers:{
             authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
         }

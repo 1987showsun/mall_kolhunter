@@ -113,7 +113,7 @@ class SignUp extends React.Component{
                     open={open}
                     method='alert'
                     container={popupMSG}
-                    onConfirm={this.handleConfirm.bind(this)}
+                    onCancel={this.handleConfirm.bind(this)}
                 />
             </React.Fragment>
         );

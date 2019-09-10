@@ -103,8 +103,38 @@ export default class Recipient extends React.Component{
     handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
+        let { formObject } = this.state;
+
+        switch( name ){
+            case 'city':
+                const districtArr = county_area[value];
+                const district = Object.keys(districtArr)[0];
+                const zipcode = districtArr[district];
+                formObject = { 
+                    ...formObject,
+                    [name]: value,
+                    zipCode: zipcode,
+                    district: district
+                }
+                break;
+
+            case 'district':
+                formObject = { 
+                    ...formObject,
+                    [name]: value,
+                    zipcode: e.target.options[e.target.selectedIndex].dataset.zipcode 
+                };
+                break;
+
+            default: 
+                formObject = {
+                     ...formObject, 
+                     [name]: value
+                }
+        }
+
         this.setState({
-            formObject: { ...this.state.formObject, [name]:value }
+            formObject
         },()=>{
             this.returnForm();
         })

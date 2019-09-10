@@ -197,6 +197,7 @@ class Info extends React.Component{
                         <div className="form-msg">{ msg }</div>
                 }
                 <ul className="action-ul">
+                    <li><button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button></li>
                     <li><button className="basic">更新</button></li>
                 </ul>
             </form>

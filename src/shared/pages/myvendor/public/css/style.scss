@@ -442,6 +442,7 @@
     flex-wrap: wrap;
     background: #fff;
     margin-bottom: 30px;
+    position: relative;
     >div{
         &:last-child{
             margin-bottom: 0px;
@@ -453,7 +454,7 @@
         position: sticky;
         bottom: 0px;
     }
-    &[data-bgClolor=transparent]{
+    &[data-bgclolor=transparent]{
         background: transparent;
         padding: 0px;
     }

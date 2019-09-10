@@ -5,6 +5,10 @@ import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import Info from './info';
+import Form from './update/form';
+
+// Actions
+import { mystoreBankInfo } from '../../../../actions/mystore';
 
 class Index extends React.Component{
 
@@ -16,12 +20,16 @@ class Index extends React.Component{
         }
     }
 
+    static getDerivedStateFromProps( props,state ){
+        return{
+            bankInfo: props.bankInfo
+        }
+    }
+
     render(){
 
-        const { 
-            update,
-            bankInfo
-        } = this.state;
+        const { update, bankInfo } = this.state;
+        const { location, history, match } = this.props;
 
         return(
             <React.Fragment>
@@ -36,18 +44,35 @@ class Index extends React.Component{
                                 </button>
                         }
                     </div>
-                    <Info 
-                        data = {{}}
-                    />
+                    {
+                        update? (
+                            <Form 
+                                data= {bankInfo}
+                                match= {match}
+                                history= {history}
+                                location= {location}
+                                returnCancel={()=>{ 
+                                    this.setState({update: false}) 
+                                }}
+                            />
+                        ):(
+                            <Info data = {bankInfo} />
+                        )
+                    }
                 </section>
             </React.Fragment>
         );
     }
+
+    componentDidMount() {
+        this.props.dispatch( mystoreBankInfo() );
+    }
+    
 }
 
 const mapStateToprops = state => {
     return{
-        bankInfo: state.myaccount.info
+        bankInfo: state.mystore.bankInfo
     }
 }
 

@@ -67,9 +67,9 @@ class HeadProduct extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
-        total: state.myvendor.total,
-        on_shelves: state.myvendor.on_shelves,
-        no_longer_be_sold: state.myvendor.no_longer_be_sold
+        total: state.myvendor.productStatus.total,
+        on_shelves: state.myvendor.productStatus.on_shelves,
+        no_longer_be_sold: state.myvendor.productStatus.no_longer_be_sold
     }
 }
 

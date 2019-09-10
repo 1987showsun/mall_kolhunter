@@ -1,6 +1,5 @@
 // 產品列表
 import React from 'react';
-import queryString from 'query-string';
 import { connect } from 'react-redux';
 import CurrencyFormat from 'react-currency-format';
 
@@ -12,14 +11,14 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            cartTotalAmount: props.amount,
+            cartTotalAmount: props.cartTotalAmount,
             list : props.data
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return{
-            cartTotalAmount: props.amount,
+            cartTotalAmount: props.cartTotalAmount,
             list: props.data
         }
     }

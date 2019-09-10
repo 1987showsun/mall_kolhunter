@@ -1,4 +1,5 @@
 import React from 'react';
+import toaster from 'toasted-notes';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +8,7 @@ import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 import Info from './info';
 import Formcover from './update/cover';
 import Forminfo from './update/info';
+import FormPWD from './update/pwd';
 
 class Index extends React.Component{
 
@@ -14,6 +16,7 @@ class Index extends React.Component{
         super(props);
         this.state = {
             update: false,
+            PWDUpdate: false,
             accountInfo: props.accountInfo
         }
     }
@@ -31,6 +34,7 @@ class Index extends React.Component{
 
         const { 
             update,
+            PWDUpdate,
             accountInfo
         } = this.state;
 
@@ -57,9 +61,41 @@ class Index extends React.Component{
                             />
                         ):(
                             <Forminfo 
-                                accountInfo={ accountInfo }
+                                accountInfo= {accountInfo}
+                                returnCancel= {()=> this.setState({ update: false })}
                             />
                         )
+                    }
+                </section>
+                <section className="container-unit">
+                <div className="unit-head">
+                        <h3>修改密碼</h3>
+                        {
+                            !PWDUpdate &&
+                                <button type="button" className="update-button" onClick={()=>this.setState({PWDUpdate: true}) }>
+                                    <i><FontAwesomeIcon icon={faPencilAlt}/></i>
+                                    編輯
+                                </button>
+                        }
+                    </div>
+                    {
+                        PWDUpdate &&
+                            <FormPWD 
+                                returnCancel= {( status )=> {
+                                    this.setState({ 
+                                        PWDUpdate: false 
+                                    },()=>{
+                                        if( status=='success' ){
+                                            toaster.notify(
+                                                <div className={`toaster-status success`}>更新成功</div>
+                                            ,{
+                                                position: 'bottom-right',
+                                                duration: 4000
+                                            })
+                                        }
+                                    })
+                                }}
+                            />
                     }
                 </section>
             </React.Fragment>

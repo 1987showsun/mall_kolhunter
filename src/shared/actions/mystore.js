@@ -176,6 +176,57 @@ export function mystoreStoreInfoUpdate( pathname,query,data ) {
     }
 }
 
+// 網紅銀行資訊
+export function mystoreBankInfo( pathname,query,data={} ) {
+    return (dispatch,NODE_ENV) => {
+
+        const method = 'get';
+        const initQuery = {};
+        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url = `${API(NODE_ENV)['mystore']['bank']}${search!=''? `?${search}`: ''}`;
+        
+        return Axios({
+            method,
+            url,
+            data
+        }).then(res=>{
+            if( !res.hasOwnProperty('response') ){
+                dispatch({
+                    type: "MYSTORE_BANK_INFO",
+                    info: res['data']
+                })
+                return res;
+            }
+            return res['response'];
+        }).catch( err => {
+            return err['response'];
+        });
+    }
+}
+
+// 網紅銀行資訊更新
+export function mystoreBankInfoUpdate( pathname,query,data={} ) {
+    return (dispatch,NODE_ENV) => {
+
+        const method = 'put';
+        const initQuery = {};
+        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url = `${API(NODE_ENV)['mystore']['bank']}${search!=''? `?${search}`: ''}`;
+        
+        return Axios({ method, url, data }).then(res=>{
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            console.log( 'res error', res['response'] );
+            return res['response'];
+        }).catch( err => {
+            console.log( 'error', err['response'] );
+            return err['response'];
+        });
+
+    }
+}
+
 const Axios = ( api ) => {
     return axios({
         method: api['method'],

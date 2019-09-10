@@ -1,9 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPlus }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import Items from './items';
@@ -43,9 +40,7 @@ class Index extends React.Component{
                     <li>三聯式發票將於廠商完成出貨後5個工作天平信寄出，約2-7個工作天內送達，如遇國定假日將順延寄送。</li>
                     <li>若有任何訂單問題請聯絡「客服中心」，我們將在當天儘速以mail回覆您。</li>
                 </ul>
-                <Loading 
-                    loading= {loading}
-                />
+                <Loading loading= {loading} />
             </React.Fragment>
         );
     }

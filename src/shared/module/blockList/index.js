@@ -1,65 +1,38 @@
-import React from 'react';
-import $ from 'jquery';
+import React,{ useState, useEffect, useRef  } from 'react';
 
 // Stylesheets
 import './style.scss';
 
-export default class Index extends React.Component{
-
-    constructor(props){
-        super(props);
-        this.listWrap = React.createRef();
-        this.state = {
-            setRWDStyle: 1,
+export default function Index(props){
+    const detectionBlock = useRef(null);
+    const [ setRWDStyle, setRWD ] = useState(1);
+    useEffect(() => {
+        const handleResize = () => {
+            const detectionBlock_w = detectionBlock['current'].parentElement.clientWidth;
+            let returnStyle = setRWDStyle;
+            if( detectionBlock_w>=1000  ){
+                returnStyle = 1;
+            }else if( detectionBlock_w<1000 && detectionBlock_w>=780 ){
+                returnStyle = 2;
+            }else if( detectionBlock_w<780 && detectionBlock_w>=480 ){
+                returnStyle = 3;
+            }else{
+                returnStyle = 4;
+            }
+            setRWD( returnStyle );
         }
-    }
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        }
+    });
 
-    static getDerivedStateFromProps(){
-        return null;
-    }
-
-    render(){
-
-        const { setRWDStyle } = this.state;
-        const { className } = this.props;
-
-        return(
-            <div ref={this.listWrap} className="product-list-wrap">
-                <ul className={`list-ul ${className||""} RWD-${setRWDStyle}`}>
-                    { this.props.children }
-                </ul>
-            </div>
-        );
-    }
-
-    componentDidMount() {
-        const theBlockToResponseTo = this.listWrap['current'];
-        this.setState({
-            setRWDStyle : RWD(theBlockToResponseTo)
-        });
-        $(window).resize(()=>{ 
-            this.setState({
-                setRWDStyle : RWD(theBlockToResponseTo)
-            });
-        });
-    }
-
-    componentWillUnmount() {
-        RWD();
-    }
-}
-
-const RWD = ( theBlockToResponseTo ) => {
-    let returnStyle = 0;
-    const parent_w = $(theBlockToResponseTo).parent().width();
-    if( parent_w>=1000  ){
-        returnStyle = 1;
-    }else if( parent_w<1000 && parent_w>=780 ){
-        returnStyle = 2;
-    }else if( parent_w<780 && parent_w>=480 ){
-        returnStyle = 3;
-    }else{
-        returnStyle = 4;
-    }
-    return returnStyle;
+    return (
+        <div ref={detectionBlock} className="product-list-wrap">
+            <ul className={`list-ul ${props.className||""} RWD-${setRWDStyle}`}>
+                { props.children }
+            </ul>
+        </div>
+    )
 }

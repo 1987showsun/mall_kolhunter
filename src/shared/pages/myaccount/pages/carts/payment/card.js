@@ -5,8 +5,11 @@ export default class Card extends React.Component{
 
     constructor(props){
         super(props);
+        const protocol = window.location.protocol;
+        const hostname = window.location.hostname;
         this.state = {
             formObject: {
+                returnURL: `${protocol}//${hostname}/myaccount/payment/success?payMethod=cc`,
                 cardno: "",
                 cvc: "",
                 exp: ""
@@ -48,7 +51,7 @@ export default class Card extends React.Component{
                     <li>
                         <label>到期時間</label>
                         <div className="input-box">
-                            <CurrencyFormat value={ formObject['exp'] } format={this.cardExpiry} placeholder="MM/YY" onValueChange={ value => {
+                            <CurrencyFormat value={ formObject['exp'] } format={this.cardExpiry} placeholder="YY/MM" onValueChange={ value => {
                                 this.setState({
                                     formObject: { ...formObject, exp: value['value'] }
                                 },()=>{
@@ -67,7 +70,6 @@ export default class Card extends React.Component{
     }
 
     cardExpiry = (val) => {
-
         const limit = (val, max) => {
             if (val.length === 1 && val[0] > max[0]) {
               val = '0' + val;
@@ -82,9 +84,9 @@ export default class Card extends React.Component{
             return val;
         }
 
-        let month = limit(val.substring(0, 2), '12');
-        let year = val.substring(2, 4);
-        return month + (year.length ? '/' + year : '');
+        let month = limit(val.substring(2, 4), '12');
+        let year = val.substring(0, 2);
+        return (year.length ? year+'/' : '') + month;
     }
 
     returnHandleChange = () => {

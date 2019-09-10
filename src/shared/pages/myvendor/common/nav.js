@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Images
@@ -27,10 +27,10 @@ class Nav extends React.Component{
                     </div>
                     <ul>
                         <li className={ _type=='dashbord'? 'active':'' }><Link to="/myvendor">Dashbord</Link></li>
-                        <li className={ _typeActive &&_class=='product'? 'active':'' }><Link to="/myvendor/categories/product">商品管理</Link></li>
-                        <li className={ _typeActive &&_class=='order'? 'active':'' }><Link to="/myvendor/categories/order">訂單管理</Link></li>
-                        <li className={ _typeActive &&_class=='account'? 'active':'' }><Link to="/myvendor/categories/account">帳務明細</Link></li>
-                        <li className={ _type=='payment'? 'active':'' }><Link to="/myvendor/payment">方案管理</Link></li>
+                        <li className={ _type=='products'? 'active':'' }><Link to="/myvendor/products">商品管理</Link></li>
+                        <li className={ _type=='orders'? 'active':'' }><Link to="/myvendor/orders">訂單管理</Link></li>
+                        <li className={ _type=='accounts'? 'active':'' }><Link to="/myvendor/accounts">帳務明細</Link></li>
+                        <li className={ _type=='bill'? 'active':'' }><Link to="/myvendor/bill">方案管理</Link></li>
                     </ul>
                 </nav>
             </React.Fragment>

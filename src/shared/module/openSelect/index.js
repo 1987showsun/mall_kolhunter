@@ -17,7 +17,6 @@ export default class Index extends React.Component{
     render(){
 
         const { name, data, formObject } = this.state;
-        console.log( data,formObject[name] );
 
         return(
             <ul className="select-list">

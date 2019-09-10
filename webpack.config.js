@@ -62,6 +62,9 @@ const browserConfig = {
       }
     ]
   },
+  devServer: {
+    historyApiFallback: true,
+  },
   plugins: [
     new ExtractTextPlugin({
       filename: "public/css/[name].css"

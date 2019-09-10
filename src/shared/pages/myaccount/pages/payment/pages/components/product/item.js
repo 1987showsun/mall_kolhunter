@@ -1,9 +1,9 @@
 import React from 'react';
-import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus }from '@fortawesome/free-solid-svg-icons';
+
+// Lang
+import lang from '../../../../../../../public/lang/lang.json';
 
 class Item extends React.Component{
 
@@ -52,7 +52,7 @@ class Item extends React.Component{
                         </li>
                         <li>
                             <label>狀態</label>
-                            <div>{data['deliveryStatus']}</div>
+                            <div>{ lang['zh-TW']['transport'][data['deliveryStatus']]}</div>
                         </li>
                     </ul>
                 </figcaption>

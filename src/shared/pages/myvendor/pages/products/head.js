@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // Lang
-import lang from '../../../../../public/lang/lang.json';
+import lang from '../../../../public/lang/lang.json';
 
 class HeadProduct extends React.Component{
 
@@ -44,41 +44,41 @@ class HeadProduct extends React.Component{
             <React.Fragment>
                 <div className="page-head-action">
                     <div className="page-head-action-row">
-                        <form className="admin-search-form" onSubmit={this.handleSearchSubmit.bind(this)}>
-                            <ul>
-                                <li>
-                                    <div className="input-box">
+                        <ul>
+                            <li>
+                                <form className="admin-search-form" onSubmit={this.handleSearchSubmit.bind(this)}>
+                                    <div className="input-box admin-keyword">
                                         <input type="text" name="search" value={formSearchObject['search']} placeholder={lang['zh-TW']['Product name']} onChange={this.handleSearchChange.bind(this)}/>
-                                        <div className="input-box select">
-                                            <select name="method" value={ formSearchObject['method'] } onChange={this.handleSearchChange.bind(this)}>
-                                                <option value="name">名稱</option>
-                                                <option value="brand">品牌</option>
-                                            </select>
-                                        </div>
-                                        <button className="basic">搜尋</button>
                                     </div>
-                                </li>
-                                <li>
                                     <div className="input-box select">
-                                        <select name="sort" value={`${formSearchObject['sort']}-${formSearchObject['sortBy']}`} onChange={this.handleSortChange.bind(this)}>
-                                            <option value="desc-created">建立時間由高到低</option>
-                                            <option value="asc-created">建立時間由低到高</option>
-                                            <option value="desc-sellPrice">促銷價格由高到低</option>
-                                            <option value="asc-sellPrice">促銷價格由低到高</option>
-                                            <option value="desc-price">原始售價由高到低</option>
-                                            <option value="asc-price">原始售價由低到高</option>
-                                            <option value="desc-modify">編輯時間由高到低</option>
-                                            <option value="asc-modify">編輯時間由低到高</option>
+                                        <select name="method" value={ formSearchObject['method'] } onChange={this.handleSearchChange.bind(this)}>
+                                            <option value="name">名稱</option>
+                                            <option value="brand">品牌</option>
                                         </select>
                                     </div>
-                                </li>
-                            </ul>
-                        </form>
+                                    <button className="basic">搜尋</button>
+                                </form>
+                            </li>
+                            <li>
+                                <div className="input-box select">
+                                    <select name="sort" value={`${formSearchObject['sort']}-${formSearchObject['sortBy']}`} onChange={this.handleSortChange.bind(this)}>
+                                        <option value="desc-created">建立時間由高到低</option>
+                                        <option value="asc-created">建立時間由低到高</option>
+                                        <option value="desc-sellPrice">促銷價格由高到低</option>
+                                        <option value="asc-sellPrice">促銷價格由低到高</option>
+                                        <option value="desc-price">原始售價由高到低</option>
+                                        <option value="asc-price">原始售價由低到高</option>
+                                        <option value="desc-modify">編輯時間由高到低</option>
+                                        <option value="asc-modify">編輯時間由低到高</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                     <div className="page-head-action-row">
                         <ul>
                             <li>
-                                <Link className="create" to={`/myvendor/categories/product/review`}>
+                                <Link className="create" to={`/myvendor/products/review`}>
                                     審查商品 / 新增商品 / 購買方案
                                 </Link>
                             </li>
@@ -142,10 +142,10 @@ class HeadProduct extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
-        total: state.myvendor.total,
-        auth: state.myvendor.auth,
-        nonDisplay: state.myvendor.nonDisplay,
-        noneAuth: state.myvendor.noneAuth
+        total: state.myvendor.productStatus.total,
+        auth: state.myvendor.productStatus.auth,
+        nonDisplay: state.myvendor.productStatus.nonDisplay,
+        noneAuth: state.myvendor.productStatus.noneAuth
     }
 }
 

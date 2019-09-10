@@ -10,6 +10,9 @@ import Item from './item';
 // Actions
 import { removeCartItem, updateCartProductItem } from '../../../../../actions/myaccount';
 
+// Lang
+import lang from '../../../../../public/lang/lang.json';
+
 class Index extends React.Component{
 
     constructor(props){
@@ -37,17 +40,21 @@ class Index extends React.Component{
         return(
             <div className="cart-product-wrap">
                 {
-                    list.map( item => {
-                        return(
-                            <Item 
-                                key= {item['addTimeMs']} 
-                                data= {item}
-                                location= {location}
-                                updateData= {this.updateData.bind(this)}
-                                actionBtn= {this.actionBtn.bind(this)}
-                            />
-                        )
-                    })
+                    list.length!=0? (
+                        list.map( item => {
+                            return(
+                                <Item 
+                                    key= {item['addTimeMs']} 
+                                    data= {item}
+                                    location= {location}
+                                    updateData= {this.updateData.bind(this)}
+                                    actionBtn= {this.actionBtn.bind(this)}
+                                />
+                            )
+                        })
+                    ):(
+                        <div className="list-nodata">{lang['zh-TW']['no product']}</div>
+                    )
                 }
                 <div className="total-wrap">
                     <span className="label">購買總金額：</span>
@@ -70,7 +77,7 @@ class Index extends React.Component{
         }
 
         this.props.dispatch( updateCartProductItem( "",{},data ) ).then( res => {
-            console.log( res );
+            //console.log( res );
         });
     }
 

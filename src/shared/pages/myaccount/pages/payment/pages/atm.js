@@ -7,8 +7,14 @@ import { faChevronCircleRight}from '@fortawesome/free-solid-svg-icons';
 // Components
 import Product from './components/product';
 
+// Modules
+import Loading from '../../../../../module/loading/mallLoading';
+
 // Actions
 import { ordersInfo } from '../../../../../actions/myaccount';
+
+// Lang
+import lang from '../../../../../public/lang/lang.json';
 
 class Atm extends React.Component{
 
@@ -16,15 +22,15 @@ class Atm extends React.Component{
         super(props);
         this.state = {
             ...props,
+            loading: false,
             info: {}
         }
     }
 
-    
-
     render(){
 
-        const { info } = this.state;
+        const { loading, info } = this.state;
+        console.log( info );
 
         if( Object.keys( info ).length!=0 ){
             return(
@@ -34,6 +40,10 @@ class Atm extends React.Component{
                             <h3>付款明細</h3>
                         </div>
                         <ul className="card-form-list">
+                            <li>
+                                <label>付款狀態</label>
+                                <div>{ lang['zh-TW']['orderStatus'][info['orderStatus']] }</div>
+                            </li>
                             <li>
                                 <label>付款方式</label>
                                 <div>{info['payMethod']}</div>
@@ -101,7 +111,7 @@ class Atm extends React.Component{
 
                     <section className="container-unit">
                         <div className="unit-head">
-                            <h3>訂購人 / 收件人資訊</h3>
+                            <h3>購買商品</h3>
                         </div>
                         <Product 
                             data= {info['orderDetail']}
@@ -111,27 +121,29 @@ class Atm extends React.Component{
                 </React.Fragment>
             );
         }else{
-            return null;
+            return (
+                <React.Fragment>
+                    <Loading loading={loading} />
+                </React.Fragment>
+            );
         }
     }
 
     componentDidMount() {
         const { match, location } = this.props;
         const { pathname, search } = location;
-        this.props.dispatch( ordersInfo(pathname,queryString.parse(search)) ).then( res => {
-            console.log('res',res);
-            switch( res['status'] ){
-                case 200:
+        this.setState({
+            loading: true,
+        },()=>{
+            this.props.dispatch( ordersInfo(pathname,queryString.parse(search)) ).then( res => {
+                if( !res.hasOwnProperty('response') ){
                     this.setState({
-                        info: res['data']
+                        loading: false,
+                        info: res
                     })
-                    break;
-                
-                default:
-                    break;
-            }
-            
-        });
+                }
+            });
+        })
     }
     
 }

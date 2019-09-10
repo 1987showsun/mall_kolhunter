@@ -11,9 +11,31 @@ export default function vendor(
         "successful_delivery": 10,
         "cancel": 4,
         "return": 2,
-        "list": [],
+        "info": {},
+        "productStatus": {
+            "total": 0,
+            "auth": 0,
+            "nonDisplay": 0,
+            "noneAuth": 0
+        },
+        "productList": [],
+        "accountsStatus": {
+            total: 0,
+            page: 1,
+        },
+        "accountsList": [],
+        "orderStatus": {
+            total: 0,
+            totalAmount: 0,
+            page: 1
+        },
         "orderList": [],
-        "info": {}
+        "billStatus": {
+            total: 0,
+            page: 1,
+        },
+        "billList": [],
+        "billInfo": []
     },action
 ){
     switch(action.type){
@@ -25,47 +47,30 @@ export default function vendor(
             };
             break;
 
-        case 'INC_CATEGORIES_LIST':
+        case 'VENDOR_ACCOUNTS_LIST':
             state = {
                 ...state,
-                list: action.list
-            }
-            break;
-
-        case 'INC_PRODUCT_HEAD':
-            state = {
-                ...state,
-                total: action.total,
-                on_shelves: action.on_shelves,
-                no_longer_be_sold: action.no_longer_be_sold
-            }
-            break;
-
-        case 'INC_HEAD_ORDER':
-            state = {
-                ...state,
-                total: action.total,
-                on_passage: action.on_passage,
-                successful_delivery: action.successful_delivery,
-                cancel: action.cancel,
-                returned_purchase: action.returned_purchase,
+                accountsList: action.list
             }
             break;
 
         case 'VENDOR_PRODUCT_HEAD':
             state = {
                 ...state,
-                "total": action.total,
-                "auth": action.auth,
-                "nonDisplay": action.nonDisplay,
-                "noneAuth": action.noneAuth
+                productStatus: {
+                    ...state['productStatus'],
+                    "total": action.total,
+                    "auth": action.auth,
+                    "nonDisplay": action.nonDisplay,
+                    "noneAuth": action.noneAuth
+                }
             }
             break;
         
         case 'VENDOR_PRODUCT_LIST':
             state = {
                 ...state,
-                list: action.list
+                productList: action.list
             }
             break;
 
@@ -75,11 +80,36 @@ export default function vendor(
                 info: action.payload
             }
             break;
+
+        case 'VENDOR_ORDERS_STATUS':
+                state = {
+                    ...state,
+                    orderStatus: {
+                        ...state['orderStatus'],
+                        total: action.total,
+                        totalAmount: action.totalAmount
+                    }
+                }
+                break;
         
         case 'VENDOR_ORDERS_LIST':
             state = {
                 ...state,
                 orderList: action.list
+            }
+            break;
+
+        case 'VENDOR_BILL_LIST':
+            state = {
+                ...state,
+                billList: action.list
+            }
+            break;
+
+        case 'VENDOR_BILL_INFO':
+            state = {
+                ...state,
+                billInfo: action.info
             }
             break;
     }

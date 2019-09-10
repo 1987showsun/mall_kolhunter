@@ -1,17 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // Components
 import Head from './head';
 
 // Modules
-import Table from '../../../../../module/table';
-import Pagination from '../../../../../module/pagination';
+import Table from '../../../../module/table';
+import Pagination from '../../../../module/pagination';
 
 // Actions
-import { incListOrder } from '../../../../../actions/myvendor';
+import { incListAccount } from '../../../../actions/myvendor';
 
-class Order extends React.Component{
+class Account extends React.Component{
 
     constructor(props){
         super(props);
@@ -19,9 +20,9 @@ class Order extends React.Component{
             tableHeadKey : [
                 {
                     key: 'id',
-                    type: 'link',
+                    type: 'text',
                     title: '訂單編號',
-                    path: '/myvendor/info/order'
+                    path: '/inc/info/order'
                 },
                 {
                     key: 'orderer',
@@ -47,6 +48,11 @@ class Order extends React.Component{
                     key: 'createdate',
                     type: 'text',
                     title: '訂購時間'
+                },
+                {
+                    key: 'total',
+                    type: 'number',
+                    title: '總額'
                 }
             ],
             tableBodyData: []
@@ -66,30 +72,37 @@ class Order extends React.Component{
 
         return(
             <React.Fragment>
+                <div className="tab-wrap">
+                    <ul>
+                        <li className="active"><Link to="">進行中的訂單</Link></li>
+                        <li><Link to="">以結款的訂單</Link></li>
+                    </ul>
+                </div>
                 <Head />
-                <Table 
-                    tableHeadData={tableHeadKey}
-                    tableBodyData={tableBodyData}
-                />
-                <Pagination 
-                    method= "ddd"
-                    total= {61}
-                    match= {match}
-                    location= {location}
-                />
+                <section className="admin-content-row">
+                    <Table 
+                        tableHeadData={tableHeadKey}
+                        tableBodyData={tableBodyData}
+                    />
+                    <Pagination 
+                        total= {10}
+                        match= {match}
+                        location= {location}
+                    />
+                </section>
             </React.Fragment>
         );
     }
 
     componentDidMount() {
-        this.props.dispatch( incListOrder() );
+        this.props.dispatch( incListAccount() );
     }
 }
 
 const mapStateToProps = (state) => {
     return{
-        list: state.myvendor.list
+        list: state.myvendor.accountsList
     }
 }
 
-export default connect(mapStateToProps)(Order);
+export default connect(mapStateToProps)(Account);

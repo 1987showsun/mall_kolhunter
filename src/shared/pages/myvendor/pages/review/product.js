@@ -177,7 +177,7 @@ class Product extends React.Component{
 const mapStateToProps = (state) => {
     return{
         total: state.myvendor.total,
-        list : state.myvendor.list,
+        list : state.myvendor.productList
     }
 }
 

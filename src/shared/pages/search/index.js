@@ -71,7 +71,7 @@ class Index extends React.Component{
                                                 if( type == 'product' ){
                                                     // 調用 Product items components
                                                     return (
-                                                        <li key={item['id']}>
+                                                        <li key={item['token']}>
                                                             <ProductItem
                                                                 path={`/detail/${item['token']}`}
                                                                 data={item}

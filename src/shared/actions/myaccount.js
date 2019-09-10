@@ -2,6 +2,7 @@ import axios from 'axios';
 import queryString from 'query-string';
 import API from './apiurl';
 
+// 會員資訊
 export function ainfo(){
     return(dispatch) => {
         if( typeof window !== 'undefined' ){
@@ -25,6 +26,24 @@ export function ainfo(){
     }
 }
 
+// 會員更新密碼
+export function updatePWD( data ){
+    return(dispatch) => {
+
+        const method = 'put';
+        const url = API()['myaccount']['updatePWD'];
+        const token = sessionStorage.getItem('jwt_account');
+
+        if( token!=null && token!=undefined && token!="" ){
+            return Axios({ method,url,data:{...data} }).then(res => {
+                if( !res.hasOwnProperty('response') ){
+                    return res;
+                }
+                return res['response'];
+            });
+        }
+    }
+}
 
 // 購物車商品 List 
 export function cartsProductList( pathname,query ){
@@ -111,11 +130,21 @@ export function ordersList( pathname,query,data ){
         return Axios({ method, url, data }).then(res => {
             if( !res.hasOwnProperty('response') ){
                 // 檢查 Response Object 有沒有 response key name
+
+                const listSort = res['data'].sort( (a, b) => {
+                    return Number(b['createTimeMs']) - Number(a['createTimeMs']);
+                }).map( item => {
+                    const orderDetail = item['orderDetail'].map( p_item => {
+                        return{ ...p_item, image: p_item['productImgs'][0]['path'] };
+                    })
+                    return {...item, orderDetail };
+                });
+
                 dispatch({
                     type: "ACCOUNT_ORDERS_LIST",
-                    list: res['data']
+                    list: listSort
                 });
-                return res['data'];
+                return listSort;
             }
             return res['response'];
         });
@@ -133,14 +162,21 @@ export function ordersInfo( pathname,query,data ){
         const url= `${API()['myaccount']['orders']['info']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res => {
+            // 檢查 Response Object 有沒有 response key name;
             if( !res.hasOwnProperty('response') ){
-                // 檢查 Response Object 有沒有 response key name
-                console.log('ordersInfo',res);
+
+                // 商品圖片篩選第一張作為主圖
+                const infoData = res['data']['orderDetail'].map( p_item => {
+                    return{ ...p_item, image: p_item['productImgs'][0]['path'] };
+                })
+                const mergeData = { ...res['data'], orderDetail: infoData };
+
                 dispatch({
                     type: "ACCOUNT_ORDERS_INFO",
-                    info: {}
+                    info: mergeData
                 });
-                return res;
+
+                return mergeData;
             }
             return res['response'];
         });

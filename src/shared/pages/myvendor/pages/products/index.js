@@ -4,11 +4,14 @@ import { connect } from 'react-redux';
 
 //Components
 import Head from './head';
-import Table from '../../../../../module/table';
-import Pagination from '../../../../../module/pagination';
+import Table from '../../../../module/table';
+import Pagination from '../../../../module/pagination';
+
+// Lang
+import lang from '../../../../public/lang/lang.json';
 
 // Actions
-import { listProduct, productPutsaleAndDiscontinue } from '../../../../../actions/myvendor';
+import { listProduct, productPutsaleAndDiscontinue } from '../../../../actions/myvendor';
 
 class Product extends React.Component{
 
@@ -93,6 +96,9 @@ class Product extends React.Component{
 
         return(
             <React.Fragment>
+                <section className="page-title">
+                    <h3>{ lang['zh-TW']['Commodity management'] }</h3>
+                </section>
                 <Head
                     match= {match} 
                     history= {history}
@@ -162,7 +168,7 @@ class Product extends React.Component{
 const mapStateToProps = (state) => {
     return{
         total: state.myvendor.total,
-        list: state.myvendor.list
+        list: state.myvendor.productList
     }
 }
 

@@ -16,7 +16,6 @@ class Index extends React.Component{
 
     static initialAction( NODE_ENV,pathname,query ){
         const pathnameArray = pathname.split('/').filter( item => item!="" );
-        query = { ...query, productToken: pathnameArray[1] };
         return ssrApproachProduct(NODE_ENV,pathname,{ ...query, productToken: pathnameArray[1] });
     }
 
@@ -83,7 +82,7 @@ class Index extends React.Component{
                                         data= {info}
                                     />
                                 ):(
-                                    <div> Loading... </div>
+                                    <div className="detail-cover-loading"> Loading... </div>
                                 )
                             }
                         </div>
@@ -120,7 +119,21 @@ class Index extends React.Component{
             productToken: match['params']['id'] || ""
         }
         this.props.dispatch( mallApproachProduct( pathname, query ) ).then( res => {
-
+            this.setState({
+                info: {
+                    ...this.state.info,
+                    token: res['data']['token'],
+                    name: res['data']['name'],
+                    celebrityNum: res['data']['celebrityNum'],
+                    images: res['data']['images'],
+                    description: res['data']['description'],
+                    delivery: res['data']['delivery'],
+                    spec: res['data']['spec'],
+                    onSale: res['data']['onSale'],
+                    price: res['data']['price'],
+                    sellPrice: res['data']['sellPrice']
+                }
+            })
         });
     }
 }

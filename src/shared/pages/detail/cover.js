@@ -22,6 +22,7 @@ class Cover extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            lock: false,
             data: props.data,
             formObject: {
                 cartToken: "",
@@ -39,7 +40,7 @@ class Cover extends React.Component{
 
     render(){
 
-        const { data, imageData, formObject } = this.state;
+        const { lock, data, imageData, formObject } = this.state;
         const itemNumMax = data['spec'].filter( item => item['token']==formObject['specToken']);
         const delivery = data['delivery'].map( item => {
             return{
@@ -125,7 +126,7 @@ class Cover extends React.Component{
                             }}
                         />
                     </div>
-                    <div className="detail-cover-row cover-quantity">
+                    {/* <div className="detail-cover-row cover-quantity">
                         <label>{lang['zh-TW']['label']['by store']}</label>
                         <div>
                             <div className="detail-store-wrap">
@@ -137,11 +138,11 @@ class Cover extends React.Component{
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="detail-cover-row cover-action">
                         <ul>
-                            <li className="add-cart-li"><button type="button" className="add-cart" onClick={this.callCarts.bind(this,"add")}>{lang['zh-TW']['button']['add to cart']}</button></li>
-                            <li className="direct-purchase-li"><button type="button" className="direct-purchase" onClick={this.callCarts.bind(this,"direct")}>{lang['zh-TW']['button']['buy now']}</button></li>
+                            <li className="add-cart-li"><button type="button" className="add-cart" disabled={lock} onClick={this.callCarts.bind(this,"add")}>{lang['zh-TW']['button']['add to cart']}</button></li>
+                            <li className="direct-purchase-li"><button type="button" className="direct-purchase" disabled={lock} onClick={this.callCarts.bind(this,"direct")}>{lang['zh-TW']['button']['buy now']}</button></li>
                         </ul>
                     </div>
                 </div>
@@ -161,43 +162,50 @@ class Cover extends React.Component{
 
         if( checkLoginStatus ){
             // 登入
-            // console.log('cart',formObject);
-            this.props.dispatch( updateCartProductItem(pathname,search,formObject) ).then( res => {
-                // console.log('!!',res);
-                switch( res['status'] ){
-                    case 200:
-                        // 加入成功
-                        switch( method ){
-                            case 'direct':
-                                console.log( '直購' );
-                                this.props.history.push({
-                                    pathname: '/myaccount/carts'
-                                })
+            this.setState({
+                lock: true
+            },()=>{
+                this.props.dispatch( updateCartProductItem(pathname,search,formObject) ).then( res => {
+                    this.setState({
+                        lock: false
+                    },()=>{
+                        res = !res.hasOwnProperty('response')? res : res['response'];
+                        switch( res['status'] ){
+                            case 200:
+                                // 加入成功
+                                switch( method ){
+                                    case 'direct':
+                                        console.log( '直購' );
+                                        this.props.history.push({
+                                            pathname: '/myaccount/carts'
+                                        })
+                                        break;
+                        
+                                    case 'add':
+                                        console.log( '新增' );
+                                        toaster.notify(
+                                            <div className={`toaster-status success`}>新增成功</div>
+                                        ,{
+                                            position: 'bottom-right',
+                                            duration: 4000
+                                        })
+                                        break;
+                                }
                                 break;
-                
-                            case 'add':
-                                console.log( '新增' );
+
+                            default:
+                                // 失敗
                                 toaster.notify(
-                                    <div className={`toaster-status success`}>新增成功</div>
+                                    <div className={`toaster-status failure`}>新增失敗</div>
                                 ,{
                                     position: 'bottom-right',
-                                    duration: 5000
+                                    duration: 4000
                                 })
                                 break;
                         }
-                        break;
-
-                    default:
-                        // 失敗
-                        toaster.notify(
-                            <div className={`toaster-status failure`}>新增失敗</div>
-                        ,{
-                            position: 'bottom-right',
-                            duration: 5000
-                        })
-                        break;
-                }
-            });
+                    });
+                });
+            })
         }else{
             // 未登入
             this.props.history.push({

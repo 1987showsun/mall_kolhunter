@@ -9,6 +9,9 @@ import { faPlus }from '@fortawesome/free-solid-svg-icons';
 // Components
 import TableOrder from '../../../../../components/orderProductTable';
 
+// Lang
+import lang from '../../../../../public/lang/lang.json';
+
 export default class Items extends React.Component{
 
     constructor(props){
@@ -32,7 +35,11 @@ export default class Items extends React.Component{
                     <ul className="table-row-list">
                         <li>
                             <label>付款狀態</label>
-                            <div>{ this.state.orderStatus }</div>
+                            <div>{ lang['zh-TW']['orderStatus'][this.state.orderStatus] }</div>
+                        </li>
+                        <li>
+                            <label>購買方式</label>
+                            <div>{ lang['zh-TW']['payment'][this.state.payMethod] }</div>
                         </li>
                         <li>
                             <label>購買數量</label>

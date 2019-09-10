@@ -76,7 +76,7 @@ export default class Dashbord extends React.Component{
     render(){
         return(
             <React.Fragment>
-                <div className="admin-content-row" data-bgClolor="transparent" >
+                <div className="admin-content-row" data-bgclolor="transparent" >
                     <ul className="admin-card-list">
                         <li>
                             <div className="card-wrap">

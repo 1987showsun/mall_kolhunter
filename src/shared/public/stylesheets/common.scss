@@ -1,4 +1,5 @@
 @import './filter.scss';
+@import './form.scss';
 
 :root {
     --bg: #F0F2F5;
@@ -31,177 +32,6 @@
 
 ul{
     list-style-type: none;
-}
-
-input, select, button, textarea{
-    padding: 0px 10px;
-    border: none;
-    background: transparent;
-    appearance: none;
-    outline: none;
-    font-size: 0.9em;
-    border-radius: 2px;
-    color: var(--content);
-    resize: none;
-    &[type=submit]{
-        width: 100%;
-        background: var(--main);
-        color: #fff;
-        cursor: pointer;
-    }
-    &::placeholder{
-        color: #ccc;
-        font-size: 0.8em;
-    }
-}
-
-label{
-    overflow: hidden;
-    &.checkbox-label{
-        width: 23px;
-        height: 23px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #e7e7e7;
-        border-radius: 2px;
-        [type=checkbox]{
-            display: none;
-        }
-        i{
-            width: 100%;
-            height: 100%;
-            margin-right: 0px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: var(--primary);
-            color: #fff;
-        }
-        svg{
-            font-weight: 500 !important;
-            font-size: 0.9em !important;
-        }
-        .admin-checkbox:checked{
-            &+i{
-                display: flex;
-            }
-        }
-    }
-
-    &.cover-img{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-content: center;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        z-index: 2;
-        top: 0px;
-        left: 0px;
-        opacity: 0.8;
-        transition: opacity .2s;
-        cursor: pointer;
-        input{
-            display: none;
-        }
-        &:hover{
-            opacity: 1;
-        }
-    }
-
-    &.radio {
-        width: auto;
-        justify-content: flex-start !important;
-        margin-right: 10px;
-        $radioW1: 20px;
-        &.full-W{
-            width: 100%;
-            margin-right: 0px;
-        }
-        .box{
-            width: $radioW1;
-            min-width: $radioW1;
-            height: $radioW1;
-            min-height: $radioW1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            background: #ccc;
-            border-radius: 100px;
-        }
-        .radio-container {
-            width: 100%;
-            display: inline-flex;
-            flex-wrap: wrap;
-        }
-        input{ 
-            display: none;
-            &[type=radio]{
-                &:checked + .box{
-                    &:after{
-                        content: "";
-                        width: 60%;
-                        height: 60%;
-                        border-radius: 100px;
-                        background: var(--main);
-                    }
-                }
-            }
-        }
-        &:after{
-            content: "" !important;
-        }
-        .input-box{
-            input{
-                display: flex;
-            }
-        }
-    }
-}
-
-select{
-    min-height: 35px;
-    position: relative;
-    z-index: 2;
-}
-
-button{
-    height: 35px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-size: 0.9rem;
-    cursor: pointer;
-    &.on-the-shelf{
-        background: var(--green);
-    }
-    &.in-the-shelf{
-        background: var(--main);
-    }
-    &.basic{
-        color: #fff;
-        background: var(--primary) !important;
-    }
-    &.remove,&.mall-yes{
-        color: #fff;
-        background: var(--main);
-    }
-    &.cancel{
-        color: rgba(0,0,0,.6);
-        background: var(--cancel);
-    }
-    &.update-button{
-        color: var(--primary);
-        background: #e7e7e7;
-    }
-    &.goBack{
-        color: var(--main);
-        text-decoration:underline;
-    }
 }
 
 i{
@@ -329,210 +159,6 @@ main{
 .col{ display: inline-flex; }
 .none-margin{ margin: 0px !important; }
 .none-padding{ padding: 0px !important; }
-
-.input-box{
-    width: 100%;
-    height: 35px;
-    border: 1px solid #e7e7e7;
-    background: #fff;
-    display: inline-flex;
-    align-items: center;
-    margin-left: 10px;
-    position: relative;
-    &.no-margin{
-        margin: 0px;
-    }
-    &.select{
-        max-width: 130px;
-        padding-right: 0px !important;
-        &.full-W{
-            max-width: none;
-            select{
-                width: 100%;
-            }
-        }
-        select{
-            padding-right: 35px !important;
-            option{
-                span{
-                    margin-left: 10px;
-                }
-            }
-        }
-        &:after{
-            content: "";
-            width: 20px;
-            height: 20px;
-            position: absolute;
-            z-index: 1;
-            right: 10px;
-            background-image: url('../images/icon/caret-down.svg');
-            background-size: 13px;
-            background-repeat: no-repeat;
-            background-position: 93% center;
-        }
-    }
-    input{
-        width: 100%;
-        height: 100%;
-    }
-    .input-box{
-        border: none;
-    }
-}
-
-form{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    &.create-form{
-        position: relative;
-    }
-    .form-msg{
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 10px;
-        font-size: 0.9em;
-        color: var(--main);
-        >div{
-            display: inline-flex;
-            &:after{
-                content: '、';
-            }
-            &:last-child{
-                &:after{
-                    content: '';
-                }
-            }
-        }
-    }
-    .admin-form-title{
-        margin-top: 15px;
-        margin-bottom: 10px;
-        color: var(--content);
-        h3{
-            font-size: 1em;
-        }
-    }
-    label{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        margin-left: 10px;
-    }
-    label:first-child{
-        margin-left: 0px;
-    }
-    input, select{
-        width: 100%;
-        height: 35px;
-    }
-    .input-box:first-child{
-        margin-left: 0px;
-    }
-    .label{
-        height: 100%;
-        padding: 0px 10px;
-        display: inline-flex;
-        min-width: 70px;
-        justify-content: flex-end;
-        font-size: 0.8em;
-    }
-    >ul{
-        width: 100%;
-        margin-bottom: 10px;
-        >li{
-            width: 100%;
-            display: flex;
-            padding: 5px 0px;
-        }
-    }
-
-    .form-title{
-        width: 100%;
-        padding: 10px 0px;
-        margin-bottom: 5px;
-        display: flex;
-        justify-content: center;
-        h4{
-            font-size: 1.2em;
-            font-weight: 400;
-        }
-    }
-    .form-row{
-        width: 100%;
-        display: flex;
-        margin-bottom: 15px;
-        &:last-child{
-            margin-bottom: 0px;
-        }
-        &.msg{
-            padding: 5px 10px;
-            font-size: 0.8em;
-            color: #dc3545;
-            border-radius: 100px;
-            text-align: center;
-        }
-        .form-row-col{
-            display: inline-flex;
-            .form-row-col-label{
-                margin-left: 5px;
-                font-size: 0.8em;
-                display: inline-flex;
-                align-items: center;
-            }
-        }
-    }
-    .form-p{
-        font-size: 0.7em;
-    }
-    &.admin-search-form{
-        position: relative;
-        .input-box{
-            border: none;
-            background: #fff;
-            padding-right: 55px;
-            select{
-                border-left: 1px solid #ccc;
-            }
-        }
-        button{
-            height: 100%;
-            position: absolute;
-            color: #fff !important;
-            top: 0px;
-            right: 0px;
-            border-radius: 0px 2px 2px 0px !important;
-        }
-        ul{
-            width: auto;
-            >li{
-                width: auto;
-            }
-        }
-    }
-    >.action-ul{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        >li{
-            width: auto;
-            display: inline-flex;
-            margin-right: 10px;
-            &:last-child{
-                margin-right: 0px;
-            }
-            button{
-                width: 100px;
-                height: 40px;
-            }
-        }
-    }
-}
 
 [data-direction=column]{
     flex-direction: column
@@ -740,13 +366,8 @@ nav{
         }
         .input-box{
             width: 160px;
-            height: 35px;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            position: relative;
             &.select{
-                max-width: 150px;
+                max-width: 100%;
                 padding-right: 0px !important;
                 select{
                     padding-right: 35px !important;
@@ -883,6 +504,16 @@ nav{
                 width: 90px;
             }
         }
+        .container-unit-null{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px 0px;
+            font-size: 0.8rem;
+            color: #999;
+            justify-content: center;
+            align-items: center;
+        }
     }
     .container-unit-title{
         width: 100%;
@@ -963,7 +594,6 @@ figure{
     .input-box{
         width: calc(100% - 50px);
         height: 100%;
-        display: inline-flex;
         margin: 0px;
         border: none;
         border-top: 1px solid #e7e7e7;

@@ -38,6 +38,8 @@ class Index extends React.Component{
                                 {
                                     formObject['payMethod'] == 'cc' &&
                                         <Card 
+                                            match = {this.props.match}
+                                            location = {this.props.location}
                                             returnHandleChange = {this.returnCardInfo.bind(this)}
                                         />
                                 }

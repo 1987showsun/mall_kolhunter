@@ -27,6 +27,7 @@
         "invoice type:2,invoiceCarruerType field is required": "發票類型：二聯式發票，寄送方式為必填",
         "purchase item is sold out": "很抱歉，部分商品目前數量不足",
         "get cart items error": "很抱歉，購物車需最少放入一項商品",
+        "no product": "無任何商品",
         "create": {
             "product": {
                 "1": "基本資料",
@@ -35,6 +36,18 @@
                 "4": "商品敘述",
                 "5": "運送方式"
             }
+        },
+        "payment": {
+            "atm": "ATM",
+            "cc": "信用卡",
+            "cvs": "超商付款",
+            "init": "尚未付款"
+        },
+        "orderStatus": {
+            "init": "尚未付款"
+        },
+        "transport": {
+            "init": "處理中"
         },
         "note": {
             "nickname required": "暱稱必填",
@@ -57,11 +70,18 @@
             "spec required": "規格必需",
             "descriptions required": "敘述必需",
             "deliveries required": "運送必需",
+            "bankAccountName required": "銀行帳號必填",
+            "SocialID required": "身分證字號必填",
+            "bankName required": "銀行名稱必填",
+            "bankCode required": "銀行代號必填",
+            "bankBranch required": "帳號分行必填",
+            "bankAccount required":"銀行帳號必填",
             "password must contain at least six characters": "密碼必須至少包含八個字符",
             "password must contain at least one number (0-9)": "密碼必須至少包含一個數字（0-9）",
             "password must contain at least one lowercase letter (a-z)": "密碼必須至少包含一個小寫字母（a-z）",
             "password must contain at least one uppercase letter (A-Z)": "密碼必須至少包含一個大寫字母（A-Z）",
             "please check that you've entered and confirmed your password": "請檢查您是否輸入並確認了密碼",
+            "user update password, but provide wrong password to verify": "舊密碼輸入錯誤，請重新輸入",
             "company cannot be empty": "公司名稱必填",
             "invoice cannot be empty": "統一編號必填",
             "bankName cannot be empty": "銀行名稱必填",
@@ -71,7 +91,29 @@
             "bankBranch cannot be empty": "帳號分行必填",
             "address cannot be empty": "聯絡地址必填",
             "unable to update product image": "無法更新產品圖片",
-            "server busy line": "伺服器忙線中"
+            "server busy line": "伺服器忙線中",
+            "orderName required": "購買人名稱不讀為空",
+            "orderEmail required": "購買人信箱不讀為空",
+            "orderPhone required": "購買人聯絡電話不讀為空",
+            "orderCity required": "購買人縣市不讀為空",
+            "orderDist required": "購買人行政區不讀為空",
+            "orderAddress required": "購買人地址不讀為空",
+            "deliveryName required": "收件人名稱不讀為空",
+            "deliveryPhone required": "收件人聯絡電話讀為空",
+            "deliveryCellPhone required": "收件人聯絡電話不讀為空",
+            "deliveryEmail required": "收件人信箱不讀為空",
+            "deliveryCity required": "收件人縣市不讀為空",
+            "deliveryDist required": "收件人行政區不讀為空",
+            "deliveryAddress required": "收件人地址不讀為空",
+            "payMethod required": "付款方式不讀為空",
+            "invoiceType required": "發票形式不讀為空",
+            "invoiceCompanyName required": "發票抬頭不讀為空",
+            "invoiceCompanyUniNumber required": "統一編號不讀為空",
+            "invoiceLoveCode required": "愛心碼不讀為空",
+            "invoiceCarruerNum required": "載具碼不讀為空",
+            "cardno required": "信用卡卡號不讀為空",
+            "cvc required": "驗證碼不讀為空",
+            "exp required": "有效日期不讀為空"
         },
         "err": {
             "ID or password error.": "帳號或密碼錯誤",
@@ -125,6 +167,7 @@
         "invoice type:2,invoiceCarruerType field is required": "Invoice type:2,Invoice carruer type field is required",
         "purchase item is sold out": "Sorry, some items are currently insufficient.",
         "get cart items error": "Sorry, the shopping cart needs to put at least one item.",
+        "no product": "No product",
         "create": {
             "product": {
                 "1": "Info",
@@ -133,6 +176,18 @@
                 "4": "Desc",
                 "5": "Delivery"
             }
+        },
+        "payment": {
+            "atm": "ATM",
+            "cc": "Credit card",
+            "cvs": "Purchase at a convenience store",
+            "init": "Outstanding payment"
+        },
+        "orderStatus": {
+            "init": "Outstanding payment"
+        },
+        "transport": {
+            "init": "Under processing"
         },
         "note": {
             "nickname required": "Nickname required",
@@ -153,11 +208,18 @@
             "spec required": "Spec required",
             "descriptions required": "Descriptions required",
             "deliveries required": "Deliveries required",
+            "bankAccountName required": "Bank account name cannot be empty",
+            "SocialID required": " ID cannot be empty",
+            "bankName required": "Bank name cannot be empty",
+            "bankCode required": "Bank code cannot be empty",
+            "bankBranch required": "Bank branch cannot be empty",
+            "bankAccount required":"Bank account cannot be empty",
             "password must contain at least six characters": "Password must contain at least eight characters",
             "password must contain at least one number (0-9)": "Password must contain at least one number (0-9)",
             "password must contain at least one lowercase letter (a-z)": "Password must contain at least one lowercase letter (a-z)",
             "password must contain at least one uppercase letter (A-Z)": "Password must contain at least one uppercase letter (A-Z)",
             "please check that you've entered and confirmed your password": "Please check that you've entered and confirmed your password",
+            "user update password, but provide wrong password to verify": "The old password was entered incorrectly, please re-enter",
             "company cannot be empty": "Company cannot be empty",
             "invoice cannot be empty": "Invoice cannot be empty",
             "bankName cannot be empty": "BankName cannot be empty",
@@ -167,7 +229,30 @@
             "bankBranch cannot be empty": "BankBranch cannot be empty",
             "address cannot be empty": "Address cannot be empty",
             "unable to update product image": "Unable to update product image",
-            "server busy line": "Server busy line"
+            "server busy line": "Server busy line",
+            "orderName required": "",
+            "orderEmail required": "",
+            "orderPhone required": "",
+            "orderCity required": "",
+            "orderDist required": "",
+            "orderAddress required": "",
+            "deliveryName required": "",
+            "deliveryPhone required": "",
+            "deliveryCellPhone required": "",
+            "deliveryEmail required": "",
+            "deliveryCity required": "",
+            "deliveryDist required": "",
+            "deliveryAddress required": "",
+            "payMethod required": "",
+            "invoiceType required": "",
+            "invoiceCompanyName required": "",
+            "invoiceCompanyUniNumber required": "",
+            "invoiceLoveCode required": "",
+            "invoiceCarruerType required": "",
+            "invoiceCarruerNum required": "",
+            "cardno required": "",
+            "cvc required": "",
+            "exp required": ""
         },
         "err": {
             "ID or password error.": "ID or password error.",

@@ -5,6 +5,7 @@ export default function mystore(
         limit: 30,
         current: 1,
         list: [],
+        bankInfo: {}
     },action
 ){
     switch(action.type){
@@ -29,7 +30,14 @@ export default function mystore(
                 ...state,
                 info: action.info
             }
+            break;
 
+        case 'MYSTORE_BANK_INFO':
+            state = {
+                ...state,
+                bankInfo: action.info
+            }
+            break;
     }
     return state;
 }

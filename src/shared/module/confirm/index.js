@@ -41,10 +41,15 @@ export default class Index extends React.Component{
                         }
                         <div className="confirm-container-action">
                             {
-                                method=='confirm'&&
-                                    <button type="button" className="cancel" onClick={this.onCancel.bind(this)}>Cancel</button>
+                                method=='confirm'? (
+                                    <React.Fragment>
+                                        <button type="button" className="cancel" onClick={this.onCancel.bind(this)}>Cancel</button>
+                                        <button type="button" className="basic" onClick={this.onConfirm.bind(this)}>Ok</button>
+                                    </React.Fragment>
+                                ):(
+                                    <button type="button" className="basic" onClick={this.onCancel.bind(this)}>Ok</button>
+                                )
                             }
-                            <button type="button" className="basic" onClick={this.onConfirm.bind(this)}>Ok</button>
                         </div>
                     </div>
                 </div>

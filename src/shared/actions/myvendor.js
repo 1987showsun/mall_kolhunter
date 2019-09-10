@@ -83,7 +83,6 @@ export function infoProduct( query ) {
     return (dispatch) => {
         const method = 'get';
         const url = `${API()['myvendor']['product']['info']}${query!=""? `?${query}`:''}`;
-        console.log( url );
         return Axios({method,url,data: {}});
     }
 }
@@ -121,56 +120,38 @@ export function vinfo( method, formObject ){
     }
 }
 
-export function incListOrder( form ) {
+export function orderList( pathname,query,data={} ) {
     return (dispatch) => {
 
-        dispatch({
-            type: 'INC_HEAD_ORDER',
-            to_be_shipped_area: 4,
-            on_passage: 10,
-            successful_delivery: 10,
-            cancel: 4,
-            returned_purchase: 2,
-            total: 30
-        })
+        const initQuery = {
+            page: 1,
+        };
+        const method = 'get';
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['myvendor']['order']['list']}${search!=""? `?${search}`:""}`;
 
-        dispatch({
-            type: 'INC_CATEGORIES_LIST',
-            total: 30,
-            list: [
-                {
-                    id : "MALLKOL00000000000001",
-                    orderer: "零八九五七",
-                    quantity: 4,
-                    transport: "黑貓宅急便",
-                    status: "待出貨",
-                    createdate: "2019-12-12"
-                },
-                {
-                    id : "MALLKOL00000000000002",
-                    orderer: "Sam Sam",
-                    quantity: 2,
-                    transport: "中華郵政",
-                    status: "已出貨",
-                    createdate: "2019-11-28"
-                },
-                {
-                    id : "MALLKOL00000000000003",
-                    orderer: "DDDDDD",
-                    quantity: 100,
-                    transport: "宅配通",
-                    status: "已送達",
-                    createdate: "2019-11-28"
-                }
-            ]
-        })
+        return Axios({method,url,data}).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                dispatch({
+                    type: "VENDOR_ORDERS_STATUS",
+                    total: res['data']['total'],
+                    totalAmount: res['data']['TotalAmount']
+                })
+                dispatch({
+                    type: "VENDOR_ORDERS_LIST",
+                    list: res['data']['list']
+                })
+                return res;
+            }
+            return res['response'];
+        });
     }
 }
 
 export function incListAccount( form ) {
     return (dispatch) => {
         dispatch({
-            type: 'INC_CATEGORIES_LIST',
+            type: 'VENDOR_ACCOUNTS_LIST',
             total: 30,
             list: [
                 {
@@ -229,6 +210,66 @@ export function productPutsaleAndDiscontinue( type, formObject ) {
     }
 }
 
+// 廠商買的方案帳單列表
+export function buyCaseBillList( pathname,query,data={} ) {
+    return (dispatch) => {
+        
+        const initQuery = {
+            page: 1,
+            limit: 30,
+            sort: "desc",
+            sortBy: "created"
+        };
+        const method = 'get';
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['myvendor']['bill']['list']}${search!=""? `?${search}`:""}`;
+
+        return Axios({method,url,data}).then(res => {
+            if( !res.hasOwnProperty('response') ){
+                // 重組給 table 用的列表
+                const changeData = res['data'].map( item => {
+                    return{
+                        id: item['orderID'],
+                        orderer: item['orderName'],
+                        payMethod: payMethodChangeText(item['payMethod']), // 付款方式轉換文字
+                        status: payStatusChangeText(item['orderStatus']), //item['orderStatus'],
+                        total: item['amount'],
+                        date: item['createTimeMs']
+                    }
+                })
+            
+                dispatch({
+                    type: "VENDOR_BILL_LIST",
+                    list: changeData
+                })
+                return res;
+            }
+            return res['response'];
+        });
+
+    }
+}
+
+// 廠商買的方案帳單詳細
+export function buyCaseBillInfo( pathname,query,data={} ) {
+    return (dispatch) => {
+        const initQuery = {};
+        const method = 'get';
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['myvendor']['bill']['info']}${search!=""? `?${search}`:""}`;
+        return Axios({method,url,data}).then(res => {
+            if( !res.hasOwnProperty('response') ){
+                dispatch({
+                    type: "VENDOR_BILL_INFO",
+                    info: [res['data']]
+                })
+                return res;
+            }
+            return res['response'];
+        });
+    }
+}
+
 // 
 export function getVerifyToke( params ) {
     return (dispatch) => {
@@ -274,7 +315,7 @@ const Axios = ( api ) => {
     return axios({
         method: api['method'],
         url: api['url'],
-        data: api['data'],
+        data: api['data']!=undefined? api['data']:{},
         headers:{
             authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
         }
@@ -285,4 +326,24 @@ const Axios = ( api ) => {
         }
         return error;
     });
+}
+
+export function payMethodChangeText( method ){
+    switch( method ){
+        case 'atm':
+            return 'ATM';
+        case 'CC':
+            return '信用卡';
+        case 'CVS':
+            return '超商付款';
+    }
+}
+
+export function payStatusChangeText( method ){
+    switch( method ){
+        case 'init':
+            return '尚未付款';
+        default:
+            return '未知'
+    }
 }

@@ -1,8 +1,9 @@
 // 訂單-退貨
 import React from 'react';
 import dayjs from 'dayjs';
-import queryString from 'query-string';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faChevronCircleRight}from '@fortawesome/free-solid-svg-icons';
 
 // Modules
 import Table from '../../../../../module/table';
@@ -14,22 +15,8 @@ import { ordersInfo } from '../../../../../actions/myaccount';
 // Set
 import tableHeadData from './public/set/tableHeadData';
 
-const demo = [
-    {
-        id: "00000001",
-        cover: "https://s.yimg.com/zp/MerchandiseImages/A0CEBA3A7A-SP-6940133.jpg",
-        name: "【福利品】Apple iPhone X 64G 智慧型手機",
-        itemNum: 1,
-        actualPrice: "21900"
-    },
-    {
-        id: "00000002",
-        cover: "https://s.yimg.com/zp/MerchandiseImages/ED0EEA05CC-SP-7032064.jpg",
-        name: "Beats Solo 3 Wireless Club 頭戴耳機",
-        itemNum: 2,
-        actualPrice: "6990"
-    }
-]
+// Lang
+import lang from '../../../../../public/lang/lang.json';
 
 class Index extends React.Component{
 
@@ -57,10 +44,14 @@ class Index extends React.Component{
                     <div className="unit-head">
                         <h3>訂單資訊</h3>
                     </div>
-                    <ul className="table-row-list">
+                    <ul className="card-form-list">
                         <li>
                             <label>訂單編號</label>
                             <div>{info['orderID']}</div>
+                        </li>
+                        <li>
+                            <label>訂購狀態</label>
+                            <div>{lang['zh-TW']['orderStatus'][info['orderStatus']]}</div>
                         </li>
                         <li>
                             <label>訂購數量</label>
@@ -71,6 +62,56 @@ class Index extends React.Component{
                             <div>{dayjs(this.state.createTimeMs).format("YYYY / MM / DD")}</div>
                         </li>
                     </ul>
+                </section>
+
+                <section className="container-unit">
+                    <div className="unit-head">
+                        <h3>訂購人 / 收件人資訊</h3>
+                    </div>
+                    <div className="container-unit-row" data-flexwrap="wrap">
+                        <div className="container-unit-row" data-flexwrap="wrap">
+                            <div className="container-unit-head">
+                                <h4><FontAwesomeIcon icon={faChevronCircleRight}/>訂購人</h4>
+                            </div>
+                            <ul className="card-form-list">
+                                <li>
+                                    <label htmlFor="name2">姓名</label>
+                                    <div>{info['orderName']}</div>
+                                </li>
+                                <li>
+                                    <label htmlFor="name2">電話</label>
+                                    <div>{info['orderPhone']}</div>
+                                </li>
+                                <li>
+                                    <label htmlFor="name2">信箱</label>
+                                    <div>{info['orderEmail']}</div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="container-unit-row" data-flexwrap="wrap">
+                            <div className="container-unit-head">
+                                <h4><FontAwesomeIcon icon={faChevronCircleRight}/>收件人</h4>
+                            </div>
+                            <ul className="card-form-list">
+                                <li>
+                                    <label htmlFor="name2">姓名</label>
+                                    <div>{info['deliveryName']}</div>
+                                </li>
+                                <li>
+                                    <label htmlFor="name2">電話</label>
+                                    <div>{info['deliveryPhone']}</div>
+                                </li>
+                                <li>
+                                    <label htmlFor="name2">信箱</label>
+                                    <div>{info['deliveryEmail']}</div>
+                                </li>
+                                <li>
+                                    <label htmlFor="name2">地址</label>
+                                    <div>{`${info['deliveryZipCode']} ${info['deliveryCity']}${info['deliveryDist']}${info['deliveryAddress']}`}</div>
+                                </li>
+                            </ul>
+                        </div> 
+                    </div>
                 </section>
 
                 <section className="container-unit">
@@ -110,29 +151,21 @@ class Index extends React.Component{
         const { pathname, search } = location;
         const orderID = match['params']['id'] || "";
         this.props.dispatch( ordersInfo(pathname,{orderID: orderID}) ).then( res => {
-            switch( res['status'] ){
-                case 200:
 
-                    const tableBodyData = res['data']['orderDetail'].map( item => {
-                        return{
-                            id: item['productToken'],
-                            cover: item['productImgs'].filter( (filterItem,i) => { if( i==0 ){ return filterItem['images'] } })[0],
-                            name: item['productName'],
-                            count: item['count'],
-                            price: item['amount']
-                        }
-                    })
+            const tableBodyData = res['orderDetail'].map( item => {
+                return{
+                    id: item['productToken'],
+                    cover: item['image'],
+                    name: item['productName'],
+                    count: item['count'],
+                    total: item['amount']
+                }
+            })
 
-
-                    this.setState({
-                        info: res['data'],
-                        tableBodyData: tableBodyData
-                    })
-                    break;
-
-                default:
-                    break;
-            }
+            this.setState({
+                info: res,
+                tableBodyData
+            })
         });
     }
     

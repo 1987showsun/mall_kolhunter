@@ -1,4 +1,5 @@
 import React from 'react';
+import dayjs from 'dayjs';
 import CurrencyFormat from 'react-currency-format';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
@@ -79,14 +80,14 @@ export default class Item extends React.Component{
                                                 }
                                                 {
                                                     headItem['type']=='text' &&
-                                                        <div className={`table-body ${headItem['className']||''}`} key={headItem['key']}>
+                                                        <div className={`table-body ${headItem['className'] || ""}`} key={headItem['key']}>
                                                             {bodyItem[headItem['key']]}
                                                         </div>
                                                 }
                                                 {
                                                     headItem['type']=='number' &&
                                                         <div className={`table-body ${headItem['type']} ${headItem['className']||''}`} key={headItem['key']}>
-                                                            <CurrencyFormat value={bodyItem[headItem['key']]|| ""} displayType={'text'} thousandSeparator={true} prefix={''} />
+                                                            <CurrencyFormat value={bodyItem[headItem['key']] || ""} displayType={'text'} thousandSeparator={true} prefix={''} />
                                                         </div>
                                                 }
                                                 {
@@ -103,6 +104,12 @@ export default class Item extends React.Component{
                                                                     return <a key={`link_${l_i}`} href={`${linkItem['path']}/${bodyItem['id']}${this.serachMap(bodyItem,linkItem)}`} >{linkItem['text']}</a>
                                                                 })
                                                             }
+                                                        </div>
+                                                }
+                                                {
+                                                    headItem['type']=='date' &&
+                                                        <div className={`table-body ${headItem['type']} ${headItem['className']||''}`} key={headItem['key']}>
+                                                            {dayjs(bodyItem[headItem['key']] || "").format('YYYY/MM/DD')}
                                                         </div>
                                                 }
                                                 {

@@ -23,7 +23,7 @@ export default [
         title: '數量'
     },
     {
-        key: 'price',
+        key: 'total',
         type: 'number',
         title: '購買價格'
     }

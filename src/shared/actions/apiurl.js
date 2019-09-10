@@ -46,12 +46,12 @@ export default function API( NODE_ENV ){
             "productCategories":`${API_ADDRESS(NODE_ENV)}/v1/vendor/categories`,
             'product': {
                 'categories': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/list`,
-                'create': {
-                    '1': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product`,
-                    '2': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/img`,
-                    '3': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/spec`,
-                    '4': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/desc`,
-                    '5': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/delivery`,
+                'create': { // 創建商品
+                    '1': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product`, // 第一步驟 ： 商品基本資料
+                    '2': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/img`, // 第二步驟 ： 商品圖片
+                    '3': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/spec`, // 第三步驟 ： 商品規格
+                    '4': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/desc`, // 第四步驟 ： 商品敘述
+                    '5': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/delivery`, // 第五步驟 ： 運送方式
                 },
                 'put': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product`,
                 'info': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product`, // 
@@ -60,7 +60,7 @@ export default function API( NODE_ENV ){
                 'discontinue': `${API_ADDRESS(NODE_ENV)}/v1/vendor/discontinue`, // put 廠商商品下架 { product_id }
             },
             'order': {
-                'list': '${API_ADDRESS(NODE_ENV)}/v1/order/list',
+                'list': `${API_ADDRESS(NODE_ENV)}/v1/vendor/orders`, //
                 'categories': `${API_ADDRESS(NODE_ENV)}/v1/vendor/orders`,
                 'info': `${API_ADDRESS(NODE_ENV)}/v1/order/info`,
                 'delivery_list': `${API_ADDRESS(NODE_ENV)}/v1/order/delivery/list`, // get 取得運送狀態列表
@@ -68,34 +68,36 @@ export default function API( NODE_ENV ){
                 'delivery': `${API_ADDRESS(NODE_ENV)}/v1/vendor/order/delivery`, // post 訂單運送狀態改變 { order_item_id, status }
                 'status': `${API_ADDRESS(NODE_ENV)}/v1/vendor/order/status` // post 訂單狀態改變 { order_item_id, status }
             },
-            'account': {
-                'categories': `${API_ADDRESS(NODE_ENV)}`,
-                'create': `${API_ADDRESS(NODE_ENV)}`,
-                'info': `${API_ADDRESS(NODE_ENV)}`
-            },
             'review': {
                 'categories': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/list`,
             },
-            'vinfo': `${API_ADDRESS(NODE_ENV)}/v1/vendor/info`
+            'vinfo': `${API_ADDRESS(NODE_ENV)}/v1/vendor/info`,
+            'bill': {
+                'list': `${API_ADDRESS(NODE_ENV)}/v1/vendor/purchase`, // 廠商購買的方案帳單
+                'info': `${API_ADDRESS(NODE_ENV)}/v1/order/info`, // get 訂單明細
+            }
         },
         'myaccount': {
-            'info': `${API_ADDRESS(NODE_ENV)}/v1/member/info`,
-            'carts': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`,
-            'removeCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`,
-            'updateCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`,
+            'info': `${API_ADDRESS(NODE_ENV)}/v1/member/info`, // get 拿取會員資料
+            'carts': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`, // get 
+            'updateInfo': `${API_ADDRESS(NODE_ENV)}/v1/member/info`, // put 修改會員資料
+            'updatePWD': `${API_ADDRESS(NODE_ENV)}/v1/member/password`, // put 修改密碼
+            'removeCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`, // delete 刪除購物車內單一商品
+            'updateCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`, // put 修改購物車內單一商品：數量、運送方式
             'orders': {
                 'list': `${API_ADDRESS(NODE_ENV)}/v1/order/list`, // get 訂單列表
                 'info': `${API_ADDRESS(NODE_ENV)}/v1/order/info`, // get 訂單明細
             }
         },
         'mystore': {
-            'getInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`,
-            'updateInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`,
+            'getInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`, // get 店舖管理資訊
+            'updateInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`, // put 修改店舖管理資訊
             'candidates': `${API_ADDRESS(NODE_ENV)}/v1/product/candidates`,
             'storeProductList': `${API_ADDRESS(NODE_ENV)}/v1/store/products`,
             'addProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // post 網紅新增要賣的商品
             'deleteProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // delete 網紅要移出販賣此商品
-            'salesInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/sales` // get 店舖銷售銷售資訊
+            'salesInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/sales`, // get 店舖銷售銷售資訊
+            'bank': `${API_ADDRESS(NODE_ENV)}/v1/store/bank`
         },
         'delivery': {
             'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/deliveries` // get 運送方式

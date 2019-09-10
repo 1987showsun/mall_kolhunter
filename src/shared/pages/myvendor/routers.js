@@ -1,10 +1,13 @@
 import Dashbord from './pages/dashbord';
-import Categories from  './pages/categories';
 import Info from './pages/info';
 import Create from './pages/create';
 import Review from './pages/review';
 import Program from './pages/program/payment';
-import Payment from './pages/program/items';
+import Products from './pages/products';
+import Bill from './pages/bill';
+import BillInfo from './pages/bill/pages/info';
+import Orders from './pages/orders';
+import Accounts from './pages/accounts';
 import Profile from './pages/profile'
 
 export default [
@@ -13,9 +16,13 @@ export default [
         component: Program
     },
     {
-        path: "/myvendor/payment",
+        path: "/myvendor/bill/:id",
+        component: BillInfo
+    },
+    {
+        path: "/myvendor/bill",
         exact: true,
-        component: Payment
+        component: Bill
     },
     {
         path: "/myvendor/create/:type",
@@ -26,18 +33,29 @@ export default [
         component: Info
     },
     {
-        path: "/myvendor/categories/:type/review",
+        path: "/myvendor/products/create",
+        exact: true,
+        component: Create
+    },
+    {
+        path: "/myvendor/products/review",
+        exact: true,
         component: Review
     },
     {
-        path: "/myvendor/categories/:type",
+        path: "/myvendor/products",
         exact: true,
-        component: Categories
+        component: Products
     },
     {
-        path: "/myvendor/categories",
+        path: "/myvendor/orders",
         exact: true,
-        component: Categories
+        component: Orders
+    },
+    {
+        path: "/myvendor/accounts",
+        exact: true,
+        component: Accounts
     },
     {
         path: "/myvendor/profile/:type",

@@ -2,9 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from "react-router-dom";
 
-// Actions
-import { allCategories } from './actions/common';
-
 //Routes
 import routers from './routers';
 import ontSignIn from './pages/login';
@@ -38,7 +35,6 @@ class Layout extends React.Component{
     render(){
         const isNowPagesNoShow = ['vendor','account','myvendor'];
         const { location, match, history } = this.props;
-        const { token } = this.state;
         const pathname = location['pathname'].split('/').filter( item => item!='' );
 
         return(

@@ -3,8 +3,6 @@ import cors from "cors";
 import React from "react";
 import logger from "morgan";
 import request from 'request';
-import fs from "fs";
-import https from "https";
 import path from "path";
 import { renderToString } from "react-dom/server";
 import { Provider } from "react-redux";
@@ -18,7 +16,7 @@ import "source-map-support/register";
 
 const app = express();
 
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(cors());
 app.use(express.static( path.join('public') ));
 
@@ -54,7 +52,7 @@ app.all('*', function(req, res, next) {
       
       res.send(`
         <!DOCTYPE html>
-        <html lang="zh-TW" ${helmet.htmlAttributes.toString()}>
+        <html>
           <head>
             <meta charset="utf-8">
             <meta name="theme-color" content="#131722">

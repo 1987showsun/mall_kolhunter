@@ -31,8 +31,9 @@ export default function vendor(
         },
         "orderList": [],
         "billStatus": {
-            total: 0,
             page: 1,
+            pages: 1,
+            total: 0
         },
         "billList": [],
         "billInfo": []
@@ -96,6 +97,13 @@ export default function vendor(
             state = {
                 ...state,
                 orderList: action.list
+            }
+            break;
+
+        case 'VENDOR_BILL_STATUS':
+            state = {
+                ...state,
+                billStatus: { ...state.billStatus, ...action.status}
             }
             break;
 

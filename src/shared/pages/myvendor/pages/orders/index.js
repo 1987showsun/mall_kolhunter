@@ -16,6 +16,9 @@ import { orderList } from '../../../../actions/myvendor';
 // Set
 import tableHeadData from './public/set/tableHeadData';
 
+// Lang
+import lang from '../../../../public/lang/lang.json';
+
 class Order extends React.Component{
 
     constructor(props){
@@ -42,6 +45,9 @@ class Order extends React.Component{
 
         return(
             <React.Fragment>
+                <section className="page-title">
+                    <h3>{ lang['zh-TW']['Order management'] }</h3>
+                </section>
                 <Head 
                     match= {match}
                     history= {history}

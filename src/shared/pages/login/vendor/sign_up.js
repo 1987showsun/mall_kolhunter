@@ -1,4 +1,5 @@
 import React from 'react';
+import CurrencyFormat from 'react-currency-format';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -11,6 +12,9 @@ import { signup } from '../../../actions/login';
 // Lang
 import lang from '../../../public/lang/lang.json';
 
+// Javascripts
+import { PWD } from '../../../public/javascripts/checkFormat';
+
 class SignUp extends React.Component{
 
     constructor(props){
@@ -18,21 +22,23 @@ class SignUp extends React.Component{
         this.state = {
             open: false,
             popupMsg: "",
-            success: false,
-            form : {
+            required: ['company','email','password','confirmPassword','phone','invoice','contactor'],
+            formObject : {
                 type: 'vendor',
                 company: '',
                 email: '',
+                password: '',
+                confirmPassword: '',
                 phone: '',
                 invoice: '',
                 contactor: ''
             },
-            msg : ""
+            msg : []
         }
     }
 
     render(){
-        const { form, msg, success, open, popupMsg } = this.state;
+        const { formObject, msg, open, popupMsg } = this.state;
 
         return(
             <React.Fragment>
@@ -44,35 +50,65 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="company">
                                 <div className="input-box">
-                                    <input type="text" name="company" id="company" value={ form['company'] } onChange={this.handleChange.bind(this)} placeholder="* 公司名稱" autoComplete="off" />
+                                    <input type="text" name="company" id="company" value={ formObject['company'] } onChange={this.handleChange.bind(this)} placeholder="* 公司名稱" autoComplete="off" />
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="email">
                                 <div className="input-box">
-                                    <input type="email" name="email" id="email" value={ form['email'] } onChange={this.handleChange.bind(this)} placeholder="* email" autoComplete="off" />
+                                    <input type="email" name="email" id="email" value={ formObject['email'] } onChange={this.handleChange.bind(this)} placeholder="* Email" autoComplete="off" />
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label htmlFor="password">
+                                <div className="input-box">
+                                    <input type="password" name="password" id="password" value={ formObject['password'] } onChange={this.handleChange.bind(this)} placeholder="* 密碼" autoComplete="off" />
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label htmlFor="confirmPassword">
+                                <div className="input-box">
+                                    <input type="password" name="confirmPassword" id="confirmPassword" value={ formObject['confirmPassword'] } onChange={this.handleChange.bind(this)} placeholder="* 再次確認密碼" autoComplete="off" />
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="phone">
                                 <div className="input-box">
-                                    <input type="tel" name="phone" id="phone" value={ form['phone'] } onChange={this.handleChange.bind(this)} placeholder="* 電話" autoComplete="off" />
+                                    <CurrencyFormat value={formObject['phone']} format="## ########" placeholder="* 電話" onValueChange={(values) => {
+                                        const {formattedValue, value} = values;
+                                        this.setState({
+                                            formObject: {
+                                                ...this.state.formObject,
+                                                phone: value
+                                            }
+                                        })
+                                    }}/>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="invoice">
                                 <div className="input-box">
-                                    <input type="tel" name="invoice" id="invoice" value={ form['invoice'] } onChange={this.handleChange.bind(this)} placeholder="* 統一編號" autoComplete="off"/>
+                                    <CurrencyFormat value={formObject['invoice']} format="########" placeholder="* 統一編號" onValueChange={(values) => {
+                                        const {formattedValue, value} = values;
+                                        this.setState({
+                                            formObject: {
+                                                ...this.state.formObject,
+                                                invoice: value
+                                            }
+                                        })
+                                    }}/>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="contactor">
                                 <div className="input-box">
-                                    <input type="text" name="contactor" id="contactor" value={ form['contactor'] } onChange={this.handleChange.bind(this)} placeholder="* 聯絡人" autoComplete="off"/>
+                                    <input type="text" name="contactor" id="contactor" value={ formObject['contactor'] } onChange={this.handleChange.bind(this)} placeholder="* 聯絡人" autoComplete="off"/>
                                 </div>
                             </label>
                         </li>
@@ -81,8 +117,8 @@ class SignUp extends React.Component{
                         <p>我同意遵守 kolhunter <Link to="">使用權</Link> 與 <Link to="">隱私權</Link>條款。</p>
                     </div>
                     {
-                        msg!='' &&
-                            <div className="form-row msg" data-content="center" dangerouslySetInnerHTML={{__html: msg}}></div>
+                        msg.length!=0 &&
+                            <div className="form-row msg" data-content="center" data-flexwrap="wrap">{msg}</div>
                     }
                     <div className="form-row" data-content="center">
                         <button type="submit">送出</button>
@@ -95,55 +131,52 @@ class SignUp extends React.Component{
                     open={open}
                     method='alert'
                     container={popupMsg}
-                    onConfirm={this.handleConfirm.bind(this)}
+                    onCancel={this.handleConfirm.bind(this)}
                 />
             </React.Fragment>
         );
     }
 
     handleChange = (e) => {
-        let form = { ...this.state.form };
-        let name = e.target.name;
-        let val = e.target.value;
-        form = { ...form, [name]: val }
-
+        const { name, value } = e.target;
         this.setState({
-            form
+            formObject: { ...this.state.formObject, [name]: value }
         })
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let msg = '';
-        let { form } = this.state;
-        let checkRequired = Object.keys(form).filter( key => {
-            return form[key]=='';
-        })
-        
-        this.setState({
-            msg
-        },()=>{
-            if( checkRequired.length==0 ){
-                this.props.dispatch( signup(form) ).then( res => {
-                    if( res['data']['message']=='success' ){
-                        this.setState({
-                            open: true,
-                            popupMsg: lang['zh-TW']['Vendor siginup success']
-                        })
-                    }else{
-                        this.setState({
-                            msg: lang['zh-TW'][res['data']['message']]
-                        })
+        const { required, formObject } = this.state;
+        let checkRequired = required.filter( keys => formObject[keys]=="" ).map( keys => {
+            return <div key={keys} className="items">{ lang['zh-TW']['required'][keys] }</div>
+        });
+
+        if( checkRequired.length==0 ){
+            const checkPWDFormat = PWD({ password: formObject['password'], confirm: formObject['confirmPassword'] });
+            if( checkPWDFormat['status'] ){
+                this.props.dispatch( signup(formObject) ).then( res => {
+                    switch( res['status'] ){
+                        case 200:
+                            this.setState({
+                                open: true,
+                                popupMsg: lang['zh-TW']['Vendor siginup success']
+                            })
+                            break;
+                        
+                        default:
+                            this.setState({
+                                msg: [<div key="1" className="items">{lang['zh-TW']['note'][res['data']['status_text']]}</div>]
+                            })
+                            break;
                     }
                 });
             }else{
-                checkRequired.map( key => {
-                    msg = `${lang['zh-TW']['note'][key+' required']}<br/>${msg}`;
-                })
-                this.setState({
-                    msg
-                })
+                checkRequired = [<div key="1" className="items">{lang['zh-TW']['note'][checkPWDFormat['msg']]}</div>];
             }
+        }
+
+        this.setState({
+            msg: checkRequired
         })
     }
 

@@ -190,7 +190,7 @@ export function incListAccount( form ) {
 export function createProduct( type, formObject, step, method ) {
     return (dispatch) => {
         method = method || 'post';
-        const url = API()['myvendor'][type]['create'][step];
+        const url = `${API()['myvendor'][type]['create'][step]}?chkbug=sure`;
         return Axios({ method, url, data: formObject });
     }
 }
@@ -227,7 +227,7 @@ export function buyCaseBillList( pathname,query,data={} ) {
         return Axios({method,url,data}).then(res => {
             if( !res.hasOwnProperty('response') ){
                 // 重組給 table 用的列表
-                const changeData = res['data'].map( item => {
+                const changeData = res['data']['list'].map( item => {
                     return{
                         id: item['orderID'],
                         orderer: item['orderName'],
@@ -235,6 +235,15 @@ export function buyCaseBillList( pathname,query,data={} ) {
                         status: payStatusChangeText(item['orderStatus']), //item['orderStatus'],
                         total: item['amount'],
                         date: item['createTimeMs']
+                    }
+                })
+
+                dispatch({
+                    type: "VENDOR_BILL_STATUS",
+                    status: {
+                        page: res['data']['page'],
+                        pages: res['data']['pages'],
+                        total: res['data']['total']
                     }
                 })
             

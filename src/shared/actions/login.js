@@ -35,9 +35,12 @@ export function signup( form ) {
     const url = API()['signup'][type];
     return (dispatch) => {
         return Axios({ method: 'post', url, data: form }).then( res => {
-            return res;
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response'];
         }).catch( err => {
-            return err.response;
+            return err['response'];
         })
     }
 }

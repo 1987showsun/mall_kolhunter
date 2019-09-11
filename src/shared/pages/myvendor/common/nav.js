@@ -30,7 +30,7 @@ class Nav extends React.Component{
                         <li className={ _type=='products'? 'active':'' }><Link to="/myvendor/products">商品管理</Link></li>
                         <li className={ _type=='orders'? 'active':'' }><Link to="/myvendor/orders">訂單管理</Link></li>
                         <li className={ _type=='accounts'? 'active':'' }><Link to="/myvendor/accounts">帳務明細</Link></li>
-                        <li className={ _type=='bill'? 'active':'' }><Link to="/myvendor/bill">方案管理</Link></li>
+                        <li className={ _type=='bill'? 'active':'' }><Link to="/myvendor/bill">帳單管理</Link></li>
                     </ul>
                 </nav>
             </React.Fragment>

@@ -11,19 +11,26 @@ class HeadAccount extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            total: props.total,
             formSearchObject: {
                 search: ""
             }
         }
     }
 
+    static getDerivedStateFromProps( props,state ){
+        return{
+            total: props.total
+        }
+    }
+
     render(){
 
-        const { formSearchObject } = this.state;
+        const { total, formSearchObject } = this.state;
 
         return(
             <React.Fragment>
-                <div className="page-head-action">
+                {/* <div className="page-head-action">
                     <div className="page-head-action-row">
                         <ul>
                             <li>
@@ -37,12 +44,10 @@ class HeadAccount extends React.Component{
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> */}
                 <div className="page-alert-info">
                     <ul>
-                        <li>已付款：2</li>
-                        <li>未付款：1</li>
-                        <li>取消：2</li>
+                        <li>帳單總數：{total}</li>
                     </ul>
                 </div>
             </React.Fragment>

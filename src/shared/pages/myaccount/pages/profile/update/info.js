@@ -29,7 +29,7 @@ class Info extends React.Component{
                 tel_code: props.accountInfo['tel_code'] || '02',
                 tel: props.accountInfo['tel'] || '',
                 phone: props.accountInfo['phone'] || '',
-                email: props.accountInfo['email'] || '',
+                //email: props.accountInfo['email'] || '',
                 zipcode: props.accountInfo['zipcode'] || '',
                 city: city || '',
                 district: district || '',
@@ -53,7 +53,7 @@ class Info extends React.Component{
                     tel_code: props.accountInfo['tel_code'] || '02',
                     tel: props.accountInfo['tel'] || '',
                     phone: props.accountInfo['phone'] || '',
-                    email: props.accountInfo['email'] || '',
+                    //email: props.accountInfo['email'] || '',
                     zipcode: props.accountInfo['zipcode'] || '',
                     city: city || '',
                     district: district || '',
@@ -66,10 +66,7 @@ class Info extends React.Component{
 
     render(){
 
-        const { 
-            formObject, 
-            msg 
-        } = this.state;
+        const { msg ,formObject } = this.state;
         const areaCode = formObject['tel_code'];
         let areaCodeFormat = "";
         area_code.map( item => {
@@ -81,14 +78,14 @@ class Info extends React.Component{
         return(
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <ul className="table-row-list">
-                    <li>
+                    {/* <li>
                         <label htmlFor="">＊信箱(帳號)</label>
                         <div>
                             <div className="input-box">
                                 <input type="text" name="email" value={formObject['email']} onChange={this.handleChange.bind(this)} />
                             </div>
                         </div>
-                    </li>
+                    </li> */}
                     <li>
                         <label htmlFor="">＊會員姓名</label>
                         <div>

@@ -154,13 +154,12 @@ class SignIn extends React.Component{
                 this.props.dispatch( signin(form) ).then( res => {
                     switch( res['status'] ){
                         case 200:
-                            this.props.history.puah('/myvendor');
                             break;
 
                         default:
                             this.setState({
-                                msg: lang['zh-TW']['err'][ res['data']['message'] ]
-                            })
+                                msg:  lang['zh-TW']['err'][`${res['data']['message']}.`]
+                            })                           
                             break;
                     }
                 });

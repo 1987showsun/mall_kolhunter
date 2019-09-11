@@ -46,11 +46,11 @@ export default class Depiction extends React.Component{
                                     data.map( (item,i)=> {
                                         if( item['type']=='html' ){
                                             return(
-                                                <p key={`depiction_${i}`} dangerouslySetInnerHTML={{__html: item['content']}}></p>
+                                                <p key={`depiction_${i}`} dangerouslySetInnerHTML={{__html: item['content']}} />
                                             )
                                         }else{
                                             return(
-                                                <p key={`depiction_${i}`} dangerouslySetInnerHTML={{__html: `<img src="${item['content']}" alt="" title="" />`}}></p>
+                                                <div key={`depiction_${i}`} dangerouslySetInnerHTML={{__html: `<img src="${item['content']}" alt="" title="" />`}} className="depiction-img" />
                                             )
                                         }
                                     })

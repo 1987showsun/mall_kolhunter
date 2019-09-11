@@ -20,7 +20,8 @@ const app = express();
 app.use(cors());
 app.use(express.static( path.join('public') ));
 
-app.all('*', function(req, res, next) {
+app.all('*',function(req, res, next) {
+
   const NODE_ENV = process.env['NODE_ENV'];
   const store = configureStore();
   const promises = routes.reduce((acc, route) => {
@@ -33,7 +34,6 @@ app.all('*', function(req, res, next) {
     }
     return acc;
   }, []);
-
 
   Promise.all(promises)
     .then((data,qw) => {

@@ -3,6 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer      = require('autoprefixer');
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { InjectManifest } = require('workbox-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
 
 const keyName= {};
 let SETUP= {
@@ -78,6 +79,7 @@ const browserConfig = {
         to: "public/assets"
       }
     ]),
+    new CompressionPlugin(),
     // new InjectManifest({
     //   swDest: './public/sw.js',
     //   swSrc: './src/sw-template.js',
@@ -113,7 +115,7 @@ const serverConfig = {
         test: /\.(css|sass|scss)$/,
         use: [
           {
-            loader: "css-loader",
+            loader: "css-loader"
           },
           {
             loader: "sass-loader"

@@ -22,7 +22,7 @@ class SignUp extends React.Component{
             open: false,
             popupMSG: "",
             required: ['email','password','password_chk','nickname'],
-            form : {
+            formObject : {
                 type: 'account',
                 email: '',
                 password: '',
@@ -37,12 +37,7 @@ class SignUp extends React.Component{
 
 
     render(){
-        const { 
-            open,
-            popupMSG,
-            form, 
-            msg 
-        } = this.state;
+        const { open, popupMSG, formObject, msg } = this.state;
 
         return(
             <React.Fragment>
@@ -54,42 +49,42 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="email">
                                 <div className="input-box">
-                                    <input type="email" name="email" id="email" value={ form['email'] } onChange={this.handleChange.bind(this)} placeholder="＊帳號 (E-mail)" autoComplete="off" />
+                                    <input type="email" name="email" id="email" value={ formObject['email'] } onChange={this.handleChange.bind(this)} placeholder="＊帳號 (E-mail)" autoComplete="off" />
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="password">
                                 <div className="input-box">
-                                    <input type="password" name="password" id="password" value={ form['password'] } onChange={this.handleChange.bind(this)} placeholder="＊密碼 (內含英文大小寫與數字，共8位數)"/>
+                                    <input type="password" name="password" id="password" value={ formObject['password'] } onChange={this.handleChange.bind(this)} placeholder="＊密碼 (內含英文大小寫與數字，共8位數)"/>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="password_chk">
                                 <div className="input-box">
-                                    <input type="password" name="password_chk" id="password_chk" value={ form['password_chk'] } onChange={this.handleChange.bind(this)} placeholder="＊再次確認密碼"/>
+                                    <input type="password" name="password_chk" id="password_chk" value={ formObject['password_chk'] } onChange={this.handleChange.bind(this)} placeholder="＊再次確認密碼"/>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="nickname">
                                 <div className="input-box">
-                                    <input type="text" name="nickname" id="nickname" value={ form['nickname'] } onChange={this.handleChange.bind(this)} placeholder="＊暱稱" autoComplete="off" />
+                                    <input type="text" name="nickname" id="nickname" value={ formObject['nickname'] } onChange={this.handleChange.bind(this)} placeholder="＊暱稱" autoComplete="off" />
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="phone">
                                 <div className="input-box">
-                                    <input type="tel" name="phone" id="phone" value={ form['phone'] } onChange={this.handleChange.bind(this)} placeholder="聯絡電話" autoComplete="off"/>
+                                    <input type="tel" name="phone" id="phone" value={ formObject['phone'] } onChange={this.handleChange.bind(this)} placeholder="聯絡電話" autoComplete="off"/>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="company">
                                 <div className="input-box">
-                                    <input type="text" name="company" id="company" value={ form['company'] } onChange={this.handleChange.bind(this)} placeholder="公司名稱" autoComplete="off"/>
+                                    <input type="text" name="company" id="company" value={ formObject['company'] } onChange={this.handleChange.bind(this)} placeholder="公司名稱" autoComplete="off"/>
                                 </div>
                             </label>
                         </li>
@@ -129,53 +124,45 @@ class SignUp extends React.Component{
     }
 
     handleChange = (e) => {
-        let form = { ...this.state.form };
-        let name = e.target.name;
-        let val = e.target.value;
-        form = { ...form, [name]: val }
-
-        if( name=="password" || name=="password_chk" ){
-            const checkFormat = PWD({ password: form['password'] , confirm: form['password_chk'] });
-            let msg = [];
-            if( !checkFormat['status'] ){
-                msg = [<div key="msgPWD">{lang['zh-TW']['note'][ checkFormat['msg'] ]}</div>];
-            }
-            this.setState({
-                msg
-            })
-        }
-
+        const { name, value } = e.target;
         this.setState({
-            form
+            formObject: { ...this.state.formObject, [name]: value } 
         })
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { required } = this.state;
-        let { form } = this.state;
-        const checkRequired = required.filter((key ,i)=>form[key]=="").map( (key,i)=>{
+        const { required, formObject } = this.state;
+        let checkRequired = required.filter((key ,i)=>formObject[key]=="").map( (key,i)=>{
             return <div key={key}>{lang['zh-TW']['note'][`${key} required`]}</div>
         });
 
-        if( checkRequired.length!=0 ){
-            this.setState({
-                msg: checkRequired
-            })
-        }else{
-            this.props.dispatch( signup(form) ).then( res => {
-                if( res['status']==200 ){
-                    this.setState({
-                        open: true,
-                        popupMSG: lang['zh-TW']['account siginup success']
-                    })
-                }else{
-                    this.setState({
-                        msg: [<div key={res['data']['status_text']}>{ lang['zh-TW']['err'][ res['data']['status_text'] ] }</div>]
-                    })
-                }
-            });
-        }        
+        if(checkRequired.length==0) {
+            const checkPWDFormat = PWD({ password: formObject['password'], confirm: formObject['password_chk'] });
+            if( checkPWDFormat['status'] ){
+                this.props.dispatch( signup(formObject) ).then( res => {
+                    switch( res['status'] ){
+                        case 200:
+                            this.setState({
+                                open: true,
+                                popupMSG: lang['zh-TW']['account siginup success']
+                            })
+                            break;
+
+                        default:
+                            this.setState({
+                                msg: [<div key={res['data']['status_text']}>{ lang['zh-TW']['err'][ res['data']['status_text'] ] }</div>]
+                            })
+                            break;
+                    }
+                });
+            }else{
+                checkRequired = [<div key="1" className="items">{lang['zh-TW']['note'][checkPWDFormat['msg']]}</div>];
+            }
+        }
+        this.setState({
+            msg: checkRequired
+        })
     };
 }
 

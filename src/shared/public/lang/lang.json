@@ -2,6 +2,7 @@
     "zh-TW": {
         "Commodity management": "商品管理",
         "Order management": "訂單管理",
+        "Bill management": "帳單管理",
         "Account details": "帳務明細",
         "Purchase plan": "購買方案",
         "Product name": "商品名稱",
@@ -28,6 +29,7 @@
         "purchase item is sold out": "很抱歉，部分商品目前數量不足",
         "get cart items error": "很抱歉，購物車需最少放入一項商品",
         "no product": "無任何商品",
+        "no order": "無任何訂單",
         "create": {
             "product": {
                 "1": "基本資料",
@@ -113,7 +115,8 @@
             "invoiceCarruerNum required": "載具碼不讀為空",
             "cardno required": "信用卡卡號不讀為空",
             "cvc required": "驗證碼不讀為空",
-            "exp required": "有效日期不讀為空"
+            "exp required": "有效日期不讀為空",
+            "ErrThisEmailHasBeenSignup": "該信箱已存在了"
         },
         "err": {
             "ID or password error.": "帳號或密碼錯誤",
@@ -137,11 +140,21 @@
             "size": "型號 / 尺寸 / 顏色",
             "buy quantity": "購買數量",
             "by store": "購買店家"
+        },
+        "required": {
+            "company":"公司欄位不得為空",
+            "email":"信箱欄位不得為空",
+            "password":"密碼欄位不得為空",
+            "confirmPassword":"密碼欄位不得為空",
+            "phone":"電話欄位不得為空",
+            "invoice":"統一編號欄位不得為空",
+            "contactor":"聯絡人欄位不得為空"
         }
     },
     "en": {
         "Commodity management": "Commodity management",
         "Order management": "Order management",
+        "Bill management": "Bill management",
         "Account details": "Account details",
         "Purchase plan": "Purchase plan",
         "Product name": "Product name",
@@ -167,7 +180,8 @@
         "invoice type:2,invoiceCarruerType field is required": "Invoice type:2,Invoice carruer type field is required",
         "purchase item is sold out": "Sorry, some items are currently insufficient.",
         "get cart items error": "Sorry, the shopping cart needs to put at least one item.",
-        "no product": "No product",
+        "no product": "No Product",
+        "no order": "No Order",
         "create": {
             "product": {
                 "1": "Info",
@@ -252,7 +266,8 @@
             "invoiceCarruerNum required": "",
             "cardno required": "",
             "cvc required": "",
-            "exp required": ""
+            "exp required": "",
+            "ErrThisEmailHasBeenSignup": "This email has been signup"
         },
         "err": {
             "ID or password error.": "ID or password error.",
@@ -276,6 +291,15 @@
             "size": "Size / model / color",
             "buy quantity": "Quantity",
             "by store": "By store"
+        },
+        "required": {
+            "company":"Company required",
+            "email":"Email required",
+            "password":"Password required",
+            "confirmPassword":"ConfirmPassword required",
+            "phone":"Phone required",
+            "invoice":"Invoice required",
+            "contactor":"Contactor required"
         }
     }
 }

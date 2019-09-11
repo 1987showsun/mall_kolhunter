@@ -5,9 +5,13 @@ import { connect } from 'react-redux';
 // Components
 import Items from './items';
 import Loading from '../../../../../module/loading/mallLoading';
+import Pagination from '../../../../../module/pagination';
 
 // Actions
 import { ordersList } from '../../../../../actions/myaccount';
+
+// Lang
+import lang from '../../../../../public/lang/lang.json';
 
 class Index extends React.Component{
 
@@ -15,21 +19,36 @@ class Index extends React.Component{
         super(props);
         this.state = {
             loading: false,
+            page: 1,
+            pages: 1,
+            total: 0,
             list: []
         }
     }
 
     render(){
 
-        const { loading, list } = this.state;
+        const { location, match } = this.props;
+        const { total, loading, list } = this.state;
+
+
         return(
             <React.Fragment>
                 {
-                    list.map( item => {
-                        return <Items key={item['orderID']} {...item}/>
-                    })
+                    list.length!=0? (
+                        list.map( item => {
+                            return <Items key={item['orderID']} {...item}/>
+                        })
+                    ):(
+                        <div className="onData">{lang['zh-TW']['no order']}</div>
+                    )
                 }
-
+                <Pagination
+                    total= {total}
+                    limit= {20}
+                    match= {match}
+                    location= {location}
+                />
                 {/* 備註聲明 */}
                 <ul className="remarks-ul">
                     <li>商品將於您付款成功後1~3個工作天左右送達；預購/特殊商品寄送請參考各商品網頁或店家說明為準。</li>
@@ -48,9 +67,28 @@ class Index extends React.Component{
     componentDidMount() {
         this.callAPI();
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        const searchObject = queryString.parse( this.props.location.search );
+        const prevSearchObject = queryString.parse( prevProps.location.search );
+        let reloadStatus = false;
+
+        if( Object.keys(searchObject).length>Object.keys(prevSearchObject).length ){
+            reloadStatus =  Object.keys(searchObject).some( keys => {
+                return searchObject[keys]!=prevSearchObject[keys];
+            });
+        }else{
+            reloadStatus = Object.keys(prevSearchObject).some( keys => {
+                return prevSearchObject[keys]!=searchObject[keys];
+            });
+        }
+        if( reloadStatus ){
+            this.callAPI();
+        }
+    }
     
     callAPI = () => {
-        const { location, match } = this.props;
+        const { location } = this.props;
         const { pathname, search } = location;
         this.setState({
             loading: true,
@@ -58,7 +96,10 @@ class Index extends React.Component{
             this.props.dispatch( ordersList(pathname,queryString.parse(search)) ).then( res => {
                 this.setState({
                     loading: false,
-                    list: res
+                    page: res['page'],
+                    pages: res['pages'],
+                    total: res['total'],
+                    list: res['list']
                 })
             });
         })

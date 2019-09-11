@@ -139,7 +139,7 @@ export function ordersList( pathname,query,data ){
             if( !res.hasOwnProperty('response') ){
                 // 檢查 Response Object 有沒有 response key name
 
-                const listSort = res['data'].sort( (a, b) => {
+                const listSort = res['data']['list'].sort( (a, b) => {
                     return Number(b['createTimeMs']) - Number(a['createTimeMs']);
                 }).map( item => {
                     const orderDetail = item['orderDetail'].map( p_item => {
@@ -149,10 +149,22 @@ export function ordersList( pathname,query,data ){
                 });
 
                 dispatch({
+                    type: "ACCOUNT_ORDERS_STATUS",
+                    page: res['data']['page'],
+                    pages: res['data']['pages'],
+                    total: res['data']['total']
+                });
+
+                dispatch({
                     type: "ACCOUNT_ORDERS_LIST",
                     list: listSort
                 });
-                return listSort;
+                return {
+                    page: res['data']['page'],
+                    pages: res['data']['pages'],
+                    total: res['data']['total'],
+                    list: listSort
+                };
             }
             return res['response'];
         });

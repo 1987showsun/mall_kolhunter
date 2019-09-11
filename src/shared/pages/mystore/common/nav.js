@@ -67,7 +67,7 @@ class Nav extends React.Component{
                         <li className="account-nav-header">我的店舖管理</li>
                         <li className={`${type=="product"}`}><Link to="/mystore/product"><i><FontAwesomeIcon icon={faListAlt} /></i>商品清單</Link></li>
                         <li className={`${type=="store"}`}><Link to={`/mystore/store/${storeID}`}><i><FontAwesomeIcon icon={faStore} /></i>店舖管理</Link></li>
-                        {/* <li className={`${type=="fansorders"}`}><Link to="/mystore/fansorders"><i><FontAwesomeIcon icon={faFileAlt} /></i>粉絲訂單</Link></li> */}
+                        <li className={`${type=="fansorders"}`}><Link to="/mystore/fansorders"><i><FontAwesomeIcon icon={faFileAlt} /></i>粉絲訂單</Link></li>
                         <li className={`${type=="bank"}`}><Link to="/mystore/bank"><i><FontAwesomeIcon icon={faUniversity} /></i>銀行帳號設定</Link></li>
                         <li ><button onClick={this.signout.bind(this)}><i><FontAwesomeIcon icon={faSignOutAlt} /></i>登出</button></li>
                     </ul>

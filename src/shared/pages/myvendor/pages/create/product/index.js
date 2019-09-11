@@ -125,18 +125,9 @@ class Index extends React.Component{
                             <li>
                                 <button type="button" className="cancel" onClick={this.handleCancel.bind(this)}>取消</button>
                             </li>
-                            {/* {
-                                step!=1 &&
-                                    <li>
-                                        <button type="button" onClick={ this.onPrevious.bind(this) }>{lang['zh-TW']['Previous']}</button>
-                                    </li>
-                            } */}
                             <li>
                                 <button type="submit">{ step!=5? lang['zh-TW']['Submit Next'] : lang['zh-TW']['Finish'] }</button>
                             </li>
-                            {/* <li>
-                                <Link to="/myvendor/preview/product">預覽</Link>
-                            </li> */}
                         </ul>
                     </div>
                 </form>
@@ -145,7 +136,7 @@ class Index extends React.Component{
                     open={open}
                     method='alert'
                     container={popupMsg}
-                    onConfirm={this.handleConfirm.bind(this)}
+                    onCancel={this.handleConfirm.bind(this)}
                 />
             </React.Fragment>
         );
@@ -172,7 +163,7 @@ class Index extends React.Component{
     }
 
     handleCancel = () => {
-        this.props.history.push('/myvendor/categories/product/review');
+        this.props.history.push('/myvendor/products/review');
     }
 
     handleChange = ( key, val ) => {

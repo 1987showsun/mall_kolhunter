@@ -638,3 +638,16 @@ figure{
 .relative{
     position: relative;
 }
+
+.onData{
+    width: 100%;
+    min-height: 50px;
+    padding: 10px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    color: #999;
+    background: #ececec;
+    border-radius: 5px;
+}

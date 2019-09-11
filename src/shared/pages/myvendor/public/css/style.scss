@@ -540,6 +540,11 @@
                 margin-bottom: 0px;
             }
         }
+        .depiction-img{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
         ul{
             &.depiction-ul{
                 width: 100%;
@@ -634,6 +639,9 @@
         border-radius: 5px;
         &.virtual{
             border: 2px dashed #707070;
+        }
+        &.cover-img{
+            z-index: 100;
         }
         [type=file]{
             display: none;

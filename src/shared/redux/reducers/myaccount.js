@@ -3,7 +3,13 @@ export default function account(
         "info": {},
         "cartToken": "",
         "cartTotalAmount": 0,
-        "cartItems": []
+        "cartItems": [],
+        "orderStatus": {
+            page: 1,
+            pages: 1,
+            total: 0
+        },
+        "orderList": []
     },action
 ){
     switch(action.type){
@@ -20,6 +26,23 @@ export default function account(
                 cartToken: action.cartToken,
                 cartTotalAmount: action.cartTotalAmount,
                 cartItems: action.list
+            }
+            break;
+
+        case 'ACCOUNT_ORDERS_STATUS':
+            state = {
+                ...state,
+                orderStatus: {
+                    ...state.orderStatus,
+                    ...action
+                }
+            }
+            break;
+
+        case 'ACCOUNT_ORDERS_LIST':
+            state = {
+                ...state,
+                orderList: action.list
             }
             break;
     }

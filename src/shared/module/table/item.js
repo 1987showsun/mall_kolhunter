@@ -87,7 +87,7 @@ export default class Item extends React.Component{
                                                 {
                                                     headItem['type']=='number' &&
                                                         <div className={`table-body ${headItem['type']} ${headItem['className']||''}`} key={headItem['key']}>
-                                                            <CurrencyFormat value={bodyItem[headItem['key']] || ""} displayType={'text'} thousandSeparator={true} prefix={''} />
+                                                            <CurrencyFormat value={bodyItem[headItem['key']]} displayType={'text'} thousandSeparator={true} />
                                                         </div>
                                                 }
                                                 {

@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import queryString from 'query-string';
 import CurrencyFormat from 'react-currency-format';
 import { Helmet } from "react-helmet";
@@ -182,6 +183,7 @@ class Index extends React.Component{
         this.setState({
             productLoading: true
         },()=>{
+            $('#root').animate({ scrollTop: 0 }, 'fast');
             this.props.dispatch( storeProduct(pathname,{...queryString.parse(search)}) ).then( res => {
                 this.setState({
                     productLoading: false,

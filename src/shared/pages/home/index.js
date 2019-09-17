@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React from 'react';
 import queryString from 'query-string';
 import { Helmet } from "react-helmet";
@@ -60,7 +61,7 @@ class Home extends React.Component{
     componentDidMount() {
         const { location, match } = this.props;
         const { pathname, search } = location;
-
+        $('#root').animate({ scrollTop: 0 }, 'fast');
         this.props.dispatch( getHome(pathname,{...queryString.parse(search)}) );
     }
 }

@@ -157,7 +157,7 @@ class Cover extends React.Component{
         const formObject = {
             ...this.state.formObject,
             cartToken: localStorage.getItem('cartID'),
-            storeID: queryString.parse( search )['storeID'] || "",
+            storeID: queryString.parse( search )['store'] || "",
         }
 
         if( checkLoginStatus ){
@@ -165,7 +165,7 @@ class Cover extends React.Component{
             this.setState({
                 lock: true
             },()=>{
-                this.props.dispatch( updateCartProductItem(pathname,search,formObject) ).then( res => {
+                this.props.dispatch( updateCartProductItem(pathname,queryString.parse(search),formObject) ).then( res => {
                     this.setState({
                         lock: false
                     },()=>{

@@ -18,7 +18,7 @@ export default class StoreItem extends React.Component{
                 </div>
                 <figcaption>
                     <div className="figcaption-row">
-                        <h3><Link to={`${path || ""}`}>{data['storeName']}</Link></h3>
+                        <h3><Link to={`${path || ""}`} dangerouslySetInnerHTML={{__html: data['storeName']}} /></h3>
                     </div>
                     <div className="figcaption-row" data-content="space-between">
                         <div className="label">品項數</div>

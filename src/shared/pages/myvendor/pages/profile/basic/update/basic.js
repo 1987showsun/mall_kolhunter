@@ -310,7 +310,7 @@ class Basic extends React.Component{
             // 填寫完整
             this.props.dispatch( vinfo('put',formObject) ).then( res => {
                 if( res['status']==200 ){
-                    this.props.returnCancel( formObject );
+                    this.props.returnSuccess( formObject );
                 }else{
                     this.setState({
                         msg: [<div key="note">{lang['zh-TW']['note'][res['response']['data']['status_text']]}</div>]

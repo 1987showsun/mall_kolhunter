@@ -10,6 +10,12 @@ export function kv( pathname,query ){
     return( dispatch,NODE_ENV )=>{
         const method = 'get';
         const url = API(NODE_ENV)['mall']['home']['kv'];
+
+        dispatch({
+            type: "HOME_KV",
+            data: []
+        })
+
         return Axios({method, url, data:{} }).then( res => {
             dispatch({
                 type: "HOME_KV",
@@ -25,6 +31,12 @@ export function recommendStore( pathname,query,data={} ){
     return( dispatch,NODE_ENV )=>{
         const method = 'get';
         const url = API(NODE_ENV)['mall']['store']['recommend'];
+
+        dispatch({
+            type: "HOME_RECOMND_STORE",
+            list: []
+        })
+
         return Axios({method, url, data:{} }).then( res => {
             if( !res.hasOwnProperty('response') ){
 

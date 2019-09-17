@@ -39,3 +39,59 @@ export const storeSlider = {
         }
     ]
 }
+
+export const categorySlider = {
+    className: "category-wrap",
+    centerMode: false,
+    infinite: false,
+    dots: true,
+    centerPadding: "60px",
+    slidesToShow: 1,
+    speed: 500,
+    rows: 2,
+    slidesPerRow: 10,
+    responsive: [
+        {
+            breakpoint: 1280,
+            settings: {
+            centerPadding: "0px",
+            slidesPerRow: 10
+            }
+        },
+        {
+            breakpoint: 1024,
+            settings: {
+            centerPadding: "0px",
+            slidesPerRow: 8,
+            }
+        },
+        {
+            breakpoint: 820,
+            settings: {
+                centerPadding: "0px",
+                slidesPerRow: 7,
+            }
+            },
+        {
+            breakpoint: 720,
+            settings: {
+            centerPadding: "0px",
+            slidesPerRow: 6,
+            }
+        },
+        {
+            breakpoint: 600,
+            settings: {
+            centerPadding: "0px",
+            slidesPerRow: 4
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+            centerPadding: "0px",
+            slidesPerRow: 4
+            }
+        }
+    ]
+}

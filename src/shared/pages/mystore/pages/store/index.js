@@ -95,6 +95,26 @@ class Index extends React.Component{
         this.reCallAPI();
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const searchObject = queryString.parse(this.props.location.search);
+        const prevSearchObject = queryString.parse(prevProps.location.search);
+        let reloadStatus = false;
+        
+        if( Object.keys(searchObject).length>Object.keys(prevSearchObject).length ){
+            reloadStatus =  Object.keys(searchObject).some( keys => {
+                return searchObject[keys]!=prevSearchObject[keys];
+            });
+        }else{
+            reloadStatus = Object.keys(prevSearchObject).some( keys => {
+                return prevSearchObject[keys]!=searchObject[keys];
+            });
+        }
+
+        if( reloadStatus ){
+            this.reCallAPI();
+        }
+    }
+
     tableButtonAction = ( val ) => {
         const { location } = this.props;
         const { pathname, search } = location;

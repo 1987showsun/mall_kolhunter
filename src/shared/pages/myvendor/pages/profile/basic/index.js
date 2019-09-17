@@ -104,6 +104,7 @@ class Index extends React.Component{
                         ):(
                             <FormBasic
                                 data={data}
+                                returnSuccess={ this.returnSuccess.bind(this) }
                                 returnCancel={ this.returnCancel.bind(this) }
                             />
                         )
@@ -117,10 +118,16 @@ class Index extends React.Component{
 
     }
 
-    returnCancel = ( data ) => {
+    returnSuccess = (data) => {
         this.setState({
             update: false,
             data
+        })
+    }
+
+    returnCancel = ( data ) => {
+        this.setState({
+            update: false
         })
     }
 }

@@ -21,6 +21,7 @@ export function mystoreProductList( pathname,query ) {
             limit: 30,
             current: 1
         })
+        
         dispatch({
             type: 'MYSTORE_STOREPRODUCT_LIST',
             list: []
@@ -34,7 +35,7 @@ export function mystoreProductList( pathname,query ) {
                 type: 'MYSTORE_STOREPRODUCT_STATUS',
                 total: res['data']['total'],
                 limit: res['data']['limit'],
-                current: res['data']['pages']
+                current: res['data']['page']
             })
             dispatch({
                 type: 'MYSTORE_STOREPRODUCT_LIST',
@@ -109,7 +110,7 @@ export function mystoreStoreProductList( pathname,query ) {
                 type: 'MYSTORE_STOREPRODUCT_STATUS',
                 total: res['data']['total'],
                 limit: res['data']['limit'],
-                current: res['data']['pages']
+                current: res['data']['page']
             })
             dispatch({
                 type: 'MYSTORE_STOREPRODUCT_LIST',

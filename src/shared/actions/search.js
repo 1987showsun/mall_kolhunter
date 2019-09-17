@@ -45,7 +45,7 @@ export function searchList( pathname,query ) {
 
 const searchTypeToProduct = ( dispatch,res ) => {
     dispatch({
-        type: "CATRGORIES_STATUS",
+        type: "SEARCH_STATUS",
         limit: res['data']['condition']['limit'] || 30,
         total: res['data']['total'],
         current: res['data']['page'],

@@ -41,7 +41,7 @@ const API_ADDRESS = (NODE_ENV) => {
     if( process.env.NODE_ENV_DEV==true || NODE_ENV=="development" ){
         return "https://sapi.kolhunter.com";
     }else{
-        return "https://api.kolhunter.com";
+        return "https://sapi.kolhunter.com";
     }
 }
 

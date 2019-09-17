@@ -6,7 +6,7 @@ import reducer from './reducers';
 export default (preloadedState) => {
   return createStore(reducer, preloadedState, applyMiddleware(thunk, createLogger({
     predicate: function(){
-      return true;
+      return process.env['NODE_ENV_DEV'];
     }
   })));
 };

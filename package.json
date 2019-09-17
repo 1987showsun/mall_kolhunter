@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start-dev": "NODE_ENV=development webpack -w --mode development & NODE_ENV=development nodemon server.js --mode development",
-    "bundle": "NODE_ENV=development webpack",
-    "start": "NODE_ENV=development nodemon server.js",
+    "bundle": "NODE_ENV=production webpack -w --mode production",
+    "start": "NODE_ENV=production webpack --config ./webpack.prod.config.js & NODE_ENV=production nodemon server.js",
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -72,7 +72,7 @@
     "react-redux": "^7.1.0",
     "react-router-config": "^5.0.1",
     "react-router-dom": "^5.0.1",
-    "react-slick": "^0.23.2",
+    "react-slick": "^0.25.2",
     "react-textarea-autosize": "^7.1.0",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",

@@ -103,9 +103,6 @@ export default class Index extends React.Component{
         let url = window.URL.createObjectURL(e.target.files[0]);
         let win_w = this.state.width;
         let win_h = this.state.height;
-
-        console.log( proportion );
-
         const getWindowSize = () => {
             win_w = $(window).width();
             win_h = $(window).height();

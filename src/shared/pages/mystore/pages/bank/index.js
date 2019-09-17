@@ -56,7 +56,6 @@ class Index extends React.Component{
                                 history= {history}
                                 location= {location}
                                 returnCancel={()=>{ 
-                                    console.log('fuck');
                                     this.setState({update: false}) 
                                 }}
                             />

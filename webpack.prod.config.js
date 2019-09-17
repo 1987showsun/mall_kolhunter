@@ -24,13 +24,11 @@ if( keyName['NODE_ENV']=='development' ){
 }
 
 const browserConfig = {
-  mode: 'development',
   entry: "./src/browser/index.js",
   output: {
     path: __dirname,
     filename: "./public/bundle.js"
   },
-  //devtool: "cheap-module-source-map",
   module: {
     rules: [
       {
@@ -83,19 +81,10 @@ const browserConfig = {
       }
     ]),
     new CompressionPlugin(),
-    // new InjectManifest({
-    //   swDest: './public/sw.js',
-    //   swSrc: './src/sw-template.js',
-    //   include: ['/app-shell', /\.js$/, /\.css$/],
-    //   templatedUrls: {
-    //     '/app-shell': new Date().toString(),
-    //   },
-    // }),
   ]
 };
 
 const serverConfig = {
-  mode: 'development',
   entry: "./src/server/index.js",
   target: "node",
   output: {
@@ -104,7 +93,6 @@ const serverConfig = {
     libraryTarget: "commonjs2"
   },
   externals: [nodeExternals()],
-  //devtool: "cheap-module-source-map",
   module: {
     rules: [
       {

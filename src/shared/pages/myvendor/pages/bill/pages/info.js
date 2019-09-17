@@ -2,6 +2,9 @@ import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 
+// Modules
+import Loading from '../../../../../module/loading';
+
 // Actions
 import { buyCaseBillInfo } from '../../../../../actions/myvendor';
 
@@ -10,6 +13,7 @@ class Info extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             info: []
         }
     }
@@ -22,13 +26,14 @@ class Info extends React.Component{
 
     render(){
 
-        const { info } = this.state;
+        const { loading, info } = this.state;
 
         return(
-            <React.Fragment>
+            <section className="admin-content">
                 {
                     info.length!=0?(
                         <React.Fragment>
+                            <Loading loading={loading} />
                             <section className="admin-content-row">
                                 <article className="admin-content-title">
                                     <h4>基本資料</h4>
@@ -83,10 +88,10 @@ class Info extends React.Component{
                             </section>
                         </React.Fragment>
                     ):(
-                        <div>Loading...</div>
+                        <Loading loading={loading} />
                     )
                 }
-            </React.Fragment>
+            </section>
         );
     }
 
@@ -94,9 +99,15 @@ class Info extends React.Component{
         const { location, match } = this.props;
         const { pathname, search } = location;
         const orderID = match['params']['id'];
-        this.props.dispatch( buyCaseBillInfo(pathname,{...queryString.parse(search), orderID}) ).then( res => {
-
-        });
+        this.setState({
+            loading: true,
+        },()=>{
+            this.props.dispatch( buyCaseBillInfo(pathname,{...queryString.parse(search), orderID}) ).then( res => {
+                this.setState({
+                    loading: false,
+                })
+            });
+        })
     }
     
 }

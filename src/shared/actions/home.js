@@ -5,6 +5,7 @@ import API from './apiurl';
 //Actions
 import { mallCategories } from './common';
 
+// 首頁廣告輪播
 export function kv( pathname,query ){
     return( dispatch,NODE_ENV )=>{
         const method = 'get';
@@ -19,9 +20,38 @@ export function kv( pathname,query ){
     }
 }
 
+// 推薦網紅
+export function recommendStore( pathname,query,data={} ){
+    return( dispatch,NODE_ENV )=>{
+        const method = 'get';
+        const url = API(NODE_ENV)['mall']['store']['recommend'];
+        return Axios({method, url, data:{} }).then( res => {
+            if( !res.hasOwnProperty('response') ){
+
+                const list = res['data'].map( item => {
+                    return{
+                        id: item['id'],
+                        image: item['photo'],
+                        storeName: item['name'],
+                        productCount: item['productCount'] || 0,
+                        productTotal: item['productTotal'] || 0
+                    }
+                })
+
+                dispatch({
+                    type: "HOME_RECOMND_STORE",
+                    list
+                })
+                return res;
+            }
+            return res['response'];
+        });
+    }
+}
+
+// 最新商品
 export function latest( pathname,query ){
     return( dispatch,NODE_ENV ) => {
-        
         const initQuery = { 
             page: 1,
             limit: 30,
@@ -41,11 +71,14 @@ export function latest( pathname,query ){
     }
 }
 
+// Server side render
 export function getHome(NODE_ENV,pathname,query){
     return(dispatch) => {
         return kv(pathname,query)(dispatch,NODE_ENV).then( res => {
             return latest(pathname,query)(dispatch,NODE_ENV).then( res => {
-                return mallCategories(pathname,query)(dispatch,NODE_ENV);
+                return recommendStore(pathname,query)(dispatch,NODE_ENV).then( res => {
+                    return mallCategories(pathname,query)(dispatch,NODE_ENV);
+                })
             })
         });
     }

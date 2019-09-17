@@ -1,4 +1,5 @@
 import React from 'react';
+import queryString from 'query-string';
 import { Helmet } from "react-helmet";
 import { connect } from 'react-redux';
 
@@ -57,7 +58,10 @@ class Home extends React.Component{
     }
 
     componentDidMount() {
-        this.props.dispatch( getHome() );
+        const { location, match } = this.props;
+        const { pathname, search } = location;
+
+        this.props.dispatch( getHome(pathname,{...queryString.parse(search)}) );
     }
 }
 

@@ -1,7 +1,8 @@
 export default function home(
     state = {
         kv: [],
-        latest: []
+        latest: [],
+        recommendStoreList: []
     },action
 ){
     switch(action.type){
@@ -18,6 +19,12 @@ export default function home(
                 latest: action.list
             };
             break;
+
+        case 'HOME_RECOMND_STORE':
+            state = {
+                ...state,
+                recommendStoreList: action.list
+            }
     }
     return state;
 }

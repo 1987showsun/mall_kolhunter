@@ -66,7 +66,6 @@ class Index extends React.Component{
                 </section>
                 <Pagination 
                     total= {total}
-                    limit= {20}
                     match= {match}
                     location= {location}
                 />

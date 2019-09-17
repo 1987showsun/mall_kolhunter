@@ -333,6 +333,11 @@ form{
                 display: inline-flex;
                 align-items: center;
             }
+            .forget_link{
+                font-size: 0.8em;
+                text-decoration: underline;
+                color: var(--primary);
+            }
         }
     }
     .form-p{

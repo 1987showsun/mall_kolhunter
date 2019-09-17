@@ -1,6 +1,7 @@
 export default function store(
     state = {
         total: 0,
+        totalPages: 1,
         limit: 30,
         current: 1,
         list: [],
@@ -20,7 +21,8 @@ export default function store(
                 ...state,
                 total: action.total,
                 limit: action.limit,
-                current: action.current
+                current: action.current,
+                totalPages: action.totalPages
             }
             break;
 

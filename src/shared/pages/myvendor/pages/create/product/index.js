@@ -143,6 +143,13 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
+        // if (window.performance) {
+        //     if (performance.navigation.type == 1) {
+        //       alert( "This page is reloaded" );
+        //     } else {
+        //       alert( "This page is not reloaded");
+        //     }
+        // }
         this.props.dispatch( categories() ).then(res=>{
             this.setState({
                 categoriesItem: res['data']
@@ -306,7 +313,7 @@ class Index extends React.Component{
         e.preventDefault();
         const id = this.state.id;
         if( id!="" ){
-            
+            alert();
         }
     }
 }

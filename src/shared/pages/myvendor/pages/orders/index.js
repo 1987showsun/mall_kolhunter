@@ -109,7 +109,7 @@ class Order extends React.Component{
                 },()=>{
                     switch( res['status'] ){
                         case 200:
-                            console.log( res['data'] );
+                            //console.log( res['data'] );
                             break;
 
                         default:

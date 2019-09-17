@@ -46,7 +46,8 @@
             "init": "尚未付款"
         },
         "orderStatus": {
-            "init": "尚未付款"
+            "init": "尚未付款",
+            "paid": "付款成功"
         },
         "transport": {
             "init": "處理中"
@@ -198,7 +199,8 @@
             "init": "Outstanding payment"
         },
         "orderStatus": {
-            "init": "Outstanding payment"
+            "init": "Outstanding payment",
+            "paid": "Successful payment"
         },
         "transport": {
             "init": "Under processing"

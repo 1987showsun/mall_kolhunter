@@ -1,4 +1,5 @@
 import React from 'react';
+import dayjs from 'dayjs';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 
@@ -14,6 +15,8 @@ class HeadProduct extends React.Component{
         super(props);
         const { location } = props;
         const searchObject = queryString.parse(location['search']);
+        const startDate = searchObject['startDate'] || "";
+        const endDate = searchObject['endDate'] || "";
         this.state = {
             orderStatus: searchObject['orderStatus'] || "",
             refundStatus: searchObject['refundStatus'] || "",
@@ -21,7 +24,9 @@ class HeadProduct extends React.Component{
             endDate: "",
             formSearchObject: {
                 keyword: "",
-                query_key: "orderID"
+                query_key: "orderID",
+                startDate: startDate || dayjs().format('YYYY-MM-DD'),
+                endDate: endDate ||dayjs().format('YYYY-MM-DD'),
             }
         }
     }
@@ -47,16 +52,22 @@ class HeadProduct extends React.Component{
                                             <option value="orderName">訂購人</option>
                                         </select>
                                     </div>
-                                    <Datetime returnForm={ (val) => {
-                                        this.setState({
-                                            startDate: `${val['year']}-${val['month']}-${val['day']}`
-                                        })
-                                    }}/>
-                                    <Datetime returnForm={ (val) => {
-                                        this.setState({
-                                            endDate: `${val['year']}-${val['month']}-${val['day']}`
-                                        })
-                                    }}/>
+                                    <Datetime
+                                        value= {formSearchObject['startDate']}
+                                        returnForm={ (val) => {
+                                            this.setState({
+                                                startDate: `${val['year']}-${val['month']}-${val['day']}`
+                                            })
+                                        }}
+                                    />
+                                    <Datetime 
+                                        value= {formSearchObject['endDate']  }
+                                        returnForm={ (val) => {
+                                            this.setState({
+                                                endDate: `${val['year']}-${val['month']}-${val['day']}`
+                                            })
+                                        }}
+                                    />
                                     <button className="basic">搜尋</button>
                                 </form>
                             </li>
@@ -74,12 +85,11 @@ class HeadProduct extends React.Component{
                                 <div className="input-box select">
                                     <select name="refundStatus" value={ refundStatus } onChange={this.filterData.bind(this)}>
                                         <option value="">顯示全部</option>
-                                        <option value="none">沒有</option>
-                                        <option value="request">請求</option>
-                                        <option value="approve">批准</option>
-                                        <option value="waiting">運送中</option>
-                                        <option value="reject">拒絕</option>
-                                        <option value="done">完成</option>
+                                        <option value="none">未申請退貨</option>
+                                        <option value="request">申請退貨</option>
+                                        <option value="approve">同意退貨</option>
+                                        <option value="reject">拒絕退貨</option>
+                                        <option value="done">完成退貨</option>
                                     </select>
                                 </div>
                             </li>
@@ -131,12 +141,18 @@ class HeadProduct extends React.Component{
                 [formSearchObject['query_key']]: formSearchObject['keyword'],
             }
         }
+        this.setState({
+            formSearchObject: {
+                ...formSearchObject,
+                startDate: searchObject['startDate'],
+                endDate: searchObject['endDate']
+            }
+        })
         
         history.push({
             pathname: pathname,
             search: queryString.stringify({ ...queryString.parse(search), ...searchObject })
         })
-        console.log( searchObject );
     }
 
     filterData = (e) => {

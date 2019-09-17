@@ -1,9 +1,14 @@
 import React from 'react';
+import queryString from 'query-string';
+import { connect } from 'react-redux';
 
 // Modules
 import Table from '../../../../module/table';
 
-export default class Index extends React.Component{
+// Actions
+import { mystoreSalesList } from '../../../../actions/mystore';
+
+class Index extends React.Component{
 
     constructor( props ){
         super(props);
@@ -59,4 +64,17 @@ export default class Index extends React.Component{
             </React.Fragment>
         );
     }
+
+    componentDidMount() {
+        const { location, match } = this.props;
+        const { pathname, search } = location;
+        this.props.dispatch( mystoreSalesList( pathname,{...queryString.parse(search)} ) );
+    }
 }
+
+const mapStateToprops = state => {
+    return{
+
+    }
+}
+export default connect( mapStateToprops )( Index );

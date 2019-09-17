@@ -1,4 +1,5 @@
 import axios from 'axios';
+import queryString from 'query-string';
 import API from './apiurl';
 
 // 登入
@@ -58,6 +59,19 @@ export function signout( clearSessionStorageKey ) {
 }
 
 // 忘記密碼
+export function forget( pathname, query, data={} ){
+    return (dispatch) => {
+
+        const method = 'post';
+        const initQuery = {};
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['forget'][data['type']]}${search!=""? `?${search}`:''}`;
+
+        console.log( url );
+        // return Axios({ method, uri, data }).then( res => {
+        // });
+    }
+}
 
 // 重設密碼
 export function resetPassword( type, formObject ){

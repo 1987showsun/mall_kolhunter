@@ -2,11 +2,12 @@
     &.datetime{
         max-width: 160px;
         position: relative;
-        padding-right: 35px !important;
+        outline: none;
+        cursor: pointer;
         >svg{
             position: absolute;
             z-index: 2;
-            right: 5px;
+            right: 10px;
             color: #999;
             font-size: 0.8rem;
         }
@@ -14,6 +15,7 @@
             width: 100%;
             height: 100%;
             display: flex;
+            padding-right: 30px !important;
             align-items: center;
             padding: 0px 5px;
         }
@@ -27,11 +29,10 @@
         }
         .datetime-calendar-wrap{
             width: 260px;
-            /*display: none;*/
             background: #fff;
             position: absolute;
             z-index: 3;
-            top: 45px;
+            top: 40px;
             left: 0px;
             border-radius: 3px;
             overflow: hidden;

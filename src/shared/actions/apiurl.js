@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 axios.interceptors.request.use(function (config) {
-    console.log( 'config',config );
+    //console.log( 'config',config );
     return config;
 }, function (error) {
     return error;
@@ -97,7 +97,7 @@ export default function API( NODE_ENV ){
             'review': {
                 'categories': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/list`,
             },
-            'vinfo': `${API_ADDRESS(NODE_ENV)}/v1/vendor/info`,
+            'vinfo': `${API_ADDRESS(NODE_ENV)}/v1/vendor/info`, // get 廠商基本資料
             'bill': {
                 'list': `${API_ADDRESS(NODE_ENV)}/v1/vendor/purchase`, // 廠商購買的方案帳單
                 'info': `${API_ADDRESS(NODE_ENV)}/v1/order/info`, // get 訂單明細
@@ -106,7 +106,7 @@ export default function API( NODE_ENV ){
         'myaccount': {
             'refreshToken': `${API_ADDRESS(NODE_ENV)}/v1/member/renewtoken`,
             'info': `${API_ADDRESS(NODE_ENV)}/v1/member/info`, // get 拿取會員資料
-            'carts': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`, // get 
+            'carts': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`, // get 取得購物車 ID
             'updateInfo': `${API_ADDRESS(NODE_ENV)}/v1/member/info`, // put 修改會員資料
             'updatePWD': `${API_ADDRESS(NODE_ENV)}/v1/member/password`, // put 修改密碼
             'removeCartItem': `${API_ADDRESS(NODE_ENV)}/v1/shop/cart`, // delete 刪除購物車內單一商品
@@ -119,12 +119,13 @@ export default function API( NODE_ENV ){
         'mystore': {
             'getInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`, // get 店舖管理資訊
             'updateInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/info`, // put 修改店舖管理資訊
-            'candidates': `${API_ADDRESS(NODE_ENV)}/v1/product/candidates`,
-            'storeProductList': `${API_ADDRESS(NODE_ENV)}/v1/store/products`,
+            'candidates': `${API_ADDRESS(NODE_ENV)}/v1/product/candidates`, // get 取得可販賣商品
+            'storeProductList': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // get 取得目前以販賣商品
             'addProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // post 網紅新增要賣的商品
             'deleteProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // delete 網紅要移出販賣此商品
-            'salesInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/sales`, // get 店舖銷售銷售資訊
-            'bank': `${API_ADDRESS(NODE_ENV)}/v1/store/bank`
+            'bank': `${API_ADDRESS(NODE_ENV)}/v1/store/bank`, // get or put 取得與修改銀行資訊
+            'salesList': `${API_ADDRESS(NODE_ENV)}/v1/store/sales`, // get 銷售資訊 
+            'profitInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/profit` // get 分潤資訊
         },
         'delivery': {
             'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/deliveries` // get 運送方式
@@ -148,9 +149,8 @@ export default function API( NODE_ENV ){
             },
             'store': {
                 'list': `${API_ADDRESS(NODE_ENV)}/v1/store/list`, // get 店舖列表
-                'product': `${API_ADDRESS(NODE_ENV)}/v1/store/list`, // get 店鋪商品
+                'product': `${API_ADDRESS(NODE_ENV)}/v1/product/bucket`, // get 店鋪商品
                 'recommend': `${API_ADDRESS(NODE_ENV)}/v1/store/recommend`, // get 推薦網紅店舖
-                'salesInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/sales`, // get 店舖銷售銷售資訊
                 'info': `${API_ADDRESS(NODE_ENV)}/v1/store/info`
             }
         },

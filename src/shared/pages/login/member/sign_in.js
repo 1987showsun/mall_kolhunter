@@ -71,7 +71,7 @@ class SignIn extends React.Component{
                             </label>
                         </li>
                     </ul>
-                    <div className="form-row">
+                    <div className="form-row" data-content="space-between">
                         <div className="form-row-col">
                             <label htmlFor="record" className="checkbox-label">
                                 <input type="checkbox" id="record" name="record" className="admin-checkbox" onChange={this.handleChangeRecord.bind(this)} checked={record}/>
@@ -80,6 +80,9 @@ class SignIn extends React.Component{
                                 </i>
                             </label>
                             <div className="form-row-col-label">記住帳號密碼</div>
+                        </div>
+                        <div className="form-row-col">
+                            <Link className="forget_link" to={`/account/forget`}>忘記密碼</Link>
                         </div>
                     </div>
                     {

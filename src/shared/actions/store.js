@@ -5,9 +5,9 @@ import queryString from 'query-string';
 export function storeInfo( pathname,query ) {
     return (dispatch,NODE_ENV) => {
         const initQuery = {};
+console.log(query);
         const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API(NODE_ENV)['mall']['store']['info']}${search!=''? `?${search}`: ''}`;
-
         dispatch({
             type: "STORE_INFO",
             info: {
@@ -58,27 +58,34 @@ export function storeList( pathname,query ) {
     }
 }
 
-export function storeProduct( pathname,query ) {
+export function storeProduct( pathname,query,data={} ) {
     return (dispatch,NODE_ENV) => {
         const initQuery = {
             limit: 30,
             page: 1,
             sort: 'desc',
-            sortBy: 'created'
+            order: 'created'
         };
-        const store_id = pathname.split('/').filter( item => item!='' )[1];
-        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query), storeID: store_id });
+        const method = 'get';
+        const search = queryString.stringify({ ...initQuery, ...query, store: query['id'] });
         const url = `${API(NODE_ENV)['mall']['store']['product']}${search!=''? `?${search}`: ''}`;
-        return Axios({
-            method:'get',
-            url,
-            data: null
-        }).then(res=>{
-            dispatch({
-                type: 'STORE_PRODUCT',
-                list: []
-            })
-            return res;
+        return Axios({ method, url, data}).then(res=>{
+            if( !res.hasOwnProperty('response') ){
+                dispatch({
+                    type: "STORE_STATUS",
+                    limit: res['data']['condition']['limit'] || 30,
+                    total: res['data']['total'],
+                    current: res['data']['page'],
+                    totalPages: res['data']['pages']
+                })
+
+                dispatch({
+                    type: 'STORE_PRODUCT',
+                    list: res['data']['products']
+                })
+                return res;
+            }
+            return res['response'];
         });
     }
 }
@@ -92,7 +99,9 @@ export function ssrStoreList( NODE_ENV,pathname,query ){
 
 export function ssrStoreDetail( NODE_ENV,pathname,query ){
     return(dispatch) => {
-        return storeInfo( pathname,query )(dispatch,NODE_ENV);
+        return storeInfo( pathname,query )(dispatch,NODE_ENV).then( res => {
+            return storeProduct( pathname,query )(dispatch,NODE_ENV);
+        });
     }
 }
 

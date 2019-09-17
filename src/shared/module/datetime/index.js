@@ -48,7 +48,10 @@ export default class Index extends React.Component{
     }
 
     static getCerivedStateToPeops( props,state ){
-        return null;
+        return {
+            value: props.value!=undefined? dayjs(props.value).format('YYYY/MM/DD') : dayjs().format('YYYY/MM/DD'),
+            currentDate: props.value!=undefined? dayjs(props.value).format('YYYY/MM') : dayjs().format('YYYY/MM'),
+        }
     }
 
     render(){
@@ -62,51 +65,60 @@ export default class Index extends React.Component{
             <div 
                 ref={this.datetime}
                 className={`input-box datetime ${classname}`}
-                onClick={this.onFocus.bind(this)}
+                tabIndex={1}
             >
                 <FontAwesomeIcon icon={faCalendarAlt} />
-                <div className="datetime-display"> {value} </div>
-                {
-                    isManagingFocus &&
-                        <div className="datetime-calendar-wrap">
-
-                            <div className="datetime-years-wrap">
-                                <div className="datetime-arrow" onClick={this.changeMM.bind(this,"prev")}>
-                                    <FontAwesomeIcon icon={faAngleLeft}/>
+                <div 
+                    className="datetime-display" 
+                    onClick={this.test.bind(this,'switch')}
+                >
+                    {value}
+                </div>
+                <div 
+                    className={`datetime-calendar-wrap`}
+                    onClick={this.test.bind(this,'wrap')}
+                >
+                    {
+                        isManagingFocus &&
+                            <React.Fragment>
+                                <div className="datetime-years-wrap">
+                                    <div className="datetime-arrow" onClick={this.changeMM.bind(this,"prev")}>
+                                        <FontAwesomeIcon icon={faAngleLeft}/>
+                                    </div>
+                                    <div>{`${YYYY}/${MM}`}</div>
+                                    <div className="datetime-arrow" onClick={this.changeMM.bind(this,"next")}>
+                                        <FontAwesomeIcon icon={faAngleRight}/>
+                                    </div>
                                 </div>
-                                <div>{`${YYYY}/${MM}`}</div>
-                                <div className="datetime-arrow" onClick={this.changeMM.bind(this,"next")}>
-                                    <FontAwesomeIcon icon={faAngleRight}/>
+                                <div className={`datetime-days-wrap`}>
+                                    <ul className="datetime-days-wrap-date head">
+                                        { week['zh-TW'].map( item => <li key={item}>{item}</li> ) }
+                                    </ul>
+                                    <ul className={`datetime-days-wrap-date`}>
+                                        {
+                                            mergeDays.map( dayItem => {
+
+                                                const yesr  = dayItem['year'];
+                                                const month = String(dayItem['month']).length<2? `0${dayItem['month']}` : dayItem['month'];
+                                                const day   = String(dayItem['day']).length<2? `0${dayItem['day']}` : dayItem['day'];
+
+                                                return(
+                                                    <li 
+                                                        className={`${value==`${yesr}/${month}/${day}`} ${`${YYYY}/${MM}`==`${yesr}/${month}`? 'currentM': ''}`}
+                                                        key={`${yesr}/${month}/${day}`} 
+                                                        data-date={`${yesr}/${month}/${day}`}
+                                                        onClick={this.selectDate.bind(this,`${yesr}/${month}/${day}`)}
+                                                    >
+                                                        <span>{dayItem['day']}</span>
+                                                    </li>
+                                                );
+                                            })
+                                        }
+                                    </ul>
                                 </div>
-                            </div>
-                            <div className={`datetime-days-wrap`}>
-                                <ul className="datetime-days-wrap-date head">
-                                    { week['zh-TW'].map( item => <li key={item}>{item}</li> ) }
-                                </ul>
-                                <ul className={`datetime-days-wrap-date`}>
-                                    {
-                                        mergeDays.map( dayItem => {
-
-                                            const yesr  = dayItem['year'];
-                                            const month = String(dayItem['month']).length<2? `0${dayItem['month']}` : dayItem['month'];
-                                            const day   = String(dayItem['day']).length<2? `0${dayItem['day']}` : dayItem['day'];
-
-                                            return(
-                                                <li 
-                                                    className={`${value==`${yesr}/${month}/${day}`} ${`${YYYY}/${MM}`==`${yesr}/${month}`? 'currentM': ''}`}
-                                                    key={`${yesr}/${month}/${day}`} 
-                                                    data-date={`${yesr}/${month}/${day}`}
-                                                    onClick={this.selectDate.bind(this,`${yesr}/${month}/${day}`)}
-                                                >
-                                                    <span>{dayItem['day']}</span>
-                                                </li>
-                                            );
-                                        })
-                                    }
-                                </ul>
-                            </div>
-                        </div>
-                }
+                            </React.Fragment>
+                    }
+                </div>
             </div>
         );
     }
@@ -114,22 +126,24 @@ export default class Index extends React.Component{
     componentDidMount() {
         this.getCalendarStatus();
         this.returnForm();
+        document.addEventListener('click', this.onClickOutsideHandler.bind(this));
+    }
+    
+    componentWillUnmount() {
+        document.removeEventListener('click', this.onClickOutsideHandler.bind(this));
     }
 
-    onFocus = () => {
+    test = (block,e) =>{
+        const { isManagingFocus } = this.state;
         this.setState({
-            isManagingFocus: true,
-        },()=>{
-            document.addEventListener('click', this.onBlur);
-        })
+            isManagingFocus: block=='switch'? ( isManagingFocus? false:true ): (true)  ,
+        });
     }
 
-    onBlur = () => {
-        this.setState({
-            isManagingFocus: false,
-        },()=>{
-            document.removeEventListener('click', this.onBlur);
-        })
+    onClickOutsideHandler(event) {
+        if (this.state.isManagingFocus && !this.datetime.current.contains(event.target)) {
+            this.setState({ isManagingFocus: false });
+        }
     }
 
     selectDate = ( selectedDate ) => {

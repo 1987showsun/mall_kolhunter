@@ -7,6 +7,9 @@ import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 import Info from './info';
 import Form from './update/form';
 
+// Modules
+import Loading from '../../../../module/loading/mallLoading';
+
 // Actions
 import { mystoreBankInfo } from '../../../../actions/mystore';
 
@@ -15,6 +18,7 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             update: false,
             bankInfo: props.bankInfo
         }
@@ -28,7 +32,7 @@ class Index extends React.Component{
 
     render(){
 
-        const { update, bankInfo } = this.state;
+        const { loading, update, bankInfo } = this.state;
         const { location, history, match } = this.props;
 
         return(
@@ -60,13 +64,22 @@ class Index extends React.Component{
                             <Info data = {bankInfo} />
                         )
                     }
+                    <Loading loading={loading} />
                 </section>
             </React.Fragment>
         );
     }
 
     componentDidMount() {
-        this.props.dispatch( mystoreBankInfo() );
+        this.setState({
+            loading: true
+        },()=>{
+            this.props.dispatch( mystoreBankInfo() ).then( res => {
+                this.setState({
+                    loading: false,
+                })
+            });
+        })
     }
     
 }

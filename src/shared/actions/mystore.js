@@ -193,10 +193,8 @@ export function mystoreBankInfo( pathname,query,data={} ) {
                 })
                 return res;
             }
-            console.log( 'res error', res['response'] );
             return res['response'];
         }).catch( err => {
-            console.log( 'error', err['response'] );
             return err['response'];
         });
     }
@@ -217,6 +215,32 @@ export function mystoreBankInfoUpdate( pathname,query,data={} ) {
                     type: "MYSTORE_BANK_INFO",
                     info: res['data']
                 })
+                return res;
+            }
+            console.log( 'res error', res['response'] );
+            return res['response'];
+        }).catch( err => {
+            console.log( 'error', err['response'] );
+            return err['response'];
+        });
+
+    }
+}
+
+// 銷售資訊列表
+export function mystoreSalesList( pathname,query,data={} ) {
+    return (dispatch,NODE_ENV) => {
+
+        const method = 'get';
+        const initQuery = {};
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['mystore']['salesList']}${search!=""? `?${search}`:''}`;
+        return Axios({ method, url, data }).then(res=>{
+            if( !res.hasOwnProperty('response') ){
+                // dispatch({
+                //     type: "MYSTORE_BANK_INFO",
+                //     info: res['data']
+                // })
                 return res;
             }
             console.log( 'res error', res['response'] );

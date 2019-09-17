@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React from 'react';
 import toaster from 'toasted-notes';
 import queryString from 'query-string';
@@ -148,6 +149,7 @@ class Index extends React.Component{
         this.setState({
             loading: true,
         },()=>{
+            $('#root').animate({ scrollTop: 0 }, 'fast');
             this.props.dispatch( mystoreProductList(pathname,search) ).then( res => {
                 this.setState({
                     loading: false,

@@ -6,15 +6,27 @@ export default class PriceRange extends React.Component{
 
     constructor(props){
         const { pathname, search } = props.location;
-
-
         super(props);
         this.state = {
+            clear: false,
             priceRange:{
                 min: queryString.parse(search)['minPrice'] || 0,
                 max: queryString.parse(search)['maxPrice'] || 0
             }
         }
+    }
+
+    static getDerivedStateFromProps( props,state ){
+
+        if( props.clear == true ){
+            return{
+                priceRange: {
+                    min: 0,
+                    max: 0
+                }
+            }
+        }
+        return null;
     }
 
     render(){

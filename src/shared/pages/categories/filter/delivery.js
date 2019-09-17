@@ -23,7 +23,12 @@ class Delivery extends React.Component{
     }
 
     static getDerivedStateFromProps( props,state ){
+        let delivery = state.delivery;
+        if( props.clear == true ){
+            delivery = [];
+        }
         return{
+            delivery,
             data: props.deliveries
         }
     }

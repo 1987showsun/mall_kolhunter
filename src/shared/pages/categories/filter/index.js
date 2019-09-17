@@ -14,6 +14,7 @@ class Filter extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            clear: false,
             filterSwitch: false,
             subCategory: props.subCategory
         }
@@ -27,7 +28,7 @@ class Filter extends React.Component{
 
     render(){
 
-        const { subCategory } = this.state;
+        const { clear, subCategory } = this.state;
         const { match, location, history } = this.props;
 
         return(
@@ -53,17 +54,20 @@ class Filter extends React.Component{
                             <div className="block-title">
                                 <h2>篩選條件</h2>
                             </div>
-                            <PriceRange 
+                            <PriceRange
+                                clear={clear}
                                 history={history}
                                 match= {match}
                                 location= {location}
                             />
-                            <Delivery 
+                            <Delivery
+                                clear={clear}
                                 history={history}
                                 match= {match}
                                 location= {location}
                             />
                             <Status 
+                                clear={clear}
                                 history={history}
                                 match= {match}
                                 location= {location}
@@ -88,8 +92,15 @@ class Filter extends React.Component{
     clearFilter = () => {
         const { history, location } = this.props;
         const { pathname } = location;
-        history.push({
-            pathname
+        this.setState({
+            clear: true
+        },()=>{
+            history.push({
+                pathname
+            })
+            this.setState({
+                clear: false
+            })
         })
     }
 }

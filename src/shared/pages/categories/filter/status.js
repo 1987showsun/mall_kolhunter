@@ -20,6 +20,16 @@ export default class Product extends React.Component{
         }
     }
 
+    static getDerivedStateFromProps( props,state ){
+        let status = state.status;
+        if( props.clear == true ){
+            status = [];
+        }
+        return{
+            status,
+        }
+    }
+
     render(){
 
         const { status } = this.state;

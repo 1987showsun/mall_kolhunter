@@ -86,9 +86,9 @@ export function latest( pathname,query ){
 // Server side render
 export function getHome(NODE_ENV,pathname,query){
     return(dispatch) => {
-        return kv(pathname,query)(dispatch,NODE_ENV).then( res => {
-            return latest(pathname,query)(dispatch,NODE_ENV).then( res => {
-                return recommendStore(pathname,query)(dispatch,NODE_ENV).then( res => {
+        return kv(pathname,query)(dispatch,NODE_ENV).then( resKV => {
+            return latest(pathname,query)(dispatch,NODE_ENV).then( resLatest => {
+                return recommendStore(pathname,query)(dispatch,NODE_ENV).then( resRS => {
                     return mallCategories(pathname,query)(dispatch,NODE_ENV);
                 })
             })

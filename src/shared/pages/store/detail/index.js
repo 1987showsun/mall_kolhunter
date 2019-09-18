@@ -180,11 +180,12 @@ class Index extends React.Component{
     callAPI = () => {
         const { location, match } = this.props;
         const { pathname, search } = location;
+        const storeToken = match['params']['id'];
         this.setState({
             productLoading: true
         },()=>{
             $('#root').animate({ scrollTop: 0 }, 'fast');
-            this.props.dispatch( storeProduct(pathname,{...queryString.parse(search)}) ).then( res => {
+            this.props.dispatch( storeProduct(pathname,{...queryString.parse(search), storeToken}) ).then( res => {
                 this.setState({
                     productLoading: false,
                 })

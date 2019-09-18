@@ -30,12 +30,10 @@ export function storeList( pathname,query ) {
     return (dispatch,NODE_ENV) => {
         const initQuery = {
             page: 1,
-            limit: 30,
-            sort: "desc",
-            sortBy: "created"
+            limit: 30
         };
         const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API(NODE_ENV)['mall']['store']['list']}${search!=''? `?{search}`: ''}`;
+        const url = `${API(NODE_ENV)['mall']['store']['list']}${search!=''? `?${search}`: ''}`;
         
         return Axios({method:'get',url,data:{}}).then(res=>{
             dispatch({
@@ -66,7 +64,7 @@ export function storeProduct( pathname,query,data={} ) {
             order: 'created'
         };
         const method = 'get';
-        const search = queryString.stringify({ ...initQuery, ...query, store: query['id'] });
+        const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API(NODE_ENV)['mall']['store']['product']}${search!=''? `?${search}`: ''}`;
         return Axios({ method, url, data}).then(res=>{
             if( !res.hasOwnProperty('response') ){

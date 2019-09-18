@@ -2,6 +2,9 @@ import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 
+// Modules
+import Confirm from '../../../module/confirm';
+
 // Actions
 import { forget } from '../../../actions/login';
 
@@ -13,6 +16,9 @@ class Forget extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            open: false,
+            method: "alert",
+            popupMsg: "",
             required: ['email'],
             formObject : {
                 type: 'account',
@@ -24,7 +30,7 @@ class Forget extends React.Component{
 
     render(){
 
-        const { formObject, msg } = this.state;
+        const { open, method, popupMsg, formObject, msg } = this.state;
 
         return(
             <React.Fragment>
@@ -52,6 +58,12 @@ class Forget extends React.Component{
                         <button type="button" className="goBack" onClick={()=> this.props.history.goBack()}>{lang['zh-TW']['button']['go back']}</button>
                     </div>
                 </form>
+                <Confirm
+                    open={open}
+                    method={method}
+                    container={popupMsg}
+                    onCancel={this.onCancel.bind(this)}
+                />
             </React.Fragment>
         );
     }
@@ -74,12 +86,32 @@ class Forget extends React.Component{
         const { pathname, search } = location;
         const checkQequired = required.filter( keys => formObject[keys]=="" ).map( keys => <div key={keys} className="items">{lang['zh-TW']['note'][`${keys} required`]}</div> );
         if( checkQequired.length==0 ){
-            this.props.dispatch( forget( pathname, {...queryString.parse(search)}, formObject ) );
+            this.props.dispatch( forget( pathname, {...queryString.parse(search)}, formObject ) ).then( res => {
+                switch( res['status'] ){
+                    case 200:
+                        this.setState({
+                            open: true,
+                            method: 'alert',
+                            popupMsg: "需求請求成功，將寄送更新密碼網址至註冊信箱"
+                        })
+                        break;
+
+                    default:
+                        break;
+                }
+            });
         }else{
             this.setState({
                 msg: checkQequired
             })
         }
+    }
+
+    onCancel = () => {
+        this.props.history.push({
+            pathname: '/account',
+            search: 'goto=home'
+        })
     }
 }
 

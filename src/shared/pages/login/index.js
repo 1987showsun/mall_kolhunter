@@ -1,5 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -82,11 +83,23 @@ class Index extends React.Component{
                             <img src={Logo} alt="網紅電商" title="網紅電商" />
                         </Link>
                     </div>
-                    <Component 
-                        history= {history}
+                    <Switch>
+                        <Route exact={true} path="/account" component={AccountSignIn} />
+                        <Route path="/account/signup" component={AccountSignUp} />
+                        <Route path="/account/verify" component={AccountVerify} />
+                        <Route path="/account/forget" component={AccountForget} />
+                        <Route exact={true} path="/vendor" component={VendorSignIn} />
+                        <Route path="/vendor/leading" component={VendorLeading} />
+                        <Route path="/vendor/signup" component={VendorSignUp} />
+                        <Route path="/vendor/verify" component={VendorVverify} />
+                        <Route path="/vendor/forget" component={VendorForget} />
+                        <Redirect to="/account" />
+                    </Switch>
+                    {/* <Component 
                         match= {match}
+                        history= {history}
                         location= {location}
-                    />
+                    /> */}
                 </div>
             );
         }else{

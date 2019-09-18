@@ -56,8 +56,8 @@ export default function API( NODE_ENV ){
             'vendor': `${API_ADDRESS(NODE_ENV)}/v1/vendor/signup`
         },
         'forget': {
-            'account': `${API_ADDRESS(NODE_ENV)}/v1/member/reset_password`,
-            'vendor': `${API_ADDRESS(NODE_ENV)}/v1/vendor/reset_password`
+            'account': `${API_ADDRESS(NODE_ENV)}/v1/member/request/resetpassword`,
+            'vendor': `${API_ADDRESS(NODE_ENV)}/v1/vendor/request/resetpassword`
         },
         'reset_password': {
             'account': `${API_ADDRESS(NODE_ENV)}/v1/member/password`,

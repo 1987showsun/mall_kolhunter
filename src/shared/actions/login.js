@@ -67,9 +67,13 @@ export function forget( pathname, query, data={} ){
         const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API()['forget'][data['type']]}${search!=""? `?${search}`:''}`;
 
-        console.log( url );
-        // return Axios({ method, uri, data }).then( res => {
-        // });
+        return Axios({ method, url, data }).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                console.log( res );
+                return res
+            }
+            return res['response'];
+        });
     }
 }
 

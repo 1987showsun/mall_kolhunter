@@ -99,7 +99,27 @@ class SignIn extends React.Component{
                         <Link to="/account/signup" className="signup_link">立即註冊</Link>
                     </div>
                     <div className="form-row" data-direction="column">
-                        <button type="button" className="goBack" onClick={()=> this.props.history.goBack()}>{lang['zh-TW']['button']['go back']}</button>
+                        <button type="button" className="goBack" onClick={()=> {
+                            const { location } = this.props;
+                            const { pathname, search } = location;
+                            const searchObject = queryString.parse(search);
+                            const backStatus = searchObject['goto'] || 'prev';
+                            switch( backStatus ){
+                                case 'home':
+                                    this.props.history.push('/');
+                                    break;
+
+                                case 'prev':
+                                    this.props.history.goBack();
+                                    break;
+
+                                default:
+                                    this.props.history.goBack();
+                                    break;
+                            }                            
+                        }}>
+                            {lang['zh-TW']['button']['go back']}
+                        </button>
                     </div>
                 </form>
             </React.Fragment>

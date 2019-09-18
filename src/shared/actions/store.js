@@ -5,7 +5,6 @@ import queryString from 'query-string';
 export function storeInfo( pathname,query ) {
     return (dispatch,NODE_ENV) => {
         const initQuery = {};
-console.log(query);
         const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API(NODE_ENV)['mall']['store']['info']}${search!=''? `?${search}`: ''}`;
         dispatch({

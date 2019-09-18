@@ -7,15 +7,20 @@ import { connect } from 'react-redux';
 import CoverSlider from '../../module/coverSlider';
 import Quantity from '../../module/quantity';
 import OpenSelect from '../../module/openSelect';
+import Loading from '../../module/loading';
 
 // Actions
 import { updateCartProductItem } from '../../actions/myaccount';
+import { storeInfo } from '../../actions/store';
 
 // Set
 import { main, sub } from './public/set/slider';
 
 // Lang
 import lang from '../../public/lang/lang.json';
+
+// images
+import kolhunterlogo from '../../public/images/kolhunter_logo.jpg';
 
 class Cover extends React.Component{
 
@@ -24,6 +29,8 @@ class Cover extends React.Component{
         this.state = {
             lock: false,
             data: props.data,
+            storeLoading: false,
+            storeInfo: {},
             formObject: {
                 cartToken: "",
                 productToken: props.data['token'],
@@ -40,8 +47,11 @@ class Cover extends React.Component{
 
     render(){
 
-        const { lock, data, imageData, formObject } = this.state;
+        const { location, match } = this.props;
+        const { lock, data, imageData, storeLoading, storeInfo, formObject } = this.state;
         const itemNumMax = data['spec'].filter( item => item['token']==formObject['specToken']);
+
+        // 運送方式
         const delivery = data['delivery'].map( item => {
             return{
                 id: item['productDeliveryID'],
@@ -49,6 +59,8 @@ class Cover extends React.Component{
                 name: item['name'],
             }
         })
+
+        // 型號 / 尺寸
         const spec = data['spec'].map( item => {
             return{
                 id: item['token'],
@@ -57,6 +69,8 @@ class Cover extends React.Component{
                 quantity: item['storage']
             }
         })
+
+        const store = queryString.parse(location['search'])['store'] || null;
 
         return(
             <div className="detail-cover-wrap">
@@ -126,19 +140,18 @@ class Cover extends React.Component{
                             }}
                         />
                     </div>
-                    {/* <div className="detail-cover-row cover-quantity">
+                    <div className="detail-cover-row cover-select">
                         <label>{lang['zh-TW']['label']['by store']}</label>
-                        <div>
-                            <div className="detail-store-wrap">
-                                <div className="img">
-                                    <img src="https://static.kolhunter.com/kol/cyberImg-1429.jpg" alt="蔡阿嘎" title="" />
-                                </div>
-                                <div className="name">
-                                    <h3>蔡阿嘎</h3>
-                                </div>
+                        <div className="detail-store-wrap">
+                            <div className="img">
+                                <img src={ storeInfo['photo']!=undefined? storeInfo['photo']: kolhunterlogo } alt={ storeInfo['name']!=undefined? storeInfo['name']: "kolhunter" } title="" />
                             </div>
+                            <div className="name">
+                                <h3 dangerouslySetInnerHTML={{__html:storeInfo['name']!=undefined? storeInfo['name']: "kolhunter"}} />
+                            </div>
+                            <Loading loading={storeLoading}/>
                         </div>
-                    </div> */}
+                    </div>
                     <div className="detail-cover-row cover-action">
                         <ul>
                             <li className="add-cart-li"><button type="button" className="add-cart" disabled={lock} onClick={this.callCarts.bind(this,"add")}>{lang['zh-TW']['button']['add to cart']}</button></li>
@@ -148,6 +161,51 @@ class Cover extends React.Component{
                 </div>
             </div>
         );
+    }
+
+    componentDidMount() {
+        this.callStoreInfoAPI();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { search } = this.props.location;
+        const prevSearch = prevProps.location.search;
+        const searchObject = queryString.parse(search);
+        const prevSearchObject = queryString.parse(prevSearch);
+        const store = searchObject['store'] || null;
+        const prevStore = prevSearchObject['store'] || null;
+        if( store!=prevStore ){
+            this.callStoreInfoAPI();
+        }
+    }
+
+    callStoreInfoAPI = () => {
+        const { location } = this.props;
+        const { pathname, search } = location;
+        const searchObject = queryString.parse(search);
+        const store = searchObject['store'] || null;
+        if( store ){
+            this.setState({
+                storeLoading: true,
+            },()=>{
+                this.props.dispatch( storeInfo(pathname,{id: store}) ).then( res => {
+                    this.setState({
+                        storeLoading: false,
+                    },()=>{
+                        switch( res['status'] ){
+                            case 200:
+                                this.setState({
+                                    storeInfo: res['data']
+                                })
+                                break;
+
+                            default:
+                                break;
+                        }
+                    })
+                });
+            })
+        }
     }
 
     callCarts = ( method ) => {

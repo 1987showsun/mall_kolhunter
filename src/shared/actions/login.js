@@ -78,11 +78,20 @@ export function forget( pathname, query, data={} ){
 }
 
 // 重設密碼
-export function resetPassword( type, formObject ){
+export function resetPassword( pathname="", query={}, data={} ){
     return (dispatch) => {
-        const url = API()['reset_password'][type];
-        type = type = type || 'account';
-        return Axios({ method: 'put', url, data: formObject }).catch( error => {return error});
+
+        const method = 'put';
+        const type = data['type'];
+        const initQuery = {};
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['reset_password'][type]}${search!=""? `?${search}`:''}`;
+        return Axios({ method, url, data }).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response'];
+        });
     }
 }
 

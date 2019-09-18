@@ -9,11 +9,13 @@ import AccountSignIn from './member/sign_in';
 import AccountSignUp from './member/sign_up';
 import AccountVerify from './member/verify';
 import AccountForget from './member/forget';
+import AccountResetPWD from './member/resetPWD';
 import VendorSignIn from './vendor/sign_in';
 import VendorSignUp from './vendor/sign_up';
 import VendorLeading from './vendor/leading';
 import VendorVverify from './vendor/verify';
 import VendorForget from './vendor/forget';
+import VendorResetPWD from './vendor/resetPWD';
 
 import Logo from '../../public/images/logo2.png';
 
@@ -32,22 +34,7 @@ class Index extends React.Component{
         this.state = {
             token: props[`jwt_${_type}`],
             DoYouHaveType: ['account','vendor'],
-            DoYouHaveClass: ['signin','signup','leading','verify','forget'],
-            components: {
-                account: {
-                    signin: AccountSignIn,
-                    signup: AccountSignUp,
-                    verify: AccountVerify,
-                    forget: AccountForget
-                },
-                vendor: {
-                    signin: VendorSignIn,
-                    signup: VendorSignUp,
-                    leading: VendorLeading,
-                    verify: VendorVverify,
-                    forget: VendorForget
-                }
-            }
+            DoYouHaveClass: ['signin','signup','leading','verify','forget','resetPWD'],
         }
     }
 
@@ -66,45 +53,29 @@ class Index extends React.Component{
     }
 
     render(){
-
-        const { match, location, history } = this.props;
-        const { DoYouHaveType, DoYouHaveClass } = this.state;
-        const query = queryString.parse(location['search']);
-        const pathname = location['pathname'].split('/').filter( item => item!='' );
-        let _type = pathname[0];
-        let _class = match['params']['class'] || 'signin';
-
-        if( DoYouHaveType.includes(_type) && DoYouHaveClass.includes(_class) ){
-            let Component = this.state.components[_type][_class];
-            return(
-                <div className="login-wrap">
-                    <div className="login-logo">
-                        <Link to="/">
-                            <img src={Logo} alt="網紅電商" title="網紅電商" />
-                        </Link>
-                    </div>
-                    <Switch>
-                        <Route exact={true} path="/account" component={AccountSignIn} />
-                        <Route path="/account/signup" component={AccountSignUp} />
-                        <Route path="/account/verify" component={AccountVerify} />
-                        <Route path="/account/forget" component={AccountForget} />
-                        <Route exact={true} path="/vendor" component={VendorSignIn} />
-                        <Route path="/vendor/leading" component={VendorLeading} />
-                        <Route path="/vendor/signup" component={VendorSignUp} />
-                        <Route path="/vendor/verify" component={VendorVverify} />
-                        <Route path="/vendor/forget" component={VendorForget} />
-                        <Redirect to="/account" />
-                    </Switch>
-                    {/* <Component 
-                        match= {match}
-                        history= {history}
-                        location= {location}
-                    /> */}
+        return(
+            <div className="login-wrap">
+                <div className="login-logo">
+                    <Link to="/">
+                        <img src={Logo} alt="網紅電商" title="網紅電商" />
+                    </Link>
                 </div>
-            );
-        }else{
-            return null;
-        }
+                <Switch>
+                    <Route exact={true} path="/account" component={AccountSignIn} />
+                    <Route path="/account/signup" component={AccountSignUp} />
+                    <Route path="/account/verify" component={AccountVerify} />
+                    <Route path="/account/forget" component={AccountForget} />
+                    <Route path="/account/resetPWD" component={AccountResetPWD} />
+                    <Route exact={true} path="/vendor" component={VendorSignIn} />
+                    <Route path="/vendor/leading" component={VendorLeading} />
+                    <Route path="/vendor/signup" component={VendorSignUp} />
+                    <Route path="/vendor/verify" component={VendorVverify} />
+                    <Route path="/vendor/forget" component={VendorForget} />
+                    <Route path="/vendor/resetPWD" component={VendorResetPWD} />
+                    <Redirect to="/account" />
+                </Switch>
+            </div>
+        );
     }
 
     componentDidMount() {

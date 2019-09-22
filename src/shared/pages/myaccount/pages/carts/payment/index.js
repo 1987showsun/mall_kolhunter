@@ -63,9 +63,7 @@ class Index extends React.Component{
     }
 
     handleChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-
+        const { name, value } = e.target;
         this.setState({
             formObject: { ...this.state.formObject, [name]: value }
         },()=>{

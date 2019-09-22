@@ -3,7 +3,6 @@ import CurrencyFormat from 'react-currency-format';
 import { Bar, Doughnut, Line, Pie, PolarArea, Radar } from 'react-chartjs-2';
 
 const data = {
-    
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November','December'],
     datasets: [
       {
@@ -131,7 +130,15 @@ export default class Dashbord extends React.Component{
                     </ul>
                 </div>
                 <div className="admin-content-row">
-                    <Bar ref="chart" data={data} height='100'/>
+                    <Bar 
+                        ref="chart" 
+                        data={data}
+                        options= {{
+                            maintainAspectRatio: true,
+                            responsive: true,
+                            defaultFontColor: "#000",
+                        }}
+                    />
                 </div>        
             </React.Fragment>
         );

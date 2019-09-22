@@ -1,8 +1,9 @@
 {
     "zh-TW": {
         "Commodity management": "商品管理",
+        "planform management": "方案列表",
         "Order management": "訂單管理",
-        "Bill management": "帳單管理",
+        "Bill management": "購買紀錄",
         "Account details": "帳務明細",
         "Purchase plan": "購買方案",
         "Product name": "商品名稱",
@@ -48,6 +49,15 @@
         "orderStatus": {
             "init": "尚未付款",
             "paid": "付款成功"
+        },
+        "refundStatusEnum": {
+            "none": "未申請退貨",
+            "request": "申請退貨",
+            "delivery": "退貨回收中",
+            "approve": "廠商同意退貨",
+            "reject": "廠商拒絕退貨",
+            "waitting": "退款處理中 (同意退貨才能走到這步)",
+            "done": "完成退貨退款"
         },
         "transport": {
             "init": "處理中"
@@ -156,8 +166,9 @@
     },
     "en": {
         "Commodity management": "Commodity management",
+        "planform management": "Planform management",
         "Order management": "Order management",
-        "Bill management": "Bill management",
+        "Bill management": "Consumption record",
         "Account details": "Account details",
         "Purchase plan": "Purchase plan",
         "Product name": "Product name",
@@ -203,6 +214,15 @@
         "orderStatus": {
             "init": "Outstanding payment",
             "paid": "Successful payment"
+        },
+        "refundStatusEnum": {
+            "none": "Not applied for return",
+            "request": "Application for return",
+            "delivery": "Return recycling",
+            "approve": "Manufacturer agrees to return",
+            "reject": "Manufacturer refused to return",
+            "waitting": "Refund processing",
+            "done": "Complete return refund"
         },
         "transport": {
             "init": "Under processing"

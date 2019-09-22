@@ -12,11 +12,21 @@ class Header extends React.Component{
     constructor(props){
         super(props)
         this.state = {
+            profile: props.profile,
             clearSessionStorageKey : ['jwt_vendor'],
         }
     }
 
+    static getDerivedStateFromProps( props,state ){
+        return{
+            profile: props.profile,
+        }
+    }
+
     render(){
+
+        const { profile } = this.state;
+
         return(
             <section className="admin-header">
                 <div>
@@ -32,8 +42,8 @@ class Header extends React.Component{
                                 <img src="https://cf.shopee.tw/file/c320d10f46e2abfd305c6f386d2faea0_tn" title="" alt="" />
                             </div>
                             <div className="name">
-                                <h3>Hi! PAPORA股份有限公司</h3>
-                                <span>付費商家</span>
+                                <h3>Hi! {profile['contactor'] || ""}</h3>
+                                <span>剩餘新增數：{profile['remainQuantity'] || 0}</span>
                             </div>
                             <i>
                                 <FontAwesomeIcon icon={faAngleDown} />
@@ -60,7 +70,7 @@ class Header extends React.Component{
 
 const mapStateToProps = state => {
     return{
-
+        profile: state.myvendor.info
     }
 }
 

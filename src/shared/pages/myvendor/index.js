@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Switch, Redirect, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 //Components
@@ -52,11 +52,14 @@ class Index extends React.Component{
                             location= {this.props.location}
                         />
                         <div className="admin-content">
-                            {
-                                routers.map( (routeItem,i) => {
-                                    return (<Route key={routeItem['path']} {...routeItem} />);
-                                })
-                            }
+                            <Switch>
+                                {
+                                    routers.map( (routeItem,i) => {
+                                        return (<Route key={routeItem['path']} {...routeItem} />);
+                                    })
+                                }
+                                <Redirect to="/myvendor/dashboard" />
+                            </Switch>
                         </div>
                     </main>
                 </React.Fragment>

@@ -240,9 +240,13 @@ nav{
         left: 0px;
         font-size: 0.9em;
         transition: left .3s;
+        overflow: auto;
         .logo{
             width: 100%;
+            background: #001529;
             padding: 10px 10px;
+            position: sticky;
+            top: 0px;
             a{
                 width: 100%;
                 display: flex;
@@ -257,16 +261,58 @@ nav{
             width: 100%;
             >li{
                 width: 100%;
-                a{
+                span,a{
                     width: 100%;
                     height: 45px;
                     padding: 0px 10px;
                     display: flex;
                     align-items: center;
                     color: #fff;
+                    cursor: pointer;
+                    position: relative;
+                    background: transparent;
+                    transition: background .2s;
+                    &.active{
+                        background: #1890ff;
+                    }
+                    &.navBtn{
+                        opacity: .4;
+                        &.true{
+                            opacity: 1;
+                            .menu-submenu-arrow{
+                                transform:scaleY(-1);
+                            }
+                        }
+                    }
+                    a{
+                        padding: 0px;
+                    }
+                    i{
+                        width: 15px;
+                        height: 15px;
+                        margin-right: 10px;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 0.9rem;
+                        &.menu-submenu-arrow{
+                            width: 15px;
+                            height: 15px;
+                            position: absolute;
+                            right: 5px;
+                        }
+                    }
+                }
+                >ul{
+                    background: #000c17;
+                    display: none;
+                    >li{
+                        a,span{
+                            padding-left: 35px;
+                        }
+                    }
                 }
                 &.active{
-                    a{
+                    >span,>a{
                         background: var(--primary);
                     }
                 }

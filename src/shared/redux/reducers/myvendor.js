@@ -13,10 +13,10 @@ export default function vendor(
         "return": 2,
         "info": {},
         "productStatus": {
-            "total": 0,
-            "auth": 0,
-            "nonDisplay": 0,
-            "noneAuth": 0
+            "noneDisplay": 0,
+            "display": 0,
+            "review": 0,
+            "total": 0
         },
         "productList": [],
         "accountsStatus": {
@@ -36,7 +36,8 @@ export default function vendor(
             total: 0
         },
         "billList": [],
-        "billInfo": []
+        "billInfo": [],
+        "planformList": []
     },action
 ){
     switch(action.type){
@@ -60,10 +61,10 @@ export default function vendor(
                 ...state,
                 productStatus: {
                     ...state['productStatus'],
+                    "noneDisplay": action.noneDisplay,
+                    "display": action.display,
+                    "review": action.review,
                     "total": action.total,
-                    "auth": action.auth,
-                    "nonDisplay": action.nonDisplay,
-                    "noneAuth": action.noneAuth
                 }
             }
             break;
@@ -118,6 +119,13 @@ export default function vendor(
             state = {
                 ...state,
                 billInfo: action.info
+            }
+            break;
+
+        case 'VENDOR_PLANFORM_LIST':
+            state = {
+                ...state,
+                planformList: action.list
             }
             break;
     }

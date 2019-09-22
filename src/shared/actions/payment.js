@@ -13,7 +13,10 @@ export function paymentAddOrder( pathname, query, data ) {
             url,
             data
         }).then( res => {
-            return res;
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response'];
         }).catch( err => {
             return err['response'];
         });
@@ -32,6 +35,44 @@ export function paymentResult( pathname, query, data ) {
         }).then(res=>{
             return res;
         });
+    }
+}
+
+// 訂單明細
+export function ordersInfo( pathname,query,data ){
+    return(dispatch) => {
+        const initQuery= {};
+        const method= 'get';
+        const search= queryString.stringify({ ...initQuery, ...query });
+        const url= `${API()['myaccount']['orders']['info']}${search!=''? `?${search}`: ''}`;
+        
+        return Axios({ method, url, data }).then(res => {
+            // 檢查 Response Object 有沒有 response key name;
+            if( !res.hasOwnProperty('response') ){
+
+                // 商品圖片篩選第一張作為主圖
+                const infoData = res['data']['orderDetail'].map( p_item => {
+                    return{ ...p_item, image: p_item['productImgs'][0]['path'] };
+                })
+                const mergeData = { ...res['data'], orderDetail: infoData };
+
+                dispatch({
+                    type: "ACCOUNT_ORDERS_INFO",
+                    info: mergeData
+                });
+
+                //return mergeData;
+                return {
+                    ...res,
+                    data: {
+                        ...res['data'],
+                        orderDetail: infoData
+                    }
+                }
+            }
+            return res['response'];
+        });
+
     }
 }
 

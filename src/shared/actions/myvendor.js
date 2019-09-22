@@ -1,14 +1,14 @@
 import axios from 'axios';
 import queryString from 'query-string';
+import dayjs from 'dayjs';
 import API from './apiurl';
 
-export function listProduct( pathname,query, data={} ) {
-    return (dispatch) => {
+// Lang
+import lang from '../public/lang/lang.json';
 
-        // auth: 上架
-        // non-display: 下架
-        // none-auth: 審核中
-        // delete: 已刪除
+// 商品列表
+export function listProduct( pathname,query={}, data={} ) {
+    return (dispatch) => {
 
         const initQuery = {
             page:1,
@@ -20,6 +20,13 @@ export function listProduct( pathname,query, data={} ) {
         const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API()['myvendor']['product']['categories']}${ search!=''? `?${search}`:'' }`;
 
+        dispatch({
+            type: "VENDOR_PRODUCT_HEAD",
+            noneDisplay: 0,
+            display: 0,
+            review: 0,
+            total: 0
+        })
         dispatch({
             type: 'VENDOR_PRODUCT_LIST',
             list: []
@@ -42,28 +49,28 @@ export function listProduct( pathname,query, data={} ) {
                     });
                     return text;
                 }
-
                 const list = res['data']['list'].map( item => {
                     return {
                         id: item['id'],
-                        status: item['status'],
-                        cover: item['image'][0]!=undefined? item['image'][0]['image'] : "",
+                        status: item['status']=="none-auth"? (item['status']): ( item['display']==true? 'auth':'non-display' ),
+                        cover: item['images'].length!=0? item['images'][0]['path'] : "",
                         name: item['name'],
                         brand: item['brand']!=undefined? item['brand'] : "N/A",
                         category: item['category']!=undefined? ( categoryToText(item['category']) ) :( "N/A"),
                         store: item['store']!=undefined? item['store'] : 0,
                         price: item['price']!=undefined? item['price'] : 0,
                         sellPrice: item['sellPrice']!=undefined? item['sellPrice'] : item['price'],
-                        divided: item['profitMargin']!=undefined? item['profitMargin'] : 0
+                        divided: item['profitMargin']!=undefined? item['profitMargin'] : 0,
+                        display: item['display']
                     }
                 })
 
                 dispatch({
                     type: "VENDOR_PRODUCT_HEAD",
-                    total: res['data']['total'] || 0,
-                    auth: res['data']['status']!=undefined? res['data']['status']['auth'] : 0,
-                    nonDisplay: res['data']['status']!=undefined? res['data']['status']['none-display'] : 0,
-                    noneAuth: res['data']['status']!=undefined? res['data']['status']['none-auth'] : 0
+                    noneDisplay: res['data']['status']['none-display'] || 0,
+                    display: res['data']['status']['display'] || 0,
+                    review: res['data']['status']['review'] || 0,
+                    total: res['data']['status']['total'] || 0
                 })
 
                 dispatch({
@@ -73,7 +80,7 @@ export function listProduct( pathname,query, data={} ) {
 
                 return res;
             }
-            return null;
+            return res['response'];
         });
     }
 }
@@ -87,15 +94,7 @@ export function infoProduct( query ) {
     }
 }
 
-// 審查商品list
-export function reviewlistProduct( query ){
-    return (dispatch) => {
-        const method = 'get';
-        const url = `${API()['myvendor']['product']['review']}${query}`;
-    }
-}
-
-// 刪除商品
+// 商品刪除
 export function deleteProduct( id ){
     return (dispatch)=>{
         const method = 'delete';
@@ -120,11 +119,12 @@ export function vinfo( method, formObject ){
     }
 }
 
+// 訂單列表
 export function orderList( pathname,query,data={} ) {
     return (dispatch) => {
 
         const initQuery = {
-            page: 1,
+            page: 1
         };
         const method = 'get';
         const search = queryString.stringify({ ...initQuery, ...query });
@@ -132,6 +132,17 @@ export function orderList( pathname,query,data={} ) {
 
         return Axios({method,url,data}).then( res => {
             if( !res.hasOwnProperty('response') ){
+
+                const list = res['data']['list'].map( item => {
+                    return {
+                        id: item['orderID'],
+                        orderer: item['orderName'],
+                        quantity: item['orderDetail'].length,
+                        status: lang['zh-TW']['orderStatus'][item['orderStatus']],
+                        createdate: dayjs(item['orderTimeMs']).format('YYYY/MM/DD')
+                    }
+                })
+
                 dispatch({
                     type: "VENDOR_ORDERS_STATUS",
                     total: res['data']['total'],
@@ -139,15 +150,36 @@ export function orderList( pathname,query,data={} ) {
                 })
                 dispatch({
                     type: "VENDOR_ORDERS_LIST",
-                    list: res['data']['list']
+                    list: list
                 })
                 return res;
             }
             return res['response'];
         });
+
     }
 }
 
+// 訂單列表
+export function orderInfo( pathname,query,data={} ) {
+    return (dispatch) => {
+        const initQuery = {};
+        const method = 'get';
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['myvendor']['order']['info']}${search!=""? `?${search}`:""}`;
+
+        console.log( url );
+        return Axios({method,url,data}).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                console.log( res );
+                return res;
+            }
+            return res['response'];
+        })
+    }
+}
+
+// 帳務列表
 export function incListAccount( form ) {
     return (dispatch) => {
         dispatch({
@@ -190,27 +222,100 @@ export function incListAccount( form ) {
 export function createProduct( type, formObject, step, method ) {
     return (dispatch) => {
         method = method || 'post';
-        const url = `${API()['myvendor'][type]['create'][step]}?chkbug=sure`;
+        const url = `${API()['myvendor'][type]['create'][step]}`;
         return Axios({ method, url, data: formObject });
     }
 }
 
 // 商品上下架
-export function productPutsaleAndDiscontinue( type, formObject ) {
+export function productPutsaleAndDiscontinue( pathname="", query={}, data={}, prevData=[] ) {
     return (dispatch) => {
-        
-        const method = 'put';
-        const url = API()['myvendor']['product'][type];
-        const data= {
-            product_id: formObject['id']
-        };
 
-        return Axios({method,url,data});
+        const initQuery = {};
+        const method = 'put';
+        const search = queryString.stringify({...initQuery, ...query});
+        const url = `${API()['myvendor']['product']['updateProductStatus']}${search!=""? `?${search}`:''}`;
+
+        return Axios({method,url,data}).then(res => {
+            if( !res.hasOwnProperty('response') ){
+
+                const list = prevData['tableBodyData'].map( item => {
+                    if(item['id'] == data['productToken']){
+                        item['display'] = item['display']==true? false:true;
+                        item['status']  = item['display']==true? 'auth':'non-display';
+                    }
+                    return item;
+                });
+
+                if( data['productDisplay'] ){
+                    prevData['display'] = prevData['display']+1;
+                    prevData['noneDisplay'] = prevData['noneDisplay']-1;
+                }else{
+                    prevData['display'] = prevData['display']-1;
+                    prevData['noneDisplay'] = prevData['noneDisplay']+1;
+                }
+                
+                dispatch({
+                    type: "VENDOR_PRODUCT_HEAD",
+                    noneDisplay: prevData['noneDisplay'],
+                    display: prevData['display'],
+                    review: prevData['review'],
+                    total: prevData['total']
+                })
+                dispatch({
+                    type: "VENDOR_ORDERS_LIST",
+                    list
+                })
+
+                return res;
+            }
+            return res['response'];
+        });
 
     }
 }
 
-// 廠商買的方案帳單列表
+// 購買方案列表
+export function programsList( pathname="",query={},data={} ){
+    return (dispatch) => {
+
+        const initQuery = {};
+        const method = 'get';
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['myvendor']['programs']['list']}${search!=""? `?${search}`:""}`;
+
+        return Axios({method,url,data}).then(res => {
+            if( !res.hasOwnProperty['response'] ){
+                dispatch({
+                    type: 'VENDOR_PLANFORM_LIST',
+                    list: res['data']
+                })
+                return res;
+            }
+            return res['response'];
+        }).catch( err => err['response']);
+    }
+}
+
+// 購買方案合約書
+export function contract( pathname,query={},data={} ){
+    return(dispatch) => {
+
+        const initQuery = {};
+        const method = 'get';
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['payment']['contract']}${search!=""? `?${search}`:""}`;
+
+        return Axios({method,url,data}).then( res => {
+            if( !res.hasOwnProperty['response'] ){
+                return res;
+            }
+            return res['response'];
+        });
+    }
+}
+
+// 購買的方案帳單列表
 export function buyCaseBillList( pathname,query,data={} ) {
     return (dispatch) => {
         
@@ -231,8 +336,8 @@ export function buyCaseBillList( pathname,query,data={} ) {
                     return{
                         id: item['orderID'],
                         orderer: item['orderName'],
-                        payMethod: payMethodChangeText(item['payMethod']), // 付款方式轉換文字
-                        status: payStatusChangeText(item['orderStatus']), //item['orderStatus'],
+                        payMethod: lang['zh-TW']['payment'][item['payMethod']], // 付款方式轉換文字
+                        status: lang['zh-TW']['orderStatus'][item['orderStatus']], //item['orderStatus'],
                         total: item['amount'],
                         date: item['createTimeMs']
                     }
@@ -259,7 +364,7 @@ export function buyCaseBillList( pathname,query,data={} ) {
     }
 }
 
-// 廠商買的方案帳單詳細
+// 購買的方案帳單詳細
 export function buyCaseBillInfo( pathname,query,data={} ) {
     return (dispatch) => {
         const initQuery = {};
@@ -324,7 +429,7 @@ const Axios = ( api ) => {
     return axios({
         method: api['method'],
         url: api['url'],
-        data: { ...api['data'], jwt_type: 'account'},
+        data: { ...api['data'], jwt_type: 'vendor'},
         headers:{
             authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
         }
@@ -335,24 +440,4 @@ const Axios = ( api ) => {
         }
         return error;
     });
-}
-
-export function payMethodChangeText( method ){
-    switch( method ){
-        case 'atm':
-            return 'ATM';
-        case 'CC':
-            return '信用卡';
-        case 'CVS':
-            return '超商付款';
-    }
-}
-
-export function payStatusChangeText( method ){
-    switch( method ){
-        case 'init':
-            return '尚未付款';
-        default:
-            return '未知'
-    }
 }

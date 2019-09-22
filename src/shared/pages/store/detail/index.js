@@ -56,7 +56,7 @@ class Index extends React.Component{
 
         const { match, location, history } = this.props;
         const { coverLoading, productLoading, current, total, limit, info, list } = this.state;
-        const storeToken = match['params']['id'];
+        const store = match['params']['id'];
 
         return(
             <React.Fragment>
@@ -118,7 +118,7 @@ class Index extends React.Component{
                                         list.map( item => {
                                             return(
                                                 <li key={item['token']}>
-                                                    <Item path={`/detail/${item['token']}?store=${storeToken}`} data={item}/>
+                                                    <Item path={`/detail/${item['token']}?store=${store}`} data={item}/>
                                                 </li>
                                             )
                                         })
@@ -180,12 +180,12 @@ class Index extends React.Component{
     callAPI = () => {
         const { location, match } = this.props;
         const { pathname, search } = location;
-        const storeToken = match['params']['id'];
+        const store = match['params']['id'];
         this.setState({
             productLoading: true
         },()=>{
             $('#root').animate({ scrollTop: 0 }, 'fast');
-            this.props.dispatch( storeProduct(pathname,{...queryString.parse(search), storeToken}) ).then( res => {
+            this.props.dispatch( storeProduct(pathname,{...queryString.parse(search), store}) ).then( res => {
                 this.setState({
                     productLoading: false,
                 })

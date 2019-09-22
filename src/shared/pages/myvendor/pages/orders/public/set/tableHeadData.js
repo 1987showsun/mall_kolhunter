@@ -3,7 +3,7 @@ export default [
         key: 'id',
         type: 'link',
         title: '訂單編號',
-        path: '/myvendor/info/order'
+        path: '/myvendor/orders/info'
     },
     {
         key: 'orderer',
@@ -14,11 +14,6 @@ export default [
         key: 'quantity',
         type: 'number',
         title: '購買數量'
-    },
-    {
-        key: 'transport',
-        type: 'text',
-        title: '運送方式'
     },
     {
         key: 'status',

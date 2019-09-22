@@ -84,11 +84,12 @@ export default function API( NODE_ENV ){
                 'delete': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product`, //
                 'putsale': `${API_ADDRESS(NODE_ENV)}/v1/vendor/putsale`, // put 廠商商品上架 { product_id }
                 'discontinue': `${API_ADDRESS(NODE_ENV)}/v1/vendor/discontinue`, // put 廠商商品下架 { product_id }
+                'updateProductStatus': `${API_ADDRESS(NODE_ENV)}/v1/vendor/product/status`
             },
             'order': {
                 'list': `${API_ADDRESS(NODE_ENV)}/v1/vendor/orders`, //
-                'categories': `${API_ADDRESS(NODE_ENV)}/v1/vendor/orders`,
-                'info': `${API_ADDRESS(NODE_ENV)}/v1/order/info`,
+                'categories': `${API_ADDRESS(NODE_ENV)}/v1/vendor/orders`, // get
+                'info': `${API_ADDRESS(NODE_ENV)}/v1/vendor/order/info`, // get 
                 'delivery_list': `${API_ADDRESS(NODE_ENV)}/v1/order/delivery/list`, // get 取得運送狀態列表
                 'status_list': `${API_ADDRESS(NODE_ENV)}/v1/order/status/list`, // get 取得訂單狀態列表 
                 'delivery': `${API_ADDRESS(NODE_ENV)}/v1/vendor/order/delivery`, // post 訂單運送狀態改變 { order_item_id, status }
@@ -101,6 +102,9 @@ export default function API( NODE_ENV ){
             'bill': {
                 'list': `${API_ADDRESS(NODE_ENV)}/v1/vendor/purchase`, // 廠商購買的方案帳單
                 'info': `${API_ADDRESS(NODE_ENV)}/v1/order/info`, // get 訂單明細
+            },
+            'programs': {
+                'list': `${API_ADDRESS(NODE_ENV)}/v1/vendor/programs`,
             }
         },
         'myaccount': {
@@ -155,6 +159,7 @@ export default function API( NODE_ENV ){
             }
         },
         "payment": {
+            "contract": `${API_ADDRESS(NODE_ENV)}/v1/vendor/contract`,// get 合約
             "addOrder": `${API_ADDRESS(NODE_ENV)}/v1/pay/init`, // post 建立訂單
             "checkout": `${API_ADDRESS(NODE_ENV)}/v1/pay/checkout`, // post 結帳
             "verifier": `${API_ADDRESS(NODE_ENV)}/pay/verifier`, // 第三方驗證

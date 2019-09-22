@@ -59,6 +59,12 @@
             "waitting": "退款處理中 (同意退貨才能走到這步)",
             "done": "完成退貨退款"
         },
+        "deliveryStatus": {
+            "init": "未送件",
+            "prepare": "出貨準備中",
+            "ontheway": "已出貨",
+            "arrived": "抵達"
+        },
         "transport": {
             "init": "處理中"
         },
@@ -223,6 +229,12 @@
             "reject": "Manufacturer refused to return",
             "waitting": "Refund processing",
             "done": "Complete return refund"
+        },
+        "deliveryStatus": {
+            "init": "Undelivered",
+            "prepare": "Shipping preparation",
+            "ontheway": "Transporting",
+            "arrived": "Arrived"
         },
         "transport": {
             "init": "Under processing"

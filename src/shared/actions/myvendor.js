@@ -137,6 +137,7 @@ export function orderList( pathname,query,data={} ) {
                     return {
                         id: item['orderID'],
                         orderer: item['orderName'],
+                        deliveryName: item['deliveryName'],
                         quantity: item['orderDetail'].length,
                         status: lang['zh-TW']['orderStatus'][item['orderStatus']],
                         createdate: dayjs(item['orderTimeMs']).format('YYYY/MM/DD')
@@ -168,10 +169,12 @@ export function orderInfo( pathname,query,data={} ) {
         const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API()['myvendor']['order']['info']}${search!=""? `?${search}`:""}`;
 
-        console.log( url );
         return Axios({method,url,data}).then( res => {
             if( !res.hasOwnProperty('response') ){
-                console.log( res );
+                dispatch({
+                    type: "VENDOR_ORDERS_INFO",
+                    info: res['data']
+                })
                 return res;
             }
             return res['response'];

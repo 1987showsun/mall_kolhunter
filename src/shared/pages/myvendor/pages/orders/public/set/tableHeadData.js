@@ -11,6 +11,11 @@ export default [
         title: '訂購人'
     },
     {
+        key: 'deliveryName',
+        type: 'text',
+        title: '收件人'
+    },
+    {
         key: 'quantity',
         type: 'number',
         title: '購買數量'

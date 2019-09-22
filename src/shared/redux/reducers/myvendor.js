@@ -30,6 +30,7 @@ export default function vendor(
             page: 1
         },
         "orderList": [],
+        "orderInfo": {},
         "billStatus": {
             page: 1,
             pages: 1,
@@ -98,6 +99,13 @@ export default function vendor(
             state = {
                 ...state,
                 orderList: action.list
+            }
+            break;
+
+        case 'VENDOR_ORDERS_INFO':
+            state = {
+                ...state,
+                orderInfo: action.info
             }
             break;
 

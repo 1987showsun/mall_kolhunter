@@ -1,5 +1,4 @@
 import Dashbord from './pages/dashbord';
-import Info from './pages/info';
 import Products from './pages/products';
 import Orders from './pages/orders';
 import Accounts from './pages/accounts';
@@ -10,10 +9,6 @@ export default [
     {
         path: '/myvendor/planform',
         component: Planform
-    },
-    {
-        path: "/myvendor/info/:type/:id",
-        component: Info
     },
     {
         path: "/myvendor/products",

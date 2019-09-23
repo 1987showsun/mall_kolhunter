@@ -52,7 +52,10 @@ export function ordersInfo( pathname,query,data ){
 
                 // 商品圖片篩選第一張作為主圖
                 const infoData = res['data']['orderDetail'].map( p_item => {
-                    return{ ...p_item, image: p_item['productImgs'][0]['path'] };
+                    if( p_item.hasOwnProperty('productImgs') ){
+                        return{ ...p_item, image: p_item['productImgs'][0]['path'] };
+                    }
+                    return p_item;
                 })
                 const mergeData = { ...res['data'], orderDetail: infoData };
 

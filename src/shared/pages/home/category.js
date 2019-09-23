@@ -36,7 +36,7 @@ export default class Category extends React.Component{
                                       <figure key={item['id']}>
                                           <Link to={`/categories/${item['id']}`} />
                                           <div className="category-figure-img">
-                                              <img src="https://cf.shopee.tw/file/17f3879a1872099681d7b85101e187db_tn" alt="" title="" />
+                                              <img src={item['imagePath']} alt="" title="" />
                                           </div>
                                           <figcaption>{item['title']}</figcaption>
                                       </figure>

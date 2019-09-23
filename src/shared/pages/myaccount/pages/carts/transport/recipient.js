@@ -41,7 +41,7 @@ export default class Recipient extends React.Component{
                     </div>
                 </li>
                 <li>
-                    <label htmlFor="phone2">＊手機號碼</label>
+                    <label htmlFor="phone2">＊聯絡電話</label>
                     <div className="input-box">
                         <CurrencyFormat id="phone" value={formObject['phone'] || ""} format="##########" onValueChange={ value => {
                             this.setState({

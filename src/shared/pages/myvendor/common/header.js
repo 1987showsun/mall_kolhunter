@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faAngleDown }from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faUserCircle }from '@fortawesome/free-solid-svg-icons';
 
 // Actions
 import { signout } from '../../../actions/login';
@@ -39,7 +39,13 @@ class Header extends React.Component{
                         <input type="checkbox" id="cover-user-select-switch" className="hide"/>
                         <label className="member-option-set" htmlFor="cover-user-select-switch">
                             <div className="cover">
-                                <img src="https://cf.shopee.tw/file/c320d10f46e2abfd305c6f386d2faea0_tn" title="" alt="" />
+                                {
+                                    profile['photo']!=undefined && profile['photo']!="" ? (
+                                        <img src="https://cf.shopee.tw/file/c320d10f46e2abfd305c6f386d2faea0_tn" title="" alt="" />
+                                    ):(
+                                        <FontAwesomeIcon icon={faUserCircle} />
+                                    )
+                                }
                             </div>
                             <div className="name">
                                 <h3>Hi! {profile['contactor'] || ""}</h3>

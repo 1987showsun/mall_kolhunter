@@ -31,13 +31,9 @@ class Nav extends React.Component{
 
         const { location } = this.props;
         const { open, popupMSG, profile } = this.state;
-        let pathname = location['pathname'].split('/').filter( item => item!='' );
-        let _type = pathname[1] ||"dashbord";
-        let _class = pathname[2] || '';
-        let _typeActive = false;
-        if( _type=='categories' || _type=='info' ){
-            _typeActive = true;
-        }
+        const { pathname, match } = location;
+        let pathnameArray = pathname.split('/').filter( item => item!='' );
+        const nowMainNavPathnameSet = pathnameArray['1'];
 
         return(
             <React.Fragment>
@@ -49,19 +45,20 @@ class Nav extends React.Component{
                     </div>
                     <ul>
                         <li>
-                            <span className="navBtn"><i><FontAwesomeIcon icon={faChartBar}/></i>Dashbord<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
+                            <span className={`navBtn ${nowMainNavPathnameSet=='dashboard'}`}><i><FontAwesomeIcon icon={faChartBar}/></i>Dashbord<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
                             <ul>
-                                <li><NavLink className="subNavBtn" to="/myvendor/dashboard">整體分析</NavLink></li>
+                                <li><NavLink className="subNavBtn" to="/myvendor/dashboard/analysis">整體分析</NavLink></li>
                             </ul>
                         </li>
                         <li>
-                            <span className="navBtn"><i><FontAwesomeIcon icon={faBoxOpen}/></i>商品管理<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
+                            <span className={`navBtn ${nowMainNavPathnameSet=='products'}`}><i><FontAwesomeIcon icon={faBoxOpen}/></i>商品管理<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
                             <ul>
                                 <li><NavLink className="subNavBtn" to="/myvendor/products/list">商品列表</NavLink></li>
-                                {
-                                    profile['remainQuantity']<=0? (
-                                        <li>
+                                <li>
+                                    {
+                                        profile['remainQuantity']<=0? (
                                             <span 
+                                                className="subNavBtn" 
                                                 onClick={()=>{
                                                     this.setState({
                                                         open: true,
@@ -71,27 +68,32 @@ class Nav extends React.Component{
                                             >
                                                 新增商品 ({profile['remainQuantity']})
                                             </span>
-                                        </li>
-                                    ):(
-                                        <li><NavLink className="subNavBtn" to="/myvendor/products/create">新增商品 ({profile['remainQuantity']})</NavLink></li>
-                                    )
-                                }
+                                        ):(
+                                            <NavLink 
+                                                className="subNavBtn" 
+                                                to="/myvendor/products/create"
+                                            >
+                                                    新增商品 ({profile['remainQuantity']})
+                                            </NavLink>
+                                        )
+                                    }
+                                </li>
                             </ul>
                         </li>
                         <li>
-                            <span className="navBtn"><i><FontAwesomeIcon icon={faFileAlt}/></i>訂單管理<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
+                            <span className={`navBtn ${nowMainNavPathnameSet=='orders'}`}><i><FontAwesomeIcon icon={faFileAlt}/></i>訂單管理<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
                             <ul>
                                 <li><NavLink className="subNavBtn" to="/myvendor/orders">訂單列表</NavLink></li>
                             </ul>
                         </li>
                         <li>
-                            <span className="navBtn"><i><FontAwesomeIcon icon={faCalculator}/></i>帳務管理<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
+                            <span className={`navBtn ${nowMainNavPathnameSet=='accounts'}`}><i><FontAwesomeIcon icon={faCalculator}/></i>帳務管理<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
                             <ul>
                                 <li><NavLink className="subNavBtn" to="/myvendor/accounts">帳務明細</NavLink></li>
                             </ul>
                         </li>
                         <li>
-                            <span className="navBtn"><i><FontAwesomeIcon icon={faChessRook}/></i>方案購買<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
+                            <span className={`navBtn ${nowMainNavPathnameSet=='planform'}`}><i><FontAwesomeIcon icon={faChessRook}/></i>方案購買<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
                             <ul>
                                 <li><NavLink className="subNavBtn" to="/myvendor/planform/list">方案列表</NavLink></li>
                                 <li><NavLink className="subNavBtn" to="/myvendor/planform/record">購買紀錄</NavLink></li>

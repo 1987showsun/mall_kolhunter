@@ -52,7 +52,7 @@ export default class List extends React.Component{
                     </div>
                 </li> */}
                 <li>
-                    <label htmlFor="">手機號碼</label>
+                    <label htmlFor="">聯絡電話</label>
                     <div>
                         { data['phone'] }
                     </div>

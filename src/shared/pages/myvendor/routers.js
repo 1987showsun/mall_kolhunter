@@ -1,4 +1,4 @@
-import Dashbord from './pages/dashbord';
+import Dashbord from './pages/dashbord/';
 import Products from './pages/products';
 import Orders from './pages/orders';
 import Accounts from './pages/accounts';
@@ -34,7 +34,6 @@ export default [
     },
     {
         path: "/myvendor/dashboard",
-        exact: true,
         component: Dashbord
     }
 ]

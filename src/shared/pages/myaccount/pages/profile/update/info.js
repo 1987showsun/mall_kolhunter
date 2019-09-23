@@ -145,7 +145,7 @@ class Info extends React.Component{
                         </div>
                     </li> */}
                     <li>
-                        <label htmlFor="">＊手機號碼</label>
+                        <label htmlFor="">＊聯絡電話</label>
                         <div>
                             <div className="input-box">
                                 <CurrencyFormat value={formObject['phone']} format="####-######" onValueChange={ value => this.returnTel(value['value'],'phone')}/>

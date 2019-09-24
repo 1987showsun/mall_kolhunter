@@ -293,6 +293,9 @@ form{
     >ul{
         width: 100%;
         margin-bottom: 10px;
+        &:last-child{
+            margin-bottom: 0px;
+        }
         >li{
             width: 100%;
             display: flex;

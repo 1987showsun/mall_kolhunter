@@ -67,6 +67,8 @@ export default class Index extends React.Component{
                                 selectedBefore={selectedBefore}
                                 isSelectedAll={isSelectedAll}
                                 singleSelection= {this.singleSelection.bind(this)}
+                                tableInputAction= {this.props.tableInputAction} 
+                                tableSelectAction= {this.props.tableSelectAction}
                                 tableButtonAction= {this.props.tableButtonAction}
                             />
                     }

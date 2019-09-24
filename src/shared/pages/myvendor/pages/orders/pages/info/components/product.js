@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+// Components
+import DeliveryUpdate from './deliveryUpdate';
+
 // Modules
 import Table from '../../../../../../../module/table';
 import Loading from '../../../../../../../module/loading';
@@ -14,10 +17,11 @@ class Products extends React.Component{
         super(props);
         this.state = {
             loading: false,
+            info: props.info,
             data: props.data,
             tableHeadKey : [
                 {
-                    key: 'id',
+                    key: 'specSku',
                     type: 'text',
                     title: '商品編號'
                 },
@@ -33,14 +37,15 @@ class Products extends React.Component{
                     title: '數量'
                 },
                 {
-                    key: 'spec',
+                    key: 'specName',
                     type: 'text',
                     title: '顏色 / 尺寸'
                 },
                 {
                     key: 'deliveryStatus',
-                    type: 'text',
-                    title: '運送狀態'
+                    type: 'button',
+                    title: '運送狀態',
+                    text: '變更狀態'
                 },
                 {
                     key: 'refundStatus',
@@ -52,41 +57,72 @@ class Products extends React.Component{
                     type: 'number',
                     title: '總額'
                 }
-            ]
+            ],
+            update: false,
+            selectUpdateFormObject: {
+                deliveryCode: "",
+                deliveryStatus: "init"
+            }
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return{
             loading: props.loading,
+            info: props.info,
             data: props.data
         }
     }
 
     render(){
 
-        const { info } = this.props;
-        const { loading, tableHeadKey, data } = this.state;
+        const { info, location, match } = this.props;
+        const { update, selectUpdateFormObject, loading, tableHeadKey, data } = this.state;
 
         return(
-            <section className="admin-content-row">
-                <article className="admin-content-title">
-                    <h4>商品清單</h4>
-                </article>
+            <React.Fragment>
+                <section className="admin-content-row">
+                    <article className="admin-content-title">
+                        <h4>商品清單</h4>
+                    </article>
+                    {
+                        info['orderDetail']!=undefined &&
+                            <Table 
+                                tableHeadData={tableHeadKey}
+                                tableBodyData={data}
+                                tableButtonAction= {this.tableButtonAction.bind(this)}
+                            />
+                    }
+                    <Loading loading={loading} />
+                </section>
                 {
-                    info['orderDetail']!=undefined &&
-                        <Table 
-                            tableHeadData={tableHeadKey}
-                            tableBodyData={data}
+                    update &&
+                        <DeliveryUpdate 
+                            match= {match}
+                            location= {location}
+                            handleCancel= {()=>{ this.setState({ update: false }) }}
+                            selectUpdateFormObject= {selectUpdateFormObject}
                         />
                 }
-                <Loading loading={loading} />
-            </section>
+            </React.Fragment>
         );
     }
 
-    handleChange = (e) => {
-
+    tableButtonAction = ( selectedItem ) => {
+        if( selectedItem['t_method']=="deliveryStatus" ){
+            const { selectUpdateFormObject, info, data } = this.state;
+            this.setState({
+                update: true,
+                selectUpdateFormObject: {
+                    ...selectUpdateFormObject,
+                    orderID: info['orderID'],
+                    productID: selectedItem['id'],
+                    specID: selectedItem['specToken'],
+                    specSku: selectedItem['specSku'],
+                    deliveryCode: selectedItem['deliveryCode']
+                }
+            });
+        }
     }
 }
 

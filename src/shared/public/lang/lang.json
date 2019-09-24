@@ -48,7 +48,8 @@
         },
         "orderStatus": {
             "init": "尚未付款",
-            "paid": "付款成功"
+            "paid": "付款成功",
+            "payfailure": "付款失敗"
         },
         "refundStatusEnum": {
             "none": "未申請退貨",
@@ -58,6 +59,12 @@
             "reject": "廠商拒絕退貨",
             "waitting": "退款處理中 (同意退貨才能走到這步)",
             "done": "完成退貨退款"
+        },
+        "toaster": {
+            "updateSuccess":"更新成功",
+            "updateFailure":"更新失敗",
+            "addSuccess":"新增成功",
+            "addFailure":"新增失敗"
         },
         "deliveryStatus": {
             "init": "未送件",
@@ -91,12 +98,13 @@
             "spec required": "規格必需",
             "descriptions required": "敘述必需",
             "deliveries required": "運送必需",
-            "bankAccountName required": "銀行帳號必填",
             "socialID required": "身分證字號必填",
             "bankName required": "銀行名稱必填",
             "bankCode required": "銀行代號必填",
             "bankBranch required": "帳號分行必填",
             "bankAccount required":"銀行帳號必填",
+            "bankBranchName required": "分行名稱必填",
+            "bankAccountName required": "銀行戶名必填",
             "password must contain at least six characters": "密碼必須至少包含八個字符",
             "password must contain at least one number (0-9)": "密碼必須至少包含一個數字（0-9）",
             "password must contain at least one lowercase letter (a-z)": "密碼必須至少包含一個小寫字母（a-z）",
@@ -135,7 +143,8 @@
             "cardno required": "信用卡卡號不讀為空",
             "cvc required": "驗證碼不讀為空",
             "exp required": "有效日期不讀為空",
-            "ErrThisEmailHasBeenSignup": "該信箱已存在了"
+            "ErrThisEmailHasBeenSignup": "該信箱已存在了",
+            "invoice wrong format": "發票格式錯誤"
         },
         "err": {
             "ID or password error.": "帳號或密碼錯誤",
@@ -219,7 +228,8 @@
         },
         "orderStatus": {
             "init": "Outstanding payment",
-            "paid": "Successful payment"
+            "paid": "Successful payment",
+            "payfailure": "Payment Fail"
         },
         "refundStatusEnum": {
             "none": "Not applied for return",
@@ -274,10 +284,11 @@
             "user update password, but provide wrong password to verify": "The old password was entered incorrectly, please re-enter",
             "company cannot be empty": "Company cannot be empty",
             "invoice cannot be empty": "Invoice cannot be empty",
-            "bankName cannot be empty": "BankName cannot be empty",
-            "bankAccount cannot be empty": "BankAccount cannot be empty",
-            "bankCode cannot be empty": "BankCode cannot be empty",
-            "bankAccountName cannot be empty": "BankAccountName cannot be empty",
+            "bankName cannot be empty": "Bank name cannot be empty",
+            "bankAccount cannot be empty": "Bank account cannot be empty",
+            "bankCode cannot be empty": "Bank code cannot be empty",
+            "bankBranchName required": "Bank branch name cannot be empty",
+            "bankAccountName cannot be empty": "Bank account name cannot be empty",
             "bankBranch cannot be empty": "BankBranch cannot be empty",
             "address cannot be empty": "Address cannot be empty",
             "unable to update product image": "Unable to update product image",
@@ -305,7 +316,8 @@
             "cardno required": "",
             "cvc required": "",
             "exp required": "",
-            "ErrThisEmailHasBeenSignup": "This email has been signup"
+            "ErrThisEmailHasBeenSignup": "This email has been signup",
+            "invoice wrong format": "Invoice wrong format"
         },
         "err": {
             "ID or password error.": "ID or password error.",

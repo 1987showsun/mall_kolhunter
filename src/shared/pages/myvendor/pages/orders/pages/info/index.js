@@ -33,16 +33,21 @@ class Info extends React.Component{
     render(){
 
         let orderDetail = [];
+        const { location, match } = this.props;
         const { loading, info } = this.state;
         if( info['orderDetail']!=undefined ){
             orderDetail = info['orderDetail'].map( item => {
                 return{
                     id: item['productToken'],
+                    specSku: item['specSku'],
                     name: item['productName'],
                     quantity: item['itemNum'],
                     refundStatus: lang['zh-TW']['refundStatusEnum'][item['refundStatus']],
                     deliveryStatus: lang['zh-TW']['deliveryStatus'][item['deliveryStatus']],
-                    spec: item['spec'],
+                    deliveryCode: item['deliveryCode'],
+                    specToken: item['specToken'],
+                    specName: item['specName'],
+                    specSku: item['specSku'],
                     total: item['amount']
                 }
             })
@@ -61,7 +66,9 @@ class Info extends React.Component{
                     loading= {loading}
                     data= {info}
                 />
-                <Products 
+                <Products
+                    location= {location}
+                    match= {match}
                     loading= {loading}
                     info= {info}
                     data= {orderDetail}

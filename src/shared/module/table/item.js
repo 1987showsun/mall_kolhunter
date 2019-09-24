@@ -27,6 +27,7 @@ export default class Item extends React.Component{
     render(){
 
         const {
+            inputValue,
             data, 
             head 
         } = this.props;
@@ -53,6 +54,33 @@ export default class Item extends React.Component{
                                                         </div>
                                                 }
                                                 {
+                                                    headItem['type']=='select' &&
+                                                        <div className={`table-body ${headItem['className']||''}`} key={headItem['key']}>
+                                                            <div className="input-box select">
+                                                                <select name={headItem['key']} value={bodyItem[headItem['key']]} onChange={this.handleSelect.bind(this,bodyItem)}>
+                                                                    {
+                                                                        headItem['options']!=undefined? (
+                                                                            headItem['options'].map( optionItem => <option key={optionItem['value']} value={optionItem['value']}>{optionItem['name']}</option>)
+                                                                        ):(
+                                                                            <option>請選擇條件</option>
+                                                                        )
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                }
+                                                {
+                                                    headItem['type']=='input' &&
+                                                        <div className={`table-body ${headItem['className']||''}`} key={headItem['key']}>
+                                                            <form onSubmit={this.handleSubmit.bind(this,headItem['key'],bodyItem)}>
+                                                                <div className="input-box">
+                                                                    <input type="text" name={headItem['key']} value={inputValue} onChange={this.handleChange.bind(this,bodyItem)} />
+                                                                    <button className="basic">更新</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                }
+                                                {
                                                     headItem['type']=='ranking' &&
                                                         <div className={`table-body ${headItem['className']||''}`} key={headItem['key']}>
                                                             {String(b_i+1).length<=1? `0${b_i+1}`:`${b_i+1}`}
@@ -61,9 +89,17 @@ export default class Item extends React.Component{
                                                 {
                                                     headItem['type']=='button' &&
                                                         <div className={`table-body ${headItem['className']||''}`} key={headItem['key']}>
-                                                            <button className={`status-${bodyItem['status']}`} disabled={ bodyItem['status']=="none-auth" } onClick={this.tableButtonAction.bind(this,headItem['key'],bodyItem)}>
-                                                                { headItem['text'][bodyItem['status']] }
-                                                            </button>
+                                                            {
+                                                                bodyItem.hasOwnProperty('status')?(
+                                                                    <button className={`status-${bodyItem['status']}`} disabled={ bodyItem['status']=="none-auth" } onClick={this.tableButtonAction.bind(this,headItem['key'],bodyItem)}>
+                                                                        { headItem['text'][bodyItem['status']] }
+                                                                    </button>
+                                                                ):(
+                                                                    <button className={`basic`} onClick={this.tableButtonAction.bind(this,headItem['key'],bodyItem)}>
+                                                                        { headItem['text'] }
+                                                                    </button>
+                                                                )
+                                                            }
                                                         </div>
                                                 }
                                                 {
@@ -155,10 +191,23 @@ export default class Item extends React.Component{
         return query;
     }
 
+    handleChange = (selectedItem,e) => {
+        const { name, value } = e.target;
+        this.setState({
+            [name]: value
+        })
+    }
+
     handleChackboxChange = ( selectedItem,e) => {
         const val = e.target.value;
         if( this.props.singleSelection!=undefined ){
             this.props.singleSelection(val,selectedItem);
+        }
+    }
+
+    handleSelect = ( selectedItem,e ) => {
+        if( this.props.tableSelectAction!=undefined ){
+            this.props.tableSelectAction( selectedItem, e.target );
         }
     }
 
@@ -171,6 +220,13 @@ export default class Item extends React.Component{
         const returnVal = { ...val, 't_method': method };
         if( this.props.tableButtonAction!=undefined ){
             this.props.tableButtonAction( returnVal );
+        }
+    }
+
+    handleSubmit = (key,selectedItem,e) => {
+        e.preventDefault();
+        if( this.props.tableInputAction!=undefined ){
+            this.props.tableInputAction( {[key]:this.state[key]}, selectedItem );
         }
     }
 }

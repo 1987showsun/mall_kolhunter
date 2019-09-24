@@ -8,6 +8,9 @@ import Confirm from '../../../../../../module/confirm';
 // Actions
 import { vinfo } from '../../../../../../actions/myvendor';
 
+// Javascripts
+import { checkRequired } from '../../../../../../public/javascripts/checkFormat';
+
 // Json
 import county_area from '../../../../../../public/json/TWzipcode.json';
 import lang from '../../../../../../public/lang/lang.json';
@@ -38,7 +41,7 @@ class Basic extends React.Component{
                 bankAccountName: props.data['bankAccountName'] || "",
                 bankAccount: props.data['bankAccount'] || "",
             },
-            required: ['email','phone','contactor'],
+            required: ['email','phone','contactor','bankName','bankBranchName','bankCode','bankAccountName','bankAccount'],
             msg:[]
         }
     }
@@ -151,7 +154,7 @@ class Basic extends React.Component{
                 </div>
                 <ul className="table-row-list">
                     <li>
-                        <label>銀行名稱</label>
+                        <label>＊銀行名稱</label>
                         <div className="">
                             <div className="input-box">
                                 <input type="text" name="bankName" value={formObject['bankName'] || ""} onChange={this.handleChange.bind(this)} />
@@ -159,7 +162,7 @@ class Basic extends React.Component{
                         </div>
                     </li>
                     <li>
-                        <label>銀行代號</label>
+                        <label>＊銀行代號</label>
                         <div className="">
                             <div className="input-box">
                                 <CurrencyFormat value={formObject['bankCode'] || ""} format="###" onValueChange={ value => this.returnTel(value['value'],'bankCode')}/>
@@ -167,7 +170,7 @@ class Basic extends React.Component{
                         </div>
                     </li>
                     <li>
-                        <label>分行</label>
+                        <label>＊分行</label>
                         <div className="">
                             <div className="input-box">
                                 <input type="text" name="bankBranchName" value={formObject['bankBranchName'] || ""} onChange={this.handleChange.bind(this)} />
@@ -175,7 +178,7 @@ class Basic extends React.Component{
                         </div>
                     </li>
                     <li>
-                        <label>帳號名稱</label>
+                        <label>＊帳號名稱</label>
                         <div className="">
                             <div className="input-box">
                                 <input type="text" name="bankAccountName" value={formObject['bankAccountName'] || ""} onChange={this.handleChange.bind(this)} />
@@ -183,7 +186,7 @@ class Basic extends React.Component{
                         </div>
                     </li>
                     <li>
-                        <label>帳號</label>
+                        <label>＊帳號</label>
                         <div className="">
                             <div className="input-box">
                                 <input type="text" name="bankAccount" value={formObject['bankAccount'] || ""} onChange={this.handleChange.bind(this)} />
@@ -292,23 +295,22 @@ class Basic extends React.Component{
     }
 
     handleConfirm = () => {
+
         const { formObject,required } = this.state;
+        const checkRequiredFilter = checkRequired( required,formObject );
 
-        // 檢查必填欄位
-        const requiredFilter = required.filter( filterItem => {
-            return formObject[filterItem]=='';
-        })
-
-        if( requiredFilter.length ){
-            // 未填寫完整
-            this.setState({
-                msg: requiredFilter.map( (item,i) => {
-                    return <div key={`msg_${item}`}>{lang['zh-TW']['note'][`${item} required`] }</div>;
-                })
-            })
-        }else{
-            // 填寫完整
+        if( checkRequiredFilter.length==0 ){
             this.props.dispatch( vinfo('put',formObject) ).then( res => {
+
+                switch( res['status'] ){
+                    case 200:
+                        this.props.returnSuccess( formObject );
+                        break;
+
+                    default:
+                        break;
+                }
+
                 if( res['status']==200 ){
                     this.props.returnSuccess( formObject );
                 }else{
@@ -319,6 +321,12 @@ class Basic extends React.Component{
                     })
                 }
             });
+        }else{
+            this.setState({
+                msg: checkRequiredFilter
+            },()=>{
+                this.handleCancel();
+            })
         }
     }
 }

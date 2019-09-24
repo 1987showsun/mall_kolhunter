@@ -7,8 +7,11 @@ import { connect } from 'react-redux';
 // Actions
 import { mystoreBankInfoUpdate } from '../../../../../actions/mystore';
 
+// Javascripts
+import { checkRequired } from '../../../../../public/javascripts/checkFormat';
+
 // Lang
-import lang from '../../../../../public/lang/lang.json'
+import lang from '../../../../../public/lang/lang.json';
 
 class Form extends React.Component{
 
@@ -135,43 +138,33 @@ class Form extends React.Component{
         const { location, history, match } = this.props;
         const { required, formObject } = this.state;
         const { pathname, search } = location;
-        const checkRequired = required.filter( keys => {
-            return formObject[keys] == "";
-        })
+        const checkRequiredFilter = checkRequired( required,formObject );
 
-        if( checkRequired.length==0 ){
+        if( checkRequiredFilter.length==0 ){
+            // 填寫完整
             this.props.dispatch( mystoreBankInfoUpdate(pathname,{...queryString.parse(search)},formObject) ).then( res => {
+                let msg = "";
                 switch( res['status'] ){
                     case 200:
                         this.props.returnCancel(this);
-                        toaster.notify(
-                            <div className={`toaster-status success`}>更新成功</div>
-                        ,{
-                            position: 'bottom-right',
-                            duration: 3000
-                        })
+                        msg = <div className={`toaster-status success`}>{lang['zh-TW']['toaster']['updateSuccess']}</div>;
                         break;
 
                     default:
-                        toaster.notify(
-                            <div className={`toaster-status failure`}>更新失敗</div>
-                        ,{
-                            position: 'bottom-right',
-                            duration: 3000
-                        })
+                        msg = <div className={`toaster-status failure`}>{lang['zh-TW']['toaster']['updateFailure']}</div>;
                         break;
                 }
+
+                toaster.notify( msg ,{
+                    position: 'bottom-right',
+                    duration: 3000
+                })
             });
         }else{
+            // 未填寫完整
             this.setState({
-                msg: checkRequired.map( keys => {
-                    return(
-                        <div key={keys} className="items">
-                            { lang['zh-TW']['note'][`${keys} required`] }
-                        </div>
-                    );
-                })
-            })
+                msg: checkRequiredFilter
+            });
         }
     }
 }

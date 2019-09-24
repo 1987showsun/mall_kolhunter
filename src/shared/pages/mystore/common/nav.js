@@ -56,7 +56,7 @@ class Nav extends React.Component{
                         <select value={type} onChange={this.handleChange.bind(this)}>
                             <option value="product">商品清單</option>
                             <option value={`store/${storeID}`}>店舖管理</option>
-                            {/* <option value="fansorders">粉絲訂單</option> */}
+                            <option value="fansorders">粉絲訂單</option>
                             <option value="bank">銀行帳號設定</option>
                             <option value="signout">登出</option>
                         </select>

@@ -37,7 +37,11 @@ export default class Index extends React.Component{
                         }
                         {
                             container!=null &&
-                                <div className="confirm-container-container" dangerouslySetInnerHTML={{__html: container}}></div>
+                                typeof container == 'object'?(
+                                    <div className="confirm-container-container">{container}</div>
+                                ):(
+                                    <div className="confirm-container-container" dangerouslySetInnerHTML={{__html: container}}></div>
+                                )
                         }
                         <div className="confirm-container-action">
                             {

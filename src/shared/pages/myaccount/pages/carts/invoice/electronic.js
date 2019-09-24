@@ -8,7 +8,7 @@ class Electronic extends React.Component{
         super(props);
         this.state = {
             formObject: {
-                invoiceCarruerType: 0,
+                invoiceCarruerType: "0",
                 invoiceCarruerNum: "",
             }
         }

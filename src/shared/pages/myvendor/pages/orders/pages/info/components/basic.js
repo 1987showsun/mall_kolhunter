@@ -49,19 +49,6 @@ class Basic extends React.Component{
                             <div>{data['orderDetail']!=undefined? data['orderDetail'].length:0}</div>
                         </li>
                         <li>
-                            <label>運送狀態</label>
-                            <div>
-                                <div className="input-box select">
-                                    <select name="status" onChange={this.handleChange.bind(this,'delivery_status')}>
-                                        <option value="init">{ lang['zh-TW']['deliveryStatus']['init'] }</option>
-                                        <option value="prepare">{ lang['zh-TW']['deliveryStatus']['prepare'] }</option>
-                                        <option value="ontheway">{ lang['zh-TW']['deliveryStatus']['ontheway'] }</option>
-                                        <option value="arrived">{ lang['zh-TW']['deliveryStatus']['arrived'] }</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
                             <label>付款狀態</label>
                             <div>{lang['zh-TW']['orderStatus'][data['orderStatus']]}</div>
                         </li>

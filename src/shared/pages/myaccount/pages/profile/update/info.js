@@ -2,6 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CurrencyFormat from 'react-currency-format';
 
+// Actions
+
+
+// Javascripts
+import { checkRequired } from '../../../../../public/javascripts/checkFormat';
+
 // Jsons
 import area_code from '../../../../../public/json/TWareacode.json';
 import county_area from '../../../../../public/json/TWzipcode.json';
@@ -17,7 +23,7 @@ class Info extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            required: ['name','tel_code','tel','phone'],
+            required: ['name','nickname','phone'],
             accountInfo: props.accountInfo,
             formObject: {
                 ...props.accountInfo,
@@ -26,10 +32,7 @@ class Info extends React.Component{
                 nickname: props.accountInfo['nickname'] || '',
                 gender: props.accountInfo['gender'] || 'male',
                 birthday: props.accountInfo['birthday'] || '',
-                tel_code: props.accountInfo['tel_code'] || '02',
-                tel: props.accountInfo['tel'] || '',
                 phone: props.accountInfo['phone'] || '',
-                //email: props.accountInfo['email'] || '',
                 zipcode: props.accountInfo['zipcode'] || '',
                 city: city || '',
                 district: district || '',
@@ -50,10 +53,7 @@ class Info extends React.Component{
                     nickname: props.accountInfo['nickname'] || '',
                     gender: props.accountInfo['gender'] || 'male',
                     birthday: props.accountInfo['birthday'] || '',
-                    tel_code: props.accountInfo['tel_code'] || '02',
-                    tel: props.accountInfo['tel'] || '',
                     phone: props.accountInfo['phone'] || '',
-                    //email: props.accountInfo['email'] || '',
                     zipcode: props.accountInfo['zipcode'] || '',
                     city: city || '',
                     district: district || '',
@@ -78,14 +78,6 @@ class Info extends React.Component{
         return(
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <ul className="table-row-list">
-                    {/* <li>
-                        <label htmlFor="">＊信箱(帳號)</label>
-                        <div>
-                            <div className="input-box">
-                                <input type="text" name="email" value={formObject['email']} onChange={this.handleChange.bind(this)} />
-                            </div>
-                        </div>
-                    </li> */}
                     <li>
                         <label htmlFor="">＊會員姓名</label>
                         <div>
@@ -125,25 +117,6 @@ class Info extends React.Component{
                             </div>
                         </div>
                     </li>
-                    {/* <li>
-                        <label htmlFor="">聯絡電話</label>
-                        <div>
-                            <div className="input-box select">
-                                <select name="tel_code" onChange={ this.handleChange.bind(this) }>
-                                    {
-                                        area_code.map( (item,i) => {
-                                            return(
-                                                <option key={item['code']} value={item['code']}>{item['code']}</option>
-                                            )
-                                        })
-                                    }
-                                </select>
-                            </div> 
-                            <div className="input-box">
-                                <CurrencyFormat value={formObject['tel']} format={areaCodeFormat} mask="_" onValueChange={ value => this.returnTel(value['value'],'tel')}/>
-                            </div>
-                        </div>
-                    </li> */}
                     <li>
                         <label htmlFor="">＊聯絡電話</label>
                         <div>
@@ -225,6 +198,15 @@ class Info extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
+
+        const { formObject, required } = this.state;
+        const checkRequiredFilter = checkRequired( required,formObject );
+
+        if(checkRequiredFilter.length==0 ){
+            // 填寫完整
+        }else{
+            // 未填寫完整
+        }
     }
 }
 

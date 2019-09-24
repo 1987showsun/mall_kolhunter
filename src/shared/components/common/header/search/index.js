@@ -42,12 +42,12 @@ export default class Search extends React.Component{
                         </button>
                     </div>
                 </form>
-                <div className="hito-search">
+                {/* <div className="hito-search">
                     <span className="label">熱門收尋：</span>
                     <ul>
                         <li><Link to="">123</Link></li>
                     </ul>
-                </div>
+                </div> */}
             </div>
         );
     }
@@ -66,8 +66,7 @@ export default class Search extends React.Component{
         e.preventDefault();
         const { formObject } = this.state;
         const { history, location } = this.props;
-        let search = queryString.parse( location['search'] );
-        search = { ...search, ...formObject };
+        let search = { ...queryString.parse( location['search'] ), ...formObject };
         history.push({
             pathname: '/search',
             search: queryString.stringify( search )

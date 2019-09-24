@@ -14,7 +14,6 @@ export function searchList( pathname,query ) {
         const type= query['type'];
         const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API(NODE_ENV)['mall'][type]['list']}${ search!=""? `?${search}`:"" }`;
-
         // 初始化
         dispatch({
             type: "SEARCH_STATUS",
@@ -27,16 +26,18 @@ export function searchList( pathname,query ) {
             type: "SEARCH_LIST",
             list: []
         })
-
+        
         return Axios({method:'get',url,data:{}}).then(res=>{
-            switch( type ){
-                case 'product':
-                    searchTypeToProduct(dispatch,res);
-                    break;
+            if( query['keyword']!="" &&  query['keyword']!=undefined ){
+                switch( type ){
+                    case 'product':
+                        searchTypeToProduct(dispatch,res);
+                        break;
 
-                case 'store':
-                    searchTypeToStore(dispatch,res);
-                    break;
+                    case 'store':
+                        searchTypeToStore(dispatch,res);
+                        break;
+                }
             }
             return res;
         })

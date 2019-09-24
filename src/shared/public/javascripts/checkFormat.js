@@ -1,3 +1,7 @@
+import React from 'react';
+import lang from '../lang/lang.json';
+
+// 密碼檢查
 export function PWD( form ){
     const PWD = form['password'];
     const confirmPWD = form['confirm'];
@@ -34,4 +38,28 @@ export function PWD( form ){
             msg
         }
     }
+}
+
+// 發票-是否全部由數字組成
+export const isNumber = string => {
+    const regexp = /^[0-9]+$/;
+    return regexp.test(string);
+}
+
+// 發票-自然人憑證
+export const isCertificated = string  => {
+    var regexp = /^[a-zA-Z]{2}[0-9]{14}$/;
+    return regexp.test(string);
+}
+
+// 發票-手機條碼
+export const isInvoice = string => {
+    var regexp = /^\/{1}[0-9A-Z]{7}$/;
+    return regexp.test(string);
+}
+
+export const checkRequired = ( required=[], formObject={} ) => {
+    return required.filter( keys => formObject[keys]=="").map( keys => {
+        return <div key={keys} className="items">{lang['zh-TW']['note'][`${keys} required`]}</div>;
+    })
 }

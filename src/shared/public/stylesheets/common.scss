@@ -1,5 +1,6 @@
 @import './filter.scss';
 @import './form.scss';
+@import './popup.scss';
 
 :root {
     --bg: #F0F2F5;
@@ -378,6 +379,7 @@ nav{
 
     .path-breadcrumbs{
         width: 100%;
+        min-height: 45px;
         padding: 5px 15px;
         margin-bottom: 15px;
         display: flex;

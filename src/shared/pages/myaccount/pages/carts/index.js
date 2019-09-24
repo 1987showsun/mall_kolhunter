@@ -23,6 +23,9 @@ import { getCartID } from '../../../../actions/common';
 // Stylesheets
 import './public/stylesheets/style.scss';
 
+// Javascripts
+import { checkRequired, isCertificated, isInvoice } from '../../../../public/javascripts/checkFormat';
+
 // Set
 import required from './public/set/required';
 
@@ -160,7 +163,6 @@ class Index extends React.Component{
 
     componentDidUpdate(prevProps, prevState) {
         const { returnBody } = this.state;
-        const prevReturnBody = prevState.returnBody;
         if( returnBody!="" ){
             const s = document.createElement('script');
             s.async = true;
@@ -175,81 +177,94 @@ class Index extends React.Component{
         const { pathname, search } = location;
         const { formObject, paymentFormObject, invoiceFormObject, required } = this.state;
         const mergeFormObject = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
-        //檢查必填欄位
-        const checkRequiredFilter = Object.keys(mergeFormObject).filter( keys => {
-            if( required.includes( keys ) ){
-                if( mergeFormObject[keys]=="" || mergeFormObject[keys]==undefined ){
-                    return true;
-                }
-            }
-            return false;
-        })
-
+        const checkRequiredFilter = checkRequired(required, formObject);
 
         if( checkRequiredFilter.length==0 ){
-            // 填寫完整        
-            this.props.dispatch( paymentAddOrder( pathname, queryString.parse(search),mergeFormObject ) ).then( res => {
 
-                switch( res['status'] ){
-                    case 200:
-                        // 刪除現有的購物車 cartID
-                        localStorage.removeItem('cartID');
-                        const orderID = res['data']['orderID'];
-                        const payMethod = res['data']['payMethod'];
-                        const returnBody = payMethod=='cc'? res['data']['body'] : "";
-                        // 要回新一組 cartID
-                        this.props.dispatch( getCartID() ).then( cartRes => {
-                            switch( payMethod ){
-                                case 'atm':
-                                    // 成功後導頁
-                                    history.push({
-                                        pathname: '/myaccount/payment/success',
-                                        search: queryString.stringify({
-                                            orderID,
-                                            payMethod
+            let checkInvoiceFormat = false;
+            const invoiceCarruerNum = mergeFormObject['invoiceCarruerNum'];
+            switch( mergeFormObject['invoiceCarruerType'] ){
+                case "1":
+                    // 自然人憑證載具
+                    checkInvoiceFormat = isCertificated(invoiceCarruerNum);
+                    break;
+
+                case "2":
+                    // 電商載具
+                    checkInvoiceFormat = isInvoice(invoiceCarruerNum);
+                    break;
+
+                default:
+                    // 手機條碼載具
+                    checkInvoiceFormat = true;
+                    break;
+            }
+            
+            // 檢查發票格式
+            if( checkInvoiceFormat ) {
+                // 填寫完整    
+                this.props.dispatch( paymentAddOrder( pathname, queryString.parse(search),mergeFormObject ) ).then( res => {
+                    switch( res['status'] ){
+                        case 200:
+                            // 刪除現有的購物車 cartID
+                            localStorage.removeItem('cartID');
+                            const orderID = res['data']['orderID'];
+                            const payMethod = res['data']['payMethod'];
+                            const returnBody = payMethod=='cc'? res['data']['body'] : "";
+                            // 要回新一組 cartID
+                            this.props.dispatch( getCartID() ).then( cartRes => {
+                                switch( payMethod ){
+                                    case 'atm':
+                                        // 成功後導頁
+                                        history.push({
+                                            pathname: '/myaccount/payment/success',
+                                            search: queryString.stringify({
+                                                orderID,
+                                                payMethod
+                                            })
                                         })
-                                    })
-                                    break;
+                                        break;
 
-                                case 'cc':
-                                    // 刪除現有的購物車 cartID
-                                    this.setState({
-                                        returnBody
-                                    })
-                                    break;
+                                    case 'cc':
+                                        // 刪除現有的購物車 cartID
+                                        this.setState({
+                                            returnBody
+                                        })
+                                        break;
 
-                                default:
+                                    default:
 
-                                    break;
-                            }
-                        });
+                                        break;
+                                }
+                            });
 
-                        break;
+                            break;
 
-                    default:
-                        // 失敗就於右下角跳出錯誤訊息
-                        const status_text = res['data']['status_text'];
-                        toaster.notify(
-                            <div className={`toaster-status failure`}>{lang['zh-TW'][status_text]}</div>
-                        ,{
-                            position: 'bottom-right', // 訊息窗顯示於右下角
-                            duration: 5000 // 訊息5秒後消失
-                        })
-                        break;
-                }
-            });
+                        default:
+                            // 失敗就於右下角跳出錯誤訊息
+                            const status_text = res['data']['status_text'];
+                            toaster.notify(
+                                <div className={`toaster-status failure`}>{lang['zh-TW'][status_text]}</div>
+                            ,{
+                                position: 'bottom-right', // 訊息窗顯示於右下角
+                                duration: 5000 // 訊息5秒後消失
+                            })
+                            break;
+                    }
+                });
+            }else{
+                this.setState({
+                    open: true,
+                    method: 'alert',
+                    popupMsg: `<div className="items">${lang['zh-TW']['note']['invoice wrong format']}</div>`
+                })
+            }
         }else{
             // 沒填寫完整
-            //console.log( checkRequiredFilter );
-            let checkRequiredText = "";
-            checkRequiredFilter.forEach( key => {
-                checkRequiredText = `${checkRequiredText}<div class="items">${lang['zh-TW']['note'][`${key} required`]}</div>`;
-            })
-            
             this.setState({
                 open: true,
                 method: 'alert',
-                popupMsg: checkRequiredText
+                popupMsg: checkRequiredFilter
             })
         }        
     }

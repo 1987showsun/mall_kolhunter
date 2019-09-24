@@ -182,6 +182,25 @@ export function orderInfo( pathname,query,data={} ) {
     }
 }
 
+// 訂單列表
+export function orderInfoProductDeliveryStatus( pathname,query,data={} ) {
+    return (dispatch) => {
+        
+        const method = 'put';
+        const initQuery = {};
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['myvendor']['order']['delivery']}${search!=""? `?${search}`:""}`;
+        return Axios({method,url,data}).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                console.log( res );
+                return res;
+            }
+            return res['response'];
+        });
+        
+    }
+}
+
 // 帳務列表
 export function incListAccount( form ) {
     return (dispatch) => {

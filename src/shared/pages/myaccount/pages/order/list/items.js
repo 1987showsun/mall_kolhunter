@@ -1,7 +1,5 @@
 import React from 'react';
 import dayjs from 'dayjs'
-import queryString from 'query-string';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus }from '@fortawesome/free-solid-svg-icons';
@@ -22,6 +20,9 @@ export default class Items extends React.Component{
     }
 
     render(){
+
+        const { refundAble } = this.state;
+
         return(
             <section className="container-unit">
                 <div className="order-head-wrap">
@@ -56,7 +57,11 @@ export default class Items extends React.Component{
                 />
                 <div className="order-action-wrap">
                     <ul>
-                        <li><Link to={`/myaccount/orders/return/${this.state.orderID}`}>退貨 / 取消</Link></li>
+                        <li><Link to={`/myaccount/orders/info/${this.state.orderID}`}>購買明細</Link></li>
+                        {
+                            refundAble &&
+                                <li><Link to={`/myaccount/orders/return/${this.state.orderID}`}>退貨申請</Link></li>
+                        }
                         <li><Link to={`/myaccount/orders/message/${this.state.orderID}`}>我要詢問</Link></li>
                     </ul>
                 </div>

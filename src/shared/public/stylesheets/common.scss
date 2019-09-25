@@ -495,10 +495,13 @@ nav{
         &:first-child{ margin-bottom: 0px; }
         .container-unit-head{
             width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin: 5px 0px 10px 0px;
             color: #999;
             h3{ font-size: 1.1rem; }
-            h4{ font-size: 1rem; }
+            h4{ font-size: 1rem; display: inline-flex; align-items: center;}
             svg{ margin-right: 5px; }
         }
         .container-unit-row{
@@ -579,7 +582,7 @@ nav{
 .unit-head{
     width: 100%;
     min-height: 40px;
-    margin: 5px 0px ㄓpx 0px;
+    margin: 0px 0px 10px 0px;
     display: flex;
     align-items: center;
     justify-content: space-between;

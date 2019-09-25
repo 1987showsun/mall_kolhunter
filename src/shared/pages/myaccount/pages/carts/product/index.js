@@ -72,7 +72,7 @@ class Index extends React.Component{
             productToken: val['productToken'],
             specToken: val['specToken'],
             itemNumber: val['itemNum'],
-            storeID: val['storeToken'],
+            storeID: val['storeID'] || "",
             productDeliveryID: val['productDeliveryID']
         }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import toaster from 'toasted-notes';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 
@@ -86,6 +87,13 @@ class DeliveryUpdate extends React.Component{
         this.props.dispatch( orderInfoProductDeliveryStatus(pathname,{...queryString.parse(search)},selectUpdateFormObject) ).then( res => {
             switch( res['status']) {
                 case 200:
+                    toaster.notify(
+                        <div className={`toaster-status success`}>更新成功</div>
+                    ,{
+                        position: 'bottom-right',
+                        duration: 4000
+                    })
+                    this.props.returnOpen(false);
                     break;
 
                 default:

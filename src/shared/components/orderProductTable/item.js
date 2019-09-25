@@ -25,7 +25,7 @@ export default class Item extends React.Component{
                     <span className="span-row">尺寸/型號/顏色：{this.state.specName}</span>
                     <span className="span-row">產品編號：{this.state.specToken}</span>
                 </div>
-                <div>{ lang['zh-TW']['transport'][this.state.deliveryStatus]}</div>
+                <div>{ lang['zh-TW']['deliveryStatus'][this.state.deliveryStatus]}</div>
                 <div><CurrencyFormat value={this.state.count} displayType={'text'} thousandSeparator={true}/></div>
                 <div><CurrencyFormat value={this.state.amount} displayType={'text'} thousandSeparator={true}/></div>
             </li>

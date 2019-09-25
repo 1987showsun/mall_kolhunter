@@ -486,3 +486,26 @@ $userCoverMobile_W: 150px;
         }
     }
 }
+
+.member-order-info-table{
+    .storeName{
+        a{
+            min-width: auto !important;
+            -webkit-line-clamp: 1 !important;
+        }
+    }
+}
+
+.container-unit-row{
+    .contact-information{
+        margin-bottom: 25px;
+        &:last-child{
+            margin-bottom: 0px;
+        }
+        .copy-btn{
+            position: absolute;
+            z-index: 2;
+            right: 10px;
+        }
+    }    
+}

@@ -1,6 +1,7 @@
 // 訂單-退貨
 import React from 'react';
 import dayjs from 'dayjs';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faChevronCircleRight}from '@fortawesome/free-solid-svg-icons';
@@ -118,7 +119,8 @@ class Index extends React.Component{
                     <div className="unit-head">
                         <h3>該筆訂單商品</h3>
                     </div>
-                    <Table 
+                    <Table
+                        className="member-order-info-table"
                         tableHeadData= {tableHeadData}
                         tableBodyData= {tableBodyData}
                         returnCheckbox= { (val) => {this.setState({ selected: val })} }
@@ -158,6 +160,7 @@ class Index extends React.Component{
                     cover: item['image'],
                     name: item['productName'],
                     count: item['count'],
+                    storeName: item['storeToken']!=""? [<Link key={'123'} to={`/store/${item['storeToken']}`} target="_blank">{item['storeName']}</Link>] : 'Kolhunter',
                     total: item['amount']
                 }
             })

@@ -16,6 +16,7 @@ export default class Index extends React.Component{
         this.state = {
             isSelectedAll: props.isSelectedAll || false,
             selectedBefore: [],
+            className: props.className || "",
             head: props.tableHeadData || [],
             body: props.tableBodyData || []
         }
@@ -41,7 +42,7 @@ export default class Index extends React.Component{
     render(){
 
         const { 
-            loading,
+            className,
             head, 
             body, 
             isSelectedAll, 
@@ -51,7 +52,7 @@ export default class Index extends React.Component{
         return(
             <div className="table-wrap">
                 <Loading loading={this.props.loading || false}/>
-                <ul className="table-ul">
+                <ul className={`table-ul ${className}`}>
                     <Head 
                         data={head}
                         body={body}

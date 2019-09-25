@@ -39,11 +39,12 @@ class Info extends React.Component{
             orderDetail = info['orderDetail'].map( item => {
                 return{
                     id: item['productToken'],
-                    specSku: item['specSku'],
                     name: item['productName'],
+                    specSku: item['specSku'],
                     quantity: item['itemNum'],
                     refundStatus: lang['zh-TW']['refundStatusEnum'][item['refundStatus']],
-                    deliveryStatus: lang['zh-TW']['deliveryStatus'][item['deliveryStatus']],
+                    deliveryStatusName: lang['zh-TW']['deliveryStatus'][item['deliveryStatus']],
+                    deliveryStatus: item['deliveryStatus'],
                     deliveryCode: item['deliveryCode'],
                     specToken: item['specToken'],
                     specName: item['specName'],

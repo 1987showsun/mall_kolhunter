@@ -27,12 +27,12 @@ class Electronic extends React.Component{
                             <div className="box"></div>
                             <div className="radio-container">
                                 <span>電商載具</span>
-                                {
+                                {/* {
                                     formObject['invoiceCarruerType']=='0' &&
                                         <div className="input-box no-margin" style={{marginTop: '10px'}}>
                                             <input type="text" name="invoiceCarruerNum" value={formObject['invoiceCarruerNum']} onChange={this.handleChange.bind(this)} />
                                         </div>
-                                }
+                                } */}
                             </div>
                         </label>
                     </li>

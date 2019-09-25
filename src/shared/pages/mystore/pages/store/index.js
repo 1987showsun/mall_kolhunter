@@ -56,7 +56,6 @@ class Index extends React.Component{
         const { location } = this.props;
         const query = queryString.parse(location['search']);
         const pathname = location['pathname'].split('/').filter( filterItem => filterItem!='' );
-
         return(
             <React.Fragment>
                 <section className="container-unit none-padding">

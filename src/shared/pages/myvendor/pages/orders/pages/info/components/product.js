@@ -78,6 +78,7 @@ class Products extends React.Component{
 
         const { info, location, match } = this.props;
         const { update, selectUpdateFormObject, loading, tableHeadKey, data } = this.state;
+        console.log( '===>',data );
 
         return(
             <React.Fragment>
@@ -102,6 +103,11 @@ class Products extends React.Component{
                             location= {location}
                             handleCancel= {()=>{ this.setState({ update: false }) }}
                             selectUpdateFormObject= {selectUpdateFormObject}
+                            returnOpen= { (val=false)=> {
+                                this.setState({ 
+                                    update: val 
+                                })
+                            }} 
                         />
                 }
             </React.Fragment>
@@ -119,7 +125,8 @@ class Products extends React.Component{
                     productID: selectedItem['id'],
                     specID: selectedItem['specToken'],
                     specSku: selectedItem['specSku'],
-                    deliveryCode: selectedItem['deliveryCode']
+                    deliveryCode: selectedItem['deliveryCode'],
+                    deliveryStatus: selectedItem['deliveryStatus']
                 }
             });
         }

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Beforeunload } from 'react-beforeunload';
 
 // Components
 import Step from './step';
@@ -16,7 +15,7 @@ import Loading from '../../../../../../module/loading';
 import Confirm from '../../../../../../module/confirm';
 
 // Actions
-import { createProduct } from '../../../../../../actions/myvendor';
+import { createProduct, quota } from '../../../../../../actions/myvendor';
 import { categories } from '../../../../../../actions/common';
 
 //Lang
@@ -133,13 +132,19 @@ class Index extends React.Component{
                         </ul>
                     </div>
                 </form>
-
                 <Confirm
                     open={open}
                     method='alert'
                     container={popupMsg}
                     onCancel={this.handleConfirm.bind(this)}
                 />
+                <Prompt when={true} message={ location => {
+                    location.pathname.startsWith("/myvendor/products/create")? (
+                        true
+                    ):(
+                        this.onUnload()
+                    )
+                }}/>
             </React.Fragment>
         );
     }
@@ -155,8 +160,10 @@ class Index extends React.Component{
     }
 
     componentDidUpdate(prevProps, prevState) {
+
         const { history } = this.props;
         const { profile } = this.state;
+        // 檢查配額
         if( profile['remainQuantity']<=0 ){
             history.push({
                 pathname: '/myvendor/planform/list'
@@ -198,9 +205,9 @@ class Index extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { id, formObject, step, maxStep } = this.state;
+        const { id, formObject, step, maxStep, profile } = this.state;
         const { match } = this.props;
-        const type = 'product'//match['params'];
+        const type = 'product';
         let method = "post";
         
         switch( step ){
@@ -241,49 +248,53 @@ class Index extends React.Component{
                 break;
         }
 
+        // 檢查必填欄位
         const checkRequired = this.checkRequired(step,formObject);
 
         if( checkRequired ){
-            
             this.setState({
                 loading: true,
-            })
-
-            this.props.dispatch( createProduct( type, formObject[step], step, method ) ).then( res => {
-                this.setState({
-                    loading: false
-                },()=>{
-                    switch( res['status'] ){
-                        case 200:
-                            if( step==1 ){
-                                this.setState({
-                                    step: step==maxStep? maxStep : step+1,
-                                    noteMSG: [],
-                                    id: res['data']['id']
-                                })
-                            }else{
-                                if( step>=5 ){
+            },()=>{
+                this.props.dispatch( createProduct( type, formObject[step], step, method ) ).then( res => {
+                    this.setState({
+                        loading: false
+                    },()=>{
+                        switch( res['status'] ){
+                            case 200:
+                                sessionStorage.setItem(`productCreateStep${step}`,JSON.stringify(formObject[step]));
+                                if( step==1 ){
                                     this.setState({
-                                        open: true,
-                                        popupMsg: '新增成功'
+                                        step: step==maxStep? maxStep : step+1,
+                                        noteMSG: [],
+                                        id: res['data']['id']
+                                    },()=>{
+                                        // 新增成功減掉配額
+                                        this.props.dispatch( quota('less',profile) );
                                     })
                                 }else{
+                                    if( step>=5 ){
+                                        this.setState({
+                                            open: true,
+                                            popupMsg: '新增成功'
+                                        })
+                                    }else{
+                                        this.setState({
+                                            step: step==maxStep? maxStep : step+1
+                                        })
+                                    }
+                                }
+                                break;
+                            
+                            default :
+                                if( res['status']==502 ){
                                     this.setState({
-                                        step: step==maxStep? maxStep : step+1
+                                        noteMSG: [<div>{lang['zh-TW']['note']['server busy line']}</div>],
                                     })
                                 }
-                            }
-                            break;
-                        
-                        default :
-                            if( res['status']==502 ){
-                                this.setState({
-                                    noteMSG: [<div>{lang['zh-TW']['note']['server busy line']}</div>],
-                                })
-                            }
-                            break;
-                    }
-                })
+                                break;
+                        }
+                    })
+                });
             });
         }
     }
@@ -317,8 +328,16 @@ class Index extends React.Component{
         }
     }
 
-    onUnload = (event) => {
-        event.returnValue = "Hellooww"
+    onUnload = (e) => {
+        const { id } = this.state;
+        for( let i=1 ; i<=5 ; i++ ){
+            sessionStorage.removeItem(`productCreateStep${i}`);
+        }
+        console.log( id );
+        //this.props.dispatch(  );
+        let confirmationMessage = '你正在離開該頁面，我們將會刪除為完成資料！';
+        (e || window.event).returnValue = confirmationMessage;
+        return confirmationMessage;
     }
 }
 

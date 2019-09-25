@@ -1,7 +1,7 @@
 export default [
     {
         key: 'status',
-        type: 'button',
+        type: 'buttonTest',
         title: '狀態（點擊移出販售）',
         text: {
             "off": '未販賣',
@@ -23,11 +23,6 @@ export default [
         path: '/detail'
     },
     {
-        key: 'store',
-        type: 'number',
-        title: '店家數'
-    },
-    {
         key: 'price',
         type: 'number',
         title: '售價'
@@ -36,10 +31,5 @@ export default [
         key: 'sellPrice',
         type: 'number',
         title: '特價'
-    },
-    {
-        key: "profit",
-        type: "number",
-        title: "分潤比"
     }
 ]

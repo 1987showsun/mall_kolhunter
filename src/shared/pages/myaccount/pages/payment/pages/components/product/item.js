@@ -36,7 +36,13 @@ class Item extends React.Component{
                         </li>
                         <li>
                             <label>消費網紅店家</label>
-                            <div>{ data['store']!="" && data['store']!=undefined? data['store']:"Kolhunter Mall" }</div>
+                            {
+                                data['storeToken']==undefined || data['storeToken']=="" ? (
+                                    <div>Kolhunter</div>
+                                ):(
+                                    <div><Link to={`/store/${data['storeToken']}`} target="_blank">{data['storeName']}</Link></div>
+                                )
+                            }
                         </li>
                         <li>
                             <label>數量</label>

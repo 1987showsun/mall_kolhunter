@@ -6,6 +6,32 @@ import API from './apiurl';
 // Lang
 import lang from '../public/lang/lang.json';
 
+// 額度新增刪除
+export function quota( actions="less",data={} ) {
+    return (dispatch) => {
+        switch( actions ){
+            case 'less':
+                data = {
+                    ...data,
+                    remainQuantity: data['remainQuantity']-1
+                }
+                break;
+
+            default:
+                data = {
+                    ...data,
+                    remainQuantity: data['remainQuantity']+1
+                }
+                break;
+        }
+
+        dispatch({
+            type: "VENDOR_INFO",
+            payload: data
+        })
+    }
+}
+
 // 商品列表
 export function listProduct( pathname,query={}, data={} ) {
     return (dispatch) => {
@@ -99,7 +125,12 @@ export function deleteProduct( id ){
     return (dispatch)=>{
         const method = 'delete';
         const url = `${API()['myvendor']['product']['delete']}`;
-        return Axios({method,url,data: {id}});
+        return Axios({method,url,data: {id}}).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response']
+        });
     }
 }
 

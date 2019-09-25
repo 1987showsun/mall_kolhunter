@@ -14,7 +14,7 @@ import Confirm from '../../../../../../module/confirm';
 import Table from '../../../../../../module/table';
 
 // Actions
-import { infoProduct, deleteProduct } from '../../../../../../actions/myvendor';
+import { infoProduct, deleteProduct, quota } from '../../../../../../actions/myvendor';
 import { deliveries, categories } from '../../../../../../actions/common';
 
 // Lang
@@ -217,20 +217,20 @@ class Product extends React.Component{
     }
 
     handleConfirm = () => {
-        const { match } = this.props;
+        const { match, profile } = this.props;
         const { status } = this.state;
         const id = match['params']['id'];
         this.props.dispatch( deleteProduct(id) ).then( res => {
             if( res['data']['message']=="success" ){
-                if( status=='none-auth' ){
-                    this.props.history.goBack();
-                }else{
-                    this.props.history.goBack();
-                }
                 this.setState({
                     open: false,
                     popupMsg: ""
-                })
+                },()=>{
+                    if( status=='none-auth' ){
+                        this.props.dispatch( quota('sum',profile) );
+                    }
+                    this.props.history.goBack();
+                });
             }
         });
     }
@@ -238,7 +238,7 @@ class Product extends React.Component{
 
 const mapStateToProps = state => {
     return{
-
+        profile: state.myvendor.info
     }
 }
 

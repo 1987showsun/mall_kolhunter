@@ -23,6 +23,12 @@ export default [
         title: '數量'
     },
     {
+        key: 'storeName',
+        type: 'text',
+        title: '購買店舖',
+        className: "storeName"
+    },
+    {
         key: 'total',
         type: 'number',
         title: '購買價格'

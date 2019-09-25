@@ -32,11 +32,11 @@ class Index extends React.Component{
 
     render(){
 
-        const { accountInfo } = this.state;
+        const { accountInfo, ordererFormObject } = this.state;
 
         return(
             <div className="container-unit-row" data-flexwrap="wrap">
-                <div className="container-unit-row" data-flexwrap="wrap">
+                <div className="container-unit-row contact-information" data-flexwrap="wrap">
                     <div className="container-unit-head">
                         <h4><FontAwesomeIcon icon={faChevronCircleRight}/>訂購人</h4>
                     </div>
@@ -58,11 +58,12 @@ class Index extends React.Component{
                         })
                     }
                 </div>
-                <div className="container-unit-row" data-flexwrap="wrap">
+                <div className="container-unit-row contact-information" data-flexwrap="wrap">
                     <div className="container-unit-head">
                         <h4><FontAwesomeIcon icon={faChevronCircleRight}/>收件人</h4>
                     </div>
                     <Recipient
+                        copyOrdererFormObject= {ordererFormObject}
                         mergeFunction = { (val)=> {
                             this.setState({
                                 deliveryFormObject: { ...this.state.deliveryFormObject, ...val }

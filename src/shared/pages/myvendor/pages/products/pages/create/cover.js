@@ -23,44 +23,42 @@ export default class Cover extends React.Component{
 
         return(
             <React.Fragment>
-                <section className="admin-content-row">
-                    <article className="admin-content-title">
-                        <h4>商品圖片</h4>
-                    </article>
-                    <BlockList className="admin-product-img-ul">
-                        <li>
-                            <AvatarCropper 
-                                onChangeData= {this.onChangeData.bind(this)}
-                            />
-                        </li>
-                        {
-                            data.length!=0 &&
-                                data.map( (item,i)=> {
-                                    return(
-                                        <li key={i} className={ selectedIndex==i? 'active':'' }>
-                                            <figure>
-                                                <img src={item['image']} alt="" title="" />
-                                                <figcaption>
-                                                    <ul className="btn-ul">
-                                                        <li>
-                                                            <button className="positioning" type="button" onClick={this.positioning.bind(this,i)}>
-                                                                <i><FontAwesomeIcon icon={faMapPin} /></i>
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button type="button" onClick={this.removeItem.bind(this,i)}>
-                                                                <i><FontAwesomeIcon icon={faTimes} /></i>
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                </figcaption>
-                                            </figure>
-                                        </li>
-                                    )
-                                })
-                        }
-                    </BlockList>
-                </section>
+                <article className="admin-content-title">
+                    <h4>商品圖片</h4>
+                </article>
+                <BlockList className="admin-product-img-ul">
+                    <li>
+                        <AvatarCropper 
+                            onChangeData= {this.onChangeData.bind(this)}
+                        />
+                    </li>
+                    {
+                        data.length!=0 &&
+                            data.map( (item,i)=> {
+                                return(
+                                    <li key={i} className={ selectedIndex==i? 'active':'' }>
+                                        <figure>
+                                            <img src={item['image']} alt="" title="" />
+                                            <figcaption>
+                                                <ul className="btn-ul">
+                                                    <li>
+                                                        <button className="positioning" type="button" onClick={this.positioning.bind(this,i)}>
+                                                            <i><FontAwesomeIcon icon={faMapPin} /></i>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button type="button" onClick={this.removeItem.bind(this,i)}>
+                                                            <i><FontAwesomeIcon icon={faTimes} /></i>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </figcaption>
+                                        </figure>
+                                    </li>
+                                )
+                            })
+                    }
+                </BlockList>
             </React.Fragment>
         );
     }

@@ -16,7 +16,7 @@ import Loading from '../../../../../../module/loading';
 import Confirm from '../../../../../../module/confirm';
 
 // Actions
-import { createProduct, quota } from '../../../../../../actions/myvendor';
+import { createProduct, quota, deleteProduct } from '../../../../../../actions/myvendor';
 import { categories } from '../../../../../../actions/common';
 
 //Lang
@@ -72,59 +72,61 @@ class Index extends React.Component{
                 />
 
                 <form className="create-form" onSubmit={this.handleSubmit.bind(this)}>
-                    <Loading loading={loading} />
-                    {
-                        step==1 &&
-                            // 基本
-                            <Basic 
-                                categoriesItem={categoriesItem} 
-                                data={ formObject[step]==undefined? null:formObject[step] } 
-                                onHandleChange={this.handleChange.bind(this)}
-                            />
-                    }
-                    {
-                        step==2 &&
-                            // 主圖
-                            <Cover 
-                                id={id} 
-                                data={ formObject[step]==undefined? null:formObject[step]['images'] } 
-                                onHandleChange={this.handleChange.bind(this)}
-                            />
-                    }
-                    {
-                        step==3 &&
-                            // 規格
-                            <Format 
-                                data={ formObject[step]==undefined? []:formObject[step]['spec'] } 
-                                onHandleChange={this.handleChange.bind(this)}
-                            />
-                    }
-                    {
-                        step==4 &&
-                            // 敘述
-                            <Depiction
-                                data={ formObject[step]==undefined? []:formObject[step]['descriptions'] } 
-                                onHandleChange={this.handleChange.bind(this)}
-                            />
-                    }
-                    {
-                        step==5 &&
-                            // 運送方式
-                            <Freight 
-                                data={ formObject[step]==undefined? []:formObject[step]['spdeliveriesec'] } 
-                                onHandleChange={this.handleChange.bind(this)}
-                            />
-                    }
-                    {
-                        noteMSG.length!=0 &&
-                            <div className="admin-form-msg">
-                                {
-                                    noteMSG.map( (msgItem,i) => {
-                                        return msgItem;
-                                    })
-                                }
-                            </div>
-                    }
+                    <section className="admin-content-row">
+                        <Loading loading={loading} />
+                        {
+                            step==1 &&
+                                // 基本
+                                <Basic 
+                                    categoriesItem={categoriesItem} 
+                                    data={ formObject[step]==undefined? null:formObject[step] } 
+                                    onHandleChange={this.handleChange.bind(this)}
+                                />
+                        }
+                        {
+                            step==2 &&
+                                // 主圖
+                                <Cover 
+                                    id={id} 
+                                    data={ formObject[step]==undefined? null:formObject[step]['images'] } 
+                                    onHandleChange={this.handleChange.bind(this)}
+                                />
+                        }
+                        {
+                            step==3 &&
+                                // 規格
+                                <Format 
+                                    data={ formObject[step]==undefined? []:formObject[step]['spec'] } 
+                                    onHandleChange={this.handleChange.bind(this)}
+                                />
+                        }
+                        {
+                            step==4 &&
+                                // 敘述
+                                <Depiction
+                                    data={ formObject[step]==undefined? []:formObject[step]['descriptions'] } 
+                                    onHandleChange={this.handleChange.bind(this)}
+                                />
+                        }
+                        {
+                            step==5 &&
+                                // 運送方式
+                                <Freight 
+                                    data={ formObject[step]==undefined? []:formObject[step]['spdeliveriesec'] } 
+                                    onHandleChange={this.handleChange.bind(this)}
+                                />
+                        }
+                        {
+                            noteMSG.length!=0 &&
+                                <div className="admin-form-msg">
+                                    {
+                                        noteMSG.map( (msgItem,i) => {
+                                            return msgItem;
+                                        })
+                                    }
+                                </div>
+                        }
+                    </section>
                     <div className="admin-form-action">
                         <ul>
                             <li>
@@ -210,15 +212,9 @@ class Index extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         const { id, formObject, step, maxStep, profile } = this.state;
-        const { match } = this.props;
-        const type = 'product';
         let method = "post";
         
         switch( step ){
-
-            case 1:
-                break;
-
             case 2:
                 method = 'put';
                 formObject[step] = {
@@ -259,7 +255,7 @@ class Index extends React.Component{
             this.setState({
                 loading: true,
             },()=>{
-                this.props.dispatch( createProduct( type, formObject[step], step, method ) ).then( res => {
+                this.props.dispatch( createProduct( formObject[step], step, method ) ).then( res => {
                     this.setState({
                         loading: false
                     },()=>{
@@ -333,12 +329,22 @@ class Index extends React.Component{
     }
 
     onUnload = (e) => {
-        const { id } = this.state;
+        const { id, step, profile } = this.state;
         for( let i=1 ; i<=5 ; i++ ){
             sessionStorage.removeItem(`productCreateStep${i}`);
         }
-        console.log( id );
-        //this.props.dispatch(  );
+        if( step>1 && step<5 ){
+            this.props.dispatch( deleteProduct(id) ).then( res => {
+                switch( res['status'] ){
+                    case 200:
+                        this.props.dispatch( quota('sum',profile) );
+                        break;
+
+                    default:
+                        break;
+                }
+            })
+        }
         let confirmationMessage = '你正在離開該頁面，我們將會刪除為完成資料！';
         (e || window.event).returnValue = confirmationMessage;
         return confirmationMessage;

@@ -12,8 +12,8 @@ export default class Product extends React.Component{
                 id: "",
                 name: "",
                 categories: [],
-                price: 0,
-                priceSale: 0
+                price: "",
+                priceSale: ""
             },
             categoriesLevel1: {
                 id: "",
@@ -38,74 +38,72 @@ export default class Product extends React.Component{
 
         return(
             <React.Fragment>
-                <section className="admin-content-row">
-                    <article className="admin-content-title">
-                        <h4>基本資料</h4>
-                    </article>
-                    <ul className="table-row-list">
-                        <li>
-                            <label>* 商品名稱</label>
-                            <div>
-                                <div className="input-box">
-                                    <input type="text" name="name" value={data['name']} onChange={this.handleChange.bind(this)} />
-                                </div>
+                <article className="admin-content-title">
+                    <h4>基本資料</h4>
+                </article>
+                <ul className="table-row-list">
+                    <li>
+                        <label>* 商品名稱</label>
+                        <div>
+                            <div className="input-box">
+                                <input type="text" name="name" value={data['name']} onChange={this.handleChange.bind(this)} />
                             </div>
-                        </li>
-                        <li>
-                            <label>* 商品分類</label>
-                            <div>
-                                <div className="input-box select">
-                                    <select name="categoriesLevel1" value={data['categoriesLevel1']} onChange={this.categoriesChange.bind(this)}>
-                                        <option value="" >請選擇主分類</option>
-                                        {
-                                            categoriesItem.map( (cItem,i)=> {
-                                                return(
-                                                    <option key={cItem['id']} value={cItem['id']}>{cItem['title']}</option>
-                                                );
-                                            })
-                                        }
-                                    </select>
-                                </div>
-                                {
-                                    categoriesItem.map( (cItem,i)=> {
-                                        if(cItem['id']==categoriesLevel1['id'] && cItem['children'].length!=0){                                     
+                        </div>
+                    </li>
+                    <li>
+                        <label>* 商品分類</label>
+                        <div>
+                            <div className="input-box select category">
+                                <select name="categoriesLevel1" value={data['categoriesLevel1']} onChange={this.categoriesChange.bind(this)}>
+                                    <option value="" >請選擇主分類</option>
+                                    {
+                                        categoriesItem.map( (cItem,i)=> {
                                             return(
-                                                <div className="input-box select" key={i}>
-                                                    <select name="categoriesLevel2" value={data['categoriesLevel2']} onChange={this.categoriesChange.bind(this)}>
-                                                        <option value="" >請選擇次分類</option>
-                                                        {
-                                                            cItem['children'].map( (childrenItem,c_i) => {
-                                                                return(
-                                                                    <option key={childrenItem['id']} value={childrenItem['id']}>{childrenItem['title']}</option>
-                                                                )
-                                                            })
-                                                        }
-                                                    </select>
-                                                </div>
-                                            )
-                                        }
-                                    })
-                                }
+                                                <option key={cItem['id']} value={cItem['id']}>{cItem['title']}</option>
+                                            );
+                                        })
+                                    }
+                                </select>
                             </div>
-                        </li>
-                        <li>
-                            <label>* 原價</label>
-                            <div>
-                                <div className="input-box">
-                                    <CurrencyFormat thousandSeparator={true} value={data['price']} onValueChange={ values => { this.handleChangeMoney( values['value'], 'price' ) }}/>
-                                </div>
+                            {
+                                categoriesItem.map( (cItem,i)=> {
+                                    if(cItem['id']==categoriesLevel1['id'] && cItem['children'].length!=0){                                     
+                                        return(
+                                            <div className="input-box select category" key={i}>
+                                                <select name="categoriesLevel2" value={data['categoriesLevel2']} onChange={this.categoriesChange.bind(this)}>
+                                                    <option value="" >請選擇次分類</option>
+                                                    {
+                                                        cItem['children'].map( (childrenItem,c_i) => {
+                                                            return(
+                                                                <option key={childrenItem['id']} value={childrenItem['id']}>{childrenItem['title']}</option>
+                                                            )
+                                                        })
+                                                    }
+                                                </select>
+                                            </div>
+                                        )
+                                    }
+                                })
+                            }
+                        </div>
+                    </li>
+                    <li>
+                        <label>* 原價</label>
+                        <div>
+                            <div className="input-box">
+                                <CurrencyFormat thousandSeparator={true} value={data['price']} onValueChange={ values => { this.handleChangeMoney( values['value'], 'price' ) }}/>
                             </div>
-                        </li>
-                        <li>
-                            <label>特價</label>
-                            <div>
-                                <div className="input-box">
-                                    <CurrencyFormat thousandSeparator={true} value={data['priceSale']} onValueChange={ values => { this.handleChangeMoney( values['value'], 'priceSale' ) }}/>
-                                </div>
+                        </div>
+                    </li>
+                    <li>
+                        <label>特價</label>
+                        <div>
+                            <div className="input-box">
+                                <CurrencyFormat thousandSeparator={true} value={data['priceSale']} onValueChange={ values => { this.handleChangeMoney( values['value'], 'priceSale' ) }}/>
                             </div>
-                        </li>
-                    </ul>
-                </section>
+                        </div>
+                    </li>
+                </ul>
             </React.Fragment>
         );
     }

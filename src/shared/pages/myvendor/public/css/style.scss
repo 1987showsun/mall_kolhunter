@@ -297,9 +297,31 @@
             &:last-child{
                 margin-bottom: 0px;
             }
+            @media (max-width: 480px) {
+                ul{
+                    >li{
+                        width: 100%;
+                        margin-right: 0px;
+                        margin-bottom: 10px;
+                        .admin-search-form {
+                            width: 100%;
+                            .admin-keyword{
+                                width: 100%;
+                            }
+                            .select{
+                                min-width: 120px;
+                            }
+                        }
+                        &:last-child{
+                            margin-bottom: 0px;
+                        }
+                    }
+                }
+            }
         }
         ul{
             display: flex;
+            flex-wrap: wrap;
             margin-bottom: 0px;
             >li{
                 display: inline-flex;
@@ -382,6 +404,9 @@
 
     @media (max-width: 768px){
         padding: 0px;
+        &.true{
+            left: 260px;
+        }
     }
 
     .admin-form-msg{
@@ -462,6 +487,8 @@
     background: #fff;
     margin-bottom: 30px;
     position: relative;
+    border-radius: 5px;
+    border: 1px solid #e7e7e7;
     >div{
         &:last-child{
             margin-bottom: 0px;

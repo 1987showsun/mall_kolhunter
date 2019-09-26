@@ -1,5 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
+import CurrencyFormat from 'react-currency-format';
 import { connect } from 'react-redux';
 
 // Modules
@@ -30,7 +31,6 @@ class Info extends React.Component{
     render(){
 
         const { loading, info } = this.state;
-        console.log( info );
 
         return(
             <section className="admin-content">
@@ -91,7 +91,7 @@ class Info extends React.Component{
                             </section>
                             <section className="admin-content-row">
                                 <article className="admin-content-title">
-                                    <h4>付款資料</h4>
+                                    <h4>所購買方案</h4>
                                 </article>
                                 <ul className="table-row-list">
                                     <li>
@@ -106,13 +106,11 @@ class Info extends React.Component{
                                         <label>總購買上架數</label>
                                         <div>{ info[0]['orderDetail'][0]['totalItemNum'] }</div>
                                     </li>
+                                    <li>
+                                        <label>總金額</label>
+                                        <div><CurrencyFormat value={info[0]['amount']} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+                                    </li>
                                 </ul>
-                            </section>
-                            <section className="admin-content-row">
-                                <div className="">
-                                    <span>總金額</span>
-                                    <span>{info[0]['amount']}</span>
-                                </div>
                             </section>
                         </React.Fragment>
                     ):(

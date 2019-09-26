@@ -186,7 +186,7 @@ class Basic extends React.Component{
         this.setState({
             loading: true
         },()=>{
-            this.props.dispatch( createProduct( 'product',formObject,1,'put' ) ).then( res => {
+            this.props.dispatch( createProduct( formObject,1,'put' ) ).then( res => {
                 this.setState({
                     loading: false
                 },()=>{

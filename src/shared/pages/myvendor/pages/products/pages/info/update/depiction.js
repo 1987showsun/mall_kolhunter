@@ -147,7 +147,7 @@ class Depiction extends React.Component{
         e.preventDefault();
         const { id, data } = this.state;
         const updateForm = { id, descriptions: data }
-        this.props.dispatch( createProduct('product', updateForm , 4 , 'put' ) ).then( res => {
+        this.props.dispatch( createProduct(updateForm , 4 , 'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     const result = res['data']['description'];

@@ -16,42 +16,40 @@ export default class Depiction extends React.Component{
 
         return(
             <React.Fragment>
-                <section className="admin-content-row">
-                    <article className="admin-content-title">
-                        <h4>商品敘述</h4>
-                    </article>
-                    <div className="admin-content-container">
-                        {
-                            data.length!=0?(
-                                <ul className="depiction-ul">
-                                    {
-                                        data.map( (item,i)=> {
-                                            return(
-                                                <li key={i}>
-                                                    <div className="depiction-remove" onClick={this.removeItem.bind(this, i)}>X</div>
-                                                    { this.renderTypeof(item,i) }
-                                                </li>
-                                            )
-                                        })
-                                    }
-                                </ul>
-                            ):(
-                                <div className="list-no-data">請點選新增條件，新增所需條件</div>
-                            )
-                        }
-                    </div>
-                    <div className="actionProductInfo">
-                        <ul>
-                            <li>
-                                <button type="button">
-                                    新增圖片區塊
-                                    <FileBase64 multiple={false} onDone={this.handleChangDepictionImg.bind(this)} />
-                                </button>
-                            </li>
-                            <li><button type="button" onClick={this.addCondition.bind(this,'html')}>新增文字區塊</button></li>
-                        </ul>
-                    </div>
-                </section>
+                <article className="admin-content-title">
+                    <h4>商品敘述</h4>
+                </article>
+                <div className="admin-content-container">
+                    {
+                        data.length!=0?(
+                            <ul className="depiction-ul">
+                                {
+                                    data.map( (item,i)=> {
+                                        return(
+                                            <li key={i}>
+                                                <div className="depiction-remove" onClick={this.removeItem.bind(this, i)}>X</div>
+                                                { this.renderTypeof(item,i) }
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        ):(
+                            <div className="list-no-data">請點選新增條件，新增所需條件</div>
+                        )
+                    }
+                </div>
+                <div className="actionProductInfo">
+                    <ul>
+                        <li>
+                            <button type="button">
+                                新增圖片區塊
+                                <FileBase64 multiple={false} onDone={this.handleChangDepictionImg.bind(this)} />
+                            </button>
+                        </li>
+                        <li><button type="button" onClick={this.addCondition.bind(this,'html')}>新增文字區塊</button></li>
+                    </ul>
+                </div>
             </React.Fragment>
         );
     }

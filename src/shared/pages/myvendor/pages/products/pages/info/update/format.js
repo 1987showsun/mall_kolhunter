@@ -106,7 +106,7 @@ class Format extends React.Component{
         this.setState({
             loading: true
         })
-        this.props.dispatch( createProduct('product', updateForm , 3 , 'put' ) ).then( res => {
+        this.props.dispatch( createProduct(updateForm , 3 , 'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     this.props.returnResult(data);

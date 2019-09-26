@@ -235,6 +235,12 @@ form{
     flex-direction: column;
     &.create-form{
         position: relative;
+        .select{
+            &.category{
+                max-width: 200px;
+            }
+        }
+
     }
     .form-msg{
         width: 100%;

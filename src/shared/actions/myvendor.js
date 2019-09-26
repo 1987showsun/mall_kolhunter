@@ -272,10 +272,10 @@ export function incListAccount( form ) {
 }
 
 // 新增商品
-export function createProduct( type, formObject, step, method ) {
+export function createProduct( formObject, step, method ) {
     return (dispatch) => {
         method = method || 'post';
-        const url = `${API()['myvendor'][type]['create'][step]}`;
+        const url = `${API()['myvendor']['product']['create'][step]}`;
         return Axios({ method, url, data: formObject });
     }
 }

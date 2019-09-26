@@ -15,6 +15,7 @@ class Nav extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            navOpenStatus: false,
             open: false,
             popupMSG: "",
             profile: props.profile
@@ -30,14 +31,15 @@ class Nav extends React.Component{
     render(){
 
         const { location } = this.props;
-        const { open, popupMSG, profile } = this.state;
+        const { navOpenStatus, open, popupMSG, profile } = this.state;
         const { pathname, match } = location;
         let pathnameArray = pathname.split('/').filter( item => item!='' );
         const nowMainNavPathnameSet = pathnameArray['1'];
 
         return(
             <React.Fragment>
-                <nav className="inc_nav">
+                <input type="checkbox" name="navOpenStatus" id="admin-nav-switch" onChange={this.handleNavSwitch.bind(this)} checked={navOpenStatus}/>
+                <nav className={`inc_nav ${navOpenStatus}`}>
                     <div className="logo">
                         <Link to="/" target="_blank">
                             <img src={logo} title="" alt="" />
@@ -156,6 +158,27 @@ class Nav extends React.Component{
             }
         }
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { location } = this.props;
+        const prevPropsLocation = prevProps.location;
+        if( location['pathname']!=prevPropsLocation['pathname'] ){
+            this.setState({
+                navOpenStatus: false
+            },()=>{
+                this.props.returnNavSwitchStatus(false);
+            })
+        }
+    }
+
+    handleNavSwitch = (e) => {
+        const { name, value, checked } = e.target;
+        this.setState({
+            [name]: checked
+        },()=>{
+            this.props.returnNavSwitchStatus(checked);
+        })
+    } 
 
     handleConfirm = () => {
         const { history } = this.props;

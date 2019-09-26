@@ -104,7 +104,7 @@ class Step3 extends React.Component{
                 </section>
                 <section className="admin-content-row">
                     <article className="admin-content-title">
-                        <h4>商品列表</h4>
+                        <h4>所購買方案</h4>
                     </article>
                     <Table 
                         tableHeadData= {tableHeadData}

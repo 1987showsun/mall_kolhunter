@@ -134,7 +134,7 @@ class Cover extends React.Component{
         this.setState({
             loading: true,
         })
-        this.props.dispatch( createProduct('product', reorganizationData , 2 , 'put' ) ).then( res => {
+        this.props.dispatch( createProduct(reorganizationData , 2 , 'put' ) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     const result = res['data']['img'];

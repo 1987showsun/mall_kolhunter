@@ -43,22 +43,20 @@ export default class Format extends React.Component{
 
         return(
             <React.Fragment>
-                <section className="admin-content-row">
-                    <article className="admin-content-title">
-                        <h4>商品規格</h4>
-                        <button type="button" onClick={this.addCondition.bind(this)}>
-                            <i><FontAwesomeIcon icon={faPlus} /></i>
-                            新增規格
-                        </button>
-                    </article>
-                    <div className="admin-content-container">
-                        <InputTable 
-                            tableHeadData={tableHeadKey}
-                            tableBodyData={data}
-                            onChangeData={this.onChangeData.bind(this)}
-                        />
-                    </div>
-                </section>
+                <article className="admin-content-title">
+                    <h4>商品規格</h4>
+                    <button type="button" onClick={this.addCondition.bind(this)}>
+                        <i><FontAwesomeIcon icon={faPlus} /></i>
+                        新增規格
+                    </button>
+                </article>
+                <div className="admin-content-container">
+                    <InputTable 
+                        tableHeadData={tableHeadKey}
+                        tableBodyData={data}
+                        onChangeData={this.onChangeData.bind(this)}
+                    />
+                </div>
             </React.Fragment>
         );
     }

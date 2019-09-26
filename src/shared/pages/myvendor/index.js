@@ -20,6 +20,7 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            navOpenStatus: 'close',
             token: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : "",
         }
     }
@@ -36,16 +37,22 @@ class Index extends React.Component{
 
     render(){
 
-        const { token } = this.state;
+        const { navOpenStatus, token } = this.state;
         
         if( token=='' || token==null || token==undefined ){
             return null;
         }else if( token!='' || token!=null || token!=undefined ){
             return(
                 <React.Fragment>
-                    <input type="checkbox" id="admin-nav-switch" />
-                    <Nav {...this.props}/>
-                    <main className="admin-main">
+                    <Nav 
+                        {...this.props}
+                        returnNavSwitchStatus= {( status )=>{
+                            this.setState({
+                                navOpenStatus: status
+                            })
+                        }}
+                    />
+                    <main className={`admin-main ${navOpenStatus}`}>
                         <Header 
                             history= {this.props.history} 
                             match= {this.props.match}

@@ -323,20 +323,15 @@ nav{
             width: 260px;
             min-width: 260px;
             left: -260px;
+            &.true{
+                left: 0px;
+            }
         }
     }
 }
 
 #admin-nav-switch{
     display: none;
-}
-@media (max-width: 768px){
-    #admin-nav-switch:checked ~ nav.inc_nav{
-        left: 0px;
-    }
-    #admin-nav-switch:checked ~ .admin-main{
-        left: 260px;
-    }
 }
 
 .hide{

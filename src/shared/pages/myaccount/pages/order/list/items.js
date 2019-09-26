@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPlus }from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faInfoCircle, faUndoAlt, faCommentDots }from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import TableOrder from '../../../../../components/orderProductTable';
@@ -57,12 +57,12 @@ export default class Items extends React.Component{
                 />
                 <div className="order-action-wrap">
                     <ul>
-                        <li><Link to={`/myaccount/orders/info/${this.state.orderID}`}>購買明細</Link></li>
+                        <li><Link to={`/myaccount/orders/info/${this.state.orderID}`}><i><FontAwesomeIcon icon={faInfoCircle}/></i>購買明細</Link></li>
                         {
                             refundAble &&
-                                <li><Link to={`/myaccount/orders/return/${this.state.orderID}`}>退貨申請</Link></li>
+                                <li><Link to={`/myaccount/orders/return/${this.state.orderID}`}><i><FontAwesomeIcon icon={faUndoAlt}/></i>退貨申請</Link></li>
                         }
-                        <li><Link to={`/myaccount/orders/message/${this.state.orderID}`}>我要詢問</Link></li>
+                        <li><Link to={`/myaccount/orders/message/${this.state.orderID}`}><i><FontAwesomeIcon icon={faCommentDots}/></i>我要詢問</Link></li>
                     </ul>
                 </div>
             </section>

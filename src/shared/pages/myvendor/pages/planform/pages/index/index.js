@@ -58,6 +58,9 @@ class Index extends React.Component{
                 },()=>{
                     switch( res['status'] ){
                         case 200:
+                            this.setState({
+                                list: res['data']
+                            })
                             break;
 
                         default:
@@ -68,10 +71,11 @@ class Index extends React.Component{
         })
     }
 
-    returnBuyPlanform = ( val ) => {
+    returnBuyPlanform = ( val, selectedItem ) => {
         const { location, history, match } = this.props;
         const { search } = location;
         const query = queryString.stringify( {...queryString.parse(search) ,...val} );
+        sessionStorage.setItem(`vendorBuyPlanform`,JSON.stringify({...selectedItem,...val}));
         history.push({
             pathname: '/myvendor/planform/payment/step1',
             search: query

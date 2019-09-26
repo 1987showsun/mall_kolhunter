@@ -16,11 +16,12 @@ import "source-map-support/register";
 
 const app = express();
 
-//app.use(logger('dev'));
+app.use(logger('dev'));
 app.use(cors());
 app.use(express.static( path.join('public') ));
 
 app.all('*',function(req, res, next) {
+
   const NODE_ENV = process.env['NODE_ENV'];
   const store = configureStore();
   const promises = routes.reduce((acc, route) => {

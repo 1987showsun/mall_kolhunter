@@ -140,9 +140,9 @@
             "invoiceCompanyUniNumber required": "統一編號不讀為空",
             "invoiceLoveCode required": "愛心碼不讀為空",
             "invoiceCarruerNum required": "載具碼不讀為空",
-            "cardno required": "信用卡卡號不讀為空",
-            "cvc required": "驗證碼不讀為空",
-            "exp required": "有效日期不讀為空",
+            "cardno required": "信用卡卡號不能為空",
+            "cvc required": "信用卡驗證碼不能為空",
+            "exp required": "信用卡有效日期不能為空",
             "ErrThisEmailHasBeenSignup": "該信箱已存在了",
             "invoice wrong format": "發票格式錯誤"
         },

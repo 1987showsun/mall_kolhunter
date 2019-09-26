@@ -458,20 +458,20 @@ $userCoverMobile_W: 150px;
         justify-content: flex-end;
         >li{
             display: inline-flex;
-            margin-right: 10px;
+            margin-right: 5px;
             &:last-child{
                 margin-right: 0px;
             }
         }
         a{
             width: 85px;
-            height: 40px;
+            height: 35px;
             background: var(--dark);
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 3px;
-            font-size: 0.8em;
+            font-size: 0.7em;
             color: #fff;
             cursor: pointer;
         }
@@ -480,8 +480,11 @@ $userCoverMobile_W: 150px;
         margin: 15px 0px 5px 0px;
         ul{
             justify-content: center;
+            >li{
+                width: 33.33333%;
+            }
             a{
-                width: 110px;
+                width: 100%;
             }
         }
     }

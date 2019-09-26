@@ -127,6 +127,7 @@ class Step3 extends React.Component{
         const { location, history, match } = this.props;
         const { pathname, search } = location;
         const query = queryString.parse(search);
+        sessionStorage.removeItem(`vendorBuyPlanform`);
         if( query['orderID']==undefined ){
             history.push({
                 pathname: '/myvendor/planform/list'

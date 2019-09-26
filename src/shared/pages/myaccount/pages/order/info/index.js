@@ -126,6 +126,15 @@ class Index extends React.Component{
                         returnCheckbox= { (val) => {this.setState({ selected: val })} }
                     />
                 </section>
+
+                <section className="container-unit">
+                    <div className="container-unit-action">
+                        <ul>
+                            <li><button onClick={this.action.bind(this,'cancel')} className="cancel">返回上頁</button></li>
+                            <li><button onClick={this.action.bind(this,'submit')} className="mall-yes">前往退貨</button></li>
+                        </ul>
+                    </div>
+                </section>
             </React.Fragment>
         );
     }
@@ -136,40 +145,35 @@ class Index extends React.Component{
         const orderID = match['params']['id'] || "";
         this.props.dispatch( ordersInfo(pathname,{orderID: orderID}) ).then( res => {
 
-            const tableBodyData = res['orderDetail'].map( item => {
-                return{
-                    id: item['productToken'],
-                    cover: item['image'],
-                    name: item['productName'],
-                    count: item['count'],
-                    storeName: item['storeToken']!=""? [<Link key={'123'} to={`/store/${item['storeToken']}`} target="_blank">{item['storeName']}</Link>] : 'Kolhunter',
-                    total: item['amount']
-                }
-            })
-
             this.setState({
                 info: res,
-                tableBodyData
+                tableBodyData: res['orderDetail'].map( item => {
+                    return{
+                        id: item['productToken'],
+                        cover: item['image'],
+                        name: [<Link key={`name_${item['id']}`} to={`/detail/${item['productToken']}`} target="_blank">{item['productName']}</Link>],
+                        count: item['count'],
+                        storeName: item['storeToken']!=""? [<Link key={'123'} to={`/store/${item['storeToken']}`} target="_blank">{item['storeName']}</Link>] : 'Kolhunter',
+                        refundStatusEnum: lang['zh-TW']['refundStatusEnum'][item['refundStatus']],
+                        refundStatus: item['refundStatus'],
+                        total: item['amount']
+                    }
+                })
             })
         });
     }
     
     action = ( method ) => {
+        const { match, history } = this.props;
+        const id = match['params']['id'];
         switch( method ){
             case 'submit':
-                const { selected } = this.state;
-                if( selected.length!=0 ){
-                    let pupopMSG = "";
-                    selected.map( (item,i) => {
-                        pupopMSG = `${pupopMSG}<div class="items">${i+1}. ${item['name']}</div>`
-                    })
-                    this.setState({
-                        open: true,
-                        pupopMSG
-                    })
-                }
+                history.push({
+                    pathname: `/myaccount/orders/return/${id}`
+                })
                 break;
             default:
+                history.goBack();
                 break;
         }
     }

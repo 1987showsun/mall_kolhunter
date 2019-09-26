@@ -27,6 +27,9 @@ class Step1 extends React.Component{
                     <div className="admin-content-container">
                         {contract}
                     </div>
+                </section>
+
+                <section className="admin-content-row">
                     <div className="admin-content-action">
                         <ul>
                             <li>
@@ -45,24 +48,32 @@ class Step1 extends React.Component{
     componentDidMount() {
         const { location, history, match } = this.props;
         const { pathname, search } = location;
-        const query = queryString.parse(search);
-        if( query['programNum']==undefined || query['programToken']==undefined ){
+        const storageProgramToken = sessionStorage.getItem('vendorBuyPlanform')!=undefined? JSON.parse(sessionStorage.getItem('vendorBuyPlanform'))['token'] : "";
+        const { programNum, programToken } = queryString.parse(search);
+        const gotoBack = () => {
             history.push({
                 pathname: '/myvendor/planform/list'
             })
+        }
+        if( programNum==undefined || programToken==undefined ){
+            gotoBack();
         }else{
-            this.props.dispatch( contract(pathname,{...queryString.parse(search)}) ).then( res => {
-                switch( res['status'] ){
-                    case 200:
-                        this.setState({
-                            contract: res['data']['contract']
-                        })
-                        break;
+            if( programToken!=storageProgramToken ){
+                gotoBack();
+            }else{
+                this.props.dispatch( contract(pathname,{...queryString.parse(search)}) ).then( res => {
+                    switch( res['status'] ){
+                        case 200:
+                            this.setState({
+                                contract: res['data']['contract']
+                            })
+                            break;
 
-                    default:
-                        break;
-                }
-            });
+                        default:
+                            break;
+                    }
+                });
+            }
         }
     }
 
@@ -79,6 +90,7 @@ class Step1 extends React.Component{
                 break;
 
             default:
+                sessionStorage.removeItem('vendorBuyPlanform');
                 history.push({
                     pathname: '/myvendor/planform/list'
                 });

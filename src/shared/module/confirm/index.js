@@ -32,8 +32,11 @@ export default class Index extends React.Component{
                     <div className="confirm-mask" onClick={this.onCancel.bind(this)}></div>
                     <div className="confirm-container">
                         {
-                            header!=null &&
+                            header!=null && header!=""? (
                                 <div className="confirm-container-header" dangerouslySetInnerHTML={{__html: header}}></div>
+                            ):(
+                                null
+                            )
                         }
                         {
                             container!=null &&

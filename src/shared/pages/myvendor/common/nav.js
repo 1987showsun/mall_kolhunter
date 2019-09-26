@@ -39,7 +39,7 @@ class Nav extends React.Component{
             <React.Fragment>
                 <nav className="inc_nav">
                     <div className="logo">
-                        <Link to="/">
+                        <Link to="/" target="_blank">
                             <img src={logo} title="" alt="" />
                         </Link>
                     </div>

@@ -23,7 +23,6 @@ export function ainfo(){
                     }
                     switch( res['response']['status'] ){
                         case 401:
-                            //renewToken()( dispatch );
                             break;
                     }
                     return res['response'];
@@ -197,25 +196,20 @@ export function ordersInfo( pathname,query,data ){
 
                 return mergeData;
             }
-            return res['response'];
+            return res['response'];info
         });
 
     }
 }
 
-export function renewToken( pathname,query,data={} ){
+// 訂單退貨
+export function ordersRefund( pathname="",query={},data={} ){
     return(dispatch) => {
-
-        const method= 'get';
-        const url= `${API()['myaccount']['refreshToken']}`;
-
-        return Axios({ method, url, data }).then(res => {
-            sessionStorage.setItem(`jwt_account`,res['data']);
-            dispatch({
-                type: 'ACCOUNT_SIGNIN_SUCCESS',
-                token: res['data']
-            });
-        });
+        const initQuery= {};
+        const method= 'post';
+        const search= queryString.stringify({ ...initQuery, ...query });
+        const url= `${API()['myaccount']['orders']['refund']}${search!=''? `?${search}`: ''}`;
+        console.log( method, url, data );
     }
 }
 

@@ -20,7 +20,7 @@ export default class Items extends React.Component{
         const { itemNum, price, formObject } = this.state;
         return(
             <section className="planform-card">
-                <form onSubmit={this.handleSubmit.bind(this, data['token'])}>
+                <form onSubmit={this.handleSubmit.bind(this)}>
                     <ul className="table-row-list">
                         <li>
                             <label>方案名稱</label>
@@ -74,11 +74,12 @@ export default class Items extends React.Component{
         })
     }
 
-    handleSubmit = (token,e) => {
+    handleSubmit = (e) => {
         e.preventDefault();
         if( this.props.returnBuyPlanform != undefined ){
+            const { data } = this.props;
             const { formObject } = this.state;
-            this.props.returnBuyPlanform( formObject );
+            this.props.returnBuyPlanform( formObject, data );
         }
     }
 }

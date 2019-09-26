@@ -7,7 +7,7 @@ export default [
     },
     {
         key: 'name',
-        type: 'link',
+        type: 'text',
         title: '名稱',
         className: 'table-min-width',
         path: '/detail'
@@ -22,6 +22,11 @@ export default [
         type: 'text',
         title: '購買店舖',
         className: "storeName"
+    },
+    {
+        key: "refundStatusEnum",
+        type: 'text',
+        title: '退貨狀態'
     },
     {
         key: 'total',

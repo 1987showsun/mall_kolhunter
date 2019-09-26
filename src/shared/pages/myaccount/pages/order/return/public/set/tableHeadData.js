@@ -12,10 +12,9 @@ export default [
     },
     {
         key: 'name',
-        type: 'link',
+        type: 'text',
         title: '名稱',
-        className: 'table-min-width',
-        path: '/detail'
+        className: 'table-min-width'
     },
     {
         key: 'count',

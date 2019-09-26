@@ -118,6 +118,7 @@ export default function API( NODE_ENV ){
             'orders': {
                 'list': `${API_ADDRESS(NODE_ENV)}/v1/order/list`, // get 訂單列表
                 'info': `${API_ADDRESS(NODE_ENV)}/v1/order/info`, // get 訂單明細
+                'refund': `${API_ADDRESS(NODE_ENV)}/v1/order/refund` // post 退貨
             }
         },
         'mystore': {

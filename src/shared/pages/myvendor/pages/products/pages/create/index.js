@@ -1,6 +1,7 @@
 import React from 'react';
 import { Prompt } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Helmet } from "react-helmet";
 
 // Components
 import Step from './step';
@@ -59,6 +60,9 @@ class Index extends React.Component{
 
         return(
             <React.Fragment>
+                <Helmet encodeSpecialCharacters={false}>
+                    <title>{`網紅電商廠商管理介面 - 新增商品`}</title>
+                </Helmet>
                 <section className="page-title">
                     <h3>{lang['zh-TW']['Product addition']}</h3>
                 </section>

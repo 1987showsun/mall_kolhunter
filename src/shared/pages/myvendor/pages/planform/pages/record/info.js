@@ -30,6 +30,7 @@ class Info extends React.Component{
     render(){
 
         const { loading, info } = this.state;
+        console.log( info );
 
         return(
             <section className="admin-content">
@@ -86,6 +87,25 @@ class Info extends React.Component{
                                                 </li>
                                             </React.Fragment>
                                     }
+                                </ul>
+                            </section>
+                            <section className="admin-content-row">
+                                <article className="admin-content-title">
+                                    <h4>付款資料</h4>
+                                </article>
+                                <ul className="table-row-list">
+                                    <li>
+                                        <label>方案名稱</label>
+                                        <div>{ info[0]['orderDetail'][0]['program']['programTitle'] }</div>
+                                    </li>
+                                    <li>
+                                        <label>購買上架組數</label>
+                                        <div>{ info[0]['orderDetail'][0]['programNum'] }</div>
+                                    </li>
+                                    <li>
+                                        <label>總購買上架數</label>
+                                        <div>{ info[0]['orderDetail'][0]['totalItemNum'] }</div>
+                                    </li>
                                 </ul>
                             </section>
                             <section className="admin-content-row">

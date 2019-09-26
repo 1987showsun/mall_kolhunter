@@ -5,11 +5,15 @@ import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 // Compoents
 import FormDescription from './update/depiction';
 
+// Modules
+import Loading from '../../../../../../module/loading';
+
 export default class Depiction extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            loading: props.loading,
             status: props.status,
             update: false,
             id: props.id,
@@ -19,12 +23,14 @@ export default class Depiction extends React.Component{
 
     static getDerivedStateFromProps(props, state) {
         if( props.status!=state.status ) return{ status: props.status }
-        return null;
+        return {
+            loading: props.loading
+        };
     }
 
     render(){
 
-         const { id, data, update, status } = this.state;
+         const { loading, id, data, update, status } = this.state;
 
         return(
             <React.Fragment>
@@ -69,6 +75,7 @@ export default class Depiction extends React.Component{
                         }
                     </div>
                 </section>
+                <Loading loading={loading} />
             </React.Fragment>
         );
     }

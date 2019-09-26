@@ -1,6 +1,7 @@
 import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import { Helmet } from "react-helmet";
 
 // Compoents
 import Cover from './cover';
@@ -53,6 +54,7 @@ class Product extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             open: false,
             popupMsg: "",
             deliveries: [],
@@ -97,6 +99,7 @@ class Product extends React.Component{
     render(){
 
         const { 
+            loading,
             open,
             popupMsg,
             tableHeadKey, 
@@ -110,6 +113,9 @@ class Product extends React.Component{
 
         return(
             <React.Fragment>
+                <Helmet encodeSpecialCharacters={false}>
+                    <title>{`網紅電商廠商管理介面 - ${data['name']}商品詳情`}</title>
+                </Helmet>
                 <section className="page-title">
                     <h3>{ lang['zh-TW']['Product details'] }</h3>
                 </section>
@@ -117,11 +123,13 @@ class Product extends React.Component{
                     Object.keys(data).length!=0 &&
                         <React.Fragment>
                             <Cover 
+                                loading= {loading}
                                 status= {status}
                                 id={data['id']}
                                 data={data['img']}
                             />
                             <Basic 
+                                loading= {loading}
                                 status= {status}
                                 categories= {categories}
                                 data={{
@@ -130,17 +138,20 @@ class Product extends React.Component{
                                 }}
                             />
                             <Format
+                                loading= {loading}
                                 status= {status}
                                 id={data['id']}
                                 data={data['spec']}
                             />
                             <Freight
+                                loading= {loading}
                                 status= {status}
                                 id={data['id']}
                                 data={data['delivery']}
                                 deliveries={deliveries} 
                             />
                             <Depiction 
+                                loading= {loading}
                                 status= {status}
                                 id={data['id']}
                                 data={data['description']}
@@ -191,22 +202,27 @@ class Product extends React.Component{
         const serach = queryString.parse( location['search'] );
         const p_id = match['params']['id'];
         const query = queryString.stringify({ ...serach, id: p_id });
-        this.props.dispatch( infoProduct(query) ).then(res => {
-            this.setState({
-                status: res['data']['status'],
-                data: res['data']
-            })
-        });
-        this.props.dispatch( deliveries() ).then( res => {
-            this.setState({
-                deliveries: res['data']
-            })
-        });
-        this.props.dispatch( categories() ).then( res => {
-            this.setState({
-                categories: res['data']
-            })
-        });
+        this.setState({
+            loading: true
+        },()=>{
+            this.props.dispatch( infoProduct(query) ).then(res => {
+                this.setState({
+                    loading: false,
+                    status: res['data']['status'],
+                    data: res['data']
+                })
+            });
+            this.props.dispatch( deliveries() ).then( res => {
+                this.setState({
+                    deliveries: res['data']
+                })
+            });
+            this.props.dispatch( categories() ).then( res => {
+                this.setState({
+                    categories: res['data']
+                })
+            });
+        })
     }
 
     handleCancel = () => {

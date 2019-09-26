@@ -1,6 +1,7 @@
 import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import { Helmet } from "react-helmet";
 
 //Components
 import Head from './head';
@@ -52,6 +53,9 @@ class Product extends React.Component{
 
         return(
             <React.Fragment>
+                <Helmet encodeSpecialCharacters={false}>
+                    <title>{`網紅電商廠商管理介面 - 商品列表`}</title>
+                </Helmet>
                 <section className="page-title">
                     <h3>{ lang['zh-TW']['Commodity management'] }</h3>
                 </section>

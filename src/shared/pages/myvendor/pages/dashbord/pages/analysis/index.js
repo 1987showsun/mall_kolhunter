@@ -1,6 +1,7 @@
 import React from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { Bar, Doughnut, Line, Pie, PolarArea, Radar } from 'react-chartjs-2';
+import { Helmet } from "react-helmet";
 
 const data = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November','December'],
@@ -75,6 +76,9 @@ export default class Dashbord extends React.Component{
     render(){
         return(
             <React.Fragment>
+                <Helmet encodeSpecialCharacters={false}>
+                    <title>{`網紅電商廠商管理介面 - 整體分析`}</title>
+                </Helmet>
                 <div className="admin-content-row" data-bgclolor="transparent" >
                     <ul className="admin-card-list">
                         <li>

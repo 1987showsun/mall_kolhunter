@@ -159,6 +159,8 @@ figure {
 }
 
 .planform-card{
+    width: 33.3333%;
+    padding: 5px;
     display: inline-flex;
     .table-row-list{
         >li{
@@ -188,5 +190,18 @@ figure {
                 display: flex;
             }
         }
+    }
+
+    @media (min-width: 861px ) and (max-width: 1280px) {
+        width: 50%;
+    }
+    @media (min-width: 769px ) and (max-width: 860px) {
+        width: 100%;
+    }
+    @media (min-width: 601px ) and (max-width: 768px) {
+        width: 50%;
+    }
+    @media (max-width: 600px) {
+        width: 100%;
     }
 }

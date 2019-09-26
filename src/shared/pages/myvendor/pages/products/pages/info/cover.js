@@ -3,14 +3,18 @@ import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 
 // Components
-import BlockList from '../../../../../../module/blockList';
 import FormCover from './update/cover';
+
+// Modules
+import BlockList from '../../../../../../module/blockList';
+import Loading from '../../../../../../module/loading';
 
 export default class Cover extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            loading: props.loading,
             update: false,
             id: props.id,
             status: props.status,
@@ -20,6 +24,7 @@ export default class Cover extends React.Component{
 
     static getDerivedStateFromProps(props, state) {
         return{
+            loading: props.loading,
             id: props.id,
             status: props.status,
         }
@@ -27,7 +32,7 @@ export default class Cover extends React.Component{
 
     render(){
 
-        const { id, data, update, status } = this.state;
+        const { loading, id, data, update, status } = this.state;
 
         return(
             <section className="admin-content-row">
@@ -70,6 +75,7 @@ export default class Cover extends React.Component{
                         />
                     )
                 }
+                <Loading loading={loading} />
             </section>
         );
     }

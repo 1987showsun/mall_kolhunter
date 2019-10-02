@@ -64,7 +64,9 @@
             "updateSuccess":"更新成功",
             "updateFailure":"更新失敗",
             "addSuccess":"新增成功",
-            "addFailure":"新增失敗"
+            "addFailure":"新增失敗",
+            "refundSuccess": "退貨申請成功",
+            "refundFailure": "退貨申請失敗"
         },
         "deliveryStatus": {
             "init": "未送件",
@@ -239,6 +241,14 @@
             "reject": "Manufacturer refused to return",
             "waitting": "Refund processing",
             "done": "Complete return refund"
+        },
+        "toaster": {
+            "updateSuccess":"Update success",
+            "updateFailure":"Update failure",
+            "addSuccess":"Add success",
+            "addFailure":"Add failure",
+            "refundSuccess": "Refund success",
+            "refundFailure": "Refund failure"
         },
         "deliveryStatus": {
             "init": "Undelivered",

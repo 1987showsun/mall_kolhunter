@@ -1,5 +1,6 @@
 // 訂單-退貨
 import React from 'react';
+import toaster from 'toasted-notes';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -82,30 +83,34 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
-        const { location, match } = this.props;
+        const { location, history, match } = this.props;
         const { pathname, search } = location;
         const orderID = match['params']['id'] || "";
         this.setState({
             loading: true
         },()=>{
             this.props.dispatch( ordersInfo(pathname,{orderID: orderID}) ).then( res => {
-                const tableBodyData = res['orderDetail'].map( item => {
-                    return{
-                        id: item['id'],
-                        cover: item['image'],
-                        name: [<Link key={`name_${item['id']}`} to={`/detail/${item['productToken']}`} target="_blank">{item['productName']}</Link>],
-                        count: item['count'],
-                        storeName: item['storeToken']!=""? [<Link key={'123'} to={`/store/${item['storeToken']}`} target="_blank">{item['storeName']}</Link>] : 'Kolhunter',
-                        storeToken: item['storeToken'],
-                        total: item['amount']
-                    }
-                })
-
-                this.setState({
-                    loading: false,
-                    info: res,
-                    tableBodyData
-                })
+                if( !res['refundAble'] ){
+                    history.goBack();
+                }else{
+                    const tableBodyData = res['orderDetail'].filter( item => item['refundStatus']=='none' ).map( item => {
+                        return{
+                            id: item['id'],
+                            cover: item['image'],
+                            name: [<Link key={`name_${item['id']}`} to={`/detail/${item['productToken']}`} target="_blank">{item['productName']}</Link>],
+                            count: item['count'],
+                            storeName: item['storeToken']!=""? [<Link key={'123'} to={`/store/${item['storeToken']}`} target="_blank">{item['storeName']}</Link>] : 'Kolhunter',
+                            storeToken: item['storeToken'],
+                            total: item['amount'],
+                            status: lang['zh-TW']['refundStatusEnum'][item['refundStatus']]
+                        }
+                    })
+                    this.setState({
+                        loading: false,
+                        info: res,
+                        tableBodyData
+                    })
+                }
             });
         })
     }
@@ -151,16 +156,35 @@ class Index extends React.Component{
 
     handleConfirm = () => {
         const { selected } = this.state;
-        const { location, match } = this.props;
+        const { location, history, match } = this.props;
         const { pathname, search } = location;
         if( this.state.method=='alert' ){
             this.onCancel();
         }else{
-            this.props.dispatch( ordersRefund(pathname,{...queryString.parse(search)},selected) );
-            this.setState({
-                method: 'alert',
-                pupopMSG: '已送出退貨請求'
-            })            
+            const data = {
+                orderID: match['params']['id'],
+                detail: selected.map( item =>{
+                    return item['id']
+                })
+            }
+            this.props.dispatch( ordersRefund(pathname,{...queryString.parse(search)},data) ).then( res => {
+                switch( res['status'] ){
+                    case 200:
+                        toaster.notify( <div className={`toaster-status success`}>{lang['zh-TW']['toaster']['refundSuccess']}</div> ,{
+                            position: 'bottom-right',
+                            duration: 3000
+                        })
+                        history.goBack();
+                        break;
+
+                    default:
+                        toaster.notify( <div className={`toaster-status failure`}>{lang['zh-TW']['toaster']['refundFailure']}</div> ,{
+                            position: 'bottom-right',
+                            duration: 3000
+                        })
+                        break;
+                }
+            });
         }
 
     }

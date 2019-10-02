@@ -20,12 +20,13 @@ export default class Item extends React.Component{
                 <div className="img-wrap">
                     <img src={this.state.image} title="" />
                 </div>
-                <div>
+                <div className="order-name">
                     <h3><Link to={`/detail/${this.state.productToken}`} target="_blank">{this.state.productName}</Link></h3>
                     <span className="span-row">尺寸/型號/顏色：{this.state.specName}</span>
                     <span className="span-row">產品編號：{this.state.specToken}</span>
                 </div>
                 <div>{ lang['zh-TW']['deliveryStatus'][this.state.deliveryStatus]}</div>
+                <div className="order-refundStatus">{ lang['zh-TW']['refundStatusEnum'][this.state.refundStatus] }</div>
                 <div><CurrencyFormat value={this.state.count} displayType={'text'} thousandSeparator={true}/></div>
                 <div><CurrencyFormat value={this.state.amount} displayType={'text'} thousandSeparator={true}/></div>
             </li>

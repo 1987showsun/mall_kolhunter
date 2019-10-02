@@ -20,7 +20,7 @@
                 vertical-align: middle;
                 color: #5A6268;
                 font-weight: 400;
-                font-size: 0.9em;
+                font-size: 0.8rem;
                 &:last-child{
                     width: 110px;
                     min-width: 110px;
@@ -82,6 +82,8 @@
                 top: 0px;
                 >div{
                     white-space:nowrap;
+                    &.order-name{ width: 450px; }
+                    &.order-refundStatus{ width: 140px; }
                 }
                 @media (max-width: 768px) {
                     font-size: 0.9em;

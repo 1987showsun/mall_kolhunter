@@ -196,7 +196,7 @@ export function ordersInfo( pathname,query,data ){
 
                 return mergeData;
             }
-            return res['response'];info
+            return res['response'];
         });
 
     }
@@ -209,7 +209,12 @@ export function ordersRefund( pathname="",query={},data={} ){
         const method= 'post';
         const search= queryString.stringify({ ...initQuery, ...query });
         const url= `${API()['myaccount']['orders']['refund']}${search!=''? `?${search}`: ''}`;
-        console.log( method, url, data );
+        return Axios({ method, url, data }).then(res => {
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response'];
+        });
     }
 }
 

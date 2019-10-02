@@ -131,7 +131,10 @@ class Index extends React.Component{
                     <div className="container-unit-action">
                         <ul>
                             <li><button onClick={this.action.bind(this,'cancel')} className="cancel">返回上頁</button></li>
-                            <li><button onClick={this.action.bind(this,'submit')} className="mall-yes">前往退貨</button></li>
+                            {
+                                info['refundAble'] &&
+                                    <li><button onClick={this.action.bind(this,'submit')} className="mall-yes">前往退貨</button></li>
+                            }
                         </ul>
                     </div>
                 </section>

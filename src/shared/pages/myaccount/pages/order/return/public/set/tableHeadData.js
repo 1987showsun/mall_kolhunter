@@ -2,7 +2,8 @@ export default [
     {
         key: 'checkbox',
         type: 'checkbox',
-        title: ''
+        title: '',
+        className: 'checkbox'
     },
     {
         key: 'cover',
@@ -31,5 +32,11 @@ export default [
         key: 'total',
         type: 'number',
         title: '購買價格'
+    },
+    {
+        key: 'status',
+        type: 'text',
+        title: '退貨狀態',
+        className: "refundStatus"
     }
 ]

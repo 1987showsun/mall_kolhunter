@@ -46,7 +46,7 @@ export default class Item extends React.Component{
                                                     headItem['type']=='checkbox' &&
                                                         <div className={`table-body ${headItem['className']||''}`} key={headItem['key']}>
                                                             <label htmlFor={bodyItem['id']} className="checkbox-label">
-                                                                <input type="checkbox" id={bodyItem['id']} name="checkSelect" className="admin-checkbox" value={bodyItem['id']} onChange={this.handleChackboxChange.bind(this,bodyItem)} checked={ this.checkIfItIsSelected( bodyItem['id'] ) }/>
+                                                                <input type="checkbox" id={bodyItem['id']} name="checkSelect" className="admin-checkbox" value={bodyItem['id']} onChange={this.handleChackboxChange.bind(this,bodyItem)} checked={ this.checkIfItIsSelected( bodyItem['id'] ) } disabled={bodyItem['disabled']||false}/>
                                                                 <i className="checkbox_icon">
                                                                     <FontAwesomeIcon icon={faCheck} />
                                                                 </i>

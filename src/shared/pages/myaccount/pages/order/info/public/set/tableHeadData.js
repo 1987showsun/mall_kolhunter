@@ -15,7 +15,8 @@ export default [
     {
         key: 'count',
         type: 'number',
-        title: '數量'
+        title: '數量',
+        className: "quantity"
     },
     {
         key: 'storeName',
@@ -26,7 +27,8 @@ export default [
     {
         key: "refundStatusEnum",
         type: 'text',
-        title: '退貨狀態'
+        title: '退貨狀態',
+        className: 'refundStatus'
     },
     {
         key: 'total',

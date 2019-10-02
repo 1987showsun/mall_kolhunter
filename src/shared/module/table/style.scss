@@ -30,7 +30,7 @@
                 vertical-align: middle;
                 color: #5A6268;
                 font-weight: 400;
-                font-size: 0.9em;
+                font-size: 0.8em;
                 &:last-child{
                     padding-right: 15px;
                 }
@@ -79,6 +79,7 @@
     }
 
     // 獨立性 CSS style
+    .checkbox{ min-width: 50px !important; }
     .ranking{
         width: 90px;
     }
@@ -119,6 +120,9 @@
             background: #666;
         }
     }
+    .quantity{ width: 70px !important; min-width: 70px !important; }
+    .storeName{ min-width: 150px !important; }
+    .refundStatus{ min-width: 140px !important; }
 }
 
 .table-row-list{

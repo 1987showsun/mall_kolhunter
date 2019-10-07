@@ -53,11 +53,11 @@ class Index extends React.Component{
 
     render(){
 
-        const { loading, data, formObject } = this.state;
-        const { actionSwitchDisplay, className, bgImgSrc } = this.state;
+        const { loading, data, formObject, actionSwitchDisplay, className } = this.state;
+        const { productTotal } = this.props;
         const cover = formObject['cover'] || "";
         const photo = formObject['photo'] || "";
-        const name = formObject['name'] || "";
+        const name  = formObject['name']  || "";
 
         return(
             <div className={`row store-cover-wrap ${className}`}>
@@ -77,7 +77,10 @@ class Index extends React.Component{
                                 editFormDisplay= {this.props.editFormDisplay}
                                 updateInfo= {this.updateInfo.bind(this)}
                             />
-                            <Digital />
+                            <Digital 
+                                data={data}
+                                productTotal= {productTotal}
+                            />
                             {
                                 actionSwitchDisplay &&
                                     <Action />

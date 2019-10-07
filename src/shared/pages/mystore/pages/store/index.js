@@ -62,6 +62,7 @@ class Index extends React.Component{
                     <Cover 
                         className= "mystore"
                         data= {storeInfo}
+                        productTotal= {total}
                         actionSwitchDisplay= {false}
                         editFormDisplay={ pathname[0]=='mystore' }
                     />
@@ -90,7 +91,7 @@ class Index extends React.Component{
     componentDidMount() {
         const { location, match } = this.props;
         const { pathname, search } = location;
-        this.props.dispatch( mystoreStoreInfo(pathname, {...queryString.parse(), id: match['params']['id']}) );
+        this.props.dispatch( mystoreStoreInfo(pathname, {...queryString.parse(), store: match['params']['id']}) );
         this.reCallAPI();
     }
 
@@ -146,7 +147,7 @@ class Index extends React.Component{
         this.setState({
             loading: true
         },()=>{
-            this.props.dispatch( mystoreStoreProductList( pathname, queryString.parse(search) ) ).then( res => {
+            this.props.dispatch( mystoreStoreProductList( pathname,{...queryString.parse(search)} ) ).then( res => {
                 this.setState({
                     loading: false
                 })

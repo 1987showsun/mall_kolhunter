@@ -25,7 +25,7 @@ class Index extends React.Component{
 
     static initialAction( NODE_ENV,pathname,query ) {
         const pathnameArray = pathname.split('/').filter( item => item!="" );
-        query = { ...query, id: pathnameArray[1] }
+        query = { ...query, store: pathnameArray[1] }
         return ssrStoreDetail( NODE_ENV,pathname,query );
     }
 
@@ -81,13 +81,13 @@ class Index extends React.Component{
                                         <li>
                                             <div className="figcaption-ul-head">總成交數</div>
                                             <div className="figcaption-ul-content">
-                                                <CurrencyFormat value={13456981} displayType={'text'} thousandSeparator={true} />
+                                                <CurrencyFormat value={info['salesAmount']} displayType={'text'} thousandSeparator={true} />
                                             </div>
                                         </li>
                                         <li>
                                             <div className="figcaption-ul-head">商品總數</div>
                                             <div className="figcaption-ul-content">
-                                                <CurrencyFormat value={2456981} displayType={'text'} thousandSeparator={true} />
+                                                <CurrencyFormat value={total} displayType={'text'} thousandSeparator={true} />
                                             </div>
                                         </li>
                                     </ul>
@@ -148,7 +148,7 @@ class Index extends React.Component{
         this.setState({
             coverLoading: true
         },()=>{
-            this.props.dispatch( storeInfo(pathname, { id: match['params']['id'] }) ).then( res => {
+            this.props.dispatch( storeInfo(pathname, { store: match['params']['id'] }) ).then( res => {
                 this.setState({
                     coverLoading: false,
                 })

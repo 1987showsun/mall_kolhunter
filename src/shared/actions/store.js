@@ -26,6 +26,22 @@ export function storeInfo( pathname,query ) {
     }
 }
 
+export function storeSales( pathname,query, data={} ) {
+    return (dispatch,NODE_ENV) => {
+        const initQuery = {};
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API(NODE_ENV)['mall']['store']['sales']}${search!=''? `?${search}`: ''}`;
+        return Axios({method:'get',url,data:{}}).then(res=>{
+            console.log( res );
+            // dispatch({
+            //     type: "STORE_INFO",
+            //     info: { ...res['data'] }
+            // });
+            return res;
+        });
+    }
+}
+
 export function storeList( pathname,query ) {
     return (dispatch,NODE_ENV) => {
         const initQuery = {

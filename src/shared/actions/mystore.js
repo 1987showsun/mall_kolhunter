@@ -71,16 +71,17 @@ export function mystoreStoreInfo( pathname,query ) {
 }
 
 // 網紅店舖管理內已在販售的商品列表 
-export function mystoreStoreProductList( pathname,query ) {
+export function mystoreStoreProductList( pathname,query,data={} ) {
     return (dispatch,NODE_ENV) => {
         
+        const method = 'get';
         const initQuery = {
             page: 1,
             limit: 30,
             sort: "desc",
             sortBy: "created"
         };
-        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API(NODE_ENV)['mystore']['storeProductList']}${search!=''? `?${search}`: ''}`;
 
         dispatch({
@@ -93,11 +94,7 @@ export function mystoreStoreProductList( pathname,query ) {
             type: 'MYSTORE_STOREPRODUCT_LIST',
             list: []
         })
-        return Axios({
-            method:'get',
-            url,
-            data: null
-        }).then(res=>{
+        return Axios({ method, url, data }).then(res=>{
 
             const list = res['data']['list'].map( item => {
                 return{

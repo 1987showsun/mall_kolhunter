@@ -33,7 +33,7 @@ class Info extends React.Component{
         const { loading, info } = this.state;
 
         return(
-            <section className="admin-content">
+            <React.Fragment>
                 {
                     info.length!=0?(
                         <React.Fragment>
@@ -117,7 +117,7 @@ class Info extends React.Component{
                         <Loading loading={loading} />
                     )
                 }
-            </section>
+            </React.Fragment>
         );
     }
 

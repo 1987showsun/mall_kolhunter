@@ -105,6 +105,9 @@ export default function API( NODE_ENV ){
             },
             'programs': {
                 'list': `${API_ADDRESS(NODE_ENV)}/v1/vendor/programs`,
+            },
+            'account': { // 對帳報表
+                'list': `${API_ADDRESS(NODE_ENV)}/v1/vendor/financial/report`, // get 對帳列表
             }
         },
         'myaccount': {

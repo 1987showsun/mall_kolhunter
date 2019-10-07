@@ -86,7 +86,8 @@ class Header extends React.Component{
                                                 <div className="prompt-block">{accountInfo['name']}</div>
                                             </Link>
                                         </li>
-
+                                        {
+                                            accountInfo['celebrity']==1 &&
                                                 <li className={`${pathname[0]=='mystore'}`}>
                                                     <Link to="/mystore">
                                                         <span className="icon-block">
@@ -95,11 +96,12 @@ class Header extends React.Component{
                                                         <div className="prompt-block">店舖管理</div>
                                                     </Link>
                                                 </li>
+                                        }
                                     </React.Fragment>
                                 ):(
                                     <React.Fragment>
                                         <li>
-                                            <Link to="/account">
+                                            <Link to="/account?back=true">
                                                 <span className="icon-block">
                                                     <FontAwesomeIcon icon={faUser} />
                                                 </span>

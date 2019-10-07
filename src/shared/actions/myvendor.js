@@ -223,7 +223,6 @@ export function orderInfoProductDeliveryStatus( pathname,query,data={} ) {
         const url = `${API()['myvendor']['order']['delivery']}${search!=""? `?${search}`:""}`;
         return Axios({method,url,data}).then( res => {
             if( !res.hasOwnProperty('response') ){
-                console.log( res );
                 return res;
             }
             return res['response'];
@@ -233,41 +232,53 @@ export function orderInfoProductDeliveryStatus( pathname,query,data={} ) {
 }
 
 // 帳務列表
-export function incListAccount( form ) {
+export function incListAccount( pathname="", query={}, data={} ) {
     return (dispatch) => {
+        const YYYY   = dayjs().format('YYYY');
+        const MM     = dayjs().format('MM');
+        const DD     = dayjs().format('DD');
+        const year   = String(YYYY);
+        const month  = String(DD<=15? MM-1 : MM);
+        const period = month==String(MM)? '1': '2';
+        const method = 'get';
+        const initQuery = {
+            year   : year,
+            month  : month,
+            period : period
+        };
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['myvendor']['account']['list']}${search!=""? `?${search}`:""}`;
         dispatch({
             type: 'VENDOR_ACCOUNTS_LIST',
-            total: 30,
-            list: [
-                {
-                    id : "MALLKOL00000000000001",
-                    orderer: "零八九五七",
-                    quantity: 4,
-                    transport: "黑貓宅急便",
-                    status: "待出貨",
-                    createdate: "2019-12-12",
-                    total: 123456789
-                },
-                {
-                    id : "MALLKOL00000000000002",
-                    orderer: "Sam Sam",
-                    quantity: 2,
-                    transport: "中華郵政",
-                    status: "已出貨",
-                    createdate: "2019-11-28",
-                    total: 123456789
-                },
-                {
-                    id : "MALLKOL00000000000003",
-                    orderer: "DDDDDD",
-                    quantity: 100,
-                    transport: "宅配通",
-                    status: "已送達",
-                    createdate: "2019-11-28",
-                    total: 123456789
-                }
-            ]
-        })
+            list: []
+        });
+        return Axios({method,url,data}).then( res => {
+            if( !res.hasOwnProperty('response') ){
+
+                const list = (res['data']['income'] || []).map( item => {
+                    let total = 0;
+                    item['orderDetail'].forEach( orderDetailItem => {
+                        total = total + orderDetailItem['amount'];
+                    })
+
+                    return {
+                        id: item['orderID'],
+                        orderer: item['orderName'],
+                        orderStatus: lang['zh-TW']['orderStatus'][item['orderStatus']],
+                        quantity: item['orderDetail'].length,
+                        total: total,
+                        date: dayjs(item['orderTimeMs']).format('YYYY / MM / DD')
+                    }
+                })
+
+                dispatch({
+                    type: 'VENDOR_ACCOUNTS_LIST',
+                    list: list
+                });
+                return res;
+            }
+            return res['response'];
+        });
     }
 }
 

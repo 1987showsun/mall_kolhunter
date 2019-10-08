@@ -47,22 +47,42 @@ export default class Index extends React.Component{
                                 )
                         }
                         <div className="confirm-container-action">
-                            {
-                                method=='confirm'? (
-                                    <React.Fragment>
-                                        <button type="button" className="cancel" onClick={this.onCancel.bind(this)}>Cancel</button>
-                                        <button type="button" className="basic" onClick={this.onConfirm.bind(this)}>Ok</button>
-                                    </React.Fragment>
-                                ):(
-                                    <button type="button" className="basic" onClick={this.onCancel.bind(this)}>Ok</button>
-                                )
-                            }
+                            { this.selectShowActionModule() }
                         </div>
                     </div>
                 </div>
             );
         }else{
             return null;
+        }
+    }
+
+    selectShowActionModule = () => {
+        const { method } = this.state;
+        switch( method ){
+            case 'refund':
+                return(
+                    <React.Fragment>
+                        <button type="button" className="cancel" onClick={this.onCancel.bind(this)}>Cancel</button>
+                        <button type="button" className="basic" onClick={this.onRefundConfirm.bind(this,'no')}>拒絕退貨</button>
+                        <button type="button" className="basic" onClick={this.onRefundConfirm.bind(this,'yes')}>同意退貨</button>
+                    </React.Fragment>
+                );
+
+            case 'confirm':
+                return(
+                    <React.Fragment>
+                        <button type="button" className="cancel" onClick={this.onCancel.bind(this)}>Cancel</button>
+                        <button type="button" className="basic" onClick={this.onConfirm.bind(this)}>Ok</button>
+                    </React.Fragment>
+                )
+
+            default:
+                return(
+                    <React.Fragment>
+                        <button type="button" className="basic" onClick={this.onCancel.bind(this)}>Ok</button>
+                    </React.Fragment>
+                );
         }
     }
 
@@ -75,6 +95,12 @@ export default class Index extends React.Component{
     onConfirm = () => {
         if( this.props.onConfirm!=undefined ){
             this.props.onConfirm(true);
+        }
+    }
+
+    onRefundConfirm = ( val ) => {
+        if( this.props.onRefundConfirm!=undefined ){
+            this.props.onRefundConfirm(val);
         }
     }
 }

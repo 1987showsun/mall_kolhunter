@@ -60,7 +60,7 @@ class Filter extends React.Component{
                                 match= {match}
                                 location= {location}
                             />
-                            <Delivery
+                            {/* <Delivery
                                 clear={clear}
                                 history={history}
                                 match= {match}
@@ -71,7 +71,7 @@ class Filter extends React.Component{
                                 history={history}
                                 match= {match}
                                 location= {location}
-                            />
+                            /> */}
                         </article>
                         <article className="filter-row sticky" data-content="center" style={{position: "sticky", bottom: "0px"}}>
                             <ul className="action-ul">

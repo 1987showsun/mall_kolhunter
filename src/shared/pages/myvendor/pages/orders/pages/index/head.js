@@ -43,7 +43,7 @@ class HeadProduct extends React.Component{
                         <ul>
                             <li>
                                 <form className="admin-search-form" onSubmit={this.handleSearchSubmit.bind(this)}>
-                                    <div className="input-box admin-keyword">
+                                    {/* <div className="input-box admin-keyword">
                                         <input type="text" name="keyword" value={formSearchObject['keyword']} placeholder={lang['zh-TW']['Product name']} onChange={this.handleSearchChange.bind(this)}/>
                                     </div>
                                     <div className="input-box select">
@@ -51,7 +51,7 @@ class HeadProduct extends React.Component{
                                             <option value="orderID">訂單編號</option>
                                             <option value="orderName">訂購人</option>
                                         </select>
-                                    </div>
+                                    </div> */}
                                     <Datetime
                                         value= {formSearchObject['startDate']}
                                         returnForm={ (val) => {
@@ -68,7 +68,7 @@ class HeadProduct extends React.Component{
                                             })
                                         }}
                                     />
-                                    <button className="basic">搜尋</button>
+                                    <button className="basic">確定</button>
                                 </form>
                             </li>
                             <li> 
@@ -87,6 +87,7 @@ class HeadProduct extends React.Component{
                                         <option value="">顯示全部</option>
                                         <option value="none">未申請退貨</option>
                                         <option value="request">申請退貨</option>
+                                        <option value="recived">回收商品</option>
                                         <option value="approve">同意退貨</option>
                                         <option value="reject">拒絕退貨</option>
                                         <option value="done">完成退貨</option>

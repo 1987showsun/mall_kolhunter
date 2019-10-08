@@ -57,6 +57,7 @@
             "request": "申請退貨",
             "delivery": "退貨回收中",
             "approve": "廠商同意退貨",
+            "recived": "已回收商品",
             "reject": "廠商拒絕退貨",
             "waitting": "退款處理中 (同意退貨才能走到這步)",
             "done": "完成退貨退款"
@@ -240,6 +241,7 @@
             "request": "Application for return",
             "delivery": "Return recycling",
             "approve": "Manufacturer agrees to return",
+            "recived": "Recycled goods",
             "reject": "Manufacturer refused to return",
             "waitting": "Refund processing",
             "done": "Complete return refund"

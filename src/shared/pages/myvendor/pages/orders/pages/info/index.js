@@ -1,6 +1,8 @@
 import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faTruck }from '@fortawesome/free-solid-svg-icons';
 
 //Compoents
 import Basic from './components/basic';
@@ -8,8 +10,11 @@ import Orderer from './components/orderer';
 import Recipient from './components/recipient';
 import Products from './components/product';
 
+// Modules
+import Confirm from '../../../../../../module/confirm';
+
 // Actions
-import { orderInfo } from '../../../../../../actions/myvendor';
+import { orderInfo, changeRefund } from '../../../../../../actions/myvendor';
 
 // Lang
 import lang from '../../../../../../public/lang/lang.json';
@@ -19,6 +24,11 @@ class Info extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            refundStep: ['request','delivery','recived','choice'],
+            open: false,
+            method: 'confirm',
+            popupMSG: [],
+            selectedRefund: {},
             loading: false,
             info: props.info
         }
@@ -34,7 +44,8 @@ class Info extends React.Component{
 
         let orderDetail = [];
         const { location, match } = this.props;
-        const { loading, info } = this.state;
+        const { open, method, popupMSG, loading, info } = this.state;
+
         if( info['orderDetail']!=undefined ){
             orderDetail = info['orderDetail'].map( item => {
                 return{
@@ -43,6 +54,15 @@ class Info extends React.Component{
                     specSku: item['specSku'],
                     quantity: item['itemNum'],
                     refundStatus: lang['zh-TW']['refundStatusEnum'][item['refundStatus']],
+                    refundAction: (item['refundStatus']=='none' || item['refundStatus']=='reject' || item['refundStatus']=='approve') ? (
+                        "N/A"
+                    ):(
+                        [
+                            <button key={item['productToken']} className="basic" onClick={this.refund.bind(this,item)}>
+                                變更狀態
+                            </button>
+                        ]
+                    ),
                     deliveryStatusName: lang['zh-TW']['deliveryStatus'][item['deliveryStatus']],
                     deliveryStatus: item['deliveryStatus'],
                     deliveryCode: item['deliveryCode'],
@@ -74,12 +94,120 @@ class Info extends React.Component{
                     info= {info}
                     data= {orderDetail}
                 />
+
+                <Confirm
+                    open= {open}
+                    method= {method}
+                    container= {popupMSG}
+                    onConfirm= {this.handleConfirm.bind(this)}
+                    onCancel= {this.handleCancel.bind(this)}
+                    onRefundConfirm= {this.onRefundConfirm.bind(this)}
+                />
             </React.Fragment>
         );
     }
 
     componentDidMount() {
+        this.callAPI();
+    }
 
+    handleConfirm = () => {
+        const { refundStep, selectedRefund, info } = this.state;
+        const { location } = this.props;
+        const { pathname, search } = location;
+        this.setState({
+            open: false,
+            method: 'confirm',
+            popupMSG: []
+        },()=>{
+            const { id, refundStatus } = selectedRefund;
+            const _findIndex = refundStep.findIndex( keys => keys==refundStatus );
+            if( refundStep[_findIndex+1]!='choice' ){
+                const data = {
+                    orderID    : info['orderID'],
+                    detail     : [id],
+                    refundType : refundStep[_findIndex+1]
+                }
+                this.props.dispatch( changeRefund(pathname,{...queryString.parse(search)},data) ).then( res => {
+                    switch( res['status'] ){
+                        case 200:
+                            this.callAPI();
+                            break;
+
+                        default:
+                            break;
+                    }
+                });
+            }
+        })
+    }
+
+    onRefundConfirm = (val) => {
+        const { selectedRefund, info } = this.state;
+        const { id, refundStatus } = selectedRefund;
+        const { location } = this.props;
+        const { pathname, search } = location;
+        let data = {
+            orderID    : info['orderID'],
+            detail     : [id]
+        }
+
+        switch( val ){
+            case 'yes':
+                data = { ...data, refundType: 'approve' };
+                break;
+
+            default:
+                data = { ...data, refundType: 'reject' };
+                break;
+        }
+
+        this.setState({
+            open: false,
+            method: 'confirm',
+            popupMSG: []
+        },()=>{
+            this.props.dispatch( changeRefund(pathname,{...queryString.parse(search)},data) ).then( res => {
+                switch( res['status'] ){
+                    case 200:
+                        this.callAPI();
+                        break;
+
+                    default:
+                        break;
+                }
+            });
+        });
+    }
+
+    handleCancel = () => {
+        this.setState({
+            open: false,
+            popupMSG: []
+        })
+    }
+
+    refund = ( selectedRefund ) => {
+        const { refundStep } = this.state;
+        const { refundStatus, productName } = selectedRefund;
+        const _findIndex = refundStep.findIndex( keys => keys==refundStatus );
+        if( refundStep[_findIndex+1]!='choice' ){
+            this.setState({
+                open: true,
+                popupMSG: [<div key={`popupMSG`} className="items">確定要變更 "{productName}" 退貨狀態嗎？</div>],
+                selectedRefund: selectedRefund
+            })
+        }else{
+            this.setState({
+                open: true,
+                method: 'refund',
+                popupMSG: [<div key={`popupMSG`} className="items">確定要變更 "{productName}" 退貨狀態嗎？</div>],
+                selectedRefund: selectedRefund
+            })
+        }
+    }
+
+    callAPI = () => {
         const { location, match } = this.props;
         const { pathname, search } = location;
         const orderID = match['params']['id'];
@@ -98,15 +226,12 @@ class Info extends React.Component{
                             break;
 
                         default:
+
                             break;
                     }
                 })
             });
         })
-    }
-
-    handleChange = ( key,e ) => {
-
     }
 }
 

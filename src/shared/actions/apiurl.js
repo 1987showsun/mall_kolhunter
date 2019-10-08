@@ -108,6 +108,12 @@ export default function API( NODE_ENV ){
             },
             'account': { // 對帳報表
                 'list': `${API_ADDRESS(NODE_ENV)}/v1/vendor/financial/report`, // get 對帳列表
+            },
+            'refund': {
+                'delivery': `${API_ADDRESS(NODE_ENV)}/v1/vendor/order/refund/delivery`,
+                'recived': `${API_ADDRESS(NODE_ENV)}/v1/vendor/order/refund/recived`,
+                'approve': `${API_ADDRESS(NODE_ENV)}/v1/vendor/order/refund/approve`,
+                'reject': `${API_ADDRESS(NODE_ENV)}/v1/vendor/order/refund/reject`
             }
         },
         'myaccount': {

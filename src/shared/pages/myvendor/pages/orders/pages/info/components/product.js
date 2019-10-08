@@ -50,7 +50,12 @@ class Products extends React.Component{
                 {
                     key: 'refundStatus',
                     type: 'text',
-                    title: '退換貨'
+                    title: '退貨狀態'
+                },
+                {
+                    key: 'refundAction',
+                    type: 'text',
+                    title: '退貨狀態變更'
                 },
                 {
                     key: 'total',
@@ -78,7 +83,6 @@ class Products extends React.Component{
 
         const { info, location, match } = this.props;
         const { update, selectUpdateFormObject, loading, tableHeadKey, data } = this.state;
-        console.log( '===>',data );
 
         return(
             <React.Fragment>
@@ -115,6 +119,7 @@ class Products extends React.Component{
     }
 
     tableButtonAction = ( selectedItem ) => {
+        console.log( selectedItem );
         if( selectedItem['t_method']=="deliveryStatus" ){
             const { selectUpdateFormObject, info, data } = this.state;
             this.setState({

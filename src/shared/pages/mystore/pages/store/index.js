@@ -82,17 +82,17 @@ class Index extends React.Component{
                         tableHeadData= {tableHeadData}
                         tableBodyData= {productList}
                     />
-                    <Pagination
-                        query= {query}
-                        current= {current}
-                        limit= {limit}
-                        total= {total}
-                        location= {location}
-                    />
                     <Loading 
                         loading= {loading}
                     />
                 </section>
+                <Pagination
+                    query= {query}
+                    current= {current}
+                    limit= {limit}
+                    total= {total}
+                    location= {location}
+                />
             </React.Fragment>
         );
     }

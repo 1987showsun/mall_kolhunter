@@ -5,11 +5,17 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faCheck }from '@fortawesome/free-solid-svg-icons';
 
+// Modules
+import Loading from '../../../module/loading/blockLoading';
+
 // Actions
 import { signin } from '../../../actions/login';
 
 // Lang
 import lang from '../../../public/lang/lang.json';
+
+// Javascripts
+import { checkRequired } from '../../../public/javascripts/checkFormat';
 
 class SignIn extends React.Component{
 
@@ -31,12 +37,14 @@ class SignIn extends React.Component{
         }
 
         this.state = {
+            loading: false,
+            required: ['userID','userPWD'],
             form : {
                 type: 'account',
                 userID,
                 userPWD,
             },
-            msg : "",
+            msg : [],
             record
         }
     }
@@ -44,6 +52,7 @@ class SignIn extends React.Component{
     render(){
 
         const { 
+            loading,
             form, 
             msg,
             record
@@ -86,8 +95,8 @@ class SignIn extends React.Component{
                         </div>
                     </div>
                     {
-                        msg!='' &&
-                            <div className="form-row msg" data-content="center" dangerouslySetInnerHTML={{__html: msg}}></div>
+                        msg.length!=0 &&
+                            <div className="form-row msg" data-content="center">{msg}</div>
                     }
                     <div className="form-row">
                         <button type="submit">送出</button>
@@ -121,6 +130,7 @@ class SignIn extends React.Component{
                             {lang['zh-TW']['button']['go back']}
                         </button>
                     </div>
+                    <Loading loading={loading} />
                 </form>
             </React.Fragment>
         );
@@ -146,56 +156,46 @@ class SignIn extends React.Component{
     }
 
     handleChange = (e) => {
-        let form = { ...this.state.form };
-        let name = e.target.name;
-        let val = e.target.value;
-        form = { ...form, [name]: val }
-
+        const { name, value } = e.target;
         this.setState({
-            form
+            form: {
+                ...this.state.form, 
+                [name]: value
+            }
         })
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let msg = "";
-        const { location } = this.props;
-        const { search } = location;
-        const { form } = this.state;
-        const back = queryString.parse(search)['back'] || false;
-        let checkRequired = Object.keys( form ).filter( key => {
-            if( key!='type' ){
-                return form[key]=='';
-            }
-        })
-
-        this.setState({
-            msg
-        },()=>{
-            if( checkRequired.length==0 ){
-                // 完整
+        const { required, form } = this.state;
+        const checkRequiredFilter = checkRequired(required, form);
+        if( checkRequiredFilter.length==0 ){
+            this.setState({
+                loading: true
+            },()=>{
                 this.props.dispatch( signin(form) ).then( res => {
-                    switch( res['status'] ){
-                        case 200:
-                            break;
+                    this.setState({
+                        loading: false,
+                    },()=>{
+                        switch( res['status'] ){
+                            case 200:
+                                break;
 
-                        default:
-                            this.setState({
-                                msg:  lang['zh-TW']['err'][res['data']['status_text']]
-                            })                           
-                            break;
-                    }
+                            default:
+                                const { status_text } = res['data'];
+                                this.setState({
+                                    msg: [<div key={'err'} className="items">{lang['zh-TW']['err'][status_text]}</div>]
+                                })     
+                                break;
+                        }
+                    })
                 });
-            }else{
-                // 顯示必填欄位
-                checkRequired.map( key => {
-                    msg = `${lang['zh-TW']['note'][key+' required']}<br/>${msg}`
-                })
-                this.setState({
-                    msg
-                })
-            }
-        })
+            });
+        }else{
+            this.setState({
+                msg: checkRequiredFilter
+            })
+        }
     }
 }
 

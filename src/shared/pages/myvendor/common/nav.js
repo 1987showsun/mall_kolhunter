@@ -41,7 +41,7 @@ class Nav extends React.Component{
                 <input type="checkbox" name="navOpenStatus" id="admin-nav-switch" onChange={this.handleNavSwitch.bind(this)} checked={navOpenStatus}/>
                 <nav className={`inc_nav ${navOpenStatus}`}>
                     <div className="logo">
-                        <Link to="/" target="_blank">
+                        <Link to="/">
                             <img src={logo} title="" alt="" />
                         </Link>
                     </div>

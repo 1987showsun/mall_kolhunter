@@ -22,7 +22,7 @@ export default class Tab extends React.Component{
                         熱門商品
                     </Link>
                 </li>
-                <li className={`${tabType=='new'}`}>
+                {/* <li className={`${tabType=='new'}`}>
                     <Link 
                         to={{
                             pathname,
@@ -41,7 +41,7 @@ export default class Tab extends React.Component{
                     >
                         推薦商品
                     </Link>
-                </li>
+                </li> */}
             </ul>
         );
     }

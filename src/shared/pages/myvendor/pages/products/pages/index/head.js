@@ -9,10 +9,15 @@ class HeadProduct extends React.Component{
 
     constructor(props){
         
-        const query = queryString.parse( props.location['search'] );
-        const search = query['search'] || '';
-        const method = query['method'] || 'name';
-        const status = query['status'] || '';
+        const query   = {...queryString.parse( props.location['search'] )};
+        const search  = query['search']  || '';
+        const method  = query['method']  || 'name';
+        let status  = '';
+        if( query.hasOwnProperty('status') ){
+            status = query['status'];
+        }else if( query.hasOwnProperty('display') ){
+            status = query['display']
+        }
 
         super(props);
         this.state = {
@@ -20,7 +25,7 @@ class HeadProduct extends React.Component{
             formSearchObject: {
                 search,
                 method,
-                status
+                status,
             }
         }
     }
@@ -35,7 +40,7 @@ class HeadProduct extends React.Component{
                 <div className="page-head-action">
                     <div className="page-head-action-row">
                         <ul>
-                            <li>
+                            {/* <li>
                                 <form className="admin-search-form" onSubmit={this.handleSearchSubmit.bind(this)}>
                                     <div className="input-box admin-keyword">
                                         <input type="text" name="search" value={formSearchObject['search']} placeholder={lang['zh-TW']['Product name']} onChange={this.handleSearchChange.bind(this)}/>
@@ -48,14 +53,14 @@ class HeadProduct extends React.Component{
                                     </div>
                                     <button className="basic">搜尋</button>
                                 </form>
-                            </li>
+                            </li> */}
                             <li>
                                 <div className="input-box select">
                                     <select name="status" value={formSearchObject['status']} onChange={this.handleStatusChange.bind(this)}>
                                         <option value="">顯示全部</option>
-                                        <option value="display">上架中</option>
-                                        <option value="none-display">下架中</option>
-                                        <option value="review">審查中</option>
+                                        <option value="true">上架中</option>
+                                        <option value="false">下架中</option>
+                                        <option value="none-auth">審核中</option>
                                     </select>
                                 </div>
                             </li>
@@ -76,27 +81,38 @@ class HeadProduct extends React.Component{
 
     handleStatusChange = (e) => {
 
-        const { name, value } = e.target;
+        const { value } = e.target;
+        const statusType = ['status','display'];
         const { formSearchObject } = this.state;
         const { location, history } = this.props;
         const { pathname, search } = location;
-        let query = {};
+        let query = queryString.parse(search);
+        let name= '';
+        if( value=='none-auth' ){
+            name= 'status';
+            delete query['display'];
+        }else{
+            name= 'display';
+            delete query['status'];
+        }
 
         if( value=="" ){
-            query = { ...queryString.parse(search), page: 1 };
-            delete query[name];
+            query = { ...query, page: 1 };
+            statusType.forEach( keys => {
+                delete query[keys];
+            })
         }else{
-            query = { ...queryString.parse(search), page: 1, [name]: value };
+            query = { ...query, page: 1, [name]: value };
         }
 
         this.setState({
             formSearchObject: {
                 ...formSearchObject,
-                [name]: value
+                status: value
             }
         },()=>{
             history.push({
-                pathname,
+                pathname: pathname,
                 search: queryString.stringify(query)
             });
         })

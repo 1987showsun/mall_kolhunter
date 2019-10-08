@@ -1,5 +1,6 @@
 import axios from 'axios';
 import API from './apiurl';
+import dayjs from 'dayjs';
 import queryString from 'query-string';
 
 // 網紅可販賣的商品列表
@@ -99,10 +100,10 @@ export function mystoreStoreProductList( pathname,query,data={} ) {
             const list = res['data']['list'].map( item => {
                 return{
                     ...item,
-                    status: "on"
+                    status: "on",
                 }
             });
-            
+                        
             dispatch({
                 type: 'MYSTORE_STOREPRODUCT_STATUS',
                 total: res['data']['total'],
@@ -215,10 +216,8 @@ export function mystoreBankInfoUpdate( pathname,query,data={} ) {
                 })
                 return res;
             }
-            console.log( 'res error', res['response'] );
             return res['response'];
         }).catch( err => {
-            console.log( 'error', err['response'] );
             return err['response'];
         });
 
@@ -226,25 +225,28 @@ export function mystoreBankInfoUpdate( pathname,query,data={} ) {
 }
 
 // 銷售資訊列表
-export function mystoreSalesList( pathname,query,data={} ) {
+export function mystoreSalesList( pathname,query={},data={} ) {
     return (dispatch,NODE_ENV) => {
-
+        const YYYY   = dayjs().format('YYYY');
+        const MM     = dayjs().format('MM');
+        const DD     = dayjs().format('DD');
+        const year   = String(YYYY);
+        const month  = String(DD<=15? MM-1 : MM);
+        const period = month==String(MM)? '1': '2';
         const method = 'get';
-        const initQuery = {};
+        const initQuery = {
+            year   : year,
+            month  : month,
+            period : period
+        };
         const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API()['mystore']['salesList']}${search!=""? `?${search}`:''}`;
+        const url = `${API()['mystore']['fansorders']}${search!=""? `?${search}`:''}`;
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
-                // dispatch({
-                //     type: "MYSTORE_BANK_INFO",
-                //     info: res['data']
-                // })
                 return res;
             }
-            console.log( 'res error', res['response'] );
             return res['response'];
         }).catch( err => {
-            console.log( 'error', err['response'] );
             return err['response'];
         });
 

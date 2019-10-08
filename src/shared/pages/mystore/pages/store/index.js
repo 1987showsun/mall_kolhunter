@@ -15,7 +15,7 @@ import Pagination from '../../../../module/pagination';
 import { mystoreStoreInfo, mystoreStoreProductList, mystoreStoreProductRemove } from '../../../../actions/mystore';
 
 // Set
-import tableHeadData from './public/set/tableHead';
+import tableHeadData from '../../public/setup/tableHeadData';
 
 class Index extends React.Component{
 
@@ -27,8 +27,8 @@ class Index extends React.Component{
             total: props.total,
             limit: props.limit,
             current: props.current,
-            tableHeadData: tableHeadData,
-            tableBodyData: props.list
+            tableHeadData: tableHeadData['store'],
+            tableBodyData: props.productList
         }
     }
 
@@ -38,7 +38,7 @@ class Index extends React.Component{
             total: props.total,
             limit: props.limit,
             current: props.current,
-            tableBodyData: props.list
+            tableBodyData: props.productList
         }
     }
 
@@ -56,6 +56,16 @@ class Index extends React.Component{
         const { location } = this.props;
         const query = queryString.parse(location['search']);
         const pathname = location['pathname'].split('/').filter( filterItem => filterItem!='' );
+        const productList = tableBodyData.map( item => {
+            return{
+                status: [<button key={`status-on_`} className="status-on" onClick={this.tableButtonAction.bind(this,item)}>販賣中</button>],
+                image: item['image'],
+                name: item['name'],
+                price: item['price'],
+                sellPrice: item['sellPrice']
+            }
+        })
+
         return(
             <React.Fragment>
                 <section className="container-unit none-padding">
@@ -70,8 +80,7 @@ class Index extends React.Component{
                 <section className="container-unit relative">
                     <Table 
                         tableHeadData= {tableHeadData}
-                        tableBodyData= {tableBodyData}
-                        tableButtonAction= {this.tableButtonAction.bind(this)}
+                        tableBodyData= {productList}
                     />
                     <Pagination
                         query= {query}
@@ -162,7 +171,7 @@ const mapStateToProps = state => {
         total: state.mystore.total,
         limit: state.mystore.limit,
         current: state.mystore.current,
-        list: state.mystore.list
+        productList: state.mystore.list
     }
 }
 

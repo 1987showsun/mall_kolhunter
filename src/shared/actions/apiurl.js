@@ -138,7 +138,7 @@ export default function API( NODE_ENV ){
             'addProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // post 網紅新增要賣的商品
             'deleteProduct': `${API_ADDRESS(NODE_ENV)}/v1/store/products`, // delete 網紅要移出販賣此商品
             'bank': `${API_ADDRESS(NODE_ENV)}/v1/store/bank`, // get or put 取得與修改銀行資訊
-            'salesList': `${API_ADDRESS(NODE_ENV)}/v1/store/sales`, // get 銷售資訊 
+            'fansorders': `${API_ADDRESS(NODE_ENV)}/v1/store/profit`, // get 店舖分潤資訊 
             'profitInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/profit` // get 分潤資訊
         },
         'delivery': {

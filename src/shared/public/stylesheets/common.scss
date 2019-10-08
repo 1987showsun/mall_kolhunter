@@ -702,3 +702,47 @@ figure{
     background: #ececec;
     border-radius: 5px;
 }
+
+.tool-ul-inline{
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    >li{
+        display: inline-flex;
+        margin-right: 10px;
+    }
+    .input-box{
+        margin-left: 0px;
+    }
+}
+
+.info-box-ul{
+    max-width: 100%;
+    display: flex;
+    >li{
+        width: 100%;
+        padding: 10px;
+        display: inline-flex;
+        flex-wrap: wrap;
+        border-right: 1px solid #ccc;
+        &:last-child{
+            border-right: none;
+        }
+        .info-box-head,.info-box-content{
+            width: 100%;
+            padding: 5px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .info-box-head{
+            font-size: 0.7rem;
+            color: var(--gray);
+        }
+        .info-box-content{
+            margin-top: 10px;
+            font-size: 1.1rem;
+            font-weight: bolder;
+        }
+    }
+}

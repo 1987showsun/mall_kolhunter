@@ -20,7 +20,7 @@ import { mystoreProductList, mystoreStoreProductAdd } from '../../../../actions/
 import './public/stylesheets/style.scss';
 
 // Set
-import tableHeadData from './public/set/tableHead';
+import tableHeadData from '../../public/setup/tableHeadData';
 
 class Index extends React.Component{
 
@@ -31,7 +31,7 @@ class Index extends React.Component{
             total: props.total,
             limit: props.limit,
             current: props.current,
-            tableHeadData: tableHeadData,
+            tableHeadData: tableHeadData['products'],
             tableBodyData: props.list
         }
     }

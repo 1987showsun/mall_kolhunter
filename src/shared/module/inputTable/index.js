@@ -74,7 +74,7 @@ export default class InputTable extends React.Component{
                                                             }
                                                             {
                                                                 headItem['type'] == 'select' &&
-                                                                    <div className="input-box">
+                                                                    <div className="input-box select">
                                                                         <select name={headItem['key']} value={ bodyItem[headItem['key']] || headItem['options'][0]['value'] } onChange={this.handleChange.bind(this,b_i)}>
                                                                             {
                                                                                 headItem['options'].length!=0? (

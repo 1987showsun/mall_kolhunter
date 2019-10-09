@@ -13,18 +13,25 @@ export default class Depiction extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            loading: props.loading,
+            loading: props.loading || false,
             status: props.status,
             update: false,
             id: props.id,
-            data : props.data
+            data : []
         }
     }
 
     static getDerivedStateFromProps(props, state) {
-        if( props.status!=state.status ) return{ status: props.status }
+        let data = state.data;
+        if( props.data!=undefined && data.length==0 ){
+            data = [ ...props.data ];
+        }
+
         return {
-            loading: props.loading
+            data,
+            id: props.id,
+            status: props.status,
+            loading: props.loading || false,
         };
     }
 
@@ -73,9 +80,9 @@ export default class Depiction extends React.Component{
                                 />
                             )
                         }
+                        <Loading loading={loading} />
                     </div>
                 </section>
-                <Loading loading={loading} />
             </React.Fragment>
         );
     }

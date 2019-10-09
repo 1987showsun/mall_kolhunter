@@ -7,15 +7,19 @@ import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 import Table from '../../../../../../module/table';
 import FormFormat from './update/format';
 
+// Modules
+import Loading from '../../../../../../module/loading';
+
 class Format extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            loading: props.loading || false,
             status: props.status,
             update: false,
             id: props.id,
-            data: props.data,
+            data: [],
             tableHeadKey : [
                 {
                     key: 'name',
@@ -38,14 +42,23 @@ class Format extends React.Component{
     }
 
     static getDerivedStateFromProps(props, state) {
+
+        let data= state.data;
+        if( props.data!=undefined && data.length==0 ){
+            data= [ ...props.data ];
+        }
+
         return{
+            data: data,
+            id: props.id,
+            loading: props.loading || false,
             status: props.status,
         }
     }
 
     render(){
 
-        const { id, data, tableHeadKey, update } = this.state;
+        const { loading, id, data, tableHeadKey, update } = this.state;
 
         return(
             <React.Fragment>
@@ -64,6 +77,7 @@ class Format extends React.Component{
                                     tableHeadData={tableHeadKey}
                                     tableBodyData={data}
                                 />
+                                <Loading loading={loading} />
                             </div>
                         </section>
                     ):(

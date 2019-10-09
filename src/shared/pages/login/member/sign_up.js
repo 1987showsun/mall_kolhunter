@@ -9,16 +9,18 @@ import Confirm from '../../../module/confirm';
 import { signup } from '../../../actions/login';
 
 // Javascripts
-import { PWD } from '../../../public/javascripts/checkFormat';
+import { PWD, checkRequired } from '../../../public/javascripts/checkFormat';
 
 // Lang
 import lang from '../../../public/lang/lang.json';
+
 
 class SignUp extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             open: false,
             popupMSG: "",
             required: ['email','password','password_chk','nickname'],
@@ -37,7 +39,7 @@ class SignUp extends React.Component{
 
 
     render(){
-        const { open, popupMSG, formObject, msg } = this.state;
+        const { loading, open, popupMSG, formObject, msg } = this.state;
 
         return(
             <React.Fragment>
@@ -90,7 +92,7 @@ class SignUp extends React.Component{
                         </li>
                     </ul>
                     <div className="form-row form-p" data-content="center">
-                        <p>我同意遵守 kolhunter <Link to="">使用權</Link> 與 <Link to="">隱私權</Link>條款。</p>
+                        <p>我同意遵守 kolhunter <Link to="">使用權</Link> 與 <Link to="/terms/privacy">隱私權</Link>條款。</p>
                     </div>
                     {
                         msg.length!=0 &&
@@ -133,36 +135,46 @@ class SignUp extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         const { required, formObject } = this.state;
-        let checkRequired = required.filter((key ,i)=>formObject[key]=="").map( (key,i)=>{
-            return <div key={key}>{lang['zh-TW']['note'][`${key} required`]}</div>
-        });
-
-        if(checkRequired.length==0) {
+        const checkRequiredFilter = checkRequired( required, formObject );
+        if( checkRequiredFilter.length==0 ){
             const checkPWDFormat = PWD({ password: formObject['password'], confirm: formObject['password_chk'] });
             if( checkPWDFormat['status'] ){
-                this.props.dispatch( signup(formObject) ).then( res => {
-                    switch( res['status'] ){
-                        case 200:
-                            this.setState({
-                                open: true,
-                                popupMSG: lang['zh-TW']['account siginup success']
-                            })
-                            break;
+                this.setState({
+                    loading: true,
+                    msg: []
+                },()=>{
+                    this.props.dispatch( signup(formObject) ).then( res => {
+                        this.setState({
+                            loading: false
+                        },()=>{
+                            switch( res['status'] ){
+                                case 200:
+                                    this.setState({
+                                        open: true,
+                                        popupMSG: lang['zh-TW']['account siginup success']
+                                    });
+                                    break;
 
-                        default:
-                            this.setState({
-                                msg: [<div key={res['data']['status_text']}>{ lang['zh-TW']['err'][ res['data']['status_text'] ] }</div>]
-                            })
-                            break;
-                    }
-                });
+                                default:
+                                    const { status_text } = res['data'];
+                                    this.setState({
+                                        msg: [<div key={res['data']['status_text']}>{ lang['zh-TW']['err'][status_text] }</div>]
+                                    });
+                                    break;
+                            }
+                        });
+                    });
+                })
             }else{
-                checkRequired = [<div key="1" className="items">{lang['zh-TW']['note'][checkPWDFormat['msg']]}</div>];
+                this.setState({
+                    msg: [<div key="1" className="items">{lang['zh-TW']['note'][checkPWDFormat['msg']]}</div>]
+                })
             }
+        }else{
+            this.setState({
+                msg: checkRequiredFilter
+            })
         }
-        this.setState({
-            msg: checkRequired
-        })
     };
 }
 

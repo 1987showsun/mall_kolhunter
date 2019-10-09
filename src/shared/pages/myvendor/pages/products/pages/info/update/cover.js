@@ -38,21 +38,21 @@ class Cover extends React.Component{
             selectedIndex 
         } = this.state;
 
-        return(
-            <React.Fragment>
-                <form onSubmit={this.handleSubnit.bind(this)} className="relative">
-                    <BlockList className="admin-product-img-ul">
-                        <Loading loading={loading} />
-                        {
-                            status=="none-auth" &&
-                                <li>
-                                    <AvatarCropper 
-                                        onChangeData= {this.onChangeData.bind(this)}
-                                    />
-                                </li>
-                        }
-                        {
-                            data.length!=0 &&
+        if( data!=undefined ){
+            return(
+                <React.Fragment>
+                    <form onSubmit={this.handleSubnit.bind(this)} className="relative">
+                        <BlockList className="admin-product-img-ul">
+                            <Loading loading={loading} />
+                            {
+                                status=="none-auth" &&
+                                    <li>
+                                        <AvatarCropper 
+                                            onChangeData= {this.onChangeData.bind(this)}
+                                        />
+                                    </li>
+                            }
+                            {
                                 data.map( (item,i)=> {
                                     return(
                                         <li key={i} className={ selectedIndex==i? 'active':'' }>
@@ -79,19 +79,22 @@ class Cover extends React.Component{
                                         </li>
                                     )
                                 })
+                            }
+                        </BlockList>
+                        {
+                            msg.length!=0 &&
+                                <div className="form-msg">{msg}</div>
                         }
-                    </BlockList>
-                    {
-                        msg.length!=0 &&
-                            <div className="form-msg">{msg}</div>
-                    }
-                    <ul className="action-ul">
-                        <li><button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button></li>
-                        <li><button className="basic">更新</button></li>
-                    </ul>
-                </form>
-            </React.Fragment>
-        );
+                        <ul className="action-ul">
+                            <li><button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button></li>
+                            <li><button className="basic">更新</button></li>
+                        </ul>
+                    </form>
+                </React.Fragment>
+            );
+        }
+        
+        return null;
     }
 
     onChangeData = (val) => {

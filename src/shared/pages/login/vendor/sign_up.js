@@ -13,7 +13,7 @@ import { signup } from '../../../actions/login';
 import lang from '../../../public/lang/lang.json';
 
 // Javascripts
-import { PWD } from '../../../public/javascripts/checkFormat';
+import { PWD, checkRequired } from '../../../public/javascripts/checkFormat';
 
 class SignUp extends React.Component{
 
@@ -147,37 +147,46 @@ class SignUp extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         const { required, formObject } = this.state;
-        let checkRequired = required.filter( keys => formObject[keys]=="" ).map( keys => {
-            return <div key={keys} className="items">{ lang['zh-TW']['required'][keys] }</div>
-        });
-
-        if( checkRequired.length==0 ){
+        const checkRequiredFilter = checkRequired( required, formObject );
+        if( checkRequiredFilter.length==0 ){
             const checkPWDFormat = PWD({ password: formObject['password'], confirm: formObject['confirmPassword'] });
             if( checkPWDFormat['status'] ){
-                this.props.dispatch( signup(formObject) ).then( res => {
-                    switch( res['status'] ){
-                        case 200:
-                            this.setState({
-                                open: true,
-                                popupMsg: lang['zh-TW']['Vendor siginup success']
-                            })
-                            break;
-                        
-                        default:
-                            this.setState({
-                                msg: [<div key="1" className="items">{lang['zh-TW']['note'][res['data']['status_text']]}</div>]
-                            })
-                            break;
-                    }
+                this.setState({
+                    loading: true,
+                    msg: []
+                },()=>{
+                    this.props.dispatch( signup(formObject) ).then( res => {
+                        this.setState({
+                            loading: false
+                        },()=>{
+                            switch( res['status'] ){
+                                case 200:
+                                    this.setState({
+                                        open: true,
+                                        popupMSG: lang['zh-TW']['Vendor siginup success']
+                                    });
+                                    break;
+
+                                default:
+                                    const { status_text } = res['data'];
+                                    this.setState({
+                                        msg: [<div key="1" className="items">{lang['zh-TW']['note'][status_text]}</div>]
+                                    });
+                                    break;
+                            }
+                        })
+                    });
                 });
             }else{
-                checkRequired = [<div key="1" className="items">{lang['zh-TW']['note'][checkPWDFormat['msg']]}</div>];
+                this.setState({
+                    msg: [<div key="1" className="items">{lang['zh-TW']['note'][checkPWDFormat['msg']]}</div>]
+                })
             }
+        }else{
+            this.setState({
+                msg: checkRequiredFilter
+            })
         }
-
-        this.setState({
-            msg: checkRequired
-        })
     }
 
     handleConfirm = ( val ) => {

@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faTrashAlt }from '@fortawesome/free-solid-svg-icons';
 
+// Modules
+import Loading from '../../../../../../../module/loading';
+
 // Actions
 import { createProduct } from '../../../../../../../actions/myvendor';
 
@@ -12,6 +15,7 @@ class Depiction extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             status: props.status,
             id: props.id,
             data : props.data
@@ -20,7 +24,7 @@ class Depiction extends React.Component{
 
     render(){
 
-        const { data,status } = this.state;
+        const { loading, data, status } = this.state;
 
         return(
             <React.Fragment>
@@ -67,6 +71,7 @@ class Depiction extends React.Component{
                         <li><button className="basic">更新</button></li>
                     </ul>
                 </form>
+                <Loading loading={loading} />
             </React.Fragment>
         );
     }
@@ -97,10 +102,9 @@ class Depiction extends React.Component{
 
     handleChangeTextarea = (i,e) => {
         const nowDate = new Date();
+        const { name, value } = e.target;
         let { data } = this.state;
-        let name = e.target.name;
-        let val = e.target.value;
-        data[i][name] = val;
+        data[i][name] = value;
         data[i]['modified'] = nowDate.valueOf();
         this.setState({
             data
@@ -108,7 +112,6 @@ class Depiction extends React.Component{
     }
 
     addCondition = ( method ) => {
-        const nowDate = new Date();
         let { data } = this.state;
         switch( method ){
             case 'html':
@@ -146,18 +149,26 @@ class Depiction extends React.Component{
     handleSubnit = (e) => {
         e.preventDefault();
         const { id, data } = this.state;
-        const updateForm = { id, descriptions: data }
-        this.props.dispatch( createProduct(updateForm , 4 , 'put' ) ).then( res => {
-            switch( res['status'] ){
-                case 200:
-                    const result = res['data']['description'];
-                    this.props.returnResult(result);
-                    break;
+        const updateForm = { id, descriptions: data };
+        this.setState({
+            loading: true,
+        },()=>{
+            this.props.dispatch( createProduct(updateForm , 4 , 'put' ) ).then( res => {
+                this.setState({
+                    loading: false
+                },()=>{
+                    switch( res['status'] ){
+                        case 200:
+                            const result = res['data']['description'];
+                            this.props.returnResult(result);
+                            break;
 
-                default:
-                    break;
-            }
-        });
+                        default:
+                            break;
+                    }
+                })
+            });
+        })
     }
 }
 

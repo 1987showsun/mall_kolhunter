@@ -7,9 +7,11 @@ export default class Card extends React.Component{
         super(props);
         const protocol = window.location.protocol;
         const hostname = window.location.hostname;
+        const port     = window.location.port;
+        const mergeURL = `${protocol}//${hostname}${port!=""? `:${port}`: ''}/myvendor/planform/payment/step3?payMethod=cc`;
         this.state = {
             formObject: {
-                returnURL: `${protocol}//${hostname}/myvendor/planform/payment/step3?payMethod=cc`,
+                returnURL: mergeURL,
                 cardno: "",
                 cvc: "",
                 exp: ""

@@ -14,18 +14,25 @@ export default class Cover extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            loading: props.loading,
+            loading: props.loading || false,
             update: false,
             id: props.id,
             status: props.status,
-            data: props.data
+            data: []
         }
     }
 
     static getDerivedStateFromProps(props, state) {
+
+        let data = state.data;
+        if( props.data!=undefined && data.length==0 ){
+            data=[ ...props.data ];
+        }
+
         return{
-            loading: props.loading,
+            loading: props.loading || false,
             id: props.id,
+            data: data,
             status: props.status,
         }
     }
@@ -47,40 +54,38 @@ export default class Cover extends React.Component{
                     }
                 </article>
                 {
-                    !update? (
-                        <BlockList className="admin-product-img-ul">
-                            {
-                                data.map( (item,i) => {
-                                    return(
-                                        <li key={item['image']} className={ i==0? 'product-main-cover':null }>
-                                            <figure>
-                                                {
-                                                    i==0 &&
-                                                        <span className="admin-product-main">主圖</span>
-                                                }
-                                                <img src={item['image']} alt="" title="" />
-                                            </figure>
-                                        </li>
-                                    )
-                                })
-                            }
-                        </BlockList>
-                    ):(                
-                        <FormCover 
-                            status={status}
-                            id={id}
-                            data={data}
-                            returnResult={this.returnResult.bind(this)}
-                            returnCancel={this.returnCancel.bind(this)}
-                        />
-                    )
+                    data!=undefined &&
+                        !update? (
+                            <BlockList className="admin-product-img-ul">
+                                {
+                                    data.map( (item,i) => {
+                                        return(
+                                            <li key={item['image']} className={ i==0? 'product-main-cover':null }>
+                                                <figure>
+                                                    {
+                                                        i==0 &&
+                                                            <span className="admin-product-main">主圖</span>
+                                                    }
+                                                    <img src={item['image']} alt="" title="" />
+                                                </figure>
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </BlockList>
+                        ):(         
+                            <FormCover 
+                                status={status}
+                                id={id}
+                                data={data}
+                                returnResult={this.returnResult.bind(this)}
+                                returnCancel={this.returnCancel.bind(this)}
+                            />
+                        )
                 }
                 <Loading loading={loading} />
             </section>
         );
-    }
-
-    componentWillUnmount(){
     }
 
     returnCancel = () => {

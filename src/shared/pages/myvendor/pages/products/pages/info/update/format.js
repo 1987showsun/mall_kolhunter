@@ -51,6 +51,7 @@ class Format extends React.Component{
             data, 
             inputTableHeadKey
         } = this.state;
+
         return(
             <section className="admin-content-row">
                 <article className="admin-content-title">

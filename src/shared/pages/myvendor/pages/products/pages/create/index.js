@@ -211,7 +211,7 @@ class Index extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { id, formObject, step, maxStep, profile } = this.state;
+        const { id, required, formObject, step, maxStep, profile } = this.state;
         let method = "post";
         
         switch( step ){

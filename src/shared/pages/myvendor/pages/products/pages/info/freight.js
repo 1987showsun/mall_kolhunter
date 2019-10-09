@@ -7,16 +7,20 @@ import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
 import Table from '../../../../../../module/table';
 import FormFreight from './update/freight';
 
+// Modules
+import Loading from '../../../../../../module/loading';
+
 class Freight extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            loading: props.loading || false,
             status: props.status,
             update: false,
             id: props.id,
             deliveries: props.deliveries,
-            data : props.data || [],
+            data : [],
             tableHeadKey : [
                 {
                     key: 'name',
@@ -36,11 +40,21 @@ class Freight extends React.Component{
 
     static getDerivedStateFromProps(props, state) {
 
+        let deliveries = [];
+        let data = state.data;
         if( props.deliveries!=state.deliveries ){
-            return { deliveries: props.deliveries }
+            deliveries= [ ...props.deliveries ];
+        }
+
+        if( props.data!=undefined && data.length==0 ){
+            data = [ ...props.data ];
         }
 
         return{
+            deliveries,
+            data,
+            id: props.id,
+            loading: props.loading || false,
             status: props.status,
         }
     }
@@ -48,6 +62,7 @@ class Freight extends React.Component{
     render(){
 
         const { 
+            loading,
             id,
             tableHeadKey,
             data,
@@ -83,18 +98,19 @@ class Freight extends React.Component{
                                     tableHeadData= {tableHeadKey}
                                     tableBodyData= {reorganizationBodyData}
                                 />
+                                <Loading loading={loading} />
                             </div>
                         </section>
-                ):(
-                    <FormFreight 
-                        data={data}
-                        id={id}
-                        deliveries={deliveries}
-                        returnCancel={this.returnCancel.bind(this)}
-                        returnResult={this.returnResult.bind(this)}
-                    />
-                )
-            }
+                    ):(
+                        <FormFreight 
+                            id={id}
+                            data={data}
+                            deliveries={deliveries}
+                            returnCancel={this.returnCancel.bind(this)}
+                            returnResult={this.returnResult.bind(this)}
+                        />
+                    )
+                }
             </React.Fragment>
         );
     }

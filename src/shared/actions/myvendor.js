@@ -435,6 +435,10 @@ export function buyCaseBillInfo( pathname,query,data={} ) {
         const method = 'get';
         const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API()['myvendor']['bill']['info']}${search!=""? `?${search}`:""}`;
+        dispatch({
+            type: "VENDOR_BILL_INFO",
+            info: []
+        })
         return Axios({method,url,data}).then(res => {
             if( !res.hasOwnProperty('response') ){
                 dispatch({

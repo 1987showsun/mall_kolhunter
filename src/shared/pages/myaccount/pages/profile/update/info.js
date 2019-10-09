@@ -1,9 +1,12 @@
 import React from 'react';
+import dayjs from 'dayjs';
+import toaster from 'toasted-notes';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import CurrencyFormat from 'react-currency-format';
 
 // Actions
-
+import { ainfoUpdate } from '../../../../../actions/myaccount';
 
 // Javascripts
 import { checkRequired } from '../../../../../public/javascripts/checkFormat';
@@ -15,8 +18,10 @@ import county_area from '../../../../../public/json/TWzipcode.json';
 // Lang
 import lang from '../../../../../public/lang/lang.json';
 
-const city = Object.keys(county_area)[0];
-const district = Object.keys(county_area[city])[0];
+const city    = Object.keys(county_area)[0];
+const dist    = Object.keys(county_area[city])[0];
+const zipCode = county_area[city][dist];
+console.log( zipCode );
 
 class Info extends React.Component{
 
@@ -24,44 +29,50 @@ class Info extends React.Component{
         super(props);
         this.state = {
             required: ['name','nickname','phone'],
-            accountInfo: props.accountInfo,
+            accountInfo: {},
             formObject: {
-                ...props.accountInfo,
-                image: props.accountInfo['image'] || '',
-                name: props.accountInfo['name'] || '',
-                nickname: props.accountInfo['nickname'] || '',
-                gender: props.accountInfo['gender'] || 'male',
-                birthday: props.accountInfo['birthday'] || '',
-                phone: props.accountInfo['phone'] || '',
-                zipcode: props.accountInfo['zipcode'] || '',
-                city: city || '',
-                district: district || '',
-                address: props.accountInfo['address'] || ''
+                photo      : '',
+                name       : '',
+                nickname   : '',
+                gender     : 'male',
+                birthday   : '',
+                phone      : '',
+                zipCode    : zipCode,
+                city       : city,
+                dist       : dist,
+                address    : '',
+                company    : ''
             },
             msg: []
         }
     }
 
     static getDerivedStateFromProps( props,state ){
-        if( props.accountInfo!=state.accountInfo ){
-            return {
-                accountInfo: props.accountInfo,
-                formObject : {
-                    ...props.accountInfo,
-                    image: props.accountInfo['image'] || '',
-                    name: props.accountInfo['name'] || '',
-                    nickname: props.accountInfo['nickname'] || '',
-                    gender: props.accountInfo['gender'] || 'male',
-                    birthday: props.accountInfo['birthday'] || '',
-                    phone: props.accountInfo['phone'] || '',
-                    zipcode: props.accountInfo['zipcode'] || '',
-                    city: city || '',
-                    district: district || '',
-                    address: props.accountInfo['address'] || ''
-                }
-            }            
+
+        let accountInfo = state.accountInfo;
+        let formObject  = state.formObject;
+        if( accountInfo!=undefined && Object.keys(accountInfo).length==0 ){
+            accountInfo = { ...props.accountInfo };
+            formObject  = {
+                ...formObject,
+                photo      : props.accountInfo['photo']    || '',
+                name       : props.accountInfo['name']     || '',
+                nickname   : props.accountInfo['nickname'] || '',
+                gender     : props.accountInfo['gender']   || 'male',
+                birthday   : dayjs(props.accountInfo['birthday']).format('YYYY/MM/DD') || '',
+                phone      : props.accountInfo['phone']    || '',
+                zipCode    : props.accountInfo['zipCode']  || zipCode,
+                city       : props.accountInfo['city']     || city,
+                dist       : props.accountInfo['dist']     || dist,
+                address    : props.accountInfo['address']  || '',
+                company    : props.accountInfo['company']  || ''
+            }
         }
-        return null;
+
+        return {
+            accountInfo,
+            formObject
+        }
     }
 
     render(){
@@ -113,7 +124,7 @@ class Info extends React.Component{
                         <label htmlFor="">生日</label>
                         <div>
                             <div className="input-box">
-                                <CurrencyFormat format="####/##/##" value={formObject['birthday']} placeholder="YYYY/MM/DD" mask={['Y','Y','Y','Y','M', 'M', 'D', 'D']}  onValueChange={ value => this.returnBirthday(value['value'],'birthday')}/>
+                                <CurrencyFormat format="####/##/##" value={formObject['birthday']} placeholder="YYYY/MM/DD" mask={['Y','Y','Y','Y','M', 'M', 'D', 'D']}  onValueChange={ value => this.returnBirthday(value['formattedValue'],'birthday')}/>
                             </div>
                         </div>
                     </li>
@@ -141,7 +152,7 @@ class Info extends React.Component{
                                 </select>
                             </div>
                             <div className="input-box select">
-                                <select name="district" value={formObject['district'] || ""} onChange={ this.handleChange.bind(this) }>
+                                <select name="dist" value={formObject['dist'] || ""} onChange={ this.handleChange.bind(this) }>
                                     <option value="">請選擇鄉鎮市區</option>
                                     {
                                         formObject['city']!=undefined && formObject['city']!=""? (
@@ -190,7 +201,29 @@ class Info extends React.Component{
 
     handleChange = (e) => {
         const { name, value } = e.target;
-        let formObject = { ...this.state.formObject, [name]: value };
+        let formObject = { ...this.state.formObject };
+        let city       = '';
+        let dist       = '';
+        let zipCode    = '';
+
+        switch( name ){
+            case 'city':
+                dist    = Object.keys(county_area[value])[0];
+                zipCode = county_area[value][dist];
+                formObject = { ...formObject, [name]: value, dist: dist, zipCode: zipCode };
+                break;
+
+            case 'dist':
+                city    = formObject['city'];
+                zipCode = county_area[city][value];
+                formObject = { ...formObject, [name]: value, zipCode: zipCode };
+                break;
+
+            default:
+                formObject = { ...formObject, [name]: value };
+                break;
+        }
+        
         this.setState({
             formObject
         })
@@ -199,12 +232,39 @@ class Info extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
 
+        const { location } = this.props;
         const { formObject, required } = this.state;
+        const { pathname, search } = location;
         const checkRequiredFilter = checkRequired( required,formObject );
 
         if(checkRequiredFilter.length==0 ){
+            const data = {
+                ...formObject,
+                birthday: dayjs(formObject['birthday']).valueOf()
+            }
+            this.props.dispatch( ainfoUpdate(pathname,{...queryString.parse(search)},data) ).then( res => {
+                switch( res['status'] ){
+                    case 200:
+                        toaster.notify( <div className={`toaster-status success`}>{lang['zh-TW']['toaster']['updateSuccess']}</div> ,{
+                            position: 'bottom-right',
+                            duration: 3000
+                        })
+                        this.props.returnCancel(data);
+                        break;
+
+                    default:
+                        toaster.notify( <div className={`toaster-status failure`}>{lang['zh-TW']['toaster']['updateFailure']}</div> ,{
+                            position: 'bottom-right',
+                            duration: 3000
+                        })
+                        break;
+                }
+            });
             // 填寫完整
         }else{
+            this.setState({
+                msg: checkRequiredFilter
+            })
             // 未填寫完整
         }
     }

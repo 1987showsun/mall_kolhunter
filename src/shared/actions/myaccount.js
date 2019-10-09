@@ -33,6 +33,23 @@ export function ainfo(){
     }
 }
 
+// 會員基本資料更新
+export function ainfoUpdate( pathname,query={},data={} ){
+    return(dispatch) => {
+        const method = 'put';
+        const initQuery = {};
+        const search = queryString.stringify({ ...initQuery, ...query });
+        const url = `${API()['myaccount']['updateInfo']}${search!=''? `?${search}`:''}`;
+        return Axios({ method,url,data }).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                ainfo()(dispatch);
+                return res;
+            }
+            return res['response'];
+        });
+    }
+}
+
 // 會員更新密碼
 export function updatePWD( data ){
     return(dispatch) => {

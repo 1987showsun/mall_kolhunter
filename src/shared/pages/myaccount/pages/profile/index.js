@@ -17,32 +17,31 @@ class Index extends React.Component{
         this.state = {
             update: false,
             PWDUpdate: false,
-            accountInfo: props.accountInfo
+            accountInfo: {}
         }
     }
 
     static getDerivedStateFromProps( props,state ){
-        if( props.accountInfo!=state.accountInfo ){
-            return {
-                accountInfo: props.accountInfo
-            }            
+        let accountInfo = state.accountInfo;
+        if( Object.keys(accountInfo).length==0 ){
+            accountInfo = props.accountInfo;
         }
-        return null;
+        return {
+            accountInfo
+        };
     }
 
     render(){
 
-        const { 
-            update,
-            PWDUpdate,
-            accountInfo
-        } = this.state;
+        const { update, PWDUpdate, accountInfo } = this.state;
+        const { location } = this.props;
 
         return(
             <React.Fragment>
                 <section className="container-unit">
                     <Formcover 
-                        data={ accountInfo['photo'] || "" }
+                        location= {location}
+                        data={ accountInfo }
                     />
                     <div className="unit-head">
                         <h3>基本資料</h3>
@@ -61,14 +60,23 @@ class Index extends React.Component{
                             />
                         ):(
                             <Forminfo 
+                                location= {location}
                                 accountInfo= {accountInfo}
-                                returnCancel= {()=> this.setState({ update: false })}
+                                returnCancel= {(val)=> {
+                                    this.setState({ 
+                                        accountInfo: {
+                                            ...this.state.accountInfo,
+                                            ...val
+                                        },
+                                        update: false 
+                                    })
+                                }}
                             />
                         )
                     }
                 </section>
                 <section className="container-unit">
-                <div className="unit-head">
+                    <div className="unit-head">
                         <h3>修改密碼</h3>
                         {
                             !PWDUpdate &&

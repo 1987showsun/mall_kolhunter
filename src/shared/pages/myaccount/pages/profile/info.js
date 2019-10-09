@@ -1,4 +1,8 @@
 import React from 'react';
+import dayjs from 'dayjs';
+
+// Lang
+import lang from '../../../../public/lang/lang.json';
 
 export default class List extends React.Component{
 
@@ -36,21 +40,15 @@ export default class List extends React.Component{
                 <li>
                     <label htmlFor="">性別</label>
                     <div>
-                        { data['gender'] }
+                        { lang['zh-TW']['gender'][data['gender']] }
                     </div>
                 </li>
                 <li>
                     <label htmlFor="">生日</label>
                     <div>
-                        { data['birthday'] }
+                        { dayjs(data['birthday']).format('YYYY/MM/DD') }
                     </div>
                 </li>
-                {/* <li>
-                    <label htmlFor="">聯絡電話</label>
-                    <div>
-                        {`(${data['tel_code'] || ""}) ${data['tel'] || ""}`}
-                    </div>
-                </li> */}
                 <li>
                     <label htmlFor="">聯絡電話</label>
                     <div>
@@ -66,7 +64,7 @@ export default class List extends React.Component{
                 <li>
                     <label htmlFor="">地址</label>
                     <div>
-                        { `${data['city'] || ""}${data['district'] || ""}${data['address'] || ""}` }
+                        { `${data['zipCode'] || ""} ${data['city'] || ""}${data['dist'] || ""}${data['address'] || ""}` }
                     </div>
                 </li>
             </ul>

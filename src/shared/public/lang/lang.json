@@ -41,6 +41,10 @@
                 "5": "運送方式"
             }
         },
+        "gender": {
+            "male": "男",
+            "female": "女"
+        },
         "payment": {
             "atm": "ATM",
             "cc": "信用卡",
@@ -224,6 +228,10 @@
                 "4": "Desc",
                 "5": "Delivery"
             }
+        },
+        "gender": {
+            "male": "Male",
+            "female": "Female"
         },
         "payment": {
             "atm": "ATM",

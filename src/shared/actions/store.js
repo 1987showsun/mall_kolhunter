@@ -32,11 +32,6 @@ export function storeSales( pathname,query, data={} ) {
         const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API(NODE_ENV)['mall']['store']['sales']}${search!=''? `?${search}`: ''}`;
         return Axios({method:'get',url,data:{}}).then(res=>{
-            console.log( res );
-            // dispatch({
-            //     type: "STORE_INFO",
-            //     info: { ...res['data'] }
-            // });
             return res;
         });
     }

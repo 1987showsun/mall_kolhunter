@@ -119,7 +119,6 @@ class Products extends React.Component{
     }
 
     tableButtonAction = ( selectedItem ) => {
-        console.log( selectedItem );
         if( selectedItem['t_method']=="deliveryStatus" ){
             const { selectUpdateFormObject, info, data } = this.state;
             this.setState({

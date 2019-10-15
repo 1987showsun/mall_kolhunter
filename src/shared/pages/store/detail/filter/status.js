@@ -65,8 +65,6 @@ export default class Product extends React.Component{
         }
         this.setState({
             status
-        },()=>{
-            console.log( status );
         })
     }
 }

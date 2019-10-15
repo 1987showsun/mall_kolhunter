@@ -460,10 +460,8 @@ export function changeRefund( pathname,query,data={} ){
         const method = 'post';
         const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API()['myvendor']['refund'][refundType]}${search!=""? `?${search}`:""}`;
-        //console.log( method, url, data );
         return Axios({method,url,data}).then(res => {
             if( !res.hasOwnProperty('response') ){
-                console.log('action',res);
                 return res;
             }
             return res['response'];

@@ -184,7 +184,6 @@ class Index extends React.Component{
         this.setState({
             productLoading: true
         },()=>{
-            $('#root').animate({ scrollTop: 0 }, 'fast');
             this.props.dispatch( storeProduct(pathname,{...queryString.parse(search), store}) ).then( res => {
                 this.setState({
                     productLoading: false,

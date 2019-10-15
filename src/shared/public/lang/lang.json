@@ -72,7 +72,8 @@
             "addSuccess":"新增成功",
             "addFailure":"新增失敗",
             "refundSuccess": "退貨申請成功",
-            "refundFailure": "退貨申請失敗"
+            "refundFailure": "退貨申請失敗",
+            "add item into shopcart failure": "該商品已放存在於購物車"
         },
         "deliveryStatus": {
             "init": "未送件",
@@ -262,7 +263,8 @@
             "addSuccess":"Add success",
             "addFailure":"Add failure",
             "refundSuccess": "Refund success",
-            "refundFailure": "Refund failure"
+            "refundFailure": "Refund failure",
+            "add item into shopcart failure": "This item has been placed in the shopping cart"
         },
         "deliveryStatus": {
             "init": "Undelivered",

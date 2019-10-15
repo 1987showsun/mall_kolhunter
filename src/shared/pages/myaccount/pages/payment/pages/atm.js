@@ -30,7 +30,6 @@ class Atm extends React.Component{
     render(){
 
         const { loading, info } = this.state;
-        console.log( info );
 
         if( Object.keys( info ).length!=0 ){
             return(

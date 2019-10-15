@@ -1,4 +1,6 @@
 import React from 'react';
+import $ from 'jquery';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from "react-router-dom";
 
@@ -64,6 +66,33 @@ class Layout extends React.Component{
                 }
             </React.Fragment>
         );
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { location, match } = this.props;
+        const pathname = location.pathname.split('/').filter( item => item!='' );
+        const search   = queryString.parse(location.search);
+        const prevPropsLocation = prevProps.location;
+        const prevPathname = prevPropsLocation.pathname.split('/').filter( item => item!='' );
+        const prevSearch = queryString.parse(prevPropsLocation.search);
+        let pathnameComparison = false;
+        let searchComparison   = false;
+
+        if( pathname.length>prevPathname.length ){
+            pathnameComparison = pathname.some( (keys,i) => keys!=prevPathname[i] );
+        }else{
+            pathnameComparison = prevPathname.some( (keys,i) => keys!=pathname[i] );
+        }
+
+        if( Object.keys(search).length>Object.keys(prevSearch) ){
+            searchComparison = Object.keys(search).some( keys => search[keys]!=prevSearch[keys] );
+        }else{
+            searchComparison = Object.keys(prevSearch).some( keys => prevSearch[keys]!=search[keys] );
+        }
+        
+        if( pathnameComparison || searchComparison ){
+            $('#root').animate({ scrollTop: 0 }, 1000);
+        }
     }
 }
 

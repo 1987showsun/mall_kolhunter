@@ -45,6 +45,5 @@ export default class PriceRange extends React.Component{
     }
 
     handlePriceRange = (val) => {
-        console.log(val);
     }
 }

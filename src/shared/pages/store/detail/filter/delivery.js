@@ -74,8 +74,6 @@ export default class Delivery extends React.Component{
         }
         this.setState({
             delivery
-        },()=>{
-            console.log( delivery );
         })
     }
 }

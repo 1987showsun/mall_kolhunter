@@ -32,15 +32,7 @@ class Index extends React.Component{
 
     render(){
 
-        const { 
-            open,
-            method,
-            popupMsg,
-            formObject, 
-            msg 
-        } = this.state;
-
-        console.log( open, method, popupMsg );
+        const { open, method, popupMsg, formObject, msg } = this.state;
 
         return(
             <React.Fragment>

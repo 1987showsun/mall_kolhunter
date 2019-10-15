@@ -227,47 +227,53 @@ class Cover extends React.Component{
                     this.setState({
                         lock: false
                     },()=>{
-                        res = !res.hasOwnProperty('response')? res : res['response'];
+
+                        let { status_text } = res['data'];
+                        let status = 'failure';
+
                         switch( res['status'] ){
                             case 200:
                                 // 加入成功
+                                status_text = "新增成功";
+                                status      = "success";
                                 switch( method ){
                                     case 'direct':
-                                        console.log( '直購' );
                                         this.props.history.push({
                                             pathname: '/myaccount/carts'
                                         })
                                         break;
                         
-                                    case 'add':
-                                        console.log( '新增' );
-                                        toaster.notify(
-                                            <div className={`toaster-status success`}>新增成功</div>
-                                        ,{
-                                            position: 'bottom-right',
-                                            duration: 4000
-                                        })
+                                    default:
                                         break;
                                 }
                                 break;
 
                             default:
                                 // 失敗
-                                const { status_text } = res['data'];
-                                toaster.notify(
-                                    <div className={`toaster-status failure`}>{  lang['zh-TW']['err'][status_text] || '新增失敗'}</div>
-                                ,{
-                                    position: 'bottom-right',
-                                    duration: 4000
-                                })
+                                switch( method ){
+                                    case 'direct':
+                                        status_text = "新增失敗";
+                                        if( res['data']['status_text']=='add item into shopcart failure' ){
+                                            status_text = lang['zh-TW']['toaster'][res['data']['status_text']];
+                                            history.push({
+                                                pathname: '/myaccount/carts'
+                                            })
+                                        }
+                                        break;
 
-                                if( status_text=='add item into shopcart failure' ){
-                                    history.push({
-                                        pathname: '/myaccount/carts'
-                                    })
+                                    default:
+                                        status_text = "新增失敗";
+                                        break;
                                 }
                                 break;
                         }
+
+                        toaster.notify(
+                            <div className={`toaster-status ${status}`}>{status_text}</div>
+                        ,{
+                            position: 'bottom-right',
+                            duration: 3000
+                        })
                     });
                 });
             })

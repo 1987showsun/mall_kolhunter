@@ -42,6 +42,14 @@ class Index extends React.Component{
                     <Formcover 
                         location= {location}
                         data={ accountInfo }
+                        returnCancel= { (val) => {
+                            this.setState({ 
+                                accountInfo: {
+                                    ...this.state.accountInfo,
+                                    ...val
+                                }
+                            });
+                        }} 
                     />
                     <div className="unit-head">
                         <h3>基本資料</h3>

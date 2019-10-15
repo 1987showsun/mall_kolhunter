@@ -147,7 +147,6 @@ class Index extends React.Component{
         this.setState({
             loading: true,
         },()=>{
-            $('#root').animate({ scrollTop: 0 }, 'fast');
             this.props.dispatch( searchList(pathname,search) ).then( res => {
                 this.setState({
                     loading: false,

@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 // Components
 import AvatarCropper from '../../../../../module/avatarCropper';
 
+// Modules
+import Loading from '../../../../../module/loading/blockLoading';
+
 // Actions
 import { ainfoUpdate } from '../../../../../actions/myaccount';
 
@@ -17,6 +20,7 @@ class Cover extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             accountInfo: {}
         }
     }
@@ -34,13 +38,14 @@ class Cover extends React.Component{
     }
 
     render(){
-        const { accountInfo } = this.state;
+        const { loading, accountInfo } = this.state;
         return(
             <div className="user-cover">
                 <AvatarCropper 
                     onChangeData= {this.onChangeData.bind(this)}
                 />
                 <img src={accountInfo['photo']} alt="" title="" />
+                <Loading loading={loading} />
             </div>
         );
     }
@@ -68,22 +73,36 @@ class Cover extends React.Component{
                 address    : accountInfo['address'],
                 company    : accountInfo['company'],
             }
-            this.props.dispatch( ainfoUpdate(pathname,{...queryString.parse(search)},data) ).then( res => {
-                switch( res['status'] ){
-                    case 200:
-                        toaster.notify( <div className={`toaster-status success`}>{lang['zh-TW']['toaster']['updateSuccess']}</div> ,{
-                            position: 'bottom-right',
-                            duration: 3000
-                        })
-                        break;
 
-                    default:
-                        toaster.notify( <div className={`toaster-status failure`}>{lang['zh-TW']['toaster']['updateFailure']}</div> ,{
+            this.setState({
+                loading: true,
+            },()=>{
+                this.props.dispatch( ainfoUpdate(pathname,{...queryString.parse(search)},data) ).then( res => {
+                    this.setState({
+                        loading: false,
+                    },() => {
+                        let status_text = "";
+                        let status = "failure";
+
+                        switch( res['status'] ){
+                            case 200:
+                                status_text = lang['zh-TW']['toaster']['updateSuccess'];
+                                status = "success";
+                                this.props.returnCancel({photo: data['photo']});
+                                break;
+
+                            default:
+                                status_text = lang['zh-TW']['toaster']['updateFailure'];
+                                status = "failure";
+                                break;
+                        }
+
+                        toaster.notify( <div className={`toaster-status ${status}`}>{status_text}</div> ,{
                             position: 'bottom-right',
                             duration: 3000
                         })
-                        break;
-                }
+                    })
+                });
             });
         })
     }

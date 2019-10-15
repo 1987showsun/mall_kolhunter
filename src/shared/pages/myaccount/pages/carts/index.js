@@ -73,7 +73,6 @@ class Index extends React.Component{
                         location= {location}
                     />
                 </section>
-                {/* 還沒要做
                 <section className="container-unit">
                     代碼
                     <div className="unit-head">
@@ -81,7 +80,6 @@ class Index extends React.Component{
                     </div>
                     <Coupon />
                 </section> 
-                */}
                 <section className="container-unit">
                     {/* 付款方式 */}
                     <div className="unit-head">
@@ -93,8 +91,6 @@ class Index extends React.Component{
                         returnHandleChange= {(val)=>{
                             this.setState({
                                 paymentFormObject: val
-                            },()=>{
-                                console.log( this.state.paymentFormObject );
                             });
                         }}
                     />

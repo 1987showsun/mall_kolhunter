@@ -237,29 +237,34 @@ class Info extends React.Component{
         const checkRequiredFilter = checkRequired( required,formObject );
 
         if(checkRequiredFilter.length==0 ){
+            // 填寫完整
             const data = {
                 ...formObject,
                 birthday: dayjs(formObject['birthday']).valueOf()
             }
             this.props.dispatch( ainfoUpdate(pathname,{...queryString.parse(search)},data) ).then( res => {
+
+                let status_text = "";
+                let status = "failure";
+
                 switch( res['status'] ){
                     case 200:
-                        toaster.notify( <div className={`toaster-status success`}>{lang['zh-TW']['toaster']['updateSuccess']}</div> ,{
-                            position: 'bottom-right',
-                            duration: 3000
-                        })
+                        status_text = lang['zh-TW']['toaster']['updateSuccess'];
+                        status = "success";
                         this.props.returnCancel(data);
                         break;
 
                     default:
-                        toaster.notify( <div className={`toaster-status failure`}>{lang['zh-TW']['toaster']['updateFailure']}</div> ,{
-                            position: 'bottom-right',
-                            duration: 3000
-                        })
+                        status_text = lang['zh-TW']['toaster']['updateFailure'];
+                        status = "failure";
                         break;
                 }
+
+                toaster.notify( <div className={`toaster-status ${status}`}>{status_text}</div> ,{
+                    position: 'bottom-right',
+                    duration: 3000
+                })
             });
-            // 填寫完整
         }else{
             this.setState({
                 msg: checkRequiredFilter

@@ -33,11 +33,6 @@ export default class BGImg extends React.Component{
         );
     }
 
-    componentDidMount() {
-        console.log(this.props.cover);
-    }
-    
-
     callAPIFunction = ( src ) => {
         this.setState({
             cover: src

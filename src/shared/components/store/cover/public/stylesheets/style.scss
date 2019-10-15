@@ -8,12 +8,15 @@
     .store-cover-background-img{
         width: 120%;
         height: 120%;
-        opacity: .4;
+        opacity: .3;
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
         position: absolute;
         z-index: 1;
+    }
+    @media (max-width: 420px) {
+        margin-bottom: 10px;
     }
 }
 
@@ -55,8 +58,8 @@
                 margin-bottom: 15px;
             }
             @media (max-width: 420px) {
-                width: 100px;
-                height: 100px;
+                width: 130px;
+                height: 130px;
                 margin-bottom: 15px;
             }
         }

@@ -69,7 +69,7 @@ class Kv extends React.Component{
     };
 
     return(
-        <div className="row">
+        <div className="row kv-wrap">
             <Slider settings={settings} >
                 {
                   data.length!=0 &&

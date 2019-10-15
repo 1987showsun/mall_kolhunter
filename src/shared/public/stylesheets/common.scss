@@ -141,9 +141,6 @@ html,body{
 
         @media (max-width: 420px) {
             padding: 0px 5px;
-            .unit{
-                margin-bottom: 25px;
-            }
         }
     }
 }
@@ -154,12 +151,18 @@ main{
 }
 .row{
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 45px;
+    &.kv-wrap{
+        margin-bottom: 10px;
+    }
     &.category-wrap{
         background: #fff;
     }
     &:last-child{
         margin-bottom: 0px;
+    }
+    @media (max-width: 600px) {
+        margin-bottom: 30px;
     }
 }
 .col{ display: inline-flex; }
@@ -494,6 +497,7 @@ nav{
         margin-bottom: 15px;
         background: #fff;
         &:first-child{ margin-bottom: 0px; }
+        &:last-child{ margin-bottom: 0px; }
         .container-unit-head{
             width: 100%;
             display: flex;

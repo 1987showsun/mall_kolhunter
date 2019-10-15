@@ -332,6 +332,7 @@
 }
 
 .category-wrap{
+    padding-bottom: 15px;
     img{
         width: 100%;
     }
@@ -400,5 +401,9 @@
                 right: 0px;
             }
         }
+    }
+
+    .slick-dots{
+        bottom: 0px;
     }
 }

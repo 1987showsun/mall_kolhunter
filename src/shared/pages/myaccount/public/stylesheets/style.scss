@@ -59,6 +59,8 @@ $userCoverMobile_W: 200px;
         }
     }
     @media (min-width:769px) {
+        position: sticky !important;
+        top: 120px;
         .account-nav-wrap-row{
             &.pc{
                 display: flex;

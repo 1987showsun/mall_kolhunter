@@ -20,6 +20,16 @@ app.use(logger('dev'));
 app.use(cors());
 app.use(express.static( path.join('public') ));
 
+app.use('/site/404', (req, res, next) =>{
+  res.status(404);
+  next();
+});
+
+app.use('/site/502', (req, res, next) =>{
+  res.status(502);
+  next();
+});
+
 app.all('*',function(req, res, next) {
 
   const NODE_ENV = process.env['NODE_ENV'];

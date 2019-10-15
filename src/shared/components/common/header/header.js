@@ -47,16 +47,8 @@ class Header extends React.Component{
 
     render(){
 
-        const { 
-            accountInfo, 
-            token 
-        } = this.state;
-        const {
-            history,
-            match,
-            location
-        } = this.props;
-
+        const { accountInfo, token } = this.state;
+        const { history, match, location } = this.props;
         const pathname = location['pathname'].split('/').filter( item => item!='' );
 
         return(
@@ -80,9 +72,17 @@ class Header extends React.Component{
                                     <React.Fragment>
                                         <li className={``}>
                                             <Link to="/myaccount">
-                                                <span className="icon-block">
-                                                    <FontAwesomeIcon icon={faUser} />
-                                                </span>
+                                                {
+                                                    accountInfo['photo']!=null?(
+                                                        <span className="icon-block">
+                                                            <img src={accountInfo['photo']} alt="" title="" />
+                                                        </span>
+                                                    ):(
+                                                        <span className="icon-block">
+                                                            <FontAwesomeIcon icon={faUser} />
+                                                        </span>
+                                                    )
+                                                }
                                                 <div className="prompt-block">{accountInfo['name']}</div>
                                             </Link>
                                         </li>

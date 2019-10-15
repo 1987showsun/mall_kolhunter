@@ -157,7 +157,8 @@
         "err": {
             "ID or password error.": "帳號或密碼錯誤",
             "get user info error": "該帳號已於其他地方登入，系統已將您強制登出",
-            "email already exists": "電子郵件已經存在"
+            "email already exists": "電子郵件已經存在",
+            "Email needs verified.": "請至註冊信箱，驗證開啟此帳號"
         },
         "button": {
             "search": "搜尋",
@@ -344,7 +345,8 @@
         "err": {
             "ID or password error.": "ID or password error.",
             "get user info error": "The account has been logged in elsewhere and you have been forced to log out.",
-            "email already exists": "Email already exists"
+            "email already exists": "Email already exists",
+            "Email needs verified.": "Email needs verified."
         },
         "button": {
             "search": "Search",

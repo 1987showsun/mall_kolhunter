@@ -4,9 +4,10 @@ import dayjs from 'dayjs';
 import queryString from 'query-string';
 
 // 網紅可販賣的商品列表
-export function mystoreProductList( pathname,query ) {
+export function mystoreProductList( pathname,query, data={} ) {
     return (dispatch,NODE_ENV) => {
         
+        const method = 'get';
         const initQuery = {
             page: 1,
             limit: 30,
@@ -27,46 +28,43 @@ export function mystoreProductList( pathname,query ) {
             type: 'MYSTORE_STOREPRODUCT_LIST',
             list: []
         })
-        return Axios({
-            method:'get',
-            url,
-            data: null
-        }).then(res=>{
-            dispatch({
-                type: 'MYSTORE_STOREPRODUCT_STATUS',
-                total: res['data']['total'],
-                limit: res['data']['limit'],
-                current: res['data']['page']
-            })
-            dispatch({
-                type: 'MYSTORE_STOREPRODUCT_LIST',
-                list: res['data']['list']
-            })
-            return res;
+        return Axios({ method,  url, data }).then(res=>{
+            if( !res.hasOwnProperty('response') ){
+                dispatch({
+                    type: 'MYSTORE_STOREPRODUCT_STATUS',
+                    total: res['data']['total'],
+                    limit: res['data']['limit'],
+                    current: res['data']['page']
+                })
+                dispatch({
+                    type: 'MYSTORE_STOREPRODUCT_LIST',
+                    list: res['data']['list']
+                })
+                return res;
+            }
+            return res['response'];
         });
     }
 }
 
 // 網紅商店店舖管理資訊
-export function mystoreStoreInfo( pathname,query ) {
+export function mystoreStoreInfo( pathname, query={}, data={} ) {
     return (dispatch,NODE_ENV) => {
     
+        const method = 'get';
         const initQuery = {};
         const search = queryString.stringify({ ...initQuery, ...query });
         const url = `${API(NODE_ENV)['mystore']['getInfo']}${search!=''? `?${search}`: ''}`;
 
-        return Axios({
-            method:'get',
-            url,
-            data: null
-        }).then( res =>{
-            dispatch({
-                type: 'MYSTORE_STORE_INFO',
-                info: res['data']
-            })
-            return res;
-        }).catch( err => {
-            console.log( 'err',err['response'] );
+        return Axios({ method, url, data}).then( res =>{
+            if( !res.hasOwnProperty('response') ){
+                dispatch({
+                    type: 'MYSTORE_STORE_INFO',
+                    info: res['data']
+                })
+                return res;
+            }
+            return res['response'];
         });
     }
 }
@@ -96,25 +94,27 @@ export function mystoreStoreProductList( pathname,query,data={} ) {
             list: []
         })
         return Axios({ method, url, data }).then(res=>{
-
-            const list = res['data']['list'].map( item => {
-                return{
-                    ...item,
-                    status: "on",
-                }
-            });
-                        
-            dispatch({
-                type: 'MYSTORE_STOREPRODUCT_STATUS',
-                total: res['data']['total'],
-                limit: res['data']['limit'],
-                current: res['data']['page']
-            })
-            dispatch({
-                type: 'MYSTORE_STOREPRODUCT_LIST',
-                list: list
-            })
-            return res;
+            if( !res.hasOwnProperty('response') ){
+                const list = res['data']['list'].map( item => {
+                    return{
+                        ...item,
+                        status: "on",
+                    }
+                });
+                            
+                dispatch({
+                    type: 'MYSTORE_STOREPRODUCT_STATUS',
+                    total: res['data']['total'],
+                    limit: res['data']['limit'],
+                    current: res['data']['page']
+                })
+                dispatch({
+                    type: 'MYSTORE_STOREPRODUCT_LIST',
+                    list: list
+                })
+                return res;
+            }
+            return res['response'];
         });
     }
 }
@@ -127,12 +127,11 @@ export function mystoreStoreProductAdd( pathname,query,data ) {
         const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
         const url = `${API(NODE_ENV)['mystore']['addProduct']}${search!=''? `?${search}`: ''}`;
 
-        return Axios({
-            method,
-            url,
-            data
-        }).then(res=>{
-            return res;
+        return Axios({ method, url, data }).then(res=>{
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response'];
         });
     }
 }
@@ -145,18 +144,17 @@ export function mystoreStoreProductRemove( pathname,query,data ) {
         const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
         const url = `${API(NODE_ENV)['mystore']['deleteProduct']}${search!=''? `?${search}`: ''}`;
         
-        return Axios({
-            method,
-            url,
-            data
-        }).then(res=>{
-            return res;
+        return Axios({ method, url, data }).then(res=>{
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response'];
         });
     }
 }
 
 // 更新店舖資料
-export function mystoreStoreInfoUpdate( pathname,query,data ) {
+export function mystoreStoreInfoUpdate( pathname, query={}, data={} ) {
     return (dispatch,NODE_ENV) => {
 
         const method = 'put';
@@ -164,12 +162,11 @@ export function mystoreStoreInfoUpdate( pathname,query,data ) {
         const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
         const url = `${API(NODE_ENV)['mystore']['updateInfo']}${search!=''? `?${search}`: ''}`;
         
-        return Axios({
-            method,
-            url,
-            data
-        }).then(res=>{
-            return res;
+        return Axios({ method, url, data }).then(res=>{
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response'];
         });
 
     }

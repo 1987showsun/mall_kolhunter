@@ -139,7 +139,7 @@ class Index extends React.Component{
                             <div className={`toaster-status success`}>下架成功</div>
                         ,{
                             position: 'bottom-right',
-                            duration: 4000
+                            duration: 3000
                         })
                         break;
 

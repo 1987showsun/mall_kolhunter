@@ -6,11 +6,9 @@ import API from './apiurl';
 export function ainfo(){
     return(dispatch) => {
         if( typeof window !== 'undefined' ){
-
             const method = 'get';
             const url = API()['myaccount']['info'];
             const token = sessionStorage.getItem('jwt_account');
-
             if( token!=null && token!=undefined && token!="" ){
                 // 檢查有無 jwt account token 有代表已登入 
                 return Axios({ method,url,data:{} }).then(res => {

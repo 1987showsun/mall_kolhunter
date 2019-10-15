@@ -21,7 +21,6 @@ import lang from '../../../../../public/lang/lang.json';
 const city    = Object.keys(county_area)[0];
 const dist    = Object.keys(county_area[city])[0];
 const zipCode = county_area[city][dist];
-console.log( zipCode );
 
 class Info extends React.Component{
 

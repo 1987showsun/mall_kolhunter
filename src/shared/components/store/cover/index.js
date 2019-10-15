@@ -104,20 +104,26 @@ class Index extends React.Component{
                 this.setState({
                     loading: false
                 },()=>{
+                    let toasterStatus = 'failure';
+                    let toasterMsg = '';
                     switch( res['status'] ){
                         case 200:
-                            toaster.notify(
-                                <div className={`toaster-status success`}>更新成功</div>
-                            ,{
-                                position: 'bottom-right',
-                                duration: null
-                            })
+                            toasterStatus = 'success';
+                            toasterMsg = '更新成功';
                             break;
                         
                         default :
-                            console.log("更新失敗");
+                            toasterStatus = 'failure';
+                            toasterMsg = '更新失敗';
                             break;
                     }
+
+                    toaster.notify(
+                        <div className={`toaster-status ${toasterStatus}`}>{toasterMsg}</div>
+                    ,{
+                        position: 'bottom-right',
+                        duration: 3000
+                    })
                 })
             });
         })

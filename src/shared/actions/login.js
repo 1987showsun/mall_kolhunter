@@ -9,18 +9,25 @@ export function signin( form ) {
     return (dispatch) => {
         return Axios({ method: 'post', url: url, data: form }).then( (res) => {
             if( !res.hasOwnProperty('response') ){
-                sessionStorage.setItem(`jwt_${type}`,res['data']);
-                let selectType = "";
-                if( type=='account' ){
-                    selectType= "ACCOUNT_SIGNIN_SUCCESS";
-                }else{
-                    selectType= "VENDOR_SIGNIN_SUCCESS";
-                }
+                switch( res['status'] ){
+                    case 200:
+                        sessionStorage.setItem(`jwt_${type}`,res['data']);
+                        let selectType = "";
+                        if( type=='account' ){
+                            selectType= "ACCOUNT_SIGNIN_SUCCESS";
+                        }else{
+                            selectType= "VENDOR_SIGNIN_SUCCESS";
+                        }
 
-                dispatch({
-                    type: selectType,
-                    token: res['data']
-                })
+                        dispatch({
+                            type: selectType,
+                            token: res['data']
+                        })
+                        break;
+
+                    default: 
+                        break;
+                }
                 return res;
             }
             return res['response'];
@@ -69,7 +76,6 @@ export function forget( pathname, query, data={} ){
 
         return Axios({ method, url, data }).then( res => {
             if( !res.hasOwnProperty('response') ){
-                console.log( res );
                 return res
             }
             return res['response'];
@@ -102,7 +108,6 @@ export function verify( form ) {
     delete form['type'];
 
     Axios({ method: 'post', uri: uri, data: form }).then( res => {
-        console.log( res );
     })
 
     return (dispatch) => {

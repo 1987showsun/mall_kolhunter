@@ -53,37 +53,40 @@ export default class Cover extends React.Component{
                             </button>
                     }
                 </article>
-                {
-                    data!=undefined &&
-                        !update? (
-                            <BlockList className="admin-product-img-ul">
-                                {
-                                    data.map( (item,i) => {
-                                        return(
-                                            <li key={item['image']} className={ i==0? 'product-main-cover':null }>
-                                                <figure>
-                                                    {
-                                                        i==0 &&
-                                                            <span className="admin-product-main">主圖</span>
-                                                    }
-                                                    <img src={item['image']} alt="" title="" />
-                                                </figure>
-                                            </li>
-                                        )
-                                    })
-                                }
-                            </BlockList>
-                        ):(         
-                            <FormCover 
-                                status={status}
-                                id={id}
-                                data={data}
-                                returnResult={this.returnResult.bind(this)}
-                                returnCancel={this.returnCancel.bind(this)}
-                            />
-                        )
-                }
-                <Loading loading={loading} />
+                <div className="admin-content-container">
+                    {
+                        data!=undefined &&
+                            !update? (
+                                <BlockList className="admin-product-img-ul">
+                                    {
+                                        data.map( (item,i) => {
+                                            return(
+                                                <li key={item['image']} className={ i==0? 'product-main-cover':null }>
+                                                    <figure>
+                                                        {
+                                                            i==0 &&
+                                                                <span className="admin-product-main">主圖</span>
+                                                        }
+                                                        <img src={item['image']} alt="" title="" />
+                                                    </figure>
+                                                </li>
+                                            )
+                                        })
+                                    }
+                                </BlockList>
+                            ):(         
+                                <FormCover 
+                                    status={status}
+                                    id={id}
+                                    data={data}
+                                    returnResult={this.returnResult.bind(this)}
+                                    returnCancel={this.returnCancel.bind(this)}
+                                />
+                            )
+                    }
+
+                    <Loading loading={loading} />
+                </div>
             </section>
         );
     }

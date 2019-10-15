@@ -209,8 +209,8 @@ class Cover extends React.Component{
     }
 
     callCarts = ( method ) => {
-        const { location } = this.props;
-        const { pathname,search } = location;
+        const { location, history } = this.props;
+        const { pathname, search } = location;
         const checkLoginStatus = sessionStorage.getItem('jwt_account')!=null? true : false;
         const formObject = {
             ...this.state.formObject,
@@ -253,12 +253,19 @@ class Cover extends React.Component{
 
                             default:
                                 // 失敗
+                                const { status_text } = res['data'];
                                 toaster.notify(
-                                    <div className={`toaster-status failure`}>新增失敗</div>
+                                    <div className={`toaster-status failure`}>{  lang['zh-TW']['err'][status_text] || '新增失敗'}</div>
                                 ,{
                                     position: 'bottom-right',
                                     duration: 4000
                                 })
+
+                                if( status_text=='add item into shopcart failure' ){
+                                    history.push({
+                                        pathname: '/myaccount/carts'
+                                    })
+                                }
                                 break;
                         }
                     });

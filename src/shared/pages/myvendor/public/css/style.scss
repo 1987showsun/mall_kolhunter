@@ -660,6 +660,8 @@
     >li{
         img{
             width: 100%;
+            max-width: none;
+            min-width: 100% !important;
             display: block;
         }
         &.active{

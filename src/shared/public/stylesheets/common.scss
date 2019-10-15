@@ -103,7 +103,7 @@ html,body{
         }
         .unit{
             width: 100%;
-            margin-bottom: 30px;
+            /*margin-bottom: 30px;*/
             display: flex;
             flex-direction: column;
             .unit-guide{
@@ -153,8 +153,12 @@ main{
 }
 .row{
     width: 100%;
+    margin-bottom: 20px;
     &.category-wrap{
         background: #fff;
+    }
+    &:last-child{
+        margin-bottom: 0px;
     }
 }
 .col{ display: inline-flex; }
@@ -455,20 +459,22 @@ nav{
 
     .block-title{
         width: 100%;
-        height: 50px;
+        /*height: 50px;*/
+        padding: 0px 0px 15px 0px;
         margin-bottom: 10px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         border-bottom: 1px solid #E4E4EB;
+        color: var(--main);
         h2 {
-            font-size: 1.1em;
+            font-size: 1em;
         }
         a{
-            color: var(--main);
+            color: #999;
             display: flex;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             i{
                 margin: 0px 0px 0px 5px;
             }

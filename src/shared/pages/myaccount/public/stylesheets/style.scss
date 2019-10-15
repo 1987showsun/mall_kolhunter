@@ -1,5 +1,5 @@
 $userCoverPC_W: 220px;
-$userCoverMobile_W: 150px;
+$userCoverMobile_W: 200px;
 
 .account-wrap{
     .user-cover{
@@ -32,7 +32,7 @@ $userCoverMobile_W: 150px;
         .user-cover{
             width: $userCoverMobile_W;
             height: $userCoverMobile_W;
-            margin: 15px auto;
+            margin: 15px auto 25px auto;
         }
         .main-content{
             flex-wrap: wrap;

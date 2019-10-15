@@ -30,7 +30,7 @@ export default class Search extends React.Component{
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="input-box">
                         <input type="text" name="keyword" value={formObject['keyword']} placeholder={`${lang['zh-TW']['placeholder'][`${formObject['type']} name`]}`} onChange={this.handleChange.bind(this)}/>
-                        <div className="input-box select">
+                        <div className="input-box select header-search-select">
                             <select name="type" value={formObject['type']} onChange={this.handleChange.bind(this)}>
                                 <option value="product">商品名稱</option>
                                 <option value="store">店家名稱</option>

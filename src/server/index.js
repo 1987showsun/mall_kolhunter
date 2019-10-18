@@ -28,7 +28,7 @@ app.use('/site/502', (req, res, next) =>{
   next();
 });
 
-app.get("*", (req, res, next) => {
+app.all("*", (req, res, next) => {
   console.log('fuck123');
   const NODE_ENV = process.env['NODE_ENV'];
   const store = configureStore();

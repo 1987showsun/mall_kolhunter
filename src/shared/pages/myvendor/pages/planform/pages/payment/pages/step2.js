@@ -29,7 +29,8 @@ class Step2 extends React.Component{
             open: false,
             method: "confirm",
             popupMsg: [],
-            required: ['company','contactor','email','phone','zipcode','city','district','address','cvc','exp','cardno'],
+            required: ['company','contactor','email','phone','zipcode','city','district','address'],
+            ccRequired: ['cvc','exp','cardno'],
             profile: props.profile,
             formObject: {
                 memberType: "vendor"
@@ -216,8 +217,20 @@ class Step2 extends React.Component{
 
     hanleSubmit = (e) => {
         e.preventDefault();
-        const { required, formObject, paymentFormObject } = this.state;
-        const checkRequiredFilter = checkRequired( required, { ...formObject, ...paymentFormObject } );
+        const { required, ccRequired, formObject, paymentFormObject } = this.state;
+        const { payMethod } = paymentFormObject;
+        let mergeRequired = [];
+        switch( payMethod ){
+            case 'cc':
+                mergeRequired = [ ...required, ...ccRequired ];
+                break;
+
+            default: 
+                mergeRequired = [ ...required ];
+                break;
+        }
+        const checkRequiredFilter = checkRequired( mergeRequired, { ...formObject, ...paymentFormObject } );
+        console.log( checkRequiredFilter, { ...formObject, ...paymentFormObject } );
         if( checkRequiredFilter.length==0 ){
             // 填寫完整
             this.setState({

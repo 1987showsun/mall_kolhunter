@@ -88,6 +88,9 @@
             "nickname required": "暱稱必填",
             "username required": "會員帳號必填",
             "password required": "密碼必填",
+            "zipcode required": "郵遞區號欄位不得為空",
+            "city required": "縣市欄位不得為空",
+            "district required": "行政區域欄位不得為",
             "address required": "地址必填",
             "password_chk required": "第二道密碼必填",
             "newPWD required": "密碼必填",
@@ -182,6 +185,9 @@
             "by store": "購買店家"
         },
         "required": {
+            "zipcode": "郵遞區號欄位不得為空",
+            "city": "縣市欄位不得為空",
+            "district": "行政區域欄位不得為",
             "company":"公司欄位不得為空",
             "email":"信箱欄位不得為空",
             "password":"密碼欄位不得為空",
@@ -281,6 +287,9 @@
             "username required": "Username required",
             "password required": "Password required",
             "password_chk required": "Confirm password required",
+            "zipcode required": "Zipcode required",
+            "city required": "City required",
+            "district required": "District required",
             "address required": "Address required",
             "newPWD required": "Password required",
             "newPWDChk required": "Confirm password required",
@@ -373,6 +382,9 @@
             "by store": "By store"
         },
         "required": {
+            "zipcode": "Zipcode required",
+            "city": "City required",
+            "district": "District required",
             "company":"Company required",
             "email":"Email required",
             "password":"Password required",

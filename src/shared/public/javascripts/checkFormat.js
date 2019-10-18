@@ -59,7 +59,11 @@ export const isInvoice = string => {
 }
 
 export const checkRequired = ( required=[], formObject={} ) => {
-    return required.filter( keys => formObject[keys]=="").map( keys => {
+    return required.filter( keys => {
+        if(formObject[keys]=="" || formObject[keys]==null || formObject[keys]==undefined ){
+            return true;
+        }
+    }).map( keys => {
         return <div key={keys} className="items">{lang['zh-TW']['note'][`${keys} required`]}</div>;
     })
 }

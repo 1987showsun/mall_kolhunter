@@ -215,11 +215,9 @@ class Step2 extends React.Component{
     }
 
     hanleSubmit = (e) => {
-
         e.preventDefault();
         const { required, formObject, paymentFormObject } = this.state;
         const checkRequiredFilter = checkRequired( required, { ...formObject, ...paymentFormObject } );
-
         if( checkRequiredFilter.length==0 ){
             // 填寫完整
             this.setState({
@@ -234,7 +232,6 @@ class Step2 extends React.Component{
                 popupMsg: checkRequiredFilter
             })
         }
-
     }
 
     okToBuyThisProgram = () => {

@@ -17,7 +17,7 @@ i18n
     backend: {
     // 設定語系檔案的 server 路徑, 會以GET的方式跟 server 要檔案
     // lng = 語系代碼 ns = namespace
-    "loadPath": "/javascripts/locales/{{lng}}/{{ns}}.json"
+    "loadPath": "/assets/lang/locales/{{lng}}/{{ns}}.json"
     }
   });
 

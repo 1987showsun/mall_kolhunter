@@ -1,24 +1,22 @@
-import express from "express";
-import cors from "cors";
-import React from "react";
-import logger from "morgan";
-import request from 'request';
-import path from "path";
-import { renderToString } from "react-dom/server";
-import { Provider } from "react-redux";
+import express                            from "express";
+import cors                               from "cors";
+import React                              from "react";
+import logger                             from "morgan";
+import { renderToString }                 from "react-dom/server";
+import { Provider }                       from "react-redux";
 import { StaticRouter, matchPath, Route } from "react-router-dom";
-import { Helmet } from "react-helmet";
-import serialize from "serialize-javascript";
-import configureStore from "../shared/redux/store";
-import routes from "../shared/routers";
-import App from "../shared/layout";
+import { Helmet }                         from "react-helmet";
+import serialize                          from "serialize-javascript";
+import configureStore                     from "../shared/redux/store";
+import routes                             from "../shared/routers";
+import App                                from "../shared/layout";
 import "source-map-support/register";
 
 const app = express();
 
 app.use(logger('dev'));
 app.use(cors());
-app.use(express.static( path.join('public') ));
+app.use(express.static("public"));
 
 app.use('/site/404', (req, res, next) =>{
   res.status(404);
@@ -30,8 +28,8 @@ app.use('/site/502', (req, res, next) =>{
   next();
 });
 
-app.all('*',function(req, res, next) {
-
+app.get("*", (req, res, next) => {
+  console.log('fuck123');
   const NODE_ENV = process.env['NODE_ENV'];
   const store = configureStore();
   const promises = routes.reduce((acc, route) => {
@@ -46,7 +44,7 @@ app.all('*',function(req, res, next) {
   }, []);
 
   Promise.all(promises)
-    .then((data,qw) => {
+    .then(() => {
       const context = {};
       const markup = renderToString(
         <Provider store={store}>
@@ -55,11 +53,10 @@ app.all('*',function(req, res, next) {
           </StaticRouter>
         </Provider>
       );
-      
-      const initialData= store.getState();
-      const helmet= Helmet.renderStatic();
-      const date= new Date().valueOf();
-      
+
+      const initialData = store.getState();
+      const helmet      = Helmet.renderStatic();
+      const date        = new Date().valueOf();
       res.send(`
         <!DOCTYPE html>
         <html>
@@ -86,13 +83,13 @@ app.all('*',function(req, res, next) {
 
           <body>
             <div id="root">${markup}</div>
+            <script src="/bundle.js" defer></script>
+            <script>window.__initialData__ = ${serialize(initialData)}</script>
           </body>
-          <script src="/bundle.js" defer></script>
-          <script>window.__initialData__ = ${serialize(initialData)}</script>
         </html>
       `);
     })
-    .catch( next );
+    .catch(next);
 });
 
 // http

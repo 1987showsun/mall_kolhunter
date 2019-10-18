@@ -3,54 +3,60 @@ import CurrencyFormat from 'react-currency-format';
 import { connect } from 'react-redux';
 
 // Json
-import area_code from '../../../../../../../public/json/TWareacode.json';
 import county_area from '../../../../../../../public/json/TWzipcode.json';
 
-const city = Object.keys(county_area)[0];
+const city     = Object.keys(county_area)[0];
 const district = Object.keys(county_area[city])[0];
+const zipcode  = county_area[city][district];
 
 class PurchaseInfo extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            formObject:{
-                company: props.profile['company'],
-                contactor: props.profile['contactor'],
-                email: props.profile['email'],
-                phone: props.profile['phone'],
-                zipcode: props.profile['zipcode'],
-                city: props.profile['city'],
-                district: props.profile['district'],
-                address: props.profile['address']
+            profile: {},
+            formObject: {
+                company     : "",
+                contactor   : "",
+                email       : "",
+                phone       : "",
+                zipcode     : zipcode,
+                city        : city,
+                district    : district,
+                address     : "",
+                invoice     : null
             }
         }
     }
 
     static getDerivedStateFromProps( props,state ) {
-
-        const profile = { ...props.profile };
-        const formObject = { ...state.formObject };
-        const contrast = Object.keys( formObject ).filter( key => formObject[key]!=profile[key] );
-        if( contrast.length==0 ){
-            return{
-                formObject: props.profile 
+        let profile    = { ...state.profile };
+        let formObject = { ...state.formObject };
+        if( Object.keys(props.profile).length!=0 && Object.keys(profile).length==0 ){
+            profile    = { ...props.profile };
+            formObject = {
+                ...formObject,
+                company     : props.profile['company'],
+                contactor   : props.profile['contactor'],
+                email       : props.profile['email'],
+                phone       : props.profile['phone'],
+                zipcode     : props.profile['zipcode'],
+                city        : props.profile['city'],
+                district    : props.profile['district'],
+                address     : props.profile['address'],
+                invoice     : props.profile['invoice']
             }
         }
 
-        return null;
+        return {
+            profile       : profile,
+            formObject    : formObject
+        };
     }
 
     render(){
 
         const { formObject } = this.state;
-        const areaCode = formObject['area_code'];
-        let areaCodeFormat = "";
-        area_code.map( item => {
-            if( item['code']==areaCode ){
-                areaCodeFormat = item['format'];
-            }
-        });
 
         return(
             <React.Fragment>
@@ -123,9 +129,10 @@ class PurchaseInfo extends React.Component{
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const prevStateFormObject = prevState.formObject;
         const formObject = this.state.formObject;
-        if( prevStateFormObject!=formObject ){
+        const prevStateFormObject = prevState.formObject;
+        let comparison = Object.keys( formObject ).some( keys => formObject[keys]!=prevStateFormObject[keys] );
+        if( comparison ){
             this.returnHandleChange();
         }
     }
@@ -176,18 +183,13 @@ class PurchaseInfo extends React.Component{
 
         this.setState({
             formObject
-        },()=>{
-            this.returnHandleChange();
         })
     }
 
     returnTel = ( val,name ) => {
-        let { formObject } = this.state;
-        formObject = { ...formObject, [name]: val };
+        const { formObject } = this.state;
         this.setState({
-            formObject
-        },()=>{
-            this.returnHandleChange();
+            formObject: { ...formObject, [name]: val }
         })
     }
 

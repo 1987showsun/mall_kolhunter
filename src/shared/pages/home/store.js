@@ -16,13 +16,13 @@ class Store extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      list: props.listl
+      list: props.data
     }
   }
 
   static getDerivedStateFromProps( props,state ){
     return{
-      list: props.list
+      list: props.data
     }
   }
 
@@ -57,7 +57,7 @@ class Store extends React.Component{
 
 const mapStateToProps = state => {
   return{
-    list: state.home.recommendStoreList
+    //list: state.home.recommendStoreList
   }
 }
 

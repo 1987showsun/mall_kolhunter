@@ -188,7 +188,7 @@ class Cover extends React.Component{
             this.setState({
                 storeLoading: true,
             },()=>{
-                this.props.dispatch( storeInfo(pathname,{id: store}) ).then( res => {
+                this.props.dispatch( storeInfo(pathname,{store: store}) ).then( res => {
                     this.setState({
                         storeLoading: false,
                     },()=>{

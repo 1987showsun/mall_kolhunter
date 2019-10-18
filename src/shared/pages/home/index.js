@@ -26,6 +26,7 @@ class Home extends React.Component{
         super(props);
         this.state = {
             kv: props.kv,
+            store: props.store,
             latest: props.latest,
             categories: props.categories
         }
@@ -34,6 +35,7 @@ class Home extends React.Component{
     static getDerivedStateFromProps( props,state ){
         return{
             kv: props.kv,
+            store: props.store,
             latest: props.latest,
             categories: props.categories
         }
@@ -41,7 +43,7 @@ class Home extends React.Component{
 
     render(){
 
-        const { kv, latest, categories } = this.state;
+        const { kv, store, latest, categories } = this.state;
 
         return(
             <React.Fragment>
@@ -51,7 +53,7 @@ class Home extends React.Component{
                     <meta name="description" content={``} />
                 </Helmet>
                 <Kv data={kv} />
-                <Store />
+                <Store data={store}/>
                 <Category data={categories}/>
                 <Product data={latest} />
             </React.Fragment>
@@ -59,15 +61,20 @@ class Home extends React.Component{
     }
 
     componentDidMount() {
+        const { kv, store, latest, categories } = this.state;
         const { location, match } = this.props;
         const { pathname, search } = location;
-        this.props.dispatch( getHome(pathname,{...queryString.parse(search)}) );
+
+        if( kv.length==0 && store.length==0 && latest.length==0 && categories.length==0 ){
+            this.props.dispatch( getHome(pathname,{...queryString.parse(search)}) );
+        }
     }
 }
 
 const mapStateToProps = state => {
     return{
         kv: state.home.kv,
+        store: state.home.recommendStoreList,
         latest: state.home.latest,
         categories: state.common.categoriesList,
     }

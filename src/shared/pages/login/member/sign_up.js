@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faEyeSlash, faEye }from '@fortawesome/free-solid-svg-icons';
 
 // Modules
 import Confirm from '../../../module/confirm';
@@ -23,6 +25,7 @@ class SignUp extends React.Component{
             loading: false,
             open: false,
             popupMSG: "",
+            pwdDisplay: false,
             required: ['email','password','password_chk','nickname'],
             formObject : {
                 type: 'account',
@@ -39,7 +42,7 @@ class SignUp extends React.Component{
 
 
     render(){
-        const { loading, open, popupMSG, formObject, msg } = this.state;
+        const { pwdDisplay, loading, open, popupMSG, formObject, msg } = this.state;
 
         return(
             <React.Fragment>
@@ -58,14 +61,25 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="password">
                                 <div className="input-box">
-                                    <input type="password" name="password" id="password" value={ formObject['password'] } onChange={this.handleChange.bind(this)} placeholder="＊密碼 (內含英文大小寫與數字，最少8位數)"/>
+                                    <input type={!pwdDisplay? 'password':'text'} name="password" id="password" value={ formObject['password'] } onChange={this.handleChange.bind(this)} placeholder="＊密碼 (內含英文大小寫與數字，最少8位數)"/>
+                                    <span className="pwd-display" onClick={()=>{ 
+                                        this.setState({ pwdDisplay: pwdDisplay? false:true });
+                                    }}>
+                                        {
+                                            pwdDisplay ?(
+                                                <FontAwesomeIcon icon={faEye}/>
+                                            ):(
+                                                <FontAwesomeIcon icon={faEyeSlash}/>
+                                            )
+                                        }
+                                    </span>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="password_chk">
                                 <div className="input-box">
-                                    <input type="password" name="password_chk" id="password_chk" value={ formObject['password_chk'] } onChange={this.handleChange.bind(this)} placeholder="＊再次確認密碼 (內含英文大小寫與數字，最少8位數)"/>
+                                    <input  type={!pwdDisplay? 'password':'text'} name="password_chk" id="password_chk" value={ formObject['password_chk'] } onChange={this.handleChange.bind(this)} placeholder="＊再次確認密碼 (內含英文大小寫與數字，最少8位數)"/>
                                 </div>
                             </label>
                         </li>

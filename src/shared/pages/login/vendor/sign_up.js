@@ -22,6 +22,7 @@ class SignUp extends React.Component{
         this.state = {
             open: false,
             popupMsg: "",
+            pwdDisplay: false,
             required: ['company','email','password','confirmPassword','phone','invoice','contactor'],
             formObject : {
                 type: 'vendor',
@@ -38,7 +39,7 @@ class SignUp extends React.Component{
     }
 
     render(){
-        const { formObject, msg, open, popupMsg } = this.state;
+        const { pwdDisplay, formObject, msg, open, popupMsg } = this.state;
 
         return(
             <React.Fragment>
@@ -64,14 +65,25 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="password">
                                 <div className="input-box">
-                                    <input type="password" name="password" id="password" value={ formObject['password'] } onChange={this.handleChange.bind(this)} placeholder="* 密碼 (內含英文大小寫與數字，最少8位數)" autoComplete="off" />
+                                    <input type={!pwdDisplay? 'password':'text'} name="password" id="password" value={ formObject['password'] } onChange={this.handleChange.bind(this)} placeholder="* 密碼 (內含英文大小寫與數字，最少8位數)" autoComplete="off" />
+                                    <span className="pwd-display" onClick={()=>{ 
+                                        this.setState({ pwdDisplay: pwdDisplay? false:true });
+                                    }}>
+                                        {
+                                            pwdDisplay ?(
+                                                <FontAwesomeIcon icon={faEye}/>
+                                            ):(
+                                                <FontAwesomeIcon icon={faEyeSlash}/>
+                                            )
+                                        }
+                                    </span>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="confirmPassword">
                                 <div className="input-box">
-                                    <input type="password" name="confirmPassword" id="confirmPassword" value={ formObject['confirmPassword'] } onChange={this.handleChange.bind(this)} placeholder="* 再次確認密碼 (內含英文大小寫與數字，最少8位數)" autoComplete="off" />
+                                    <input type={!pwdDisplay? 'password':'text'} name="confirmPassword" id="confirmPassword" value={ formObject['confirmPassword'] } onChange={this.handleChange.bind(this)} placeholder="* 再次確認密碼 (內含英文大小寫與數字，最少8位數)" autoComplete="off" />
                                 </div>
                             </label>
                         </li>

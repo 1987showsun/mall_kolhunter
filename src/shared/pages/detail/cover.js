@@ -105,8 +105,19 @@ class Cover extends React.Component{
                         </ul>
                     </div>
                     <div className="detail-cover-row cover-money">
-                        <div className="cover-money-price">{data['price']}</div>
-                        <div className="cover-money-sellPrice">{data['sellPrice']}</div>
+                        {
+                            data['price']!=data['sellPrice']?(
+                                <React.Fragment>
+                                    <div className="cover-money-price">${data['price']}</div>
+                                    <div className="cover-money-sellPrice">${data['sellPrice']}</div>
+                                </React.Fragment>
+                            ):(
+                                <React.Fragment>
+                                    <div className="cover-money-price"></div>
+                                    <div className="cover-money-sellPrice">${data['sellPrice']}</div>
+                                </React.Fragment>
+                            )
+                        }
                     </div>
                     <div className="detail-cover-row cover-select">
                         <label>{lang['zh-TW']['label']['delivery']}</label>                            

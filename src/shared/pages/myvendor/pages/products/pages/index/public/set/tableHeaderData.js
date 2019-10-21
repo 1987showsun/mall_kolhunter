@@ -23,11 +23,11 @@ export const tableHeadKey = [
         className: 'table-min-width',
         path: '/myvendor/products/info'
     },
-    {
-        key: 'brand',
-        type: 'text',
-        title: '品牌'
-    },
+    // {
+    //     key: 'brand',
+    //     type: 'text',
+    //     title: '品牌'
+    // },
     {
         key: 'category',
         type: 'text',

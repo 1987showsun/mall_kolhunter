@@ -2,6 +2,8 @@ import React from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faEyeSlash, faEye }from '@fortawesome/free-solid-svg-icons';
 
 // Modules
 import Confirm from '../../../module/confirm';

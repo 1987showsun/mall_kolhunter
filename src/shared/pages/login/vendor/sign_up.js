@@ -163,7 +163,7 @@ class SignUp extends React.Component{
                                 case 200:
                                     this.setState({
                                         open: true,
-                                        popupMSG: lang['zh-TW']['Vendor siginup success']
+                                        popupMsg: [<div key="1" className="items">{lang['zh-TW']['Vendor siginup success']}</div>]
                                     });
                                     break;
 

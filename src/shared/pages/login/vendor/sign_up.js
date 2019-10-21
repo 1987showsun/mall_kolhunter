@@ -64,14 +64,14 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="password">
                                 <div className="input-box">
-                                    <input type="password" name="password" id="password" value={ formObject['password'] } onChange={this.handleChange.bind(this)} placeholder="* 密碼" autoComplete="off" />
+                                    <input type="password" name="password" id="password" value={ formObject['password'] } onChange={this.handleChange.bind(this)} placeholder="* 密碼 (內含英文大小寫與數字，共8位數)" autoComplete="off" />
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="confirmPassword">
                                 <div className="input-box">
-                                    <input type="password" name="confirmPassword" id="confirmPassword" value={ formObject['confirmPassword'] } onChange={this.handleChange.bind(this)} placeholder="* 再次確認密碼" autoComplete="off" />
+                                    <input type="password" name="confirmPassword" id="confirmPassword" value={ formObject['confirmPassword'] } onChange={this.handleChange.bind(this)} placeholder="* 再次確認密碼 (內含英文大小寫與數字，共8位數)" autoComplete="off" />
                                 </div>
                             </label>
                         </li>

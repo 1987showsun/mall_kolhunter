@@ -72,7 +72,7 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="nickname">
                                 <div className="input-box">
-                                    <input type="text" name="nickname" id="nickname" value={ formObject['nickname'] } onChange={this.handleChange.bind(this)} placeholder="＊暱稱" autoComplete="off" />
+                                    <input type="text" name="nickname" id="nickname" value={ formObject['nickname'] } onChange={this.handleChange.bind(this)} placeholder="＊會員姓名" autoComplete="off" />
                                 </div>
                             </label>
                         </li>

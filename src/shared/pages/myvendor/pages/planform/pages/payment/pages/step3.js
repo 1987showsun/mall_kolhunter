@@ -133,29 +133,32 @@ class Step3 extends React.Component{
                 pathname: '/myvendor/planform/list'
             })
         }else{
-            this.props.dispatch( ordersInfo(pathname, {...queryString.parse(search)}, {memberType: 'vendor'}) ).then( res => {
-                switch( res['status'] ){
-                    case 200:
+            clearTimeout( this.delayCallAPI );
+            this.delayCallAPI = setTimeout(()=>{
+                this.props.dispatch( ordersInfo(pathname, {...queryString.parse(search)}, {memberType: 'vendor'}) ).then( res => {
+                    switch( res['status'] ){
+                        case 200:
 
-                        const tableBodyData = res['data']['orderDetail'].map( item => {
-                            return {
-                                id: item['purchaseToken'] || "",
-                                title: item['program']['programTitle']  || "",
-                                programNum: item['programNum']  || 0,
-                                total: item['program']['price']*item['programNum']  || 0
-                            }
-                        })
+                            const tableBodyData = res['data']['orderDetail'].map( item => {
+                                return {
+                                    id: item['purchaseToken'] || "",
+                                    title: item['program']['programTitle']  || "",
+                                    programNum: item['programNum']  || 0,
+                                    total: item['program']['price']*item['programNum']  || 0
+                                }
+                            })
 
-                        this.setState({
-                            resultInfo: res['data'],
-                            tableBodyData
-                        })
-                        break;
+                            this.setState({
+                                resultInfo: res['data'],
+                                tableBodyData
+                            })
+                            break;
 
-                    default:
-                        break;
-                }
-            });
+                        default:
+                            break;
+                    }
+                });
+            },3000);
         }
     }
 }

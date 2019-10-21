@@ -126,12 +126,15 @@ class Atm extends React.Component{
         this.setState({
             loading: true,
         },()=>{
-            this.props.dispatch( ordersInfo(pathname,queryString.parse(search)) ).then( res => {
-                this.setState({
-                    loading: false,
-                    info: res
-                })
-            });
+            clearTimeout( this.delayCallAPI );
+            this.delayCallAPI = setTimeout(()=>{
+                this.props.dispatch( ordersInfo(pathname,queryString.parse(search)) ).then( res => {
+                    this.setState({
+                        loading: false,
+                        info: res
+                    })
+                });
+            },3000);
         })
     }
     

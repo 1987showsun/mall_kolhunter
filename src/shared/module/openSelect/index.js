@@ -36,11 +36,11 @@ export default class Index extends React.Component{
                                         disabled={ item.hasOwnProperty('quantity')? item['quantity']==0 || false : false }
                                     />
                                     <span>
-                                        {item['name']} (
+                                        {item['name']} 
                                         {
                                             item.hasOwnProperty('cost') &&
-                                                `運費：${item['cost']}`
-                                        })
+                                                `(運費：${item['cost']})`
+                                        }
                                     </span>
                                 </label>
                             </li>

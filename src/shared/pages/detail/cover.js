@@ -2,6 +2,8 @@ import React from 'react';
 import toaster from 'toasted-notes';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
+import { faUser, faStore, faUserPlus, faShoppingCart, faTruck }from '@fortawesome/free-solid-svg-icons';
 
 // Modules
 import CoverSlider from '../../module/coverSlider';
@@ -155,7 +157,10 @@ class Cover extends React.Component{
                     </div>
                     <div className="detail-cover-row cover-action">
                         <ul>
-                            <li className="add-cart-li"><button type="button" className="add-cart" disabled={lock} onClick={this.callCarts.bind(this,"add")}>{lang['zh-TW']['button']['add to cart']}</button></li>
+                            <li className="add-cart-li"><button type="button" className="add-cart" disabled={lock} onClick={this.callCarts.bind(this,"add")}>
+                                <i><FontAwesomeIcon icon={faShoppingCart}/></i>
+                                {lang['zh-TW']['button']['add to cart']}</button>
+                            </li>
                             <li className="direct-purchase-li"><button type="button" className="direct-purchase" disabled={lock} onClick={this.callCarts.bind(this,"direct")}>{lang['zh-TW']['button']['buy now']}</button></li>
                         </ul>
                     </div>

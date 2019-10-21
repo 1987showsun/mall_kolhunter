@@ -388,9 +388,18 @@ $userCoverMobile_W: 200px;
         label{
             min-width: 90px;
             display: inline-flex;
+            align-items: flex-start;
+            flex: 1;
             justify-content: space-between;
             &:after{
                 content: "：";
+            }
+        }
+        >div{
+            width: 100%;
+            display: inline-flex;
+            .prompt{
+                display: inline-flex;
             }
         }
     }

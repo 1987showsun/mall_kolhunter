@@ -2,7 +2,7 @@ import React from 'react';
 import FileBase64 from 'react-file-base64';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faTrashAlt }from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faArrowDown, faArrowUp }from '@fortawesome/free-solid-svg-icons';
 
 // Modules
 import Loading from '../../../../../../../module/loading';
@@ -38,8 +38,22 @@ class Depiction extends React.Component{
                                             <li key={i}>
                                                 {
                                                     status=="none-auth" &&
-                                                        <div className="depiction-remove" onClick={this.removeItem.bind(this, i)}>
-                                                            <FontAwesomeIcon icon={faTrashAlt} />
+                                                        <div className="depiction-li-tool">
+                                                            <div className="depiction-tool-btn" onClick={this.removeItem.bind(this, i)}>
+                                                                <FontAwesomeIcon icon={faTrashAlt} />
+                                                            </div>
+                                                            {
+                                                                i!=0 &&
+                                                                <div className="depiction-tool-btn" onClick={this.moveItem.bind(this, 'up', item, i)}>
+                                                                    <FontAwesomeIcon icon={faArrowUp} />
+                                                                </div>
+                                                            }
+                                                            {
+                                                                i!=data.length-1 &&
+                                                                <div className="depiction-tool-btn" onClick={this.moveItem.bind(this, 'down', item, i)}>
+                                                                    <FontAwesomeIcon icon={faArrowDown} />
+                                                                </div>
+                                                            }
                                                         </div>
                                                 }
                                                 { this.renderTypeof(item,i) }
@@ -144,6 +158,25 @@ class Depiction extends React.Component{
                     />
                 );
         }
+    }
+
+    moveItem = ( sort,item,i ) => {
+        const nowDate = new Date();
+        let { data } = this.state;
+        data.splice(i,1);
+        switch( sort ){
+            case 'up':
+                    data.splice( i-1,0,item );
+                break;
+
+            case 'down':
+                    data.splice( i+1,0,item );
+                break;
+        }
+
+        this.setState({
+            data
+        })
     }
 
     handleSubnit = (e) => {

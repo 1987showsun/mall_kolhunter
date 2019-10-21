@@ -27,7 +27,9 @@ export default class Depiction extends React.Component{
                                     data.map( (item,i)=> {
                                         return(
                                             <li key={i}>
-                                                <div className="depiction-remove" onClick={this.removeItem.bind(this, i)}>X</div>
+                                                <div className="depiction-li-tool">
+                                                    <div className="depiction-tool-btn" onClick={this.removeItem.bind(this, i)}>X</div>
+                                                </div>
                                                 { this.renderTypeof(item,i) }
                                             </li>
                                         )

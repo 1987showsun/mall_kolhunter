@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 // Compoents
 import PurchaseInfo from '../form/purchase_info';
 import PayMethod from '../form/payMethod';
+import Coupon from '../form/coupon';
 import Invoice from '../form/invoice';
 
 // Modules
@@ -121,6 +122,15 @@ class Step2 extends React.Component{
 
                     <section className="admin-content-row">
                         <article className="admin-content-title">
+                            <h4>代碼</h4>
+                        </article>
+                        <div className="admin-content-container">
+                            <Coupon />
+                        </div>
+                    </section>
+
+                    <section className="admin-content-row">
+                        <article className="admin-content-title">
                             <h4>發票</h4>
                         </article>
                         <div className="admin-content-container">
@@ -205,7 +215,6 @@ class Step2 extends React.Component{
     componentDidUpdate(prevProps, prevState) {
 
         const { returnBody } = this.state;
-        const prevReturnBody = prevState.returnBody;
         if( returnBody!="" ){
             const s = document.createElement('script');
             s.async = true;
@@ -230,7 +239,6 @@ class Step2 extends React.Component{
                 break;
         }
         const checkRequiredFilter = checkRequired( mergeRequired, { ...formObject, ...paymentFormObject } );
-        console.log( checkRequiredFilter, { ...formObject, ...paymentFormObject } );
         if( checkRequiredFilter.length==0 ){
             // 填寫完整
             this.setState({

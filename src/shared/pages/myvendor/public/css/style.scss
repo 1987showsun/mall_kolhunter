@@ -609,19 +609,33 @@
                 }
             }
         }
-        .depiction-remove{
+        .depiction-li-tool{
+            width: 30px;
+            position: absolute;
+            top: 0px;
+            right: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+        .depiction-tool-btn{
             width: 30px;
             height: 30px;
+            margin-bottom: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
             color:#fff;
             background: rgba(0,0,0,.6);
-            position: absolute;
-            top: 0px;
-            right: 5px;
             font-size: 0.9em;
             border-radius: 100px;
+            &:last-child{
+                margin-bottom: 0px;
+            }
+        }
+        button.coupon{
+            width: 65px;
+            height: 35px;
+            border-radius: 0px 2px 2px 0px;
         }
     }
     .admin-content-action{

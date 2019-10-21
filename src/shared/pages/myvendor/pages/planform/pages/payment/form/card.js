@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import CurrencyFormat from 'react-currency-format';
 
 export default class Card extends React.Component{
@@ -28,38 +29,44 @@ export default class Card extends React.Component{
                 <ul className="card-form-list">
                     <li>
                         <label>卡號</label>
-                        <div className="input-box">
-                            <CurrencyFormat value={ formObject['cardno'] } format="#### #### #### ####" placeholder="#### #### #### ####" onValueChange={ value => {
-                                this.setState({
-                                    formObject: { ...formObject, cardno: value['value'] }
-                                },()=>{
-                                    this.returnHandleChange();
-                                })
-                            }}/>
+                        <div>
+                            <div className="input-box">
+                                <CurrencyFormat name="cardno" value={ formObject['cardno'] } format="#### #### #### ####" placeholder="#### #### #### #### (僅限16位數字)" onValueChange={ value => {
+                                    this.setState({
+                                        formObject: { ...formObject, cardno: value['value'] }
+                                    },()=>{
+                                        this.returnHandleChange();
+                                    })
+                                }}/>
+                            </div>
                         </div>
                     </li>
                     <li>
                         <label>驗證碼</label>
-                        <div className="input-box">
-                            <CurrencyFormat value={ formObject['cvc'] } format="###" placeholder="###" onValueChange={ value => {
-                                this.setState({
-                                    formObject: { ...formObject, cvc: value['value'] }
-                                },()=>{
-                                    this.returnHandleChange();
-                                })
-                            }}/>
+                        <div>
+                            <div className="input-box">
+                                <CurrencyFormat name="cvc" value={ formObject['cvc'] } format="###" placeholder="### (僅限3位數字)" onValueChange={ value => {
+                                    this.setState({
+                                        formObject: { ...formObject, cvc: value['value'] }
+                                    },()=>{
+                                        this.returnHandleChange();
+                                    })
+                                }}/>
+                            </div>
                         </div>
                     </li>
                     <li>
                         <label>到期時間</label>
-                        <div className="input-box">
-                            <CurrencyFormat value={ formObject['exp'] } format={this.cardExpiry} placeholder="YY/MM" onValueChange={ value => {
-                                this.setState({
-                                    formObject: { ...formObject, exp: value['value'] }
-                                },()=>{
-                                    this.returnHandleChange();
-                                })
-                            }}/>
+                        <div>
+                            <div className="input-box">
+                                <CurrencyFormat name="exp" value={ formObject['exp'] } format={this.cardExpiry} placeholder="YY/MM (年/月)" onValueChange={ value => {
+                                    this.setState({
+                                        formObject: { ...formObject, exp: value['value'] }
+                                    },()=>{
+                                        this.returnHandleChange();
+                                    })
+                                }}/>
+                            </div>
                         </div>
                     </li>
                 </ul>

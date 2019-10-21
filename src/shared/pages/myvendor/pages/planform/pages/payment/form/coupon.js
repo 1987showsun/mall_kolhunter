@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-class Index extends React.Component{
+class Coupon extends React.Component{
 
     constructor(props){
         super(props);
@@ -25,6 +25,10 @@ class Index extends React.Component{
                         <input type="text" name="coupon" value={formObject['coupon']} onChange={this.handleChange.bind(this)} />
                         <button type="submit" className="coupon" onClick={this.handleSubmit.bind(this)}>查詢</button>
                     </div>
+                </li>
+                <li>
+                    <label>使用狀態</label>
+                    <div>可使用 / 已使用過 / 已過期 / 作廢</div>
                 </li>
             </ul>
         );
@@ -49,4 +53,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect( mapStateToProps )( Index );
+export default connect( mapStateToProps )( Coupon );

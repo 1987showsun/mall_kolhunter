@@ -8,8 +8,7 @@ class Electronic extends React.Component{
         super(props);
         this.state = {
             formObject: {
-                invoiceCarruerType: "0",
-                invoiceCarruerNum: "",
+                invoiceCarruerType: "0"
             }
         }
     }
@@ -27,12 +26,6 @@ class Electronic extends React.Component{
                             <div className="box"></div>
                             <div className="radio-container">
                                 <span>電商載具</span>
-                                {/* {
-                                    formObject['invoiceCarruerType']=='0' &&
-                                        <div className="input-box no-margin" style={{marginTop: '10px'}}>
-                                            <input type="text" name="invoiceCarruerNum" value={formObject['invoiceCarruerNum']} onChange={this.handleChange.bind(this)} />
-                                        </div>
-                                } */}
                             </div>
                         </label>
                     </li>
@@ -81,7 +74,10 @@ class Electronic extends React.Component{
         let formObject = { ...this.state.formObject };
 
         if( name=="invoiceCarruerType" ){
-            formObject = { ...formObject, [name]: value, invoiceCarruerNum: "" }
+            formObject = { ...formObject, [name]: value, invoiceCarruerNum: "", invoiceCarruerNum: "" }
+            if( value=='0' ){
+                delete formObject['invoiceCarruerNum'];
+            }
         }else{
             formObject = { ...formObject, [name]: value }
         }

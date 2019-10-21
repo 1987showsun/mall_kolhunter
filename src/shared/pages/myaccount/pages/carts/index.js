@@ -14,6 +14,7 @@ import Action from './action';
 
 // Modules
 import Confirm from '../../../../module/confirm';
+import Loading from '../../../../module/loading/mallLoading';
 
 // Actions
 import { cartsProductList } from '../../../../actions/myaccount';
@@ -38,9 +39,10 @@ class Index extends React.Component{
         super(props);
         this.state = {
             open: false,
+            loading: false,
             method: "confirm",
             popupMsg: "",
-            required: required,
+            required: required,        
             formObject: {
                 memberType: "member",
                 cartToken: localStorage.getItem('cartID')
@@ -58,7 +60,7 @@ class Index extends React.Component{
     render(){
 
         const { history, location, match } = this.props;
-        const { header, open, method, popupMsg, returnBody } = this.state;
+        const { loading, header, open, method, popupMsg, returnBody } = this.state;
 
         return(
             <React.Fragment>
@@ -139,6 +141,7 @@ class Index extends React.Component{
                     container={popupMsg}
                     onCancel={this.onCancel.bind(this)}
                 />
+                <Loading loading={loading} />
             </React.Fragment>
         );
     }
@@ -173,10 +176,10 @@ class Index extends React.Component{
         const { pathname, search } = location;
         const { formObject, paymentFormObject, invoiceFormObject, required } = this.state;
         const mergeFormObject = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
-        const checkRequiredFilter = checkRequired(required, formObject);
+        const filterRequired = Object.keys(mergeFormObject).filter( keys => required.includes( keys ) );
+        const checkRequiredFilter = checkRequired(filterRequired, mergeFormObject);
 
         if( checkRequiredFilter.length==0 ){
-
             let checkInvoiceFormat = false;
             const invoiceCarruerNum = mergeFormObject['invoiceCarruerNum'];
             switch( mergeFormObject['invoiceCarruerType'] ){
@@ -198,56 +201,64 @@ class Index extends React.Component{
             
             // 檢查發票格式
             if( checkInvoiceFormat ) {
-                // 填寫完整    
-                this.props.dispatch( paymentAddOrder( pathname, queryString.parse(search),mergeFormObject ) ).then( res => {
-                    switch( res['status'] ){
-                        case 200:
-                            // 刪除現有的購物車 cartID
-                            localStorage.removeItem('cartID');
-                            const orderID = res['data']['orderID'];
-                            const payMethod = res['data']['payMethod'];
-                            const returnBody = payMethod=='cc'? res['data']['body'] : "";
-                            // 要回新一組 cartID
-                            this.props.dispatch( getCartID() ).then( cartRes => {
-                                switch( payMethod ){
-                                    case 'atm':
-                                        // 成功後導頁
-                                        history.push({
-                                            pathname: '/myaccount/payment/success',
-                                            search: queryString.stringify({
-                                                orderID,
-                                                payMethod
-                                            })
-                                        })
-                                        break;
+                // 填寫完整  
+                this.setState({
+                    loading: true
+                },()=>{
+                    this.props.dispatch( paymentAddOrder( pathname, queryString.parse(search),mergeFormObject ) ).then( res => {
+                        this.setState({
+                            loading: false
+                        },()=>{
+                            switch( res['status'] ){
+                                case 200:
+                                    // 刪除現有的購物車 cartID
+                                    localStorage.removeItem('cartID');
+                                    const orderID = res['data']['orderID'];
+                                    const payMethod = res['data']['payMethod'];
+                                    const returnBody = payMethod=='cc'? res['data']['body'] : "";
+                                    // 要回新一組 cartID
+                                    this.props.dispatch( getCartID() ).then( cartRes => {
+                                        switch( payMethod ){
+                                            case 'atm':
+                                                // 成功後導頁
+                                                history.push({
+                                                    pathname: '/myaccount/payment/success',
+                                                    search: queryString.stringify({
+                                                        orderID,
+                                                        payMethod
+                                                    })
+                                                })
+                                                break;
 
-                                    case 'cc':
-                                        // 刪除現有的購物車 cartID
-                                        this.setState({
-                                            returnBody
-                                        })
-                                        break;
+                                            case 'cc':
+                                                // 刪除現有的購物車 cartID
+                                                this.setState({
+                                                    returnBody
+                                                })
+                                                break;
 
-                                    default:
+                                            default:
 
-                                        break;
-                                }
-                            });
+                                                break;
+                                        }
+                                    });
 
-                            break;
+                                    break;
 
-                        default:
-                            // 失敗就於右下角跳出錯誤訊息
-                            const status_text = res['data']['status_text'];
-                            toaster.notify(
-                                <div className={`toaster-status failure`}>{lang['zh-TW'][status_text]}</div>
-                            ,{
-                                position: 'bottom-right', // 訊息窗顯示於右下角
-                                duration: 5000 // 訊息5秒後消失
-                            })
-                            break;
-                    }
-                });
+                                default:
+                                    // 失敗就於右下角跳出錯誤訊息
+                                    const status_text = res['data']['status_text'];
+                                    toaster.notify(
+                                        <div className={`toaster-status failure`}>{lang['zh-TW'][status_text]}</div>
+                                    ,{
+                                        position: 'bottom-right', // 訊息窗顯示於右下角
+                                        duration: 5000 // 訊息5秒後消失
+                                    })
+                                    break;
+                            }
+                        })
+                    });
+                })  
             }else{
                 this.setState({
                     open: true,

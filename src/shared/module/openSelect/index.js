@@ -35,7 +35,13 @@ export default class Index extends React.Component{
                                         checked={formObject[name]== item['value'] } 
                                         disabled={ item.hasOwnProperty('quantity')? item['quantity']==0 || false : false }
                                     />
-                                    <span>{item['name']}</span>
+                                    <span>
+                                        {item['name']} (
+                                        {
+                                            item.hasOwnProperty('cost') &&
+                                                `運費：${item['cost']}`
+                                        })
+                                    </span>
                                 </label>
                             </li>
                         )

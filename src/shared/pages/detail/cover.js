@@ -57,6 +57,7 @@ class Cover extends React.Component{
                 id: item['productDeliveryID'],
                 value: item['productDeliveryID'],
                 name: item['name'],
+                cost: item['cost']
             }
         })
 

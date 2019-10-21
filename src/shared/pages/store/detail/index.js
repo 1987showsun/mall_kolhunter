@@ -95,7 +95,7 @@ class Index extends React.Component{
                                 <div className="figcaption-row">
                                     <ul className="figcaption-action-ul">
                                         <li><button type="button">個人頁面</button></li>
-                                        <li><button type="button">與他合作</button></li>
+                                        {/* <li><button type="button">與他合作</button></li> */}
                                     </ul>
                                 </div>
                             </figcaption>

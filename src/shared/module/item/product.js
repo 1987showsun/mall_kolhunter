@@ -26,12 +26,12 @@ export default class Product extends React.Component{
                             Math.floor(data['price'])==Math.floor(data['sellPrice'])? (
                                 <React.Fragment>
                                     <span className="price"></span>
-                                    <span className="priceSale">{ Math.floor(data['sellPrice']) }</span>
+                                    <span className="priceSale">${ Math.floor(data['sellPrice']) }</span>
                                 </React.Fragment>
                             ):(
                                 <React.Fragment>
-                                    <span className="price">{ Math.floor(data['price']) }</span>
-                                    <span className="priceSale">{ Math.floor(data['sellPrice']) }</span>
+                                    <span className="price">${ Math.floor(data['price']) }</span>
+                                    <span className="priceSale">${ Math.floor(data['sellPrice']) }</span>
                                 </React.Fragment>
                             )
                         }

@@ -35,11 +35,20 @@ const browserConfig = {
     rules: [
       {
         test: [/\.svg$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-        loader: "file-loader",
-        options: {
-          name: "public/media/[name].[ext]",
-          publicPath: url => url.replace(/public/, "")
-        }
+        use: [
+          // {
+          //   loader: "file-loader",
+          //   options: {
+          //     name: "public/media/[name].[ext]",
+          //     publicPath: url => url.replace(/public/, "")
+          //   }
+          // },
+          {
+            loader: 'url-loader',
+            options: { limit: 40000 }
+          },
+          "image-webpack-loader"
+        ]
       },
       {
         test: /\.(css|sass|scss)$/,
@@ -109,12 +118,21 @@ const serverConfig = {
     rules: [
       {
         test: [/\.svg$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-        loader: "file-loader",
-        options: {
-          name: "public/media/[name].[ext]",
-          publicPath: url => url.replace(/public/, ""),
-          emit: false
-        }
+        use: [
+          // {
+          //   loader: "file-loader",
+          //   options: {
+          //     name: "public/media/[name].[ext]",
+          //     publicPath: url => url.replace(/public/, ""),
+          //     emit: false
+          //   }
+          // },
+          {
+            loader: 'url-loader',
+            options: { limit: 40000 }
+          },
+          "image-webpack-loader"
+        ]
       },
       {
         test: /\.(css|sass|scss)$/,

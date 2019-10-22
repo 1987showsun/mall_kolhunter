@@ -4,6 +4,9 @@ import AvatarEditor from 'react-avatar-editor';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faCamera, faPlus, faMinus, faTimes, faCheck }from '@fortawesome/free-solid-svg-icons';
 
+// Images
+import transparent from '../../public/images/transparent.png';
+
 export default class Index extends React.Component{
 
     constructor(props){
@@ -42,6 +45,7 @@ export default class Index extends React.Component{
                             <i><FontAwesomeIcon icon={faCamera}/></i>
                     }
                     <input ref="in" type="file" name="newImage" id={id} onChange={this.handleFileChange.bind(this)}/>
+                    <img src={transparent} alt="" title=""/>
                 </label>
                 {this.state.cropperOpen && 
                     <div className="cropper-wrapper">

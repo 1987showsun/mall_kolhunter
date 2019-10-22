@@ -12,6 +12,7 @@ export default class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            src: props.src || null,
             id: props.id || 'addCover',
             idx: props.idx,
             proportion: props.proportion || [1,1],
@@ -25,13 +26,13 @@ export default class Index extends React.Component{
 
     static getDerivedStateFromProps(props){
         return{
-            
+            src: props.src || null
         }
     }
 
     render(){
 
-        const { id, width, height } = this.state;
+        const { id, src, width, height } = this.state;
 
         return(
             <React.Fragment>
@@ -45,7 +46,7 @@ export default class Index extends React.Component{
                             <i><FontAwesomeIcon icon={faCamera}/></i>
                     }
                     <input ref="in" type="file" name="newImage" id={id} onChange={this.handleFileChange.bind(this)}/>
-                    <img src={transparent} alt="" title=""/>
+                    <img src={src!=null? src:transparent} alt="" title=""/>
                 </label>
                 {this.state.cropperOpen && 
                     <div className="cropper-wrapper">

@@ -42,9 +42,9 @@ class Cover extends React.Component{
         return(
             <div className="user-cover">
                 <AvatarCropper 
+                    src= {accountInfo['photo']}
                     onChangeData= {this.onChangeData.bind(this)}
                 />
-                <img src={accountInfo['photo']} alt="" title="" />
                 <Loading loading={loading} />
             </div>
         );

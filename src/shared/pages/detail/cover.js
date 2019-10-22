@@ -158,10 +158,10 @@ class Cover extends React.Component{
                         <label>{lang['zh-TW']['label']['by store']}</label>
                         <div className="detail-store-wrap">
                             <div className="img">
-                                <img src={ storeInfo['photo']!=undefined? storeInfo['photo']: kolhunterlogo } alt={ storeInfo['name']!=undefined? storeInfo['name']: "kolhunter" } title="" />
+                                <img src={ storeInfo['photo']!=undefined? storeInfo['photo']: kolhunterlogo } alt={ storeInfo['name']!=undefined? storeInfo['name']: "Mall Kolhunter" } title="" />
                             </div>
                             <div className="name">
-                                <h3 dangerouslySetInnerHTML={{__html:storeInfo['name']!=undefined? storeInfo['name']: "kolhunter"}} />
+                                <h3 dangerouslySetInnerHTML={{__html:storeInfo['name']!=undefined? storeInfo['name']: "Mall Kolhunter"}} />
                             </div>
                             <Loading loading={storeLoading}/>
                         </div>

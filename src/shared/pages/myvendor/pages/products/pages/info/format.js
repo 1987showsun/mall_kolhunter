@@ -24,12 +24,12 @@ class Format extends React.Component{
                 {
                     key: 'name',
                     type: 'text',
-                    title: '型號 / 尺寸'
+                    title: '型號 / 尺寸 / 顏色'
                 },
                 {
                     key: 'sku',
                     type: 'text',
-                    title: '商品貨號'
+                    title: '商品編號'
                 },
                 {
                     key: 'quantity',

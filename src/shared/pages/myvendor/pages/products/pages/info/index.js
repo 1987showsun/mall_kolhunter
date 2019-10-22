@@ -119,43 +119,41 @@ class Product extends React.Component{
                 <section className="page-title">
                     <h3>{ lang['zh-TW']['Product details'] }</h3>
                 </section>
-                    <React.Fragment>
-                        <Cover 
-                            loading= {loading}
-                            status= {status}
-                            id={data['id']}
-                            data={data['img']}
-                        />
-                        <Basic 
-                            loading= {loading}
-                            status= {status}
-                            categories= {categories}
-                            data={{
-                                //categories: data['category'],
-                                ...data
-                            }}
-                        />
-                        <Format
-                            loading= {loading}
-                            status= {status}
-                            id={data['id']}
-                            data={data['spec']}
-                        />
-                        <Freight
-                            loading= {loading}
-                            status= {status}
-                            id={data['id']}
-                            data={data['delivery']}
-                            deliveries={deliveries} 
-                        />
-                        <Depiction 
-                            loading= {loading}
-                            status= {status}
-                            id={data['id']}
-                            data={data['description']}
-                        />
-                    </React.Fragment>
-                <section className="admin-content-row">
+                    <Cover 
+                        loading= {loading}
+                        status= {status}
+                        id={data['id']}
+                        data={data['img']}
+                    />
+                    <Basic 
+                        loading= {loading}
+                        status= {status}
+                        categories= {categories}
+                        data={{
+                            //categories: data['category'],
+                            ...data
+                        }}
+                    />
+                    <Format
+                        loading= {loading}
+                        status= {status}
+                        id={data['id']}
+                        data={data['spec']}
+                    />
+                    <Freight
+                        loading= {loading}
+                        status= {status}
+                        id={data['id']}
+                        data={data['delivery']}
+                        deliveries={deliveries} 
+                    />
+                    <Depiction 
+                        loading= {loading}
+                        status= {status}
+                        id={data['id']}
+                        data={data['description']}
+                    />
+                {/* <section className="admin-content-row">
                     <article className="admin-content-title">
                         <h4>店家排行</h4>
                     </article>
@@ -163,7 +161,7 @@ class Product extends React.Component{
                         tableHeadData={tableHeadKey}
                         tableBodyData={demoData}
                     />
-                </section>
+                </section> */}
 
                 <div className="admin-content-row action" data-content="rigth" >
                     {

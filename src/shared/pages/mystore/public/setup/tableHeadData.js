@@ -5,7 +5,7 @@ export default {
             type: 'buttonTest',
             title: '動作',
             text: {
-                "off": '未加入販賣',
+                "off": '加入產品',
             },
             className: "status-width"
         },

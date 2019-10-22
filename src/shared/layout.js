@@ -91,7 +91,7 @@ class Layout extends React.Component{
         }
         
         if( pathnameComparison || searchComparison ){
-            $('#root').animate({ scrollTop: 0 }, 1000);
+            $('#root').css({ scrollTop: 0 });
         }
     }
 }

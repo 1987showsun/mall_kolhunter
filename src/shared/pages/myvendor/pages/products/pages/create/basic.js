@@ -1,14 +1,27 @@
 import React from 'react';
 import CurrencyFormat from 'react-currency-format';
+import { connect } from 'react-redux';
 
-export default class Product extends React.Component{
+// Modules
+import Loading from '../../../../../../module/loading';
+
+// Actions
+import { createProduct } from '../../../../../../actions/myvendor';
+
+// Lang
+import lang from '../../../../../../public/lang/lang.json';
+
+class Basic extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
+            step: props.step,
+            msg: [],
             required: ['name','categories','price'],
             categoriesItem: props.categoriesItem,
-            data: props.data || {
+            data: {
                 id: "",
                 name: "",
                 categories: [],
@@ -28,100 +41,111 @@ export default class Product extends React.Component{
 
     static getDerivedStateFromProps(props, state) {
         return{
+            step: props.step,
             categoriesItem: props.categoriesItem
         }
     }
 
     render(){
 
-        const { data,categoriesItem,categoriesLevel1,categoriesLevel2 } = this.state;
+        const { loading, msg, step, data, categoriesItem, categoriesLevel1 } = this.state;
 
         return(
             <React.Fragment>
                 <article className="admin-content-title">
                     <h4>基本資料</h4>
                 </article>
-                <ul className="table-row-list">
-                    <li>
-                        <label>* 商品名稱</label>
-                        <div>
-                            <div className="input-box">
-                                <input type="text" name="name" value={data['name']} onChange={this.handleChange.bind(this)} />
+                <form className="create-form" onSubmit={this.handleSubmit.bind(this)}>
+                    <ul className="table-row-list">
+                        <li>
+                            <label>* 商品名稱</label>
+                            <div>
+                                <div className="input-box">
+                                    <input type="text" name="name" value={data['name']} onChange={this.handleChange.bind(this)} />
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                    <li>
-                        <label>* 商品分類</label>
-                        <div>
-                            <div className="input-box select category">
-                                <select name="categoriesLevel1" value={data['categoriesLevel1']} onChange={this.categoriesChange.bind(this)}>
-                                    <option value="" >請選擇主分類</option>
-                                    {
-                                        categoriesItem.map( (cItem,i)=> {
+                        </li>
+                        <li>
+                            <label>* 商品分類</label>
+                            <div>
+                                <div className="input-box select category">
+                                    <select name="categoriesLevel1" value={data['categoriesLevel1']} onChange={this.categoriesChange.bind(this)}>
+                                        <option value="" >請選擇主分類</option>
+                                        {
+                                            categoriesItem.map( (cItem,i)=> {
+                                                return(
+                                                    <option key={cItem['id']} value={cItem['id']}>{cItem['title']}</option>
+                                                );
+                                            })
+                                        }
+                                    </select>
+                                </div>
+                                {
+                                    categoriesItem.map( (cItem,i)=> {
+                                        if(cItem['id']==categoriesLevel1['id'] && cItem['children'].length!=0){                                     
                                             return(
-                                                <option key={cItem['id']} value={cItem['id']}>{cItem['title']}</option>
-                                            );
-                                        })
-                                    }
-                                </select>
+                                                <div className="input-box select category" key={i}>
+                                                    <select name="categoriesLevel2" value={data['categoriesLevel2']} onChange={this.categoriesChange.bind(this)}>
+                                                        <option value="" >請選擇次分類</option>
+                                                        {
+                                                            cItem['children'].map( (childrenItem,c_i) => {
+                                                                return(
+                                                                    <option key={childrenItem['id']} value={childrenItem['id']}>{childrenItem['title']}</option>
+                                                                )
+                                                            })
+                                                        }
+                                                    </select>
+                                                </div>
+                                            )
+                                        }
+                                    })
+                                }
                             </div>
-                            {
-                                categoriesItem.map( (cItem,i)=> {
-                                    if(cItem['id']==categoriesLevel1['id'] && cItem['children'].length!=0){                                     
-                                        return(
-                                            <div className="input-box select category" key={i}>
-                                                <select name="categoriesLevel2" value={data['categoriesLevel2']} onChange={this.categoriesChange.bind(this)}>
-                                                    <option value="" >請選擇次分類</option>
-                                                    {
-                                                        cItem['children'].map( (childrenItem,c_i) => {
-                                                            return(
-                                                                <option key={childrenItem['id']} value={childrenItem['id']}>{childrenItem['title']}</option>
-                                                            )
-                                                        })
-                                                    }
-                                                </select>
-                                            </div>
-                                        )
-                                    }
-                                })
-                            }
-                        </div>
-                    </li>
-                    <li>
-                        <label>* 原價</label>
-                        <div>
-                            <div className="input-box">
-                                <CurrencyFormat thousandSeparator={true} value={data['price']} onValueChange={ values => { this.handleChangeMoney( values['value'], 'price' ) }}/>
+                        </li>
+                        <li>
+                            <label>* 原價</label>
+                            <div>
+                                <div className="input-box">
+                                    <CurrencyFormat thousandSeparator={true} value={data['price']} onValueChange={ values => { this.handleChangeMoney( values['value'], 'price' ) }}/>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                    <li>
-                        <label>特價</label>
-                        <div>
-                            <div className="input-box">
-                                <CurrencyFormat thousandSeparator={true} value={data['priceSale']} onValueChange={ values => { this.handleChangeMoney( values['value'], 'priceSale' ) }}/>
+                        </li>
+                        <li>
+                            <label>特價</label>
+                            <div>
+                                <div className="input-box">
+                                    <CurrencyFormat thousandSeparator={true} value={data['priceSale']} onValueChange={ values => { this.handleChangeMoney( values['value'], 'priceSale' ) }}/>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
+                    {
+                        msg.length!=0 &&
+                            <div className="admin-form-msg">{msg}</div>
+                    }
+                    <div className="admin-form-action">
+                        <ul>
+                            <li>
+                                <button type="button" className="cancel" onClick={this.props.returnCancel}>取消</button>
+                            </li>
+                            <li>
+                                <button type="submit">{ step!=5? lang['zh-TW']['Submit Next'] : lang['zh-TW']['Finish'] }</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <Loading loading={loading} />
+                </form>
             </React.Fragment>
         );
     }
 
-    componentDidMount() {
-        const { required, data } = this.state;
-        this.props.onHandleChange('1',data);
-    }
-
     handleChange = (e) => {
-        let { data } = this.state;
-        let name = e.target.name;
-        let val = e.target.value;
-        data[name] = val;
+        const { name, value } = e.target;
         this.setState({
-            data
-        },()=>{
-            this.returnBack();
+            data: {
+                ...this.state.data,
+                [name]: value
+            }
         })
     }
 
@@ -147,8 +171,6 @@ export default class Product extends React.Component{
             }
             this.setState({
                 data
-            },()=>{
-                this.returnBack();
             })
         })
 
@@ -159,22 +181,70 @@ export default class Product extends React.Component{
         data[name] = val;
         this.setState({
             data
-        },()=>{
-            this.returnBack();
         })
     }
 
-    returnBack = () => {
-        const { required, data } = this.state;
-        const checkRequired = required.filter( (filterItem,i) => {
-            if( filterItem!='categories' ){
-                if( data['categories'].length<=0 ){
-                    return filterItem;
-                }
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const method = 'post';
+        const { step, required, data } = this.state;
+        const checkRequiredFilter = required.filter( keys => {
+            if( keys=='categories' ){
+                return data[keys].length<=0;
             }else{
-                return data[filterItem]=="";
+                return data[keys]=='';
             }
-        })
-        this.props.onHandleChange('1',data);
+        }).map( keys => <div key={keys} className="items">{ lang['zh-TW']['note'][`${keys} required`] }</div>);
+
+        if( checkRequiredFilter.length==0 ){
+            this.setState({
+                loading: true
+            },()=>{
+                this.props.dispatch( createProduct( data, step, method ) ).then( res => {
+                    console.log('step',step,':',res['data'] );
+                    this.setState({
+                        loading: false,
+                    },()=>{
+                        switch( res['status'] ){
+                            case 200:
+                                const { id } = res.data;
+                                this.setState({
+                                    msg: []
+                                },()=>{                        
+                                    this.props.returnSuccess({ step: step+1, id: id });
+                                })
+                                break;
+
+                            default:
+                                break;
+                        }
+                    })
+                });
+            });
+
+            // this.setState({
+            //     msg: []
+            // },()=>{                        
+            //     this.props.returnSuccess({ step: step+1, id: "123" });
+            // })
+        }else{
+            this.setState({
+                msg: checkRequiredFilter
+            },()=>{
+                this.props.returnError( checkRequiredFilter );
+            })
+        }
+    }
+
+    handleCancel = () => {
+
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Basic );

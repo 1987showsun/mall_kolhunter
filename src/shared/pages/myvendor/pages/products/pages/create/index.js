@@ -12,7 +12,6 @@ import Format from './format';
 import Depiction from './depiction';
 
 // Modules
-import Loading from '../../../../../../module/loading';
 import Confirm from '../../../../../../module/confirm';
 
 // Actions
@@ -27,22 +26,12 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            loading: false,
             open: false,
             popupMsg: "",
-            noteMSG: [],
             maxStep: 5,
             step: 1,
             id: "",
-            formObject: {},
             categoriesItem: [],
-            required: {
-                1: ['name','categories','price'],
-                2: ['images'],
-                3: ['spec'],
-                4: ['descriptions'],
-                5: ['deliveries']
-            },
             profile: props.profile
         }
     }
@@ -55,8 +44,7 @@ class Index extends React.Component{
 
     render(){
 
-        const { location, match } = this.props;
-        const { loading, open, noteMSG, popupMsg, id, formObject, step,  categoriesItem } = this.state;
+        const { loading, open, popupMsg, id, step,  categoriesItem } = this.state;
 
         return(
             <React.Fragment>
@@ -71,73 +59,63 @@ class Index extends React.Component{
                     step= { this.state.step }
                 />
 
-                <form className="create-form" onSubmit={this.handleSubmit.bind(this)}>
-                    <section className="admin-content-row">
-                        <Loading loading={loading} />
-                        {
-                            step==1 &&
-                                // 基本
-                                <Basic 
-                                    categoriesItem={categoriesItem} 
-                                    data={ formObject[step]==undefined? null:formObject[step] } 
-                                    onHandleChange={this.handleChange.bind(this)}
-                                />
-                        }
-                        {
-                            step==2 &&
-                                // 主圖
-                                <Cover 
-                                    id={id} 
-                                    data={ formObject[step]==undefined? null:formObject[step]['images'] } 
-                                    onHandleChange={this.handleChange.bind(this)}
-                                />
-                        }
-                        {
-                            step==3 &&
-                                // 規格
-                                <Format 
-                                    data={ formObject[step]==undefined? []:formObject[step]['spec'] } 
-                                    onHandleChange={this.handleChange.bind(this)}
-                                />
-                        }
-                        {
-                            step==4 &&
-                                // 敘述
-                                <Depiction
-                                    data={ formObject[step]==undefined? []:formObject[step]['descriptions'] } 
-                                    onHandleChange={this.handleChange.bind(this)}
-                                />
-                        }
-                        {
-                            step==5 &&
-                                // 運送方式
-                                <Freight 
-                                    data={ formObject[step]==undefined? []:formObject[step]['spdeliveriesec'] } 
-                                    onHandleChange={this.handleChange.bind(this)}
-                                />
-                        }
-                        {
-                            noteMSG.length!=0 &&
-                                <div className="admin-form-msg">
-                                    {
-                                        noteMSG.map( (msgItem,i) => {
-                                            return msgItem;
-                                        })
-                                    }
-                                </div>
-                        }
-                    </section>
-                    <div className="admin-form-action">
-                        <ul>
-                            <li>
-                                <button type="button" className="cancel" onClick={this.handleCancel.bind(this)}>取消</button>
-                            </li>
-                            <li>
-                                <button type="submit">{ step!=5? lang['zh-TW']['Submit Next'] : lang['zh-TW']['Finish'] }</button>
-                            </li>
-                        </ul>
-                    </div>
-                </form>
+                <section className="admin-content-row">
+                    {
+                        step==1 &&
+                            // 基本
+                            <Basic 
+                                step= {step}
+                                categoriesItem={categoriesItem} 
+                                returnSuccess={ this.success.bind(this) }
+                                returnCancel={this.handleCancel.bind(this)}
+                                returnError={this.error.bind(this)}
+                            />
+                    }
+                    {
+                        step==2 &&
+                            // 主圖
+                            <Cover 
+                                step= {step}
+                                id={id}
+                                returnSuccess={ this.success.bind(this) }
+                                returnCancel={this.handleCancel.bind(this)}
+                                returnError={this.error.bind(this)}
+                            />
+                    }
+                    {
+                        step==3 &&
+                            // 規格
+                            <Format 
+                                step= {step}
+                                id={id}
+                                returnSuccess={ this.success.bind(this) }
+                                returnCancel={this.handleCancel.bind(this)}
+                                returnError={this.error.bind(this)}
+                            />
+                    }
+                    {
+                        step==4 &&
+                            // 敘述
+                            <Depiction
+                                step= {step}
+                                id={id}
+                                returnSuccess={ this.success.bind(this) }
+                                returnCancel={this.handleCancel.bind(this)}
+                                returnError={this.error.bind(this)}
+                            />
+                    }
+                    {
+                        step==5 &&
+                            // 運送方式
+                            <Freight 
+                                step= {step}
+                                id={id}
+                                returnSuccess={ this.success.bind(this) }
+                                returnCancel={this.handleCancel.bind(this)}
+                                returnError={this.error.bind(this)}
+                            />
+                    }
+                </section>
                 <Confirm
                     open={open}
                     method='alert'
@@ -156,7 +134,7 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
-        window.addEventListener("beforeunload", this.onUnload);
+        // window.addEventListener("beforeunload", this.onUnload);
         // 取得類別
         this.props.dispatch( categories() ).then(res=>{
             this.setState({
@@ -191,149 +169,16 @@ class Index extends React.Component{
     }
 
     handleCancel = () => {
-        this.props.history.push('/myvendor/products/review');
-    }
-
-    handleChange = ( key, val ) => {
-        let { formObject } = this.state;
-        formObject = { ...formObject, [key]:val }
-        this.setState({
-            formObject
-        })
-    }
-
-    onPrevious = (e) => {
-        const { step } = this.state;
-        this.setState({
-            step: step-1,
-        })
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const { id, required, formObject, step, maxStep, profile } = this.state;
-        let method = "post";
-        
-        switch( step ){
-            case 2:
-                method = 'put';
-                formObject[step] = {
-                    id : id,
-                    images: formObject[step]
-                }
-                break;
-
-            case 3:
-                method = 'put';
-                formObject[step] = {
-                    id : id,
-                    spec: formObject[step]
-                }
-                break;
-
-            case 4:
-                method = 'put';
-                formObject[step] = {
-                    id : id,
-                    descriptions: formObject[step]
-                }
-                break;
-
-            case 5:
-                method = 'put';
-                formObject[step] = {
-                    id : id,
-                    deliveries: formObject[step]
-                }
-                break;
-        }
-
-        // 檢查必填欄位
-        const checkRequired = this.checkRequired(step,formObject);
-
-        if( checkRequired ){
-            this.setState({
-                loading: true,
-            },()=>{
-                this.props.dispatch( createProduct( formObject[step], step, method ) ).then( res => {
-                    this.setState({
-                        loading: false
-                    },()=>{
-                        switch( res['status'] ){
-                            case 200:
-                                sessionStorage.setItem(`productCreateStep${step}`,JSON.stringify(formObject[step]));
-                                if( step==1 ){
-                                    this.setState({
-                                        step: step==maxStep? maxStep : step+1,
-                                        noteMSG: [],
-                                        id: res['data']['id']
-                                    },()=>{
-                                        // 新增成功減掉配額
-                                        this.props.dispatch( quota('less',profile) );
-                                    })
-                                }else{
-                                    if( step>=5 ){
-                                        this.setState({
-                                            open: true,
-                                            popupMsg: '新增成功'
-                                        })
-                                    }else{
-                                        this.setState({
-                                            step: step==maxStep? maxStep : step+1
-                                        })
-                                    }
-                                }
-                                break;
-                            
-                            default :
-                                if( res['status']==502 ){
-                                    this.setState({
-                                        noteMSG: [<div>{lang['zh-TW']['note']['server busy line']}</div>],
-                                    })
-                                }
-                                break;
-                        }
-                    })
-                });
-            });
-        }
-    }
-
-    checkRequired = ( step,formObject ) => {
-        const { required } = this.state;
-        const checkRequired = required[step].filter( (filterItem,i) => {
-
-            if( step==1 ){
-                if( filterItem=='categories' ){
-                    return formObject[step][filterItem].length==0;
-                }else{
-                    return formObject[step][filterItem]=='';
-                }
-            }else{
-                return formObject[step][filterItem].length==0;
-            }
-        })
-
-        if( checkRequired.length==0 ){
-            return true;
-        }else{
-            this.setState({
-                noteMSG: checkRequired.map( (key,i) => {
-                    return (
-                        <div key={key}>{ lang['zh-TW']['note'][`${key} required`] }</div>
-                    )
-                })
-            })
-            return false;
-        }
+        this.props.history.push('/myvendor/products/list');
     }
 
     onUnload = (e) => {
+        const { history } = this.props;
         const { id, step, profile } = this.state;
-        for( let i=1 ; i<=5 ; i++ ){
-            sessionStorage.removeItem(`productCreateStep${i}`);
-        }
         if( step>1 && step<5 ){
+            for( let i=1 ; i<=5 ; i++ ){
+                sessionStorage.removeItem(`productCreateStep${i}`);
+            }
             this.props.dispatch( deleteProduct(id) ).then( res => {
                 switch( res['status'] ){
                     case 200:
@@ -348,6 +193,35 @@ class Index extends React.Component{
         let confirmationMessage = '你正在離開該頁面，我們將會刪除為完成資料！';
         (e || window.event).returnValue = confirmationMessage;
         return confirmationMessage;
+    }
+
+    success = ( val ) => {
+        if( !val.hasOwnProperty('status') ){
+            const { id, step } = val;
+            const { profile } = this.state;
+            if( val.hasOwnProperty('id') ){
+                if( step=='2' ){
+                    this.props.dispatch( quota('less',profile) );
+                }
+                this.setState({
+                    step,
+                    id
+                })
+            }else{
+                this.setState({
+                    step
+                })
+            }
+        }else{
+            const { profile } = this.state;
+            this.setState({
+                open: true,
+                popupMsg: '新增成功'
+            })
+        }
+    } 
+
+    error = ( val ) => {
     }
 }
 

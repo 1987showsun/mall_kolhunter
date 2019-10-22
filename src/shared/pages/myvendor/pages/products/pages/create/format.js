@@ -1,16 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
 import { faPlus }from '@fortawesome/free-solid-svg-icons';
 
-// Components
+// Modules
 import InputTable from '../../../../../../module/inputTable';
+import Loading from '../../../../../../module/loading';
 
-export default class Format extends React.Component{
+// Actions
+import { createProduct } from '../../../../../../actions/myvendor';
+
+// Lang
+import lang from '../../../../../../public/lang/lang.json';
+
+class Format extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            data: props.data || [],
+            loading: false,
+            id: props.id,
+            step: props.step,
+            msg: [],
+            required: ['name','sku','quantity'],
+            data: [],
             tableHeadKey : [
                 {
                     key: 'name',
@@ -37,9 +50,16 @@ export default class Format extends React.Component{
         }
     }
 
+    static getDerivedStateFromProps( props,state ){
+        return{
+            id: props.id,
+            step: props.step
+        }
+    }
+
     render(){
 
-        const { data, tableHeadKey } = this.state;
+        const { loading, id, step, msg, data, tableHeadKey } = this.state;
 
         return(
             <React.Fragment>
@@ -50,26 +70,35 @@ export default class Format extends React.Component{
                         新增規格
                     </button>
                 </article>
-                <div className="admin-content-container">
+                <form className="create-form" onSubmit={this.handleSubmit.bind(this)}>
                     <InputTable 
                         tableHeadData={tableHeadKey}
                         tableBodyData={data}
                         onChangeData={this.onChangeData.bind(this)}
                     />
-                </div>
+                    {
+                        msg.length!=0 &&
+                            <div className="admin-form-msg">{msg}</div>
+                    }
+                    <div className="admin-form-action">
+                        <ul>
+                            <li>
+                                <button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button>
+                            </li>
+                            <li>
+                                <button type="submit">{ step!=5? lang['zh-TW']['Submit Next'] : lang['zh-TW']['Finish'] }</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <Loading loading={loading} />
+                </form>
             </React.Fragment>
         );
-    }
-
-    componentDidMount() {
-        this.returnBack();
     }
 
     onChangeData = ( data ) => {
         this.setState({
             data
-        },()=>{
-            this.returnBack();
         })
     }
 
@@ -85,13 +114,69 @@ export default class Format extends React.Component{
         ]
         this.setState({
             data
-        },()=>{
-            this.returnBack();
         })
     }
 
-    returnBack = () => {
-        const { data } = this.state;
-        this.props.onHandleChange('3',data);
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const method = 'put';
+        const { id, step, required, data } = this.state;
+        const checkRequiredFilter = data.length==0? [<div key='0' className="items">{ lang['zh-TW']['note'][`spec required`] }</div>] : required.filter( keys => {
+            return data.some( someItem => {
+                if( someItem[keys]=='' ){
+                    return true;
+                }
+            });
+        }).map( keys => <div key={keys} className="items">{ lang['zh-TW']['note'][`${keys} required`] }</div>);
+
+        if( checkRequiredFilter.length==0 ){
+            this.setState({
+                loading: true
+            },()=>{
+                this.props.dispatch( createProduct( { id, spec: data}, step, method ) ).then( res => {
+                    console.log('step',step,':',res['data'] );
+                    this.setState({
+                        loading: false,
+                    },()=>{    
+                        switch( res['status'] ){
+                            case 200:
+                                this.setState({
+                                    msg: []
+                                },()=>{                        
+                                    this.props.returnSuccess({ step: step+1 });
+                                })
+                                break;
+
+                            default:
+                                break;
+                        }
+                    });
+                });
+            });
+
+            // this.setState({
+            //     msg: []
+            // },()=>{                        
+            //     this.props.returnSuccess({ step: step+1 });
+            // })
+        }else{
+            this.setState({
+                msg: checkRequiredFilter
+            },()=>{
+                this.props.returnError( checkRequiredFilter );
+            })
+        }
+    }
+
+    handleCancel = () => {
+
     }
 }
+
+const mapStateToProps = state => {
+    return{
+
+    }
+}
+
+export default connect( mapStateToProps )( Format );

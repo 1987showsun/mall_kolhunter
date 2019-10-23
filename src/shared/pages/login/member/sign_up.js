@@ -54,7 +54,7 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="email">
                                 <div className="input-box">
-                                    <input type="email" name="email" id="email" value={ formObject['email'] } onChange={this.handleChange.bind(this)} placeholder="＊帳號 (E-mail)" autoComplete="off" />
+                                    <input type="email" name="email" id="email" value={ formObject['email'] } onChange={this.handleChange.bind(this)} placeholder="＊E-mail (註冊帳號)" autoComplete="off" />
                                 </div>
                             </label>
                         </li>

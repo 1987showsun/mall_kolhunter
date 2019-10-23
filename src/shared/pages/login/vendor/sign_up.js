@@ -51,16 +51,9 @@ class SignUp extends React.Component{
                     </div>
                     <ul>
                         <li>
-                            <label htmlFor="company">
-                                <div className="input-box">
-                                    <input type="text" name="company" id="company" value={ formObject['company'] } onChange={this.handleChange.bind(this)} placeholder="* 公司名稱" autoComplete="off" />
-                                </div>
-                            </label>
-                        </li>
-                        <li>
                             <label htmlFor="email">
                                 <div className="input-box">
-                                    <input type="email" name="email" id="email" value={ formObject['email'] } onChange={this.handleChange.bind(this)} placeholder="* Email" autoComplete="off" />
+                                    <input type="email" name="email" id="email" value={ formObject['email'] } onChange={this.handleChange.bind(this)} placeholder="* Email (註冊帳號)" autoComplete="off" />
                                 </div>
                             </label>
                         </li>
@@ -90,9 +83,23 @@ class SignUp extends React.Component{
                             </label>
                         </li>
                         <li>
+                            <label htmlFor="company">
+                                <div className="input-box">
+                                    <input type="text" name="company" id="company" value={ formObject['company'] } onChange={this.handleChange.bind(this)} placeholder="* 公司名稱" autoComplete="off" />
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label htmlFor="contactor">
+                                <div className="input-box">
+                                    <input type="text" name="contactor" id="contactor" value={ formObject['contactor'] } onChange={this.handleChange.bind(this)} placeholder="* 聯絡人" autoComplete="off"/>
+                                </div>
+                            </label>
+                        </li>
+                        <li>
                             <label htmlFor="phone">
                                 <div className="input-box">
-                                    <CurrencyFormat value={formObject['phone']} format="## ########" placeholder="* 電話" onValueChange={(values) => {
+                                    <CurrencyFormat value={formObject['phone']} format="##########" placeholder="* 聯絡電話" onValueChange={(values) => {
                                         const {formattedValue, value} = values;
                                         this.setState({
                                             formObject: {
@@ -107,7 +114,7 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="invoice">
                                 <div className="input-box">
-                                    <CurrencyFormat value={formObject['invoice']} format="########" placeholder="* 統一編號" onValueChange={(values) => {
+                                    <CurrencyFormat value={formObject['invoice']} format="########" placeholder="統一編號" onValueChange={(values) => {
                                         const {formattedValue, value} = values;
                                         this.setState({
                                             formObject: {
@@ -116,13 +123,6 @@ class SignUp extends React.Component{
                                             }
                                         })
                                     }}/>
-                                </div>
-                            </label>
-                        </li>
-                        <li>
-                            <label htmlFor="contactor">
-                                <div className="input-box">
-                                    <input type="text" name="contactor" id="contactor" value={ formObject['contactor'] } onChange={this.handleChange.bind(this)} placeholder="* 聯絡人" autoComplete="off"/>
                                 </div>
                             </label>
                         </li>

@@ -13,6 +13,7 @@ export default class Index extends React.Component{
         super(props);
         this.state = {
             src: props.src || null,
+            className: props.className || '',
             id: props.id || 'addCover',
             idx: props.idx,
             proportion: props.proportion || [1,1],
@@ -32,11 +33,11 @@ export default class Index extends React.Component{
 
     render(){
 
-        const { id, src, width, height } = this.state;
+        const { id, src, className, width, height } = this.state;
 
         return(
             <React.Fragment>
-                <label htmlFor={id} className="cover-img virtual">
+                <label htmlFor={id} className={`cover-img virtual ${className}`}>
                     {
                         this.props.children!=null&&
                             this.props.children

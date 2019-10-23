@@ -37,4 +37,20 @@
             }
         }
     }
+
+    .store-bg-lable{
+        position: absolute;
+        z-index: 2;
+        img{
+            display: none;
+        }
+    }
+
+    .store-cover-lable{
+        position: absolute;
+        z-index: 2;
+        img{
+            display: none !important;
+        }
+    }
 }

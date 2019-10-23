@@ -23,12 +23,13 @@ export default class BGImg extends React.Component{
 
         return(
             <React.Fragment>
-                <div className="store-cover-background-img" style={{'backgroundImage':`url(${cover})`}} />
                 <AvatarCropper
                     id= "bgImg"
+                    className= "store-bg-lable"
                     proportion= {[16,9]}
                     onChangeData= {this.callAPIFunction.bind(this)}
                 />
+                <div className="store-cover-background-img" style={{'backgroundImage':`url(${cover})`}} />
             </React.Fragment>
         );
     }

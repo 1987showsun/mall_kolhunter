@@ -30,6 +30,7 @@ export default class Photo extends React.Component{
                 <div className="figure-img">
                     <AvatarCropper
                         id= "headImg"
+                        className= "store-cover-lable"
                         onChangeData= {this.onChangeData.bind(this)}
                     />
                     <img src={src} alt="" title="" />

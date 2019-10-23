@@ -48,6 +48,20 @@
                 white-space: nowrap; 
                 overflow: hidden;
                 text-overflow: ellipsis;
+                .items-product-name{
+                    display: inline-block;
+                    margin: 0px 5px;
+                    color: var(--primary);
+                    font-weight: bolder;
+                }
+                .items-focus{
+                    display: inline-block;
+                    padding: 5px 10px;
+                    margin: 0px 5px;
+                    border-radius: 4px;
+                    background: var(--main);
+                    color: #fff;
+                }
             }
         }
         .confirm-container-action{

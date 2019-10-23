@@ -191,20 +191,35 @@ class Info extends React.Component{
         const { refundStep } = this.state;
         const { refundStatus, productName } = selectedRefund;
         const _findIndex = refundStep.findIndex( keys => keys==refundStatus );
-        if( refundStep[_findIndex+1]!='choice' ){
-            this.setState({
-                open: true,
-                popupMSG: [<div key={`popupMSG`} className="items">確定要變更 "{productName}" 退貨狀態嗎？</div>],
-                selectedRefund: selectedRefund
-            })
-        }else{
-            this.setState({
-                open: true,
-                method: 'refund',
-                popupMSG: [<div key={`popupMSG`} className="items">確定要變更 "{productName}" 退貨狀態嗎？</div>],
-                selectedRefund: selectedRefund
-            })
+        let open     = true;
+        let method   = 'confirm';
+        let popupMSG = [];
+
+        switch( refundStep[_findIndex+1] ){
+            case 'request':
+                popupMSG = [<div key={`popupMSG`} className="items">是否要變更<span className="items-product-name">{productName}</span>商品，退貨狀態至<span className="items-focus"></span>狀態嗎？</div>];
+                break;
+
+            case 'delivery':
+                popupMSG = [<div key={`popupMSG`} className="items">是否要變更<span className="items-product-name">{productName}</span>商品，退貨狀態至<span className="items-focus">派出物流收回</span>狀態嗎？</div>];
+                break;
+
+            case 'recived':
+                popupMSG = [<div key={`popupMSG`} className="items">是否要變更<span className="items-product-name">{productName}</span>商品，退貨狀態至<span className="items-focus">已收回退貨商品</span>狀態嗎？</div>];
+                break;
+
+            default:
+                method   = 'refund';
+                popupMSG = [<div key={`popupMSG`} className="items">是否同意<span className="items-product-name">{productName}</span>商品的退貨請求？</div>];
+                break;
         }
+
+        this.setState({
+            open,
+            method,
+            popupMSG,
+            selectedRefund: selectedRefund
+        })
     }
 
     callAPI = () => {

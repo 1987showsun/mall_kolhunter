@@ -25,7 +25,7 @@ class SignUp extends React.Component{
             open: false,
             popupMsg: "",
             pwdDisplay: false,
-            required: ['company','email','password','confirmPassword','phone','invoice','contactor'],
+            required: ['company','email','password','confirmPassword','phone','contactor'],
             formObject : {
                 type: 'vendor',
                 company: '',

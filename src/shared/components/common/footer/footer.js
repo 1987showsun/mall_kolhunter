@@ -85,7 +85,7 @@ class Footer extends React.Component{
                             <div className="footer-nav-wrap" data-direction="column">
                                 <div className="footer-nav-wrap-title">網紅專區</div>
                                 <ul>
-                                    <li><Link to="">我是網紅</Link></li>
+                                    <li><a href="https://kolstg.kolhunter.com/member/imcelebrity" target="_blank">我是網紅</a></li>
                                     <li><Link to="">分潤快問快答</Link></li>
                                     <li><Link to="">網紅店家條款</Link></li>
                                 </ul>

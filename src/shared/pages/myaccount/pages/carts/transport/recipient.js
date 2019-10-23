@@ -24,7 +24,7 @@ export default class Recipient extends React.Component{
                 email: "",
                 zipcode: county_area[city][district],
                 city: city,
-                district: district,
+                dist: district,
                 address: "",
             }
         }
@@ -39,6 +39,7 @@ export default class Recipient extends React.Component{
     render(){
 
         const { formObject } = this.state;
+        console.log( formObject );
 
         return(
             <React.Fragment>
@@ -82,7 +83,7 @@ export default class Recipient extends React.Component{
                             </select>
                         </div>
                         <div className="input-box select">
-                            <select name="district" value={formObject['district'] || ""} onChange={ this.handleChange.bind(this) }>
+                            <select name="dist" value={formObject['dist'] || ""} onChange={ this.handleChange.bind(this) }>
                                 <option value="">請選擇鄉鎮市區</option>
                                 {
                                     formObject['city']!=undefined && formObject['city']!=""? (
@@ -123,7 +124,7 @@ export default class Recipient extends React.Component{
                 email: copyOrdererFormObject['orderEmail'],
                 zipcode: copyOrdererFormObject['orderZipCode'],
                 city: copyOrdererFormObject['orderCity'],
-                district: copyOrdererFormObject['orderDist'],
+                dist: copyOrdererFormObject['orderDist'],
                 address: copyOrdererFormObject['orderAddress']
             }
         },()=>{
@@ -180,7 +181,7 @@ export default class Recipient extends React.Component{
             deliveryEmail: formObject['email'],
             deliveryZipCode: formObject['zipcode'],
             deliveryCity: formObject['city'],
-            deliveryDist: formObject['district'],
+            deliveryDist: formObject['dist'],
             deliveryAddress:  formObject['address']
         }
         if( this.props.mergeFunction!=undefined ){

@@ -111,7 +111,7 @@ class Index extends React.Component{
                     />
                 </section>
                 <section className="container-unit">
-                    {/* 訂購人 / 收件人資訊 */}
+                    {/* 發票 */}
                     <div className="unit-head">
                         <h3>發票</h3>
                     </div>

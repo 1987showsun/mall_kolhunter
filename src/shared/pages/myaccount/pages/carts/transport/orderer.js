@@ -22,7 +22,7 @@ export default  class Order extends React.Component{
                 phone: "",
                 zipCode: county_area[city][district],
                 city: city,
-                district: district,
+                dist: district,
                 address: "",
                 ...props.data
             }
@@ -74,7 +74,7 @@ export default  class Order extends React.Component{
                         </select>
                     </div>
                     <div className="input-box select">
-                        <select name="district" value={formObject['district'] || ""} onChange={ this.handleChange.bind(this) }>
+                        <select name="dist" value={formObject['dist'] || ""} onChange={ this.handleChange.bind(this) }>
                             <option value="">請選擇鄉鎮市區</option>
                             {
                                 formObject['city']!=undefined && formObject['city']!=""? (
@@ -151,7 +151,7 @@ export default  class Order extends React.Component{
             orderCellPhone: formObject['phone'],
             orderZipCode: formObject['zipCode'],
             orderCity: formObject['city'],
-            orderDist: formObject['district'],
+            orderDist: formObject['dist'],
             orderAddress: formObject['address']
         }
         if( this.props.mergeFunction!=undefined ){

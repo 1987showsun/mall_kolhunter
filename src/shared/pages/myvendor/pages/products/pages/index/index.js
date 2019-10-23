@@ -110,11 +110,14 @@ class Product extends React.Component{
         this.setState({
             loading: true
         },()=>{
-            this.props.dispatch( listProduct(pathname,{ ...queryString.parse(search) }) ).then( res => {
-                this.setState({
-                    loading: false
-                })
-            });
+            clearTimeout( this.delay );
+            this.delay = setTimeout(()=>{
+                this.props.dispatch( listProduct(pathname,{ ...queryString.parse(search) }) ).then( res => {
+                    this.setState({
+                        loading: false
+                    })
+                });
+            },2000);
         })
     }
 

@@ -56,7 +56,9 @@ export function signup( form ) {
 // 登出
 export function signout( clearSessionStorageKey ) {
     return (dispatch) => {
-        localStorage.removeItem('cartID');
+        if( clearSessionStorageKey=='jwt_account' ){
+            localStorage.removeItem('cartID');
+        }
         Object.keys( sessionStorage ).map( key => {
             if( clearSessionStorageKey.includes(key) ){
                 sessionStorage.removeItem(key);

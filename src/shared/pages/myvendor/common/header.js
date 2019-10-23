@@ -70,6 +70,7 @@ class Header extends React.Component{
     signOut = () => {
         const { clearSessionStorageKey } = this.state;
         this.props.dispatch( signout( clearSessionStorageKey ) );
+        this.props.history.push('/');
     }
 }
 

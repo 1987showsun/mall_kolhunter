@@ -94,10 +94,10 @@ class Cover extends React.Component{
                                 <label>販賣店家家數</label>
                                 <div>{data['celebrityNum']}</div>
                             </li>
-                            <li>
+                            {/* <li>
                                 <label>已售數量</label>
                                 <div>12</div>
-                            </li>
+                            </li> */}
                             <li>
                                 <label>庫存數量</label>
                                 <div>{itemNumMax[0]!=undefined? itemNumMax[0]['storage']:0}</div>

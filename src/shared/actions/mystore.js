@@ -23,11 +23,7 @@ export function mystoreProductList( pathname,query, data={} ) {
             limit: 30,
             current: 1
         })
-        
-        dispatch({
-            type: 'MYSTORE_STOREPRODUCT_LIST',
-            list: []
-        })
+
         return Axios({ method,  url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
                 dispatch({

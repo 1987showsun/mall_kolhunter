@@ -126,13 +126,17 @@ class Index extends React.Component{
             this.props.dispatch( mystoreStoreProductAdd( pathname, queryString.parse(search), data ) ).then( res => {
                 switch( res['status'] ){
                     case 200:
-                        this.reCallAPI();
+                        $(`#${val['id']}`).fadeOut(1000);
                         toaster.notify(
                             <div className={`toaster-status success`}>更新成功</div>
                         ,{
                             position: 'bottom-right',
                             duration: 4000
                         })
+                        clearTimeout( this.delay );
+                        this.delay = setTimeout(()=>{
+                            this.reCallAPI();
+                        },1000);
                         break;
 
                     default:

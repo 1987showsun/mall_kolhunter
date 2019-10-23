@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React from 'react';
 import toaster from 'toasted-notes';
 import queryString from 'query-string';
@@ -58,6 +59,7 @@ class Index extends React.Component{
         const pathname = location['pathname'].split('/').filter( filterItem => filterItem!='' );
         const productList = tableBodyData.map( item => {
             return{
+                id: item['id'],
                 status: [<button key={`status-on_`} className="status-on" onClick={this.tableButtonAction.bind(this,item)}>販賣中</button>],
                 image: item['image'],
                 name: item['name'],
@@ -134,13 +136,17 @@ class Index extends React.Component{
             this.props.dispatch( mystoreStoreProductRemove(pathname, queryString.parse(search), data) ).then( res => {
                 switch( res['status'] ){
                     case 200:
-                        this.reCallAPI();
+                        $(`#${val['id']}`).fadeOut(1000);
                         toaster.notify(
                             <div className={`toaster-status success`}>下架成功</div>
                         ,{
                             position: 'bottom-right',
                             duration: 3000
-                        })
+                        });
+                        clearTimeout( this.delay );
+                        this.delay = setTimeout(()=>{
+                            this.reCallAPI();
+                        },1000);
                         break;
 
                     default:

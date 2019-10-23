@@ -12,6 +12,7 @@ export default class Item extends React.Component{
 
     constructor(props){
         super(props);
+        this.items = React.createRef();
         this.state = {
             isSelectedAll: props.isSelectedAll || false,
             selectedBefore: props.selectedBefore || []
@@ -37,7 +38,7 @@ export default class Item extends React.Component{
                 {
                     data.map( (bodyItem,b_i) => {
                         return(
-                            <li key={`${bodyItem['id']}_${b_i}`}>
+                            <li ref={this.items} key={`${bodyItem['id']}_${b_i}`} id={`${bodyItem['id']!=undefined? bodyItem['id']:""}`}>
                                 {
                                     head.map( (headItem,h_i) => {
                                         return(
@@ -217,9 +218,10 @@ export default class Item extends React.Component{
     }
 
     tableButtonAction = ( method , val ) => {
+        const { current } = this.items;
         const returnVal = { ...val, 't_method': method };
         if( this.props.tableButtonAction!=undefined ){
-            this.props.tableButtonAction( returnVal );
+            this.props.tableButtonAction( returnVal, current );
         }
     }
 

@@ -4,6 +4,7 @@ export default function account(
         "cartToken": "",
         "cartTotalAmount": 0,
         "cartItems": [],
+        "cartsCount": 0,
         "orderStatus": {
             page: 1,
             pages: 1,
@@ -43,6 +44,13 @@ export default function account(
             state = {
                 ...state,
                 orderList: action.list
+            }
+            break;
+
+        case 'ACCOUNT_CART_COUNT':
+            state = {
+                ...state,
+                cartsCount: action.cartsCount
             }
             break;
     }

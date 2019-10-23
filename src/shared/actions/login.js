@@ -55,13 +55,13 @@ export function signup( form ) {
 
 // 登出
 export function signout( clearSessionStorageKey ) {
-    Object.keys( sessionStorage ).map( key => {
-        if( clearSessionStorageKey.includes(key) ){
-            sessionStorage.removeItem(key);
-        }
-    })
-    window.location = "/";
     return (dispatch) => {
+        localStorage.removeItem('cartID');
+        Object.keys( sessionStorage ).map( key => {
+            if( clearSessionStorageKey.includes(key) ){
+                sessionStorage.removeItem(key);
+            }
+        });
     }
 }
 

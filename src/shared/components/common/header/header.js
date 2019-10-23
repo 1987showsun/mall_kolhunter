@@ -8,7 +8,7 @@ import { faUser, faStore, faUserPlus, faShoppingCart, faTruck }from '@fortawesom
 import Search from './search';
 
 // Actions
-import { ainfo } from '../../../actions/myaccount';
+import { ainfo, cartsCount } from '../../../actions/myaccount';
 import { getCartID } from '../../../actions/common';
 
 // stylesheets
@@ -24,7 +24,8 @@ class Header extends React.Component{
         super(props);
         this.state = {
             token: props.token,
-            accountInfo: props.accountInfo
+            accountInfo: props.accountInfo,
+            cartsCount: props.cartsCount
         }
     }
 
@@ -32,24 +33,29 @@ class Header extends React.Component{
 
         if( props.token!=state.token ){
             return{
+                cartsCount: props.cartsCount,
                 token: props.token
             }
         }
 
         if( props.accountInfo!=state.accountInfo ){
             return{
+                cartsCount: props.cartsCount,
                 token: props.token,
                 accountInfo: props.accountInfo
             }
         }
-        return null;
+        return {
+            cartsCount: props.cartsCount
+        };
     }
 
     render(){
 
-        const { accountInfo, token } = this.state;
+        const { accountInfo, token, cartsCount } = this.state;
         const { history, match, location } = this.props;
         const pathname = location['pathname'].split('/').filter( item => item!='' );
+        console.log( cartsCount );
 
         return(
             <header data-content="center">
@@ -123,8 +129,11 @@ class Header extends React.Component{
                                 <Link to="/myaccount/carts">
                                     <span className="icon-block">
                                         <FontAwesomeIcon icon={faShoppingCart} />
+                                        <span className="icon-block-number">{cartsCount}</span>
                                     </span>
-                                    <div className="prompt-block">購物車</div>
+                                    <div className="prompt-block">
+                                        購物車
+                                    </div>
                                 </Link>
                             </li>
                             <li className={`${pathname[1]=='orders'}`}>
@@ -150,21 +159,15 @@ class Header extends React.Component{
             }
             this.props.dispatch( getCartID() );
         }
-    }
-}
-
-const getJWTToken = () => {
-    if( typeof window !== 'undefined' ){
-        const type = 'account';
-        const token = sessionStorage.getItem(`jwt_${type}`) || null;
-        return token;
+        this.props.dispatch(cartsCount());
     }
 }
 
 const mapStateToProps = state => {
     return{
         token: state.login.jwt_account,
-        accountInfo: state.myaccount.info
+        accountInfo: state.myaccount.info,
+        cartsCount: state.myaccount.cartsCount
     }
 }
 

@@ -7,8 +7,11 @@ import CurrencyFormat from 'react-currency-format';
 // Components
 import Item from './item';
 
+// Modules
+import Loading from '../../../../../module/loading/mallLoading';
+
 // Actions
-import { removeCartItem, updateCartProductItem } from '../../../../../actions/myaccount';
+import { removeCartItem, updateCartProductItem, cartsCount } from '../../../../../actions/myaccount';
 
 // Lang
 import lang from '../../../../../public/lang/lang.json';
@@ -18,6 +21,7 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             cartToken: props.cartToken,
             cartTotalAmount: 0,
             list : []
@@ -35,10 +39,10 @@ class Index extends React.Component{
     render(){
 
         const { location } = this.props;
-        const { cartTotalAmount, list } = this.state;
+        const { loading, cartTotalAmount, list } = this.state;
 
         return(
-            <div className="cart-product-wrap">
+            <div className="cart-product-wrap" style={{"position": "relative"}}>
                 {
                     list.length!=0? (
                         list.map( item => {
@@ -60,6 +64,7 @@ class Index extends React.Component{
                     <span className="label">購買總金額：</span>
                     <CurrencyFormat className="total-money" value={cartTotalAmount} displayType={'text'} thousandSeparator={true}/>
                 </div>
+                <Loading loading={loading} />
             </div>
         );
     }
@@ -76,21 +81,45 @@ class Index extends React.Component{
             productDeliveryID: val['productDeliveryID']
         }
 
-        this.props.dispatch( updateCartProductItem( "",{},data ) ).then( res => {
-            //console.log( res );
-        });
+        this.setState({
+            loading: true
+        },()=>{
+            this.props.dispatch( updateCartProductItem( "",{},data ) ).then( res => {
+                //console.log( res );
+                this.setState({
+                    loading: false
+                })
+            });
+        })
     }
 
     actionBtn = ( method,selectedTtem ) => {
         const cartToken = localStorage.getItem('cartID');
         const { location } = this.props;
         const { pathname, search } = location;
-        switch( method ){
-            case 'remove':
-                const data = { cartToken: cartToken, specToken: selectedTtem['specToken'] };
-                this.props.dispatch( removeCartItem( pathname, queryString.parse(search), data ) );
-                break;
-        }
+        this.setState({
+            loading: true
+        },()=>{
+            switch( method ){
+                case 'remove':
+                    const data = { cartToken: cartToken, specToken: selectedTtem['specToken'] };
+                    this.props.dispatch( removeCartItem( pathname, queryString.parse(search), data ) ).then( res => {
+                        this.setState({
+                            loading: false
+                        },()=>{
+                            switch( res['status'] ){
+                                case 200:
+                                    this.props.dispatch( cartsCount() );
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        })
+                    });
+                    break;
+            }
+        });
     }
 }
 

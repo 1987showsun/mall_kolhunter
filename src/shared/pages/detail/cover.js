@@ -12,7 +12,7 @@ import OpenSelect from '../../module/openSelect';
 import Loading from '../../module/loading';
 
 // Actions
-import { updateCartProductItem } from '../../actions/myaccount';
+import { updateCartProductItem, cartsCount } from '../../actions/myaccount';
 import { storeInfo } from '../../actions/store';
 
 // Set
@@ -251,6 +251,7 @@ class Cover extends React.Component{
                         switch( res['status'] ){
                             case 200:
                                 // 加入成功
+                                this.props.dispatch( cartsCount() );
                                 status_text = "新增成功";
                                 status      = "success";
                                 switch( method ){

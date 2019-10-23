@@ -202,6 +202,23 @@ header{
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            .icon-block-number{
+                width: 19px;
+                height: 19px;
+                display: flex;
+                border-radius: 100px;
+                align-items: center;
+                justify-content: center;
+                background: var(--yellow);
+                position: absolute;
+                z-index: 2;
+                bottom: -4px;
+                right: -3px;
+                font-size: 0.5rem;
+                font-weight: bold;
+                color: #fff;
+            }
             img{
                 width: 100%;
                 border-radius: 100px;

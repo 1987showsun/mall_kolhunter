@@ -6,6 +6,8 @@ import { faUserCircle, faShoppingBag, faFileAlt, faSignOutAlt }from '@fortawesom
 
 // Actions
 import { signout } from '../../../actions/login';
+import { getCartID } from '../../../actions/common';
+import { cartsCount } from '../../../actions/myaccount';
 
 class Nav extends React.Component{
 
@@ -73,6 +75,13 @@ class Nav extends React.Component{
         const { clearSessionStorageKey } = this.state;
         this.props.dispatch( signout(clearSessionStorageKey) );
         this.props.history.push('/');
+        this.props.dispatch( getCartID() ).then( res => {
+            switch( res['status'] ){
+                case 200:
+                    this.props.dispatch(cartsCount());
+                    break;
+            }
+        });
     }
 }
 

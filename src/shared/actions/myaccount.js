@@ -80,15 +80,42 @@ export function cartsProductList( pathname,query ){
             const url= `${API()['myaccount']['carts']}${search!=''? `?${search}`: ''}`;
             
             return Axios({ method,url,data:{} }).then(res => {
-                dispatch({
-                    type: "ACCOUNT_CART_ITEMS",
-                    cartToken: res['data']['cartToken'],
-                    cartTotalAmount: res['data']['totalAmount'],
-                    list: res['data']['items']
-                });
-                return res;
+                if( !res.hasOwnProperty('response') ){
+                    dispatch({
+                        type: "ACCOUNT_CART_ITEMS",
+                        cartToken: res['data']['cartToken'],
+                        cartTotalAmount: res['data']['totalAmount'],
+                        list: res['data']['items']
+                    });
+                    return res;
+                }
+                return res['response'];
             });
 
+        }
+    }
+}
+
+// 購物車商品數量
+export function cartsCount( pathname,query ){
+    return(dispatch) => {
+        if( typeof window !== 'undefined' ){
+            const cartToken = localStorage.getItem('cartID');
+            const initQuery= {};
+            const method= 'get';
+            const search= queryString.stringify({ ...initQuery, ...query, cartToken });
+            const url= `${API()['myaccount']['carts']}${search!=''? `?${search}`: ''}`;
+            
+            return Axios({ method,url,data:{} }).then(res => {
+                if( !res.hasOwnProperty('response') ){
+                    dispatch({
+                        type: "ACCOUNT_CART_COUNT",
+                        cartsCount: res['data']['items'].length
+                    });
+                    return res;
+                }
+                return res['response'];
+            });
         }
     }
 }
@@ -103,15 +130,17 @@ export function removeCartItem( pathname,query,data ){
         const url= `${API()['myaccount']['removeCartItem']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res => {
-            dispatch({
-                type: "ACCOUNT_CART_ITEMS",
-                cartToken: res['data']['cartToken'],
-                cartTotalAmount: res['data']['totalAmount'],
-                list: res['data']['items']
-            });
-            return res;
+            if( !res.hasOwnProperty('response') ){
+                dispatch({
+                    type: "ACCOUNT_CART_ITEMS",
+                    cartToken: res['data']['cartToken'],
+                    cartTotalAmount: res['data']['totalAmount'],
+                    list: res['data']['items']
+                });
+                return res;
+            }
+            return res['response'];
         });
-
     }
 }
 

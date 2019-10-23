@@ -23,12 +23,13 @@ export function getCartID(){
         const url = API()['shopping']['cartID'];
         if( typeof window !== 'undefined' ){
             if( !localStorage.getItem('cartID') ){
-                return Axios({method,url,data:{}}).then( res => {     
-                    const cartID = res['data']['cart'];
-                    localStorage.setItem('cartID',cartID);
-                    return res;
-                }).catch( err => {
-                    return err['response'];
+                return Axios({method,url,data:{}}).then( res => {
+                    if( !res.hasOwnProperty('response') ){
+                        const cartID = res['data']['cart'];
+                        localStorage.setItem('cartID',cartID);
+                        return res;
+                    }
+                    return res['response'];
                 });
             }
         }

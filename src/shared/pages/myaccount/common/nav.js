@@ -74,7 +74,6 @@ class Nav extends React.Component{
     signout = () => {
         const { clearSessionStorageKey } = this.state;
         this.props.dispatch( signout(clearSessionStorageKey) );
-        this.props.history.push('/');
         this.props.dispatch( getCartID() ).then( res => {
             switch( res['status'] ){
                 case 200:
@@ -82,6 +81,10 @@ class Nav extends React.Component{
                     break;
             }
         });
+        clearTimeout( this.delay );
+        this.delay = setTimeout(()=>{
+            this.props.history.push('/');
+        },1000);
     }
 }
 

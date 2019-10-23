@@ -55,7 +55,6 @@ class Header extends React.Component{
         const { accountInfo, token, cartsCount } = this.state;
         const { history, match, location } = this.props;
         const pathname = location['pathname'].split('/').filter( item => item!='' );
-        console.log( cartsCount );
 
         return(
             <header data-content="center">
@@ -129,7 +128,10 @@ class Header extends React.Component{
                                 <Link to="/myaccount/carts">
                                     <span className="icon-block">
                                         <FontAwesomeIcon icon={faShoppingCart} />
-                                        <span className="icon-block-number">{cartsCount}</span>
+                                        {
+                                            cartsCount!=0 &&
+                                                <span className="icon-block-number">{cartsCount}</span>
+                                        }
                                     </span>
                                     <div className="prompt-block">
                                         購物車

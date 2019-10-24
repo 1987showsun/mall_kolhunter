@@ -5,10 +5,10 @@ import CurrencyFormat from 'react-currency-format';
 import { connect } from 'react-redux';
 
 // Compoents
-import PurchaseInfo from '../form/purchase_info';
-import PayMethod from '../form/payMethod';
-import Coupon from '../form/coupon';
-import Invoice from '../form/invoice';
+import PurchaseInfo  from '../components/form/purchase_info';
+import PayMethod     from '../components/form/payMethod';
+import Coupon        from '../components/form/coupon';
+import Invoice       from '../components/form/invoice/index';
 
 // Modules
 import Confirm from '../../../../../../../module/confirm';
@@ -22,27 +22,30 @@ import { checkRequired } from '../../../../../../../public/javascripts/checkForm
 // Lang
 import lang from '../../../../../../../public/lang/lang.json';
 
+// Set
+import required from '../public/set/required';
+
 class Step2 extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            open: false,
-            method: "confirm",
-            popupMsg: [],
-            required: ['company','contactor','email','phone','zipcode','city','district','address'],
-            ccRequired: ['cvc','exp','cardno'],
-            profile: props.profile,
-            formObject: {
-                memberType: "vendor"
+            open                  : false,
+            method                : "confirm",
+            popupMsg              : [],
+            required              : required,
+            profile               : props.profile,
+            mergeFormObject       : {},
+            formObject            : {
+                memberType          : "vendor"
             },
-            paymentFormObject: {},
-            invoiceFormObject: {},
-            newebpayFormObject: {
-                url: "",
-                val: ""
+            paymentFormObject     : {},
+            invoiceFormObject     : {},
+            newebpayFormObject    : {
+                url                 : "",
+                val                 : ""
             },
-            returnBody: ""
+            returnBody            : ""
         }
     }
 
@@ -134,13 +137,14 @@ class Step2 extends React.Component{
                             <h4>發票</h4>
                         </article>
                         <div className="admin-content-container">
-                            {
-                                profile['invoice']!="" || profile['invoice']!=undefined? (
-                                    <div>三聯式發票</div>
-                                ):(
-                                    <div>二聯式發票</div>
-                                )
-                            }
+                            <Invoice 
+                                profile= {profile}
+                                returnHandleChange= {(val)=>{
+                                    this.setState({
+                                        invoiceFormObject: val
+                                    })
+                                }}
+                            />
                         </div>
                     </section>
 
@@ -183,8 +187,8 @@ class Step2 extends React.Component{
 
     componentDidMount() {
 
-        const { location, history, match } = this.props;
-        const { pathname, search } = location;
+        const { location, history } = this.props;
+        const { search } = location;
         const storageProgramToken = sessionStorage.getItem('vendorBuyPlanform')!=undefined? JSON.parse(sessionStorage.getItem('vendorBuyPlanform'))['token'] : "";
         const { programNum, programToken } = queryString.parse(search);
         const gotoBack = () => {
@@ -226,24 +230,16 @@ class Step2 extends React.Component{
 
     hanleSubmit = (e) => {
         e.preventDefault();
-        const { required, ccRequired, formObject, paymentFormObject } = this.state;
-        const { payMethod } = paymentFormObject;
-        let mergeRequired = [];
-        switch( payMethod ){
-            case 'cc':
-                mergeRequired = [ ...required, ...ccRequired ];
-                break;
-
-            default: 
-                mergeRequired = [ ...required ];
-                break;
-        }
-        const checkRequiredFilter = checkRequired( mergeRequired, { ...formObject, ...paymentFormObject } );
+        const { required, formObject, paymentFormObject, invoiceFormObject } = this.state;
+        const mergeFormObject = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
+        const filterRequired = Object.keys(mergeFormObject).filter( keys => required.includes( keys ) );
+        const checkRequiredFilter = checkRequired( filterRequired, mergeFormObject );
         if( checkRequiredFilter.length==0 ){
             // 填寫完整
             this.setState({
-                open: true,
-                popupMsg: [<div key="checkBuyPlanform">確定是否購買此方案？</div>]
+                open            : true,
+                popupMsg        : [<div key="checkBuyPlanform">確定是否購買此方案？</div>],
+                mergeFormObject : mergeFormObject
             })
         }else{
             // 未填寫完整
@@ -256,39 +252,26 @@ class Step2 extends React.Component{
     }
 
     okToBuyThisProgram = () => {
-        const { formObject, paymentFormObject } = this.state;
+
         const { location, history, match } = this.props;
         const { pathname, search } = location;
-        const checkoutFormObject = {
-            memberType              : "vendor",
-            memberIPAddress         : formObject['memberIPAddress'], // 會員 IP
-            orderCompanyName        : formObject['company'], //公司名稱
-            orderName               : formObject['contactor'], // 訂購人姓名/承辦人
-            orderEmail              : formObject['email'], // 連絡信箱
-            orderPhone              : formObject['phone'], // 聯絡電話
-            orderCellPhone          : formObject['phone'], // 聯絡電話
-            orderZipCode            : formObject['zipcode'], // 訂購者/購買者的郵遞區號
-            orderCity               : formObject['city'], // 訂購者城市
-            orderDist               : formObject['district'], // 訂購者鄉縣市鎮區
-            orderAddress            : formObject['address'], // 訂購者地址明細
-            programToken            : queryString.parse(search)['programToken'] || "", // 要上架的商品 id 列表
-            programNum              : queryString.parse(search)['programNum'] || "", // 購買組數
-            invoiceType             : formObject['invoice']==""? 2:3, // 2,3,donate
-            invoiceCompanyUniNumber : formObject['invoice'], // 三聯式發票統編
-            invoiceDonation         : "", // 捐贈發票對象....
-            tripleCompanyName       : formObject['company'], // 三聯式發票抬頭
-            ...paymentFormObject
+        const mergeFormObject      = {
+            ...this.state.mergeFormObject,
+            tripleCompanyName : this.state.mergeFormObject['invoiceCompanyName'],
+            orderCellPhone    : this.state.mergeFormObject['orderPhone'],
+            programToken      : queryString.parse(search)['programToken'] || "", // 要上架的商品 id 列表
+            programNum        : queryString.parse(search)['programNum'] || "", // 購買組數
         };
-
-        this.props.dispatch( paymentAddOrder(pathname, {...queryString.parse(search)}, checkoutFormObject) ).then( res => {
+        
+        this.props.dispatch( paymentAddOrder(pathname, {...queryString.parse(search)}, mergeFormObject) ).then( res => {
             this.setState({
-                open: false,
-                popupMsg: []
+                open     : false,
+                popupMsg : []
             },()=>{
                 switch( res['status'] ){
                     case 200:
-                        const orderID = res['data']['orderID'];
-                        const payMethod = res['data']['payMethod'];
+                        const orderID     = res['data']['orderID'];
+                        const payMethod   = res['data']['payMethod'];
                         switch( payMethod ){
                             case 'atm':
                                 // ATM 付款
@@ -316,8 +299,7 @@ class Step2 extends React.Component{
                         break;
                 }
             });
-        });
-        
+        });        
     }
 
     actionBtn = ( val ) => {

@@ -1,0 +1,22 @@
+export default [
+    'orderName',
+    'orderEmail',
+    'orderPhone',
+    'orderCity',
+    'orderDist',
+    'orderAddress',
+    'deliveryName',
+    'deliveryPhone',
+    'deliveryEmail',
+    'deliveryCity',
+    'deliveryDist',
+    'deliveryAddress',
+    'payMethod',
+    'invoiceCompanyName',
+    'invoiceCompanyUniNumber',
+    'invoiceLoveCode',
+    'invoiceCarruerNum',
+    'cardno',
+    'cvc',
+    'exp'
+]

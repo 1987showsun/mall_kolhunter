@@ -1,5 +1,5 @@
-import React from 'react';
 import $ from 'jquery';
+import React from 'react';
 import CurrencyFormat from 'react-currency-format';
 
 export default class Card extends React.Component{

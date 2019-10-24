@@ -3,7 +3,7 @@ import CurrencyFormat from 'react-currency-format';
 import { connect } from 'react-redux';
 
 // Json
-import county_area from '../../../../../../../public/json/TWzipcode.json';
+import county_area from '../../../../../../../../public/json/TWzipcode.json';
 
 const city     = Object.keys(county_area)[0];
 const district = Object.keys(county_area[city])[0];
@@ -16,15 +16,14 @@ class PurchaseInfo extends React.Component{
         this.state = {
             profile: {},
             formObject: {
-                company     : "",
-                contactor   : "",
-                email       : "",
-                phone       : "",
-                zipcode     : zipcode,
-                city        : city,
-                district    : district,
-                address     : "",
-                invoice     : null
+                orderCompanyName          : "",
+                orderName                 : "",
+                orderEmail                : "",
+                orderPhone                : "",
+                orderZipCode              : zipcode,
+                orderCity                 : city,
+                orderDist                 : district,
+                orderAddress              : ""
             }
         }
     }
@@ -36,15 +35,14 @@ class PurchaseInfo extends React.Component{
             profile    = { ...props.profile };
             formObject = {
                 ...formObject,
-                company     : props.profile['company'],
-                contactor   : props.profile['contactor'],
-                email       : props.profile['email'],
-                phone       : props.profile['phone'],
-                zipcode     : props.profile['zipcode'],
-                city        : props.profile['city'],
-                district    : props.profile['district'],
-                address     : props.profile['address'],
-                invoice     : props.profile['invoice']
+                orderCompanyName           : props.profile['company']   || "",
+                orderName                  : props.profile['contactor'] || "",
+                orderEmail                 : props.profile['email']     || "",
+                orderPhone                 : props.profile['phone']     || "",
+                orderZipCode               : props.profile['zipcode']   || "",
+                orderCity                  : props.profile['city']      || "",
+                orderDist                  : props.profile['district']  || "",
+                orderAddress               : props.profile['address']   || ""
             }
         }
 
@@ -64,31 +62,31 @@ class PurchaseInfo extends React.Component{
                     <li>
                         <label>* 公司</label>
                         <div className="input-box">
-                            <input type="text" name="company" value={ formObject['company'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
+                            <input type="text" name="orderCompanyName" value={ formObject['orderCompanyName'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
                         </div>
                     </li>
                     <li>
                         <label>* 聯絡人</label>
                         <div className="input-box">
-                            <input type="text" name="contactor" value={ formObject['contactor'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
+                            <input type="text" name="orderName" value={ formObject['orderName'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
                         </div>
                     </li>
                     <li>
                         <label>* 信箱</label>
                         <div className="input-box">
-                            <input type="email" name="email" value={ formObject['email'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
+                            <input type="email" name="orderEmail" value={ formObject['orderEmail'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
                         </div>
                     </li>
                     <li>
                         <label>* 聯絡電話</label>
                         <div className="input-box">
-                            <CurrencyFormat value={ formObject['phone'] || "" } format="##########" onValueChange={ value => this.returnTel(value['formattedValue'],'phone')}/>
+                            <CurrencyFormat value={ formObject['orderPhone'] || "" } format="##########" onValueChange={ value => this.returnTel(value['formattedValue'],'orderPhone')}/>
                         </div>
                     </li>
                     <li>
                         <label>* 聯絡地址</label>
                         <div className="input-box select">
-                            <select name="city" value={formObject['city'] || ""} onChange={ this.handleChange.bind(this) }>
+                            <select name="orderCity" value={formObject['orderCity'] || ""} onChange={ this.handleChange.bind(this) }>
                                 <option value="">請選擇縣市</option>
                                 {
                                     Object.keys(county_area).map( item => {
@@ -100,13 +98,13 @@ class PurchaseInfo extends React.Component{
                             </select>
                         </div>
                         <div className="input-box select">
-                            <select name="district" value={formObject['district'] || ""} onChange={ this.handleChange.bind(this) }>
+                            <select name="orderDist" value={formObject['orderDist'] || ""} onChange={ this.handleChange.bind(this) }>
                                 <option value="">請選擇鄉鎮市區</option>
                                 {
-                                    formObject['city']!=undefined && formObject['city']!=""? (
-                                        Object.keys(county_area[formObject['city']]).map( (item,i) => {
+                                    formObject['orderCity']!=undefined && formObject['orderCity']!=""? (
+                                        Object.keys(county_area[formObject['orderCity']]).map( (item,i) => {
                                             return(
-                                                <option key={`district_${i}`} value={item} data-zipcode={county_area[formObject['city']][item]} >{item}</option>
+                                                <option key={`district_${i}`} value={item} data-zipcode={county_area[formObject['orderCity']][item]} >{item}</option>
                                             )
                                         })
                                     ):(
@@ -116,7 +114,7 @@ class PurchaseInfo extends React.Component{
                             </select>
                         </div>
                         <div className="input-box">
-                            <input type="text" name="address" value={ formObject['address'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
+                            <input type="text" name="orderAddress" value={ formObject['orderAddress'] || "" } onChange={ this.handleChange.bind(this) } placeholder=""/>
                         </div>
                     </li>
                 </ul>
@@ -148,28 +146,28 @@ class PurchaseInfo extends React.Component{
             case 'area_code':
                 formObject = { 
                     ...formObject,
-                    [name]: val,
-                    phone: "" 
+                    [name]     : val,
+                    orderPhone : "" 
                 };
                 break;
             
-            case 'city':
+            case 'orderCity':
                 const districtArr = county_area[val];
                 const district = Object.keys(districtArr)[0];
                 const zipcode = districtArr[district];
                 formObject = { 
                     ...formObject,
-                    [name]: val,
-                    zipcode: zipcode,
-                    district: district
+                    [name]       : val,
+                    orderZipCode : zipcode,
+                    orderDist    : district
                 };
                 break;
             
-            case 'district':
+            case 'orderDist':
                 formObject = { 
                     ...formObject,
-                    [name]: val,
-                    zipcode: e.target.options[e.target.selectedIndex].dataset.zipcode 
+                    [name]       : val,
+                    orderZipCode : e.target.options[e.target.selectedIndex].dataset.zipcode 
                 };
                 break;
 

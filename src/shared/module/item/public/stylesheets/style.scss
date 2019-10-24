@@ -31,6 +31,9 @@ figure {
                 width: 100%;
                 margin-bottom: 10px;
                 display: flex;
+                &:first-child{
+                    min-height: 50px;
+                }
                 &:last-child{
                     margin-bottom: 0px;
                 }

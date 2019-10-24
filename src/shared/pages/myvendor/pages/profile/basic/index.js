@@ -33,7 +33,7 @@ class Index extends React.Component{
             <React.Fragment>
                 <section className="admin-content-row">
                     <article className="admin-content-title">
-                        <h4>商品圖片</h4>
+                        <h4>帳號資料</h4>
                         {
                             !update &&
                                 <button type="button" className="update-button" onClick={()=>this.setState({update: true}) }>

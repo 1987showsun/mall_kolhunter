@@ -3,6 +3,9 @@ import queryString from 'query-string';
 import dayjs from 'dayjs';
 import API from './apiurl';
 
+// Actions
+import { catchError } from './catchErrorStatus';
+
 // Lang
 import lang from '../public/lang/lang.json';
 
@@ -106,6 +109,7 @@ export function listProduct( pathname,query={}, data={} ) {
 
                 return res;
             }
+            catchError(res['response'])(dispatch);
             return res['response'];
         });
     }
@@ -129,7 +133,8 @@ export function deleteProduct( id ){
             if( !res.hasOwnProperty('response') ){
                 return res;
             }
-            return res['response']
+            catchError(res['response'])(dispatch);
+            return res['response'];
         });
     }
 }
@@ -141,11 +146,15 @@ export function vinfo( method, formObject ){
         const url = `${API()['myvendor']['vinfo']}`;
         const data = formObject || {};
         return Axios({method,url,data}).then( res => {
-            dispatch({
-                type: "VENDOR_INFO",
-                payload: res['data']
-            })
-            return res;
+            if( !res.hasOwnProperty('response') ){
+                dispatch({
+                    type: "VENDOR_INFO",
+                    payload: res['data']
+                })
+                return res;
+            }
+            catchError(res['response'])(dispatch);
+            return res['response'];
         });
     }
 }

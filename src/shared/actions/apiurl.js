@@ -13,23 +13,24 @@ axios.interceptors.response.use(function (response) {
     const status = error['response']['status'];
     switch( status ){
         case 401:
-            const jwt_type = JSON.parse(error['response']['config']['data'])['jwt_type'];
-            const jwt_token = sessionStorage.getItem(`jwt_${jwt_type}`);
-            const url = API()[`my${jwt_type}`]['refreshToken']
+            alert('該帳號已有其他電腦正在使用，請重新登入廠商管理系統。');
+            // const jwt_type = JSON.parse(error['response']['config']['data'])['jwt_type'];
+            // const jwt_token = sessionStorage.getItem(`jwt_${jwt_type}`);
+            // const url = API()[`my${jwt_type}`]['refreshToken']
         
-            return axios({
-                method: 'get',
-                url: url,
-                data: {},
-                headers:{
-                    authorization: jwt_token
-                }
-            }).then( res => {
-                const token = res['data'];
-                sessionStorage.setItem(`jwt_${jwt_type}`,token);
-                error.response.config.headers['authorization'] = token;
-                return axios(error.response.config);
-            });
+            // return axios({
+            //     method: 'get',
+            //     url: url,
+            //     data: {},
+            //     headers:{
+            //         authorization: jwt_token
+            //     }
+            // }).then( res => {
+            //     const token = res['data'];
+            //     sessionStorage.setItem(`jwt_${jwt_type}`,token);
+            //     error.response.config.headers['authorization'] = token;
+            //     return axios(error.response.config);
+            // });
         
         default:
             return Promise.reject(error);

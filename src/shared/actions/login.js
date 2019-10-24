@@ -67,6 +67,25 @@ export function signout( clearSessionStorageKey ) {
     }
 }
 
+// 清除Token
+export function clearToken( type ) {
+    return (dispatch) => {
+        let selectType = "VENDOR_SIGNIN_SUCCESS";
+        if( type=='account' ){
+            selectType= "ACCOUNT_SIGNIN_SUCCESS";
+        }
+
+        dispatch({
+            type  : selectType,
+            token : null
+        })
+
+        sessionStorage.removeItem(`jwt_${type}`);
+
+        return true;
+    }
+}
+
 // 忘記密碼
 export function forget( pathname, query, data={} ){
     return (dispatch) => {

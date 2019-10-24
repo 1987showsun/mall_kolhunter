@@ -8,6 +8,7 @@ import Header from './common/header';
 
 // Actions
 import { vinfo } from '../../actions/myvendor';
+import { clearToken } from '../../actions/login';
 
 //Stylesheets
 import './public/css/style.scss';
@@ -20,8 +21,8 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            navOpenStatus: 'close',
-            token: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : "",
+            token        : typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : "",
+            navOpenStatus: 'close'
         }
     }
 
@@ -75,9 +76,13 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
-        const { token } = this.state;
+        const { history } = this.props;
+        const { token }   = this.state;
+        console.log(token);
         if( token=='' || token==null || token==undefined ){
-            this.props.history.goBack();
+            history.push({
+                pathname: '/vendor'
+            })
         }else{
             this.props.dispatch( vinfo() );
         }

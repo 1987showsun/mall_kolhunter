@@ -1,14 +1,11 @@
-import React from 'react';
 import $ from 'jquery';
+import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from "react-router-dom";
 
 //Routes
 import routers from './routers';
-import MyVendor from './pages/myvendor';
-import MyAccount from './pages/myaccount';
-import MyStore from './pages/mystore';
 
 //Components
 import Header from './components/common/header/header';
@@ -91,7 +88,7 @@ class Layout extends React.Component{
         }
         
         if( pathnameComparison || searchComparison ){
-            $('#root').css({ scrollTop: 0 });
+            $('#root').scrollTop(0);
         }
     }
 }

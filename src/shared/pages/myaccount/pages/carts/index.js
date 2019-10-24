@@ -17,7 +17,7 @@ import Confirm from '../../../../module/confirm';
 import Loading from '../../../../module/loading/mallLoading';
 
 // Actions
-import { cartsProductList } from '../../../../actions/myaccount';
+import { cartsProductList, cartsCount } from '../../../../actions/myaccount';
 import { paymentAddOrder } from '../../../../actions/payment';
 import { getCartID } from '../../../../actions/common';
 
@@ -218,6 +218,7 @@ class Index extends React.Component{
                                     const returnBody = payMethod=='cc'? res['data']['body'] : "";
                                     // 要回新一組 cartID
                                     this.props.dispatch( getCartID() ).then( cartRes => {
+                                        this.props.dispatch( cartsCount() );
                                         switch( payMethod ){
                                             case 'atm':
                                                 // 成功後導頁

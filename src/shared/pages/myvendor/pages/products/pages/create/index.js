@@ -148,7 +148,7 @@ class Index extends React.Component{
         const { history } = this.props;
         const { profile } = this.state;
         // 檢查配額
-        if( profile['remainQuantity']<=0 ){
+        if( profile['remainQuantity']<0 ){
             history.push({
                 pathname: '/myvendor/planform/list'
             })

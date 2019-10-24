@@ -1,10 +1,10 @@
-const webpack           = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer      = require('autoprefixer');
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const webpack            = require('webpack');
+const ExtractTextPlugin  = require('extract-text-webpack-plugin');
+const autoprefixer       = require('autoprefixer');
+const CopyWebpackPlugin  = require("copy-webpack-plugin");
 const { InjectManifest } = require('workbox-webpack-plugin');
-const CompressionPlugin = require("compression-webpack-plugin");
-const nodeExternals = require('webpack-node-externals');
+const CompressionPlugin  = require("compression-webpack-plugin");
+const nodeExternals      = require('webpack-node-externals');
 
 const keyName= {};
 let SETUP= {
@@ -33,11 +33,13 @@ const browserConfig = {
     rules: [
       {
         test: [/\.svg$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-        loader: "file-loader",
-        options: {
-          name: "public/media/[name].[ext]",
-          publicPath: url => url.replace(/public/, "")
-        }
+        use: [
+          {
+            loader: 'url-loader',
+            options: { limit: 40000 }
+          },
+          "image-webpack-loader"
+        ]
       },
       {
         test: /\.(css|sass|scss)$/,
@@ -103,12 +105,13 @@ const serverConfig = {
     rules: [
       {
         test: [/\.svg$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-        loader: "file-loader",
-        options: {
-          name: "public/media/[name].[ext]",
-          publicPath: url => url.replace(/public/, ""),
-          emit: false
-        }
+        use: [
+          {
+            loader: 'url-loader',
+            options: { limit: 40000 }
+          },
+          "image-webpack-loader"
+        ]
       },
       {
         test: /\.(css|sass|scss)$/,

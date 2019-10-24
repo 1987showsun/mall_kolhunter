@@ -1,10 +1,10 @@
-const webpack           = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer      = require('autoprefixer');
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const webpack            = require('webpack');
+const ExtractTextPlugin  = require('extract-text-webpack-plugin');
+const autoprefixer       = require('autoprefixer');
+const CopyWebpackPlugin  = require("copy-webpack-plugin");
 const { InjectManifest } = require('workbox-webpack-plugin');
-const CompressionPlugin = require("compression-webpack-plugin");
-const nodeExternals = require('webpack-node-externals');
+const CompressionPlugin  = require("compression-webpack-plugin");
+const nodeExternals      = require('webpack-node-externals');
 
 const keyName= {};
 let SETUP= {
@@ -30,19 +30,11 @@ const browserConfig = {
     path: __dirname,
     filename: "./public/bundle.js"
   },
-  //devtool: "cheap-module-source-map",
   module: {
     rules: [
       {
         test: [/\.svg$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
         use: [
-          // {
-          //   loader: "file-loader",
-          //   options: {
-          //     name: "public/media/[name].[ext]",
-          //     publicPath: url => url.replace(/public/, "")
-          //   }
-          // },
           {
             loader: 'url-loader',
             options: { limit: 40000 }
@@ -113,20 +105,11 @@ const serverConfig = {
     libraryTarget: "commonjs2"
   },
   externals: [nodeExternals()],
-  //devtool: "cheap-module-source-map",
   module: {
     rules: [
       {
         test: [/\.svg$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
         use: [
-          // {
-          //   loader: "file-loader",
-          //   options: {
-          //     name: "public/media/[name].[ext]",
-          //     publicPath: url => url.replace(/public/, ""),
-          //     emit: false
-          //   }
-          // },
           {
             loader: 'url-loader',
             options: { limit: 40000 }

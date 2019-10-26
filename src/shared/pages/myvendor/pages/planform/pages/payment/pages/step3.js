@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 
 // Mudoles
 import Table from '../../../../../../../module/table';
+import Loading from '../../../../../../../module/loading';
 
 // Actions
+import { vinfo } from '../../../../../../../actions/myvendor';
 import { ordersInfo } from '../../../../../../../actions/payment';
 
 // Lang
@@ -17,6 +19,7 @@ class Step3 extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
             orderID: "",
             resultInfo: {},
             tableHeadData: [
@@ -42,7 +45,7 @@ class Step3 extends React.Component{
 
     render(){
 
-        const { tableBodyData, tableHeadData, resultInfo } = this.state;
+        const { loading, tableBodyData, tableHeadData, resultInfo } = this.state;
 
         return(
             <React.Fragment>
@@ -70,12 +73,12 @@ class Step3 extends React.Component{
                             </li>
                             <li>
                                 <label>購買時間</label>
-                                <div>{dayjs(resultInfo['verifyTimeMs'] || "").format('YYYY/MM/DD')}</div>
+                                <div>{ resultInfo['verifyTimeMs']!=undefined? dayjs(resultInfo['verifyTimeMs']).format('YYYY/MM/DD'):"" }</div>
                             </li>
                             <li>
                                 <label>付款狀態</label>
                                 <div>
-                                    <span className={`payStatus ${resultInfo['orderStatus']}`}>
+                                    <span className={`payStatus ${resultInfo['orderStatus']}`} style={{marginLeft: '0px'}}>
                                         { lang['zh-TW']['orderStatus'][resultInfo['orderStatus']] || "" }
                                     </span>
                                 </div>
@@ -100,16 +103,20 @@ class Step3 extends React.Component{
                                     </li>
                             }
                         </ul>
+                        <Loading loading={loading} />
                     </div>
                 </section>
                 <section className="admin-content-row">
                     <article className="admin-content-title">
                         <h4>所購買方案</h4>
                     </article>
-                    <Table 
-                        tableHeadData= {tableHeadData}
-                        tableBodyData= {tableBodyData}
-                    />
+                    <div className="admin-content-container">
+                        <Table 
+                            tableHeadData= {tableHeadData}
+                            tableBodyData= {tableBodyData}
+                        />
+                        <Loading loading={loading} />
+                    </div>
                 </section>
                 <section className="admin-content-row">
                     <article className="admin-content-title">
@@ -117,6 +124,7 @@ class Step3 extends React.Component{
                     </article>
                     <div className="admin-content-container">
                         我是同意書
+                        <Loading loading={loading} />
                     </div>
                 </section>
             </React.Fragment>
@@ -133,32 +141,42 @@ class Step3 extends React.Component{
                 pathname: '/myvendor/planform/list'
             })
         }else{
-            clearTimeout( this.delayCallAPI );
-            this.delayCallAPI = setTimeout(()=>{
-                this.props.dispatch( ordersInfo(pathname, {...queryString.parse(search)}, {memberType: 'vendor'}) ).then( res => {
-                    switch( res['status'] ){
-                        case 200:
+            this.setState({
+                loading: true
+            },()=>{
+                clearTimeout( this.delayCallAPI );
+                this.delayCallAPI = setTimeout(()=>{
+                    // 取得訂單資訊
+                    this.props.dispatch( ordersInfo(pathname, {...queryString.parse(search)}, {memberType: 'vendor'}) ).then( res => {
+                        this.setState({
+                            loading: false
+                        },()=>{
+                            switch( res['status'] ){
+                                case 200:
+                                    const tableBodyData = res['data']['orderDetail'].map( item => {
+                                        return {
+                                            id         : item['purchaseToken'] || "",
+                                            title      : item['program']['programTitle']  || "",
+                                            programNum : item['programNum']  || 0,
+                                            total      : item['program']['price']*item['programNum']  || 0
+                                        }
+                                    })
 
-                            const tableBodyData = res['data']['orderDetail'].map( item => {
-                                return {
-                                    id: item['purchaseToken'] || "",
-                                    title: item['program']['programTitle']  || "",
-                                    programNum: item['programNum']  || 0,
-                                    total: item['program']['price']*item['programNum']  || 0
-                                }
-                            })
+                                    this.setState({
+                                        resultInfo: res['data'],
+                                        tableBodyData
+                                    },()=>{
+                                        this.props.dispatch( vinfo() );
+                                    })
+                                    break;
 
-                            this.setState({
-                                resultInfo: res['data'],
-                                tableBodyData
-                            })
-                            break;
-
-                        default:
-                            break;
-                    }
-                });
-            },3000);
+                                default:
+                                    break;
+                            }
+                        })
+                    });
+                },1000);
+            })
         }
     }
 }

@@ -87,23 +87,29 @@ class Index extends React.Component{
     }
 
     isCheckLogin = () => {
+
         const { match, location } = this.props;
         const { DoYouHaveType, DoYouHaveClass, token } = this.state;
         const { pathname, search } = location;
         const pathnameArray = pathname.split('/').filter( item => item!='' );
-        const searchArray = queryString.parse(search);
-        const goBack = searchArray['back'] || false;
-        let _type = pathnameArray[0];
-        let _class = match['params']['class'] || 'signin';
+        let _type       = pathnameArray[0];
+        let _class      = match['params']['class'] || 'signin';
+
         if( token==undefined || token==null || token=='' ){
             if( !DoYouHaveType.includes(_type) ||!DoYouHaveClass.includes(_class) ){
                 this.props.history.push(`/${_type}`);
             }
         }else{
-            if( goBack=='true' || goBack==true ){
-                this.props.history.goBack();
+            const goTo   = queryString.parse(search)['to']   || "";
+            const goBack = queryString.parse(search)['back'] || false;
+            if( goTo!="" ){
+                this.props.history.push(`/my${_type}/${goTo}`);
             }else{
-                this.props.history.push(`/my${_type}`);
+                if( goBack=='true' || goBack==true ){
+                    this.props.history.goBack();
+                }else{
+                    this.props.history.push(`/my${_type}`);
+                }
             }
         }
     }

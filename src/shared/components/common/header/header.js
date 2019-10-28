@@ -55,6 +55,8 @@ class Header extends React.Component{
         const { accountInfo, token, cartsCount } = this.state;
         const { history, match, location } = this.props;
         const pathname = location['pathname'].split('/').filter( item => item!='' );
+        const cartPathUrl   = token!="" && token!=undefined? '/myaccount/carts' :'/account?to=carts';
+        const ordersPathUrl = token!="" && token!=undefined? '/myaccount/orders':'/account?to=orders';
 
         return(
             <header data-content="center">
@@ -125,10 +127,11 @@ class Header extends React.Component{
                                 )
                             }
                             <li className={`${pathname[1]=='carts'}`}>
-                                <Link to="/myaccount/carts">
+                                <Link to={cartPathUrl}>
                                     <span className="icon-block">
                                         <FontAwesomeIcon icon={faShoppingCart} />
                                         {
+                                            // 購物車商品為0時不顯示
                                             cartsCount!=0 &&
                                                 <span className="icon-block-number">{cartsCount}</span>
                                         }
@@ -139,7 +142,7 @@ class Header extends React.Component{
                                 </Link>
                             </li>
                             <li className={`${pathname[1]=='orders'}`}>
-                                <Link to="/myaccount/orders">
+                                <Link to={ordersPathUrl}>
                                     <span className="icon-block">
                                         <FontAwesomeIcon icon={faTruck} />
                                     </span>

@@ -26,11 +26,11 @@ class Format extends React.Component{
                     type: 'text',
                     title: '型號 / 尺寸 / 顏色'
                 },
-                {
-                    key: 'sku',
-                    type: 'text',
-                    title: '商品編號'
-                },
+                // {
+                //     key: 'sku',
+                //     type: 'text',
+                //     title: '商品編號'
+                // },
                 {
                     key: 'quantity',
                     type: 'number',

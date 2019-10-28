@@ -46,10 +46,11 @@ export default class Depiction extends React.Component{
                         <h4>商品敘述</h4>
                         {
                             status=="none-auth" &&
-                                <button type="button" className="update-button" onClick={()=>this.setState({update: true}) }>
-                                    <i><FontAwesomeIcon icon={faPencilAlt}/></i>
-                                    編輯
-                                </button>
+                                !update &&
+                                    <button type="button" className="update-button" onClick={()=>this.setState({update: true}) }>
+                                        <i><FontAwesomeIcon icon={faPencilAlt}/></i>
+                                        編輯
+                                    </button>
                         }
                     </article>
                     <div className="admin-content-container">

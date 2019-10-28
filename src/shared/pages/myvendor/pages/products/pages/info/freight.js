@@ -15,24 +15,24 @@ class Freight extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            loading: props.loading || false,
-            status: props.status,
-            update: false,
-            id: props.id,
-            deliveries: props.deliveries,
-            data : [],
+            update       : false,
+            loading      : props.loading || false,
+            status       : props.status,
+            id           : props.id,
+            deliveries   : props.deliveries,
+            data         : [],
             tableHeadKey : [
                 {
-                    key: 'name',
-                    type: 'text',
-                    title: '貨運名稱',
-                    option: []
+                    key        : 'name',
+                    type       : 'text',
+                    title      : '貨運名稱',
+                    option     : []
                 },
                 {
-                    key: 'deliveryCost',
-                    type: 'number',
-                    title: '費用',
-                    className: 'number'
+                    key        : 'deliveryCost',
+                    type       : 'number',
+                    title      : '費用',
+                    className  : 'number'
                 }
             ]
         }
@@ -41,11 +41,10 @@ class Freight extends React.Component{
     static getDerivedStateFromProps(props, state) {
 
         let deliveries = [];
-        let data = state.data;
+        let data       = state.data;
         if( props.deliveries!=state.deliveries ){
             deliveries= [ ...props.deliveries ];
         }
-
         if( props.data!=undefined && data.length==0 ){
             data = [ ...props.data ];
         }
@@ -53,33 +52,15 @@ class Freight extends React.Component{
         return{
             deliveries,
             data,
-            id: props.id,
-            loading: props.loading || false,
-            status: props.status,
+            id       : props.id,
+            loading  : props.loading || false,
+            status   : props.status,
         }
     }
 
     render(){
 
-        const { 
-            loading,
-            id,
-            tableHeadKey,
-            data,
-            deliveries,
-            update
-        } = this.state;
-        const reorganizationBodyData = data.map( (item,i) => {
-            const findThing = deliveries.findIndex( (findItem) => {
-                return findItem['id']==item['deliveryID'];
-            });
-            if( findThing!=-1 ){
-                return{
-                    name: deliveries[findThing]['name'],
-                    deliveryCost: item['deliveryCost']
-                }
-            }
-        }).filter( filterItem => filterItem!=undefined );
+        const { loading, id, tableHeadKey, data, deliveries, update } = this.state;
 
         return(
             <React.Fragment>
@@ -96,18 +77,23 @@ class Freight extends React.Component{
                             <div className="admin-content-container">     
                                 <Table 
                                     tableHeadData= {tableHeadKey}
-                                    tableBodyData= {reorganizationBodyData}
+                                    tableBodyData= {data.map( (item,i) => {
+                                        return{
+                                            name         : item['deliveryName'],
+                                            deliveryCost : item['deliveryCost']
+                                        }
+                                    })}
                                 />
                                 <Loading loading={loading} />
                             </div>
                         </section>
                     ):(
                         <FormFreight 
-                            id={id}
-                            data={data}
-                            deliveries={deliveries}
-                            returnCancel={this.returnCancel.bind(this)}
-                            returnResult={this.returnResult.bind(this)}
+                            id           = {id}
+                            data         = {data}
+                            deliveries   = {deliveries}
+                            returnCancel = {this.returnCancel.bind(this)}
+                            returnResult = {this.returnResult.bind(this)}
                         />
                     )
                 }
@@ -122,8 +108,15 @@ class Freight extends React.Component{
     }
 
     returnResult = ( data ) => {
+        const { deliveries } = this.state;
         this.setState({
-            data,
+            data: data.map( item => {
+                const comparison = deliveries.filter( filterItem => item['deliveryID']==filterItem['id'] );
+                return{
+                    ...item,
+                    deliveryName: comparison.length>0? comparison[0]['name']:"",
+                }
+            }),
             update: false,
         })
     }

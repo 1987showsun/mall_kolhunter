@@ -95,6 +95,10 @@ export default class InputTable extends React.Component{
                                                                         刪除
                                                                     </button>
                                                             }
+                                                            {
+                                                                headItem['type'] == 'html' &&
+                                                                    headItem['innHTHLDom']
+                                                            }
                                                         </div>
                                                     )
                                                 })
@@ -130,6 +134,10 @@ export default class InputTable extends React.Component{
                 this.props.onChangeData(body);
             }
         })
+    }
+
+    onHandleSelectChange = (e) => {
+
     }
 
     handleMemberChange = ( name, val, b_idx ) => {

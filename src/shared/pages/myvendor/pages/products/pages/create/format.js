@@ -134,7 +134,6 @@ class Format extends React.Component{
                 loading: true
             },()=>{
                 this.props.dispatch( createProduct( { id, spec: data}, step, method ) ).then( res => {
-                    console.log('step',step,':',res['data'] );
                     this.setState({
                         loading: false,
                     },()=>{    
@@ -153,12 +152,6 @@ class Format extends React.Component{
                     });
                 });
             });
-
-            // this.setState({
-            //     msg: []
-            // },()=>{                        
-            //     this.props.returnSuccess({ step: step+1 });
-            // })
         }else{
             this.setState({
                 msg: checkRequiredFilter

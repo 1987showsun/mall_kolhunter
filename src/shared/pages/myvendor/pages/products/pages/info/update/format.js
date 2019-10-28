@@ -9,6 +9,9 @@ import InputTable from '../../../../../../../module/inputTable';
 // Actions
 import { createProduct } from '../../../../../../../actions/myvendor';
 
+// Lang
+import lang from '../../../../../../../public/lang/lang.json';
+
 class Format extends React.Component{
 
     constructor(props){
@@ -17,6 +20,8 @@ class Format extends React.Component{
             loading: false,
             id: props.id,
             status: props.status,
+            msg: [],
+            required: ['name','sku','quantity'],
             data: props.data,
             inputTableHeadKey : [
                 {
@@ -46,11 +51,7 @@ class Format extends React.Component{
 
     render(){
 
-        const {
-            loading,
-            data, 
-            inputTableHeadKey
-        } = this.state;
+        const { msg, loading, data, inputTableHeadKey } = this.state;
 
         return(
             <section className="admin-content-row">
@@ -69,6 +70,10 @@ class Format extends React.Component{
                             tableBodyData={data}
                             onChangeData={this.onChangeData.bind(this)}
                         />
+                        {
+                            msg.length!=0 &&
+                                <div className="admin-form-msg">{msg}</div>
+                        }
                         <ul className="action-ul">
                             <li><button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button></li>
                             <li><button className="basic">更新</button></li>
@@ -102,21 +107,37 @@ class Format extends React.Component{
 
     handleSubnit = (e) => {
         e.preventDefault();
-        const { id, data } = this.state;
-        const updateForm = { id, spec: data }
-        this.setState({
-            loading: true
-        })
-        this.props.dispatch( createProduct(updateForm , 3 , 'put' ) ).then( res => {
-            switch( res['status'] ){
-                case 200:
-                    this.props.returnResult(data);
+        const method = 'put';
+        const { required, id, data } = this.state;
+        const checkRequiredFilter = data.length==0? [<div key='0' className="items">{ lang['zh-TW']['note'][`spec required`] }</div>] : required.filter( keys => {
+            return data.some( someItem => {
+                if( someItem[keys]=='' ){
+                    return true;
+                }
+            });
+        }).map( keys => <div key={keys} className="items">{ lang['zh-TW']['note'][`${keys} required`] }</div>);
+
+        if( checkRequiredFilter.length==0 ){
+            this.setState({
+                loading: true
+            },()=>{
+                this.props.dispatch( createProduct({id, spec: data}, 3, method) ).then( res => {
                     this.setState({
                         loading: false
+                    },()=>{
+                        switch( res['status'] ){
+                            case 200:
+                                this.props.returnResult(data);
+                                break;
+                        }
                     })
-                    break;
-            }
-        });
+                });
+            });
+        }else{
+            this.setState({
+                msg: checkRequiredFilter
+            })
+        }
     }
 }
 

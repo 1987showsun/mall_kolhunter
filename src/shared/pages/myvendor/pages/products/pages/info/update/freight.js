@@ -9,40 +9,37 @@ import InputTable from '../../../../../../../module/inputTable';
 // Actions
 import { createProduct } from '../../../../../../../actions/myvendor';
 
+// Lang
+import lang from '../../../../../../../public/lang/lang.json';
+
 class Freight extends React.Component{
 
     constructor(props){
-
-        const options = props.deliveries.map( (item,i)=> {
-            return{
-                value: item['id'],
-                name: item['name']
-            }
-        })
-
         super(props);
         this.state = {
-            loading: false,
-            id: props.id,
-            deliveries: props.deliveries,
-            data : props.data,
+            loading           : false,
+            msg               : [],
+            required          : ['deliveryID','deliveryCost'],
+            id                : props.id,
+            deliveries        : props.deliveries,
+            data              : props.data,
             inputTableHeadKey : [
                 {
-                    key: 'deliveryID',
-                    type: 'select',
-                    title: '貨運名稱',
-                    options: options
+                    key         : 'deliveryID',
+                    type        : 'select',
+                    title       : '貨運名稱',
+                    options     : []
                 },
                 {
-                    key: 'deliveryCost',
-                    type: 'number',
-                    title: '費用',
-                    className: 'number'
+                    key         : 'deliveryCost',
+                    type        : 'number',
+                    title       : '費用',
+                    className   : 'number'
                 },
                 {
-                    key: 'action',
-                    type: 'action',
-                    title: '其他'
+                    key         : 'action',
+                    type        : 'action',
+                    title       : '其他'
                 }
             ]
         }
@@ -50,12 +47,20 @@ class Freight extends React.Component{
 
     render(){
 
-        const { 
-            loading,
-            inputTableHeadKey,
-            data
-        } = this.state;
-
+        const { loading, msg, deliveries, inputTableHeadKey, data } = this.state;
+        const initOption = {
+            value: "",
+            name : "請選擇運送方式",
+        }
+        inputTableHeadKey['0']['options'] = [
+            initOption,
+            ...deliveries.map( (item,i)=> {
+                return{
+                    value : item['id'],
+                    name  : item['name']
+                }
+            })
+        ]
         return(
             <section className="admin-content-row">
                 <article className="admin-content-title">
@@ -68,11 +73,19 @@ class Freight extends React.Component{
                 <div className="admin-content-container">     
                     <form onSubmit={this.handleSubnit.bind(this)}>
                         <InputTable 
-                            loading= {loading}
-                            tableHeadData= {inputTableHeadKey}
-                            tableBodyData= {data}
-                            onChangeData= {this.onChangeData.bind(this)}
+                            loading       = {loading}
+                            tableHeadData = {inputTableHeadKey}
+                            tableBodyData = {data}
+                            onChangeData  = {(data)=>{
+                                this.setState({
+                                    data
+                                })
+                            }}
                         />
+                        {
+                            msg.length>0 &&
+                                <div className="admin-form-msg">{msg}</div>
+                        }
                         <ul className="action-ul">
                             <li><button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button></li>
                             <li><button className="basic">更新</button></li>
@@ -82,49 +95,58 @@ class Freight extends React.Component{
             </section>
         );
     }
-
-    componentWillUnmount(){
-        
-    }
-
-    onChangeData = ( data ) => {
-        this.setState({
-            data
-        })
-    }
     
     addCondition = () => {
-        let { data, deliveries } = this.state;
-        data = [
-            ...data, 
-            {
-                deliveryID: deliveries[0]['id'],
-                deliveryCost: "0"
-            }
-        ]
         this.setState({
-            data
+            data: [
+                ...this.state.data,
+                {
+                    deliveryID    : "",
+                    deliveryCost  : 0
+                }
+            ]
         })
     }
 
     handleSubnit = (e) => {
         e.preventDefault();
-        const { id, data } = this.state;
-        const updateForm = { id, deliveries: data };
-        this.setState({
-            loading: true
-        })
-        this.props.dispatch( createProduct( updateForm , 5 , 'put' ) ).then( res => {
-            switch( res['status'] ){
-                case 200:
-                    const result = data;
-                    this.props.returnResult( result );
+        const { required, id, data } = this.state;
+        const checkRequiredFilter = data.length==0? [<div key='0' className="items">{ lang['zh-TW']['note'][`deliveries required`] }</div>]:required.filter( keys => {
+            return data.some( someItem => {
+                if( someItem[keys]=='' ){
+                    return true;
+                }
+            });
+        }).map( keys => <div key={keys} className="items">{ lang['zh-TW']['note'][`${keys} required`] }</div>);
+
+        if( checkRequiredFilter.length==0 ){
+            this.setState({
+                loading: true
+            },()=>{
+                this.props.returnResult( data );
+                this.setState({
+                    loading: false
+                });
+                this.props.dispatch( createProduct({ id, deliveries: data }, 5, 'put') ).then( res => {
                     this.setState({
                         loading: false
+                    },()=>{
+                        switch( res['status'] ){
+                            case 200:
+                                this.props.returnResult( data );
+                                break;
+
+                            default:
+                                break;
+                        }
                     })
-                    break;
-            }
-        });
+                });
+            });
+        }else{
+            this.setState({
+                msg: checkRequiredFilter
+            })
+        }
     }
 }
 

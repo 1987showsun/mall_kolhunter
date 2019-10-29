@@ -3,6 +3,9 @@ import toaster from 'toasted-notes';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 
+// Modules
+import Loading from '../../../../../../../module/loading';
+
 // Actions
 import { orderInfoProductDeliveryStatus } from '../../../../../../../actions/myvendor';
 
@@ -14,13 +17,15 @@ class DeliveryUpdate extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading: false,
+            msg: [],
             selectUpdateFormObject: props.selectUpdateFormObject
         }
     }
 
     render(){
 
-        const { selectUpdateFormObject } = this.state;
+        const { loading, msg, selectUpdateFormObject } = this.state;
 
         return(
             <div className="small-popup">
@@ -31,10 +36,6 @@ class DeliveryUpdate extends React.Component{
                     </div>
                     <form onSubmit={this.handleSubmit.bind(this)}>
                         <ul className="table-row-list">
-                            <li>
-                                <label>商品編號</label>
-                                <div>{selectUpdateFormObject['specSku'] || "N/A"}</div>
-                            </li>
                             <li>
                                 <label>運送狀態</label>
                                 <div>
@@ -58,10 +59,15 @@ class DeliveryUpdate extends React.Component{
                                 </div>
                             </li>
                         </ul>
+                        {
+                            msg.length!=0 &&
+                                <div className="admin-form-msg">{msg}</div>
+                        }
                         <ul className="action-ul">
                             <li><button type="button" className="cancel" onClick={this.handleCancel.bind(this)}>取消</button></li>
                             <li><button type="submit" className="basic">更新</button></li>
                         </ul>
+                        <Loading loading={loading} />
                     </form>
                 </div>
             </div>
@@ -81,25 +87,41 @@ class DeliveryUpdate extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { location } = this.props;
+        const { location }               = this.props;
         const { selectUpdateFormObject } = this.state;
-        const { pathname, search } = location;
-        this.props.dispatch( orderInfoProductDeliveryStatus(pathname,{...queryString.parse(search)},selectUpdateFormObject) ).then( res => {
-            switch( res['status']) {
-                case 200:
-                    toaster.notify(
-                        <div className={`toaster-status success`}>更新成功</div>
-                    ,{
-                        position: 'bottom-right',
-                        duration: 4000
-                    })
-                    this.props.returnOpen(false);
-                    break;
+        const { pathname, search }       = location;
+        const { deliveryCode }           = selectUpdateFormObject;
 
-                default:
-                    break;
-            }
-        });
+        if( deliveryCode!="" && deliveryCode!=undefined ){
+            this.setState({
+                loading: true
+            },()=>{
+                this.props.dispatch( orderInfoProductDeliveryStatus(pathname,{...queryString.parse(search)},selectUpdateFormObject) ).then( res => {
+                    this.setState({
+                        loading: false
+                    },()=>{
+                        switch( res['status']) {
+                            case 200:
+                                toaster.notify(
+                                    <div className={`toaster-status success`}>更新成功</div>
+                                ,{
+                                    position: 'bottom-right',
+                                    duration: 4000
+                                })
+                                this.props.returnOpen(false);
+                                break;
+
+                            default:
+                                break;
+                        }
+                    })
+                });
+            })
+        }else{
+            this.setState({
+                msg: [<div key="err" className="items">運送編號不得為空</div>]
+            })
+        }
     }
 
     handleCancel = () => {

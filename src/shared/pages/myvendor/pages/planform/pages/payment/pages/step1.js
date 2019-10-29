@@ -2,6 +2,9 @@ import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 
+// Modules
+import Loading from '../../../../../../../module/loading';
+
 // Actions
 import { contract } from '../../../../../../../actions/myvendor';
 
@@ -10,13 +13,14 @@ class Step1 extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading : false,
             contract: "",
         }
     }
 
     render(){
 
-        const { contract } = this.state;
+        const { loading, contract } = this.state;
 
         return(
             <React.Fragment>
@@ -26,21 +30,24 @@ class Step1 extends React.Component{
                     </article>
                     <div className="admin-content-container">
                         {contract}
+                        <Loading loading={loading}/>
                     </div>
                 </section>
-
-                <section className="admin-content-row">
-                    <div className="admin-content-action">
-                        <ul>
-                            <li>
-                                <button type="button" className="cancel" onClick={this.actionBtn.bind(this,'cancel')}>取消</button>
-                            </li>
-                            <li>
-                                <button type="button" className="basic" onClick={this.actionBtn.bind(this,'ok')}>確定，下一步</button>
-                            </li>
-                        </ul>
-                    </div>
-                </section>
+                {
+                    !loading &&
+                        <section className="admin-content-row">
+                            <div className="admin-content-action">
+                                <ul>
+                                    <li>
+                                        <button type="button" className="cancel" onClick={this.actionBtn.bind(this,'cancel')}>取消</button>
+                                    </li>
+                                    <li>
+                                        <button type="button" className="basic" onClick={this.actionBtn.bind(this,'ok')}>確定，下一步</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                }
             </React.Fragment>
         );
     }
@@ -61,18 +68,26 @@ class Step1 extends React.Component{
             if( programToken!=storageProgramToken ){
                 gotoBack();
             }else{
-                this.props.dispatch( contract(pathname,{...queryString.parse(search)}) ).then( res => {
-                    switch( res['status'] ){
-                        case 200:
-                            this.setState({
-                                contract: res['data']['contract']
-                            })
-                            break;
+                this.setState({
+                    loading: true
+                },()=>{
+                    this.props.dispatch( contract(pathname,{...queryString.parse(search)}) ).then( res => {
+                        this.setState({
+                            loading: false
+                        },()=>{
+                            switch( res['status'] ){
+                                case 200:
+                                    this.setState({
+                                        contract: res['data']['contract']
+                                    })
+                                    break;
 
-                        default:
-                            break;
-                    }
-                });
+                                default:
+                                    break;
+                            }
+                        })
+                    });
+                })
             }
         }
     }

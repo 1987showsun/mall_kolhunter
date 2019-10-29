@@ -18,7 +18,7 @@ class Form extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            required: ['bankAccountName','SocialID','bankName','bankCode','bankBranch','bankAccount'],
+            required: ['bankAccountName','socialID','bankName','bankCode','bankBranch','bankAccount'],
             msg: [],
             formObject: {
                 bankAccountName: props.data['bankAccountName'] || "",
@@ -34,9 +34,7 @@ class Form extends React.Component{
     }
 
     render(){
-
         const { msg, formObject } = this.state;
-
         return(
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <ul className="table-row-list">
@@ -135,11 +133,10 @@ class Form extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { location, history, match } = this.props;
+        const { location } = this.props;
         const { required, formObject } = this.state;
         const { pathname, search } = location;
         const checkRequiredFilter = checkRequired( required,formObject );
-
         if( checkRequiredFilter.length==0 ){
             // 填寫完整
             this.props.dispatch( mystoreBankInfoUpdate(pathname,{...queryString.parse(search)},formObject) ).then( res => {

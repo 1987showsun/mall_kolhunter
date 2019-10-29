@@ -55,6 +55,7 @@ class Atm extends React.Component{
                                 <label>匯款帳號</label>
                                 <div>{info['payAdditionalInfo']['VaccNo']}</div>
                             </li>
+                            <li>(請於訂單成立後24小時完成付款，若未完成付款訂單將會自動失效)</li>
                         </ul>
                     </section>
 

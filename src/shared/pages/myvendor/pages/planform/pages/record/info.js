@@ -32,6 +32,7 @@ class Info extends React.Component{
     render(){
 
         const { loading, info } = this.state;
+        console.log( info );
 
         return(
             <React.Fragment>
@@ -82,7 +83,7 @@ class Info extends React.Component{
                                             info[0]['verifyTimeMs']!=null? (
                                                 dayjs(info[0]['verifyTimeMs']).format('YYYY/MM/DD hh:mm:ss')
                                             ):(
-                                                'N/A'
+                                                '尚未付款'
                                             )
                                         }
                                     </div>
@@ -92,8 +93,28 @@ class Info extends React.Component{
                                     <div>{lang['zh-TW']['payment'][info[0]['payMethod']]}</div>
                                 </li>
                                 <li>
+                                    <label>折價券</label>
+                                    <div>
+                                        {
+                                            info[0]['orderDetail'][0]['couponCode']!=null? (
+                                                "已使用"
+                                            ):(
+                                                "未使用"
+                                            )
+                                        }
+                                    </div>
+                                </li>
+                                <li>
+                                    <label>折價金額</label>
+                                    <div><CurrencyFormat value={info[0]['discountAmount']} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+                                </li>
+                                <li>
                                     <label>帳單狀態</label>
                                     <div>{lang['zh-TW']['orderStatus'][info[0]['orderStatus']]}</div>
+                                </li>
+                                <li>
+                                    <label>實際金額</label>
+                                    <div><CurrencyFormat value={info[0]['amount']-info[0]['discountAmount']} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
                                 </li>
                                 {
                                     info[0]['payMethod']=='atm' &&

@@ -28,16 +28,19 @@ export default class Items extends React.Component{
                 <div className="order-head-wrap">
                     <input type="checkbox" name="order-info-switch" id={this.state.orderID} className="order-info-switch"/>
                     <label htmlFor={this.state.orderID} className="order-info-label">
-                        <span className="lable">訂單編號</span>{this.state.orderID}
+                        <ul>
+                            <li>
+                                <span className="lable">訂單編號</span>{this.state.orderID}
+                            </li>
+                            <li>
+                                <span className="lable">付款狀態</span>{lang['zh-TW']['orderStatus'][this.state.orderStatus]}
+                            </li>
+                        </ul>
                         <i className="icon">
                             <FontAwesomeIcon icon={faPlus} />
                         </i>
                     </label>
                     <ul className="table-row-list">
-                        <li>
-                            <label>付款狀態</label>
-                            <div>{ lang['zh-TW']['orderStatus'][this.state.orderStatus] }</div>
-                        </li>
                         <li>
                             <label>購買方式</label>
                             <div>{ lang['zh-TW']['payment'][this.state.payMethod] }</div>

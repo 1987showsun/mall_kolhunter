@@ -21,11 +21,6 @@ class Products extends React.Component{
             data: props.data,
             tableHeadKey : [
                 {
-                    key: 'specSku',
-                    type: 'text',
-                    title: '商品編號'
-                },
-                {
                     key: 'name',
                     type: 'text',
                     title: '商品名稱',

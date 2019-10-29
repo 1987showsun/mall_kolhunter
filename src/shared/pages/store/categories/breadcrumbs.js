@@ -24,14 +24,14 @@ export default class Breadcrumbs extends React.Component{
                         網紅店家
                     </li>
                 </ul>
-                <div className="input-box select">
+                {/* <div className="input-box select">
                     <select name="filterSort" value={filterSort} onChange={this.handleChangeSort.bind(this)}>
                         <option value="">商品總數由高到低</option>
                         <option value="">商品總數由低到高</option>
                         <option value="">總銷售額由高到低</option>
                         <option value="">總銷售額由低到高</option>
                     </select>
-                </div>
+                </div> */}
             </div>
         );
     }

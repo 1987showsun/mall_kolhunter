@@ -81,10 +81,15 @@
             "ontheway": "已出貨",
             "arrived": "抵達"
         },
+        "couponStatus": {
+            "normal": "可使用",
+            "used": "已使用"
+        },
         "transport": {
             "init": "處理中"
         },
         "note": {
+            "pay checkcode error": "付款失敗",
             "nickname required": "暱稱必填",
             "username required": "會員帳號必填",
             "password required": "密碼必填",
@@ -283,10 +288,15 @@
             "ontheway": "Transporting",
             "arrived": "Arrived"
         },
+        "couponStatus": {
+            "normal": "Be usable",
+            "used"  : "Used"
+        },
         "transport": {
             "init": "Under processing"
         },
         "note": {
+            "pay checkcode error": "Pay checkcode error",
             "nickname required": "Nickname required",
             "username required": "Username required",
             "password required": "Password required",

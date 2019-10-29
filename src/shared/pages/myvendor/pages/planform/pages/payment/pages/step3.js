@@ -95,7 +95,7 @@ class Step3 extends React.Component{
                                         <label>虛擬繳款帳號</label>
                                         {
                                             resultInfo['payAdditionalInfo']!=null?(
-                                                <div>{resultInfo['payAdditionalInfo']['BankCode']} {resultInfo['payAdditionalInfo']['VaccNo']}</div>
+                                                <div>{resultInfo['payAdditionalInfo']['BankCode']} {resultInfo['payAdditionalInfo']['VaccNo']} (請於訂單成立後24小時完成付款，若未完成付款訂單將自動失效)</div>
                                             ):(
                                                 <div></div>
                                             )

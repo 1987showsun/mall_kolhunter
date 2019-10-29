@@ -75,13 +75,13 @@ class Index extends React.Component{
                         location= {location}
                     />
                 </section>
-                <section className="container-unit">
+                {/* <section className="container-unit">
                     代碼
                     <div className="unit-head">
                         <h3>優惠券 / 折扣碼</h3>
                     </div>
                     <Coupon />
-                </section> 
+                </section>  */}
                 <section className="container-unit">
                     {/* 付款方式 */}
                     <div className="unit-head">
@@ -211,38 +211,46 @@ class Index extends React.Component{
                         },()=>{
                             switch( res['status'] ){
                                 case 200:
-                                    // 刪除現有的購物車 cartID
-                                    localStorage.removeItem('cartID');
-                                    const orderID = res['data']['orderID'];
-                                    const payMethod = res['data']['payMethod'];
+                                    const payMethod  = res['data']['payMethod'];
                                     const returnBody = payMethod=='cc'? res['data']['body'] : "";
-                                    // 要回新一組 cartID
-                                    this.props.dispatch( getCartID() ).then( cartRes => {
-                                        this.props.dispatch( cartsCount() );
-                                        switch( payMethod ){
-                                            case 'atm':
-                                                // 成功後導頁
-                                                history.push({
-                                                    pathname: '/myaccount/payment/success',
-                                                    search: queryString.stringify({
-                                                        orderID,
-                                                        payMethod
+                                    if( returnBody!='pay checkcode error' || returnBody=="" ){
+                                        // 刪除現有的購物車 cartID
+                                        localStorage.removeItem('cartID');
+                                        const orderID    = res['data']['orderID'];
+                                        // 要回新一組 cartID
+                                        this.props.dispatch( getCartID() ).then( cartRes => {
+                                            this.props.dispatch( cartsCount() );
+                                            switch( payMethod ){
+                                                case 'atm':
+                                                    // 成功後導頁
+                                                    history.push({
+                                                        pathname: '/myaccount/payment/success',
+                                                        search: queryString.stringify({
+                                                            orderID,
+                                                            payMethod
+                                                        })
                                                     })
-                                                })
-                                                break;
+                                                    break;
 
-                                            case 'cc':
-                                                // 刪除現有的購物車 cartID
-                                                this.setState({
-                                                    returnBody
-                                                })
-                                                break;
+                                                case 'cc':
+                                                    // 刪除現有的購物車 cartID
+                                                    this.setState({
+                                                        returnBody
+                                                    })
+                                                    break;
 
-                                            default:
+                                                default:
 
-                                                break;
-                                        }
-                                    });
+                                                    break;
+                                            }
+                                        });
+                                    }else{
+                                        this.setState({
+                                            open: true,
+                                            method: 'alert',
+                                            popupMsg: `<div className="items">${lang['zh-TW']['note']['pay checkcode error']}</div>`
+                                        })
+                                    }
 
                                     break;
 

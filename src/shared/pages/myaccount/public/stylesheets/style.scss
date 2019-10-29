@@ -402,6 +402,15 @@ $userCoverMobile_W: 200px;
                 display: inline-flex;
             }
         }
+        &.msg{
+            align-content: center;
+            justify-content: center;
+            color: var(--red);
+            .items{
+                width: auto;
+                display: inline-flex;
+            }
+        }
     }
 }
 
@@ -417,6 +426,16 @@ $userCoverMobile_W: 200px;
         padding: 10px;
         position: relative;
         cursor: pointer;
+        font-size: 0.9em;
+        ul{
+            display: flex;
+            flex-wrap: wrap;
+            li{
+                padding-right: 10px;
+                display: inline-flex;
+                align-items: center;
+            }
+        }
         .lable{
             display: flex;
             &::after{
@@ -427,9 +446,6 @@ $userCoverMobile_W: 200px;
             color: #333;
             position: absolute;
             right: 10px;
-        }
-        @media ( max-width: 420px ) {
-            font-size: 0.9em;
         }
     }
     .order-info-switch{

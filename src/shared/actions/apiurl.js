@@ -142,6 +142,9 @@ export default function API( NODE_ENV ){
             'fansorders': `${API_ADDRESS(NODE_ENV)}/v1/store/profit`, // get 店舖分潤資訊 
             'profitInfo': `${API_ADDRESS(NODE_ENV)}/v1/store/profit` // get 分潤資訊
         },
+        'coupon': {
+            'check': `${API_ADDRESS(NODE_ENV)}/v1/pay/coupon`
+        },
         'delivery': {
             'list': `${API_ADDRESS(NODE_ENV)}/v1/mall/deliveries` // get 運送方式
         },

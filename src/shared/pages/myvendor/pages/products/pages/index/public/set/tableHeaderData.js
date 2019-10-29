@@ -41,7 +41,7 @@ export const tableHeadKey = [
     {
         key: 'price',
         type: 'number',
-        title: '售價'
+        title: '原價'
     },
     {
         key: 'sellPrice',

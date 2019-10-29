@@ -79,6 +79,23 @@ export function ordersInfo( pathname,query,data ){
     }
 }
 
+// 檢查 coupon 是否可以使用
+export function ordersCoupon( pathname,query={},data={} ){
+    return(dispatch) => {
+        const method= 'get';
+        const initQuery = {};
+        const search= queryString.stringify({ ...initQuery, ...query });
+        const url= `${API()['coupon']['check']}${search!=''? `?${search}`: ''}`;
+
+        return Axios({ method, url, data }).then(res => {
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response'];
+        }).catch( err => err['response'] );
+    }
+}
+
 const Axios = ( api ) => {
 
     let jwtKeyName = "";

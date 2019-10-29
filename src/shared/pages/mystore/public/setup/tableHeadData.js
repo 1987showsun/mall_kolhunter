@@ -23,11 +23,6 @@ export default {
             path: '/detail'
         },
         {
-            key: 'brand',
-            type: 'text',
-            title: '品牌'
-        },
-        {
             key: 'price',
             type: 'number',
             title: '售價'

@@ -35,16 +35,14 @@ class Step2 extends React.Component{
             popupMsg              : [],
             required              : required,
             profile               : props.profile,
+            vendorBuyPlanform     : JSON.parse(sessionStorage.getItem('vendorBuyPlanform')),
             mergeFormObject       : {},
             formObject            : {
                 memberType          : "vendor"
             },
             paymentFormObject     : {},
             invoiceFormObject     : {},
-            newebpayFormObject    : {
-                url                 : "",
-                val                 : ""
-            },
+            couponFormObject      : {},
             returnBody            : ""
         }
     }
@@ -57,8 +55,11 @@ class Step2 extends React.Component{
 
     render(){
 
-        const vendorBuyPlanform= JSON.parse(sessionStorage.getItem('vendorBuyPlanform'));
-        const { open, method, popupMsg, profile, returnBody } = this.state;
+        const { location } = this.props;
+        const { open, method, popupMsg, profile, returnBody, vendorBuyPlanform, couponFormObject } = this.state;
+        const discountAmount       = couponFormObject['discountAmount'] || 0;
+        const beforeDiscountAmount = vendorBuyPlanform['price'] * vendorBuyPlanform['programNum'];
+        const afterDiscountAmount  = beforeDiscountAmount - discountAmount;
 
         return(
             <React.Fragment>
@@ -80,9 +81,12 @@ class Step2 extends React.Component{
                                             <div>{vendorBuyPlanform['programNum']}</div>
                                         </li>
                                         <li>
+                                            <label>原價</label>
+                                            <div><CurrencyFormat value={beforeDiscountAmount} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+                                        </li>
+                                        <li>
                                             <label>應付金額</label>
-                                            <div><CurrencyFormat value={vendorBuyPlanform['price']*vendorBuyPlanform['programNum']} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
-                                            
+                                            <div><CurrencyFormat value={afterDiscountAmount} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
                                         </li>
                                     </ul>
                                 </div>
@@ -128,7 +132,22 @@ class Step2 extends React.Component{
                             <h4>代碼</h4>
                         </article>
                         <div className="admin-content-container">
-                            <Coupon />
+                            <Coupon 
+                                location = {location}
+                                returnHandleChange = { val => {
+                                    const { couponFormObject } = this.state;
+                                    const { couponCode, discountUnit, discountAmount } = val;
+                                    this.setState({
+                                        couponFormObject: {
+                                            ...couponFormObject,
+                                            couponCode      : couponCode,
+                                            discountUnit    : discountUnit,
+                                            discountAmount  : discountAmount
+                                        }
+                                    })
+                                    console.log(val);
+                                }}
+                            />
                         </div>
                     </section>
 
@@ -230,8 +249,15 @@ class Step2 extends React.Component{
 
     hanleSubmit = (e) => {
         e.preventDefault();
-        const { required, formObject, paymentFormObject, invoiceFormObject } = this.state;
-        const mergeFormObject = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
+
+        const { required, formObject, paymentFormObject, invoiceFormObject, couponFormObject } = this.state;
+        let   mergeFormObject = {};
+        if( couponFormObject['couponCode']==undefined || couponFormObject['couponCode']=="" ){
+            mergeFormObject = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
+        }else{
+            mergeFormObject = { ...formObject, ...paymentFormObject, ...invoiceFormObject, couponCode: couponFormObject['couponCode'] };
+        }
+        //const mergeFormObject = { ...formObject, ...paymentFormObject, ...invoiceFormObject, couponCode: couponFormObject['couponCode'] };
         const filterRequired = Object.keys(mergeFormObject).filter( keys => required.includes( keys ) );
         const checkRequiredFilter = checkRequired( filterRequired, mergeFormObject );
         if( checkRequiredFilter.length==0 ){
@@ -287,6 +313,13 @@ class Step2 extends React.Component{
                                 this.setState({
                                     returnBody
                                 })
+                                break;
+
+                            case 'COUPON':
+                                history.push({
+                                    pathname: `/myvendor/planform/payment/step3`,
+                                    search: `orderID=${orderID}`
+                                });
                                 break;
 
                             default:

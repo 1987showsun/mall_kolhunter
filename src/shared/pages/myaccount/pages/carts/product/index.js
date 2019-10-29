@@ -52,7 +52,7 @@ class Index extends React.Component{
                                     data= {item}
                                     location= {location}
                                     updateData= {this.updateData.bind(this)}
-                                    actionBtn= {this.actionBtn.bind(this)}
+                                    actionBtn= {this.removeItems.bind(this)}
                                 />
                             )
                         })
@@ -93,16 +93,18 @@ class Index extends React.Component{
         })
     }
 
-    actionBtn = ( method,selectedTtem ) => {
-        const cartToken = localStorage.getItem('cartID');
-        const { location } = this.props;
-        const { pathname, search } = location;
+    removeItems = ( method,selectedTtem ) => {
+        const cartToken                 = localStorage.getItem('cartID');
+        const { location }              = this.props;
+        const { pathname, search }      = location;
+        const { specToken, storeToken } = selectedTtem;
+
         this.setState({
             loading: true
         },()=>{
             switch( method ){
                 case 'remove':
-                    const data = { cartToken: cartToken, specToken: selectedTtem['specToken'] };
+                    const data = { cartToken, specToken, storeToken };
                     this.props.dispatch( removeCartItem( pathname, queryString.parse(search), data ) ).then( res => {
                         this.setState({
                             loading: false

@@ -23,7 +23,7 @@ export default class StoreItem extends React.Component{
                     <div className="figcaption-row" data-content="space-between">
                         <ul className="figcaption-row-list">
                             <li data-content="space-between">
-                                <div className="label">品項數</div>
+                                <div className="label">商品總數</div>
                                 <div className="value">
                                     <CurrencyFormat value={data['productCount']} displayType={'text'} thousandSeparator={true} />
                                 </div>

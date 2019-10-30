@@ -24,6 +24,7 @@ if( keyName['NODE_ENV']=='development' ){
 }
 
 const browserConfig = {
+  mode: 'production',
   entry: "./src/browser/index.js",
   output: {
     path: __dirname,
@@ -93,6 +94,7 @@ const browserConfig = {
 };
 
 const serverConfig = {
+  mode: 'production',
   entry: "./src/server/index.js",
   target: "node",
   output: {

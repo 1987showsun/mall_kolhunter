@@ -1,17 +1,17 @@
-import $                           from 'jquery';
-import React                       from 'react';
-import queryString                 from 'query-string';
-import { connect }                 from 'react-redux';
+import $                                 from 'jquery';
+import React                             from 'react';
+import queryString                       from 'query-string';
+import { connect }                       from 'react-redux';
 import { Route, Switch, Redirect, Link } from "react-router-dom";
 import { FontAwesomeIcon }               from '@fortawesome/react-fontawesome';
 import { faQuestion }                    from '@fortawesome/free-solid-svg-icons';
 
 //Routes
-import routers                     from './routers';
+import routers                           from './routers';
 
 //Components
-import Header                      from './components/common/header/header';
-import Footer                      from './components/common/footer/footer';
+import Header                            from './components/common/header/header';
+import Footer                            from './components/common/footer/footer';
 
 //Stylesheets
 import './public/stylesheets/common.scss';
@@ -63,12 +63,6 @@ class Layout extends React.Component{
                             location= {location}
                         />
                 }
-                {/* <div className="all-help">
-                    <Link to="/vendor/leading">
-                        <FontAwesomeIcon icon={faQuestion} />
-                        <span className="text">想上架</span>
-                    </Link>
-                </div> */}
             </React.Fragment>
         );
     }

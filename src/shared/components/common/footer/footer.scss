@@ -4,9 +4,11 @@ footer{
     display: flex;
     background: #EBEBEB;
     .footer-row{
-        padding: 25px 0px;
-        border-bottom: 1px solid #ccc;
+        margin-bottom : 20px;
+        padding       : 25px 0px;
+        border-bottom : 1px solid #ccc;
         &:last-child{
+            margin-bottom: 0px;
             border-bottom: none;
         }
         @media (max-width: 768px) {

@@ -1,6 +1,6 @@
-import Profile from './pages/profile';
-import Carts from './pages/carts';
-import Order from './pages/order';
+import Profile        from './pages/profile';
+import Carts          from './pages/carts';
+import Order          from './pages/order';
 import PaymentSuccess from './pages/payment';
 
 export default [

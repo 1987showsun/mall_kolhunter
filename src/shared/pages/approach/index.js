@@ -1,17 +1,17 @@
-import React from 'react';
+import React       from 'react';
 import queryString from 'query-string';
-import { Link } from 'react-router-dom';
+import { Link }    from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Helmet } from "react-helmet";
+import { Helmet }  from "react-helmet";
 
 // Components
-import Search from './search';
+import Search      from './search';
 import Breadcrumbs from './breadcrumbs';
 
 // Modules
 import CoverSlider from '../../module/coverSlider';
-import BlockList from '../../module/blockList';
-import StoreItem from '../../module/item/store';
+import BlockList   from '../../module/blockList';
+import StoreItem   from '../../module/item/store';
 
 // Actions
 import { ssrApproachProduct, mallApproachProduct } from '../../actions/categories';

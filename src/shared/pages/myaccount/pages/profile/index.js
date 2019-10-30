@@ -1,14 +1,14 @@
-import React from 'react';
-import toaster from 'toasted-notes';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPencilAlt }from '@fortawesome/free-solid-svg-icons';
+import React                 from 'react';
+import toaster               from 'toasted-notes';
+import { connect }           from 'react-redux';
+import { FontAwesomeIcon }   from '@fortawesome/react-fontawesome';
+import { faPencilAlt }       from '@fortawesome/free-solid-svg-icons';
 
 // Components
-import Info from './info';
-import Formcover from './update/cover';
-import Forminfo from './update/info';
-import FormPWD from './update/pwd';
+import Info                  from './components/info';
+import Formcover             from './components/update/cover';
+import Forminfo              from './components/update/info';
+import FormPWD               from './components/update/pwd';
 
 class Index extends React.Component{
 

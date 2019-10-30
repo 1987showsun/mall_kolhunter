@@ -1,16 +1,16 @@
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
-import { Helmet } from "react-helmet";
+import React        from 'react';
+import queryString  from 'query-string';
+import { connect }  from 'react-redux';
+import { Helmet }   from "react-helmet";
 
 // Components
-import Filter from './filter/';
-import Breadcrumbs from './breadcrumbs';
+import Filter      from './components/filter';
+import Breadcrumbs from './components/breadcrumbs';
 
 // Modules
-import Item from '../../module/item/product';
-import Loading from '../../module/loading/mallLoading';
-import BlockList from '../../module/blockList';
+import Item       from '../../module/item/product';
+import Loading    from '../../module/loading/mallLoading';
+import BlockList  from '../../module/blockList';
 import Pagination from '../../module/pagination';
 
 // Actions

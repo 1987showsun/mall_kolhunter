@@ -20,7 +20,7 @@ import VendorResetPWD from './vendor/resetPWD';
 import Logo from '../../public/images/logo2.png';
 
 // Stylesheets
-import './style.scss';
+import './public/stylesheets/style.scss';
 
 class Index extends React.Component{
 

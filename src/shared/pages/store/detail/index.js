@@ -1,19 +1,18 @@
-import React from 'react';
-import $ from 'jquery';
-import queryString from 'query-string';
-import CurrencyFormat from 'react-currency-format';
-import { Helmet } from "react-helmet";
-import { connect } from 'react-redux';
+import React              from 'react';
+import queryString        from 'query-string';
+import CurrencyFormat     from 'react-currency-format';
+import { Helmet }         from "react-helmet";
+import { connect }        from 'react-redux';
 
 // Components
-import Filter from './filter';
-import Breadcrumbs from './breadcrumbs';
+import Filter             from './components/filter';
+import Breadcrumbs        from './components/breadcrumbs';
 
 // Mudules
-import Item from '../../../module/item/product';
-import BlockList from '../../../module/blockList';
-import Loading from '../../../module/loading/mallLoading';
-import Pagination from '../../../module/pagination';
+import Item               from '../../../module/item/product';
+import BlockList          from '../../../module/blockList';
+import Loading            from '../../../module/loading/mallLoading';
+import Pagination         from '../../../module/pagination';
 
 // Actions
 import { ssrStoreDetail, storeProduct, storeInfo } from '../../../actions/store';
@@ -144,7 +143,7 @@ class Index extends React.Component{
 
     componentDidMount() {
         const { location, match } = this.props;
-        const { pathname, search } = location;
+        const { pathname } = location;
         this.setState({
             coverLoading: true
         },()=>{

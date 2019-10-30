@@ -1,11 +1,11 @@
-import React from 'react';
+import React             from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect }       from 'react-redux';
 
 // Pages
-import About from './about';
-import Privacy from './privacy';
-import Service from './service';
+import About             from './pages/about';
+import Privacy           from './pages/privacy';
+import Service           from './pages/service';
 
 // Stylesheets
 import './public/stylesheets/style.scss';

@@ -18,10 +18,10 @@ class Index extends React.Component{
         this.state = {
             token: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : "",
             mainTitle: {
-                profile: "會員設定",
-                carts: "我的購物車",
-                orders: "訂單查詢 / 退換貨",
-                payment: "付款資訊"
+                profile : "會員設定",
+                carts   : "我的購物車",
+                orders  : "訂單查詢 / 退換貨",
+                payment : "付款資訊"
             }
         }
     }

@@ -1,25 +1,25 @@
-import React from 'react';
-import axios from 'axios';
-import toaster from 'toasted-notes';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+import React                  from 'react';
+import axios                  from 'axios';
+import toaster                from 'toasted-notes';
+import queryString            from 'query-string';
+import { connect }            from 'react-redux';
 
 // Components
-import ProductWrap from './product';
-import Coupon from './coupon'; // 這階段未開製作
-import Payment from './payment';
-import Transports from './transport';
-import Invoice from './invoice';
-import Action from './action';
+import ProductWrap            from './components/product';
+import Coupon                 from './components/coupon'; // 這階段未開製作
+import Payment                from './components/payment';
+import Transports             from './components/transport';
+import Invoice                from './components/invoice';
+import Action                 from './components/action';
 
 // Modules
-import Confirm from '../../../../module/confirm';
-import Loading from '../../../../module/loading/mallLoading';
+import Confirm                from '../../../../module/confirm';
+import Loading                from '../../../../module/loading/mallLoading';
 
 // Actions
 import { cartsProductList, cartsCount } from '../../../../actions/myaccount';
-import { paymentAddOrder } from '../../../../actions/payment';
-import { getCartID } from '../../../../actions/common';
+import { paymentAddOrder }              from '../../../../actions/payment';
+import { getCartID }                    from '../../../../actions/common';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -172,11 +172,11 @@ class Index extends React.Component{
         
     handleSubmit = ( e ) => {
         
-        const { location, match, history } = this.props;
-        const { pathname, search } = location;
+        const { location, history } = this.props;
+        const { pathname, search }  = location;
         const { formObject, paymentFormObject, invoiceFormObject, required } = this.state;
-        const mergeFormObject = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
-        const filterRequired = Object.keys(mergeFormObject).filter( keys => required.includes( keys ) );
+        const mergeFormObject     = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
+        const filterRequired      = Object.keys(mergeFormObject).filter( keys => required.includes( keys ) );
         const checkRequiredFilter = checkRequired(filterRequired, mergeFormObject);
 
         if( checkRequiredFilter.length==0 ){

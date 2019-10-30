@@ -4,12 +4,14 @@ import { Helmet } from "react-helmet";
 import { connect } from 'react-redux';
 
 // Components
-import Breadcrumbs from './breadcrumbs';
-import BlockList from '../../../module/blockList';
-import Item from '../../../module/item/store';
+import Breadcrumbs from './components/breadcrumbs';
+
+// Modules
+import BlockList   from '../../../module/blockList';
+import Item        from '../../../module/item/store';
 
 // Actions
-import { storeList,ssrStoreList } from '../../../actions/store';
+import { ssrStoreList } from '../../../actions/store';
 
 const initQuery = {
     page: 1,

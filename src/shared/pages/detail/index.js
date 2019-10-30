@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
 
 // Components
-import Cover from './cover';
+import Cover from './components/cover';
 
 // Stylesheets
 import './public/stylesheets/style.scss';

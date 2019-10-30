@@ -1,20 +1,16 @@
-import $ from 'jquery';
-import React from 'react';
-import queryString from 'query-string';
-import { Helmet } from "react-helmet";
-import { connect } from 'react-redux';
+import React                  from 'react';
+import queryString            from 'query-string';
+import { Helmet }             from "react-helmet";
+import { connect }            from 'react-redux';
 
 // Components
-import Kv from './kv';
-import Store from './store';
-import Category from './category';
-import Product from './product';
+import Kv                     from './components/kv';
+import Store                  from './components/store';
+import Category               from './components/category';
+import Product                from './components/product';
 
 // Actions
-import { getHome } from '../../actions/home';
-
-// Stylesheets
-import './style.scss';
+import { getHome }            from '../../actions/home';
 
 class Home extends React.Component{
 

@@ -2,10 +2,10 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 // Pages
-import List from './list';
-import Info from './info';
-import Message from './message';
-import Return from './return';
+import List    from './pages/list';
+import Info    from './pages/info';
+import Message from './pages/message';
+import Return  from './pages/return';
 
 export default class Index extends React.Component{
     render(){

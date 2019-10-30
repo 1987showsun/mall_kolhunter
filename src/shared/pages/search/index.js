@@ -55,9 +55,8 @@ class Index extends React.Component{
 
     render(){
 
-        const { location, match } = this.props;
+        const { location } = this.props;
         const { current, total, loading, data, type, keyword } = this.state;
-        const query = location.search;
 
         return(
             <React.Fragment>
@@ -103,7 +102,6 @@ class Index extends React.Component{
                                 )
                             }
                             <Pagination
-                                
                                 total= {total}
                                 current= {current}
                                 location= {location}
@@ -158,9 +156,9 @@ class Index extends React.Component{
 
 const mapStateToProps = state => {
     return{
-        total: state.search.total,
-        current: state.search.current,
-        searchList: state.search.list
+        total       : state.search.total,
+        current     : state.search.current,
+        searchList  : state.search.list
     }
 }
 

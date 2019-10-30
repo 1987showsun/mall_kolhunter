@@ -26,33 +26,46 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            loading: false,
-            current: props.current,
-            total: props.total,
-            limit: props.limit,
-            data: props.list
+            loading    : false,
+            categories : [],
+            current    : props.current,
+            total      : props.total,
+            limit      : props.limit,
+            data       : props.list
         }
     }
 
     static getDerivedStateFromProps( props,state ) {
+
+        let categories = state.categories;
+        if( categories.length==0 ){
+            categories = props.categories
+        }
+
         return{
-            current: props.current,
-            total: props.total,
-            limit: props.limit,
-            data: props.list
+            categories,
+            current   : props.current,
+            total     : props.total,
+            limit     : props.limit,
+            data      : props.list
         }
     }
 
     render(){
         
         const { match, location, history } = this.props;
-        const { loading, current, limit, total, data } = this.state;
+        const { loading, categories, current, limit, total, data } = this.state;
+        const { main, sub }   = match['params'];
+        const mainTitleObject = categories.filter( filterItem => filterItem['id']==main );
+        const subTitleObject  = mainTitleObject[0]['children'].filter( filterItem => filterItem['id']==sub);
+        const mainTitle = mainTitleObject.length>0? mainTitleObject[0]['title']:"";
+        const subTitle  = subTitleObject.length>0?  subTitleObject[0]['title'] :"";
 
         return(
             <React.Fragment>
                 <Helmet encodeSpecialCharacters={false}>
-                    <title>{`網紅電商 - `}</title>
-                    <meta name="keywords" content={`網紅電商 - }`} />
+                    <title>{`網紅電商-${mainTitle},${subTitle}`}</title>
+                    <meta name="keywords" content={`網紅電商-${mainTitle},${subTitle} }`} />
                     <meta name="description" content={``} />
                 </Helmet>
                 <div className="row">
@@ -68,18 +81,24 @@ class Index extends React.Component{
                                 match= {match}
                                 location= {location}
                             />
-                            <BlockList className="product-card">
-                                {
-                                    data.map( item => {
-                                        return(
-                                            <li key={item['token']}>
-                                                {/* <Item path={`/approach/${item['token']}`} data={item}/> */}
-                                                <Item path={`/detail/${item['token']}`} data={item}/>
-                                            </li>
-                                        )
-                                    })
-                                }
-                            </BlockList>
+                            {
+                                data.length>0?(
+                                    <BlockList className="product-card">
+                                        {
+                                            data.map( item => {
+                                                return(
+                                                    <li key={item['token']}>
+                                                        <Item path={`/detail/${item['token']}`} data={item}/>
+                                                    </li>
+                                                )
+                                            })
+                                        }
+                                    </BlockList>
+                                ):(
+                                    !loading &&
+                                        <div className="list-nodata">該類別暫無任何商品</div>
+                                )
+                            }
                             <Pagination
                                 query= {{...queryString.parse(location['search'])}}
                                 current= {current}
@@ -132,10 +151,11 @@ class Index extends React.Component{
 
 const mapStateToProps = state => {
     return{
-        current: state.categories.current,
-        total: state.categories.total,
-        limit: state.categories.limit,
-        list: state.categories.list
+        categories : state.common.categoriesList,
+        current    : state.categories.current,
+        total      : state.categories.total,
+        limit      : state.categories.limit,
+        list       : state.categories.list
     }
 }
 

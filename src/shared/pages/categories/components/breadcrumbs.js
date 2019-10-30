@@ -25,7 +25,7 @@ class Breadcrumbs extends React.Component{
     render(){
 
         const { categories, formObject } = this.state;
-        const { location, match } = this.props;
+        const { match } = this.props;
         const mainId = match['params']['main'];
         const current = categories.filter( filterItem => filterItem['id']==mainId );
 

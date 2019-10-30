@@ -1,24 +1,19 @@
-import React from 'react';
-import queryString from 'query-string';
-import { Helmet } from "react-helmet";
-import { connect } from 'react-redux';
+import React             from 'react';
+import queryString       from 'query-string';
+import { Helmet }        from "react-helmet";
+import { connect }       from 'react-redux';
 
 // Components
-import Breadcrumbs from './components/breadcrumbs';
+import Breadcrumbs       from './components/breadcrumbs';
 
 // Modules
-import BlockList   from '../../../module/blockList';
-import Item        from '../../../module/item/store';
+import BlockList         from '../../../module/blockList';
+import Item              from '../../../module/item/store';
+import Pagination        from '../../../module/pagination';
+import Loading           from '../../../module/loading/mallLoading';
 
 // Actions
-import { ssrStoreList } from '../../../actions/store';
-
-const initQuery = {
-    page: 1,
-    limit: 30,
-    sort: "desc",
-    sortBy: "created"
-}
+import { ssrStoreList, storeList }  from '../../../actions/store';
 
 class Index extends React.Component{
 
@@ -29,20 +24,30 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            data: props.list
+            loading     : false,
+            data        : props.list,
+            total       : props.total,
+            limit       : props.limit,
+            current     : props.current,
+            totalPages  : props.totalPages
         }
     }
 
     static getDerivedStateFromProps( props,state ) {
         return{
-            data: props.list
+            data        : props.list,
+            total       : props.total,
+            limit       : props.limit,
+            current     : props.current,
+            totalPages  : props.totalPages
         }
     }
 
     render(){
 
-        const { match, location } = this.props;
-        const { data } = this.state;
+        const { location } = this.props;
+        const { search }   = location;
+        const { loading, data, total, current, limit, totalPages } = this.state;
 
         return(
             <React.Fragment>
@@ -66,6 +71,14 @@ class Index extends React.Component{
                                     })
                                 }
                             </BlockList>
+                            <Pagination
+                                query    = {{...queryString.parse(search)}}
+                                current  = {current}
+                                limit    = {limit}
+                                total    = {total}
+                                location = {location}
+                            />
+                            <Loading loading={loading}/>
                         </section>
                     </section>
                 </div>
@@ -74,16 +87,44 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
-        const { location } = this.props;
-        const query = { ...initQuery, ...queryString.parse(location['search']) };
-        const pathname = location['pathname'];
-        this.props.dispatch( ssrStoreList(pathname,query) );
+        this.callAPIFunction();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const prevLocation  = prevProps.location;
+        const { location }  = this.props;
+        if( location['search']!=prevLocation['search'] ){
+            this.callAPIFunction();
+        }
+    }
+
+    callAPIFunction = () => {
+        const { location }         = this.props;
+        const { pathname, search } = location;
+        this.setState({
+            loading: true
+        },() => {
+            this.props.dispatch( storeList(pathname, {...queryString.parse(search)}) ).then( res => {
+                this.setState({
+                    loading: false
+                },()=>{
+                    switch( res['status'] ){
+                        case 200:
+                            break;
+                    }
+                })
+            });
+        });
     }
 }
 
 const mapStateToProps = state => {
     return{
-        list: state.store.list
+        list        : state.store.list,
+        total       : state.store.total,
+        limit       : state.store.limit,
+        current     : state.store.current,
+        totalPages  : state.store.totalPages
     }
 }
 

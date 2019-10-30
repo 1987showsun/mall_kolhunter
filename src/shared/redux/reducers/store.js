@@ -19,10 +19,10 @@ export default function store(
         case 'STORE_STATUS':
             state = { 
                 ...state,
-                total: action.total,
-                limit: action.limit,
-                current: action.current,
-                totalPages: action.totalPages
+                total       : action.total,
+                limit       : action.limit,
+                current     : action.current,
+                totalPages  : action.totalPages
             }
             break;
 

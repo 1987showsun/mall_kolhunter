@@ -107,21 +107,23 @@ export default class Index extends React.Component{
         window.URL = window.URL || window.webkitURL;
         const { proportion } = this.state;
         let url = window.URL.createObjectURL(e.target.files[0]);
-        let win_w = this.state.width;
-        let win_h = this.state.height;
         const getWindowSize = () => {
-            win_w = $(window).width();
-            win_h = $(window).height();
+
+            const zoom   = 0.8;
+            let   win_w  = $(window).width();
+            let   win_h  = $(window).height();
+
             if( win_w>win_h ){
-                win_w = (win_h*( proportion[0]/proportion[1] )) * 0.8;
-                win_h = win_h * 0.8;
+                win_w = (win_h*( proportion[0]/proportion[1] )) * zoom;
+                win_h = win_h * zoom;
             }else{
-                win_w = win_w * 0.8;
-                win_h = (win_w/( proportion[0]/proportion[1] )) * 0.8;
+                win_h = (win_w/( proportion[0]/proportion[1] )) * zoom;
+                win_w = win_w * zoom;
             }
+
             this.setState({
-                width: win_w,
-                height: win_h
+                width  : win_w,
+                height : win_h
             })
         }
         getWindowSize();

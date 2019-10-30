@@ -49,8 +49,8 @@ class Item extends React.Component{
                             <div>{data['count']}</div>
                         </li>
                         <li>
-                            <label>運送方式</label>Ｎ
-                            <div>{`${data['deliveryName']}`}</div>
+                            <label>運送方式</label>
+                            <div>{`${data['deliveryName']} ${data['deliveryPrice']==0? "（免運）":`NT：$${data['deliveryPrice']}`}`}</div>
                         </li>
                         <li>
                             <label>小計</label>

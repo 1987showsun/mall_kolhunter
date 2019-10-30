@@ -42,11 +42,11 @@ export function recommendStore( pathname,query,data={} ){
 
                 const list = res['data'].map( item => {
                     return{
-                        id: item['id'],
-                        image: item['photo'],
-                        storeName: item['name'],
-                        productCount: item['productCount'] || 0,
-                        productTotal: item['productTotal'] || 0
+                        id           : item['id'],
+                        image        : item['photo'],
+                        storeName    : item['name'],
+                        productCount : item['productCount'] || 0,
+                        saleTotal    : item['saleTotal']    || 0
                     }
                 })
 

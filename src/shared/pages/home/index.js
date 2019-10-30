@@ -65,9 +65,9 @@ class Home extends React.Component{
         const { location, match } = this.props;
         const { pathname, search } = location;
 
-        if( kv.length==0 && store.length==0 && latest.length==0){
+        //if( kv.length==0 && store.length==0 && latest.length==0){
             this.props.dispatch( getHome(pathname,{...queryString.parse(search)}) );
-        }
+        //}
     }
 }
 

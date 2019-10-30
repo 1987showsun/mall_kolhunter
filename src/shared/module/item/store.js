@@ -31,7 +31,7 @@ export default class StoreItem extends React.Component{
                             <li data-content="space-between">
                                 <div className="label">累計銷量</div>
                                 <div className="value">
-                                    <CurrencyFormat value={data['productTotal']||0} displayType={'text'} thousandSeparator={true} />
+                                    <CurrencyFormat value={data['saleTotal']||0} displayType={'text'} thousandSeparator={true} />
                                 </div>
                             </li>
                         </ul>

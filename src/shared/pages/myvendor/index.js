@@ -78,7 +78,6 @@ class Index extends React.Component{
     componentDidMount() {
         const { history } = this.props;
         const { token }   = this.state;
-        console.log(token);
         if( token=='' || token==null || token==undefined ){
             history.push({
                 pathname: '/vendor'

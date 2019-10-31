@@ -206,7 +206,6 @@ class Depiction extends React.Component{
                 loading: true
             },()=>{
                 this.props.dispatch( createProduct( { id, descriptions: data}, step, method ) ).then( res => {
-                    console.log('step',step,':',res['data'] );
                     this.setState({
                         loading: false
                     },()=>{  
@@ -225,12 +224,6 @@ class Depiction extends React.Component{
                     });
                 });
             });
-
-            // this.setState({
-            //     msg: []
-            // },()=>{                        
-            //     this.props.returnSuccess({ step: step+1 });
-            // })
         }else{
             this.setState({
                 msg: checkRequiredFilter

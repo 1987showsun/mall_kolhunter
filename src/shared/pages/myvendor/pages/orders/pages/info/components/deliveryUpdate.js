@@ -17,8 +17,8 @@ class DeliveryUpdate extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            loading: false,
-            msg: [],
+            loading               : false,
+            msg                   : [],
             selectUpdateFormObject: props.selectUpdateFormObject
         }
     }
@@ -26,6 +26,18 @@ class DeliveryUpdate extends React.Component{
     render(){
 
         const { loading, msg, selectUpdateFormObject } = this.state;
+        
+        const deliveryStatusOptionFun = () => {
+            const keys       = Object.keys(lang['zh-TW']['deliveryStatus']);
+            const selected   = selectUpdateFormObject['deliveryStatus'];
+            const findIdx    = keys.findIndex( keyItem => selected==keyItem );
+            return keys.map( (keyItem,i) => {
+                if( i<findIdx ){
+                    return <option key={keyItem} value={keyItem} disabled>{ lang['zh-TW']['deliveryStatus'][keyItem] }</option>
+                }
+                return <option key={keyItem} value={keyItem}>{ lang['zh-TW']['deliveryStatus'][keyItem] }</option>
+            });
+        }
 
         return(
             <div className="small-popup">
@@ -41,23 +53,32 @@ class DeliveryUpdate extends React.Component{
                                 <div>
                                     <div className="input-box select">
                                         <select name="deliveryStatus" value={selectUpdateFormObject['deliveryStatus'] || 'init'} onChange={this.handleChange.bind(this)}>
-                                            {
-                                                Object.keys(lang['zh-TW']['deliveryStatus']).map( keys => {
-                                                    return <option key={keys} value={keys}>{ lang['zh-TW']['deliveryStatus'][keys] }</option>
-                                                })
-                                            }
+                                            {deliveryStatusOptionFun()}
                                         </select>
                                     </div>
                                 </div>
                             </li>
-                            <li>
-                                <label>運送編號</label>
-                                <div>
-                                    <div className="input-box">
-                                        <input type="text" name="deliveryCode" value={selectUpdateFormObject['deliveryCode'] || ""} onChange={this.handleChange.bind(this)} />
-                                    </div>
-                                </div>
-                            </li>
+                            {
+                                selectUpdateFormObject['deliveryStatus']=='prepare' &&
+                                    <li>
+                                        <label>運送編號</label>
+                                        <div>
+                                            <div className="input-box">
+                                                <input type="text" name="deliveryCode" value={selectUpdateFormObject['deliveryCode'] || ""} onChange={this.handleChange.bind(this)} />
+                                            </div>
+                                        </div>
+                                    </li>
+                            }
+                            {
+                                selectUpdateFormObject['deliveryStatus']=='ontheway' || selectUpdateFormObject['deliveryStatus']=='arrived'? (
+                                    <li>
+                                        <label>運送編號</label>
+                                        <div>{selectUpdateFormObject['deliveryCode'] || ""}</div>
+                                    </li>
+                                ):(
+                                    null
+                                )
+                            }
                         </ul>
                         {
                             msg.length!=0 &&

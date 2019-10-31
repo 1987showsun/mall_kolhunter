@@ -150,7 +150,6 @@ class Freight extends React.Component{
                 loading: true
             },()=>{
                 this.props.dispatch( createProduct( { id, deliveries: data}, step, method ) ).then( res => {
-                    console.log('step',step,':',res['data'] );
                     this.setState({
                         loading: false
                     },()=>{  
@@ -169,12 +168,6 @@ class Freight extends React.Component{
                     });
                 });
             });
-
-            // this.setState({
-            //     msg: []
-            // },()=>{
-            //     this.props.returnSuccess({ status: "success" });
-            // })
         }else{
             this.setState({
                 msg: checkRequiredFilter

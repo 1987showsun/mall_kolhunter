@@ -145,7 +145,6 @@ class Step2 extends React.Component{
                                             discountAmount  : discountAmount
                                         }
                                     })
-                                    console.log(val);
                                 }}
                             />
                         </div>

@@ -30,7 +30,7 @@ class Index extends React.Component{
                 <Items />
                 <Textarea 
                     defaultValue= {formObject['msg']}
-                    inputRef = { (tag)=> console.log(tag) }
+                    inputRef = { (tag)=> {}}
                 />
             </section>
         );

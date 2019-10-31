@@ -18,16 +18,6 @@ app.use(logger('dev'));
 app.use(cors());
 app.use(express.static("public"));
 
-app.use('/site/404', (req, res, next) =>{
-  res.status(404);
-  next();
-});
-
-app.use('/site/502', (req, res, next) =>{
-  res.status(502);
-  next();
-});
-
 app.all("*", (req, res, next) => {
   const NODE_ENV = process.env['NODE_ENV'];
   const store = configureStore();
@@ -113,6 +103,21 @@ app.all("*", (req, res, next) => {
       `);
     })
     .catch(next);
+});
+
+app.use('/site/404', (req, res, next) =>{
+  res.status(404);
+  next();
+});
+
+app.use('/site/502', (req, res, next) =>{
+  res.status(502);
+  next();
+});
+
+app.use((err, req, res, next) => {
+  res.status(500);
+  res.send('Something broke!');
 });
 
 // http

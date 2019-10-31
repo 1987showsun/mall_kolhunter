@@ -1,12 +1,9 @@
 import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faTruck }from '@fortawesome/free-solid-svg-icons';
 
 //Compoents
 import Basic from './components/basic';
-import Orderer from './components/orderer';
 import Recipient from './components/recipient';
 import Products from './components/product';
 
@@ -144,7 +141,7 @@ class Info extends React.Component{
 
     onRefundConfirm = (val) => {
         const { selectedRefund, info } = this.state;
-        const { id, refundStatus } = selectedRefund;
+        const { id } = selectedRefund;
         const { location } = this.props;
         const { pathname, search } = location;
         let data = {

@@ -85,7 +85,6 @@ class Index extends React.Component{
             loading: true
         },()=>{
             this.props.dispatch( updateCartProductItem( "",{},data ) ).then( res => {
-                //console.log( res );
                 this.setState({
                     loading: false
                 })

@@ -37,10 +37,7 @@ export default class Recipient extends React.Component{
     }
 
     render(){
-
         const { formObject } = this.state;
-        console.log( formObject );
-
         return(
             <React.Fragment>
                 <ul className="card-form-list">

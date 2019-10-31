@@ -4,11 +4,9 @@ npm install
 ```
 
 ### Run
-##### Development
+##### NPM START
 ```js
-npm run start-dev
-```
-##### finally
-```js
-npm run start
+npm run start-dev   '測試'
+npm run start-prod  '正式'
+npm run test        '自動化測試（未開發）'
 ```

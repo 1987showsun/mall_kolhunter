@@ -60,17 +60,17 @@ class Products extends React.Component{
             ],
             update: false,
             selectUpdateFormObject: {
-                deliveryCode: "",
-                deliveryStatus: "init"
+                deliveryCode     : "",
+                deliveryStatus   : "init"
             }
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return{
-            loading: props.loading,
-            info: props.info,
-            data: props.data
+            loading  : props.loading,
+            info     : props.info,
+            data     : props.data
         }
     }
 

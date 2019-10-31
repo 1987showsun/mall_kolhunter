@@ -30,10 +30,7 @@ class Info extends React.Component{
     }
 
     render(){
-
         const { loading, info } = this.state;
-        console.log( info );
-
         return(
             <React.Fragment>
                 <section className="admin-content-row">

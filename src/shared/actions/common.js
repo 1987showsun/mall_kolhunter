@@ -1,5 +1,6 @@
-import axios from 'axios';
-import API from './apiurl';
+import axios        from 'axios';
+import queryString  from 'query-string';
+import API          from './apiurl';
 
 export function deliveries() {
     return (dispatch) => {
@@ -19,8 +20,8 @@ export function categories(){
 
 export function getCartID(){
     return (dispatch) => {
-        const method = 'get';
-        const url = API()['shopping']['cartID'];
+        const method    = 'get';
+        const url       = API()['shopping']['cartID'];
         if( typeof window !== 'undefined' ){
             if( !localStorage.getItem('cartID') ){
                 return Axios({method,url,data:{}}).then( res => {
@@ -36,16 +37,25 @@ export function getCartID(){
     }
 }
 
-export function mallCategories(pathname,query){
+export function mallCategories(pathname,query={},data={}){
     return( dispatch,NODE_ENV )=>{
-        const method = 'get';
-        const url = API(NODE_ENV)['categories']['list'];
-        return Axios({method, url, data:{} }).then( res => {
-            dispatch({
-                type: "MALL_CATEGORIES_LIST",
-                list: res['data']
-            })
-            return res;
+        const method     = 'get';
+        const initQuery  = {};
+        const search     = queryString.stringify({ ...initQuery, ...query });
+        const url        = `${API(NODE_ENV)['categories']['list']}${search!=''? `?${search}`:''}`;
+        dispatch({
+            type: "MALL_CATEGORIES_LIST",
+            list: []
+        })
+        return Axios({method, url, data}).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                dispatch({
+                    type: "MALL_CATEGORIES_LIST",
+                    list: res['data'] || []
+                })
+                return res;
+            }
+            return res['response'];
         })
     }
 }

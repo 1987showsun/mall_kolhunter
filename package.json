@@ -4,9 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start-dev": "NODE_ENV=development webpack -w --mode development & NODE_ENV=development nodemon server.js --mode development",
-    "bundle": "NODE_ENV=production webpack -w --mode production",
-    "start": "NODE_ENV=production webpack --config ./webpack.prod.config.js & NODE_ENV=production nodemon server.js",
+    "start-dev": "NODE_ENV=development webpack -w --config webpack.dev.config.js  & nodemon server.js",
+    "start-prod": "NODE_ENV=production  webpack --config webpack.prod.config.js & nodemon server.js",
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

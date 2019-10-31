@@ -29,7 +29,7 @@ export default class Card extends React.Component{
                     <li>
                         <label>卡號</label>
                         <div className="input-box">
-                            <CurrencyFormat value={ formObject['cardno'] } format="#### #### #### ####" placeholder="#### #### #### ####" onValueChange={ value => {
+                            <CurrencyFormat value={ formObject['cardno'] } format="#### #### #### ####" placeholder="#### #### #### #### (僅限16位數字)" onValueChange={ value => {
                                 this.setState({
                                     formObject: { ...formObject, cardno: value['value'] }
                                 },()=>{
@@ -41,7 +41,7 @@ export default class Card extends React.Component{
                     <li>
                         <label>驗證碼</label>
                         <div className="input-box">
-                            <CurrencyFormat value={ formObject['cvc'] } format="###" placeholder="###" onValueChange={ value => {
+                            <CurrencyFormat value={ formObject['cvc'] } format="###" placeholder="### (僅限3位數字)" onValueChange={ value => {
                                 this.setState({
                                     formObject: { ...formObject, cvc: value['value'] }
                                 },()=>{
@@ -53,7 +53,7 @@ export default class Card extends React.Component{
                     <li>
                         <label>到期時間</label>
                         <div className="input-box">
-                            <CurrencyFormat value={ formObject['exp'] } format={this.cardExpiry} placeholder="YY/MM" onValueChange={ value => {
+                            <CurrencyFormat value={ formObject['exp'] } format={this.cardExpiry} placeholder="YY/MM (年/月)" onValueChange={ value => {
                                 this.setState({
                                     formObject: { ...formObject, exp: value['value'] }
                                 },()=>{

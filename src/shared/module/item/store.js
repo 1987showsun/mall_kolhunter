@@ -14,7 +14,7 @@ export default class StoreItem extends React.Component{
             <figure className="card">
                 <div className="img" data-round="true" >
                     <Link to={`${path || ""}`}></Link>
-                    <img src={data['image']} alt={data['storeName']} title={data['storeName']} />
+                    <img src={data['photo']} alt={data['storeName']} title={data['storeName']} />
                 </div>
                 <figcaption>
                     <div className="figcaption-row">

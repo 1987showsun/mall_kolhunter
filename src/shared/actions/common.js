@@ -78,7 +78,7 @@ export function mallDelivery(pathname,query){
             if( !res.hasOwnProperty('response') ){
                 dispatch({
                     type: "MALL_DELIVERY_LIST",
-                    list: res['data']
+                    list: res['data'] || []
                 })
                 return res;
             }

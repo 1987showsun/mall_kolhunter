@@ -117,7 +117,7 @@ class Depiction extends React.Component{
         const { data } = this.state;
         const size     = parseInt(files['size']);
         
-        if( size>800 ){
+        if( size>300 ){
             this.setState({
                 msg: [<div key="err" className="items">{lang['zh-TW']['note']['file exceeds 300KB size limit']}</div>]
             })

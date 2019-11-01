@@ -46,12 +46,12 @@ class Nav extends React.Component{
                         </Link>
                     </div>
                     <ul>
-                        <li>
+                        {/* <li>
                             <span className={`navBtn ${nowMainNavPathnameSet=='dashboard'}`}><i><FontAwesomeIcon icon={faChartBar}/></i>Dashbord<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
                             <ul>
                                 <li><NavLink className="subNavBtn" to="/myvendor/dashboard/analysis">整體分析</NavLink></li>
                             </ul>
-                        </li>
+                        </li>*/}
                         <li>
                             <span className={`navBtn ${nowMainNavPathnameSet=='products'}`}><i><FontAwesomeIcon icon={faBoxOpen}/></i>商品管理<i className="menu-submenu-arrow"><FontAwesomeIcon icon={faAngleUp}/></i></span>
                             <ul>

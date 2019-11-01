@@ -66,7 +66,8 @@ class Index extends React.Component{
                                         return (<Route key={routeItem['path']} {...routeItem} />);
                                     })
                                 }
-                                <Redirect to="/myvendor/dashboard/analysis" />
+                                {/* <Redirect to="/myvendor/dashboard/analysis" /> */}
+                                <Redirect to="/myvendor/products/list"/>
                             </Switch>
                         </div>
                     </main>

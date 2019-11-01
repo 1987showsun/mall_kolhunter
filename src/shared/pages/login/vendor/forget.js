@@ -21,7 +21,7 @@ class Forget extends React.Component{
         this.state = {
             open          : false,
             method        : "alert",
-            popupMsg      : "",
+            popupMsg      : [],
             required      : ['email'],
             formObject    : {
                 type        : 'vendor',

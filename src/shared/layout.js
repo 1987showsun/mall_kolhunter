@@ -13,6 +13,9 @@ import routers                           from './routers';
 import Header                            from './components/common/header/header';
 import Footer                            from './components/common/footer/footer';
 
+// Images
+import line                              from './public/images/icon/icons8-line-144.png';
+
 //Stylesheets
 import './public/stylesheets/common.scss';
 import './public/stylesheets/toasted.scss';
@@ -63,6 +66,15 @@ class Layout extends React.Component{
                             location= {location}
                         />
                 }
+                <div className="permanent-tool">
+                    <ul className="permanent-tool-list">
+                        <li>
+                            <a href="http://nav.cx/AalEgTs" target="_blank">
+                                <img src={line} alt="Mall Kolhunter line" title="Mall Kolhunter line" />
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </React.Fragment>
         );
     }

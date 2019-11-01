@@ -1,6 +1,6 @@
-import axios from 'axios';
-import queryString from 'query-string';
-import API from './apiurl';
+import axios         from 'axios';
+import queryString   from 'query-string';
+import API           from './apiurl';
 
 //Actions
 import { mallCategories } from './common';
@@ -93,7 +93,9 @@ export function getHome(NODE_ENV,pathname,query){
     return(dispatch) => {
         return kv(pathname,query)(dispatch,NODE_ENV).then( resKV => {
             return latest(pathname,query)(dispatch,NODE_ENV).then( resLatest => {
-                return recommendStore(pathname,query)(dispatch,NODE_ENV);
+                return recommendStore(pathname,query)(dispatch,NODE_ENV).then( res => {
+                    return mallCategories(pathname,query)(dispatch,NODE_ENV);
+                });
             })
         });
     }

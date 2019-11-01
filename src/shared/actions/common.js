@@ -2,19 +2,29 @@ import axios        from 'axios';
 import queryString  from 'query-string';
 import API          from './apiurl';
 
-export function deliveries() {
+export function deliveries(pathname,query={},data={}){
     return (dispatch) => {
-        const method = 'get';
-        const url = API()['delivery']['list'];
-        return Axios({method,url,data:{}});
+        const method   = 'get';
+        const url      = API()['delivery']['list'];
+        return Axios({method, url, data}).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response'];
+        }).catch( err => err['response'] );
     }
 }
 
-export function categories(){
+export function categories(pathname,query={},data={}){
     return (dispatch) => {
-        const method = 'get';
-        const url = API()['categories']['list'];
-        return Axios({method,url,data:{}});
+        const method   = 'get';
+        const url      = API()['categories']['list'];
+        return Axios({method, url, data}).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response'];
+        }).catch( err => err['response'] );
     }
 }
 
@@ -31,7 +41,7 @@ export function getCartID(){
                         return res;
                     }
                     return res['response'];
-                });
+                }).catch( err => err['response'] );
             }
         }
     }
@@ -56,7 +66,7 @@ export function mallCategories(pathname,query={},data={}){
                 return res;
             }
             return res['response'];
-        })
+        }).catch( err => err['response'] );
     }
 }
 
@@ -65,12 +75,15 @@ export function mallDelivery(pathname,query){
         const method = 'get';
         const url = API()['delivery']['list'];
         return Axios({method, url, data:{} }).then( res => {
-            dispatch({
-                type: "MALL_DELIVERY_LIST",
-                list: res['data']
-            })
-            return res;
-        })
+            if( !res.hasOwnProperty('response') ){
+                dispatch({
+                    type: "MALL_DELIVERY_LIST",
+                    list: res['data']
+                })
+                return res;
+            }
+            return res['response'];
+        }).catch( err => err['response'] );
     }
 }
 

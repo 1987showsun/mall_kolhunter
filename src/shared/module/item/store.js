@@ -14,11 +14,11 @@ export default class StoreItem extends React.Component{
             <figure className="card">
                 <div className="img" data-round="true" >
                     <Link to={`${path || ""}`}></Link>
-                    <img src={data['photo']} alt={data['storeName']} title={data['storeName']} />
+                    <img src={data['photo']} alt={data['name']} title={data['name']} />
                 </div>
                 <figcaption>
                     <div className="figcaption-row">
-                        <h3><Link to={`${path || ""}`} dangerouslySetInnerHTML={{__html: data['storeName']}} /></h3>
+                        <h3><Link to={`${path || ""}`} dangerouslySetInnerHTML={{__html: data['name']}} /></h3>
                     </div>
                     <div className="figcaption-row" data-content="space-between">
                         <ul className="figcaption-row-list">

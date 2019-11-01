@@ -49,7 +49,7 @@ class Cover extends React.Component{
 
     render(){
 
-        const { location, match } = this.props;
+        const { location } = this.props;
         const { lock, data, imageData, storeLoading, storeInfo, formObject } = this.state;
         const itemNumMax = data['spec'].filter( item => item['token']==formObject['specToken']);
 
@@ -158,10 +158,10 @@ class Cover extends React.Component{
                         <label>{lang['zh-TW']['label']['by store']}</label>
                         <div className="detail-store-wrap">
                             <div className="img">
-                                <img src={ storeInfo['photo']!=undefined? storeInfo['photo']: kolhunterlogo } alt={ storeInfo['name']!=undefined? storeInfo['name']: "Mall Kolhunter" } title="" />
+                                <img src={ storeInfo['photo']!=undefined? storeInfo['photo']: kolhunterlogo } alt={ storeInfo['name']!=undefined? storeInfo['name']: "網紅電商" } title="" />
                             </div>
                             <div className="name">
-                                <h3 dangerouslySetInnerHTML={{__html:storeInfo['name']!=undefined? storeInfo['name']: "Mall Kolhunter"}} />
+                                <h3 dangerouslySetInnerHTML={{__html:storeInfo['name']!=undefined? storeInfo['name']: "網紅電商"}} />
                             </div>
                             <Loading loading={storeLoading}/>
                         </div>

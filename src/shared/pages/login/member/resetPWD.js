@@ -1,37 +1,42 @@
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+import React                 from 'react';
+import queryString           from 'query-string';
+import { connect }           from 'react-redux';
+
+// Modules
+import Confirm               from '../../../module/confirm';
 
 // Actions
-import { resetPassword } from '../../../actions/login';
+import { resetPassword }     from '../../../actions/login';
 
 // Javascripts
-import { PWD } from '../../../public/javascripts/checkFormat';
+import { PWD, checkRequired }from '../../../public/javascripts/checkFormat';
 
 // Lang
-import lang from '../../../public/lang/lang.json';
+import lang                  from '../../../public/lang/lang.json';
 
 class ResetPWD extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            required: ['email','code','newPWD','newPWDChk'],
-            open: false,
-            msg: [],
-            formObject: {
-                type: "account",
-                email: queryString.parse(props.location.search)['email'] || "",
-                code: queryString.parse(props.location.search)['code'] || "",
-                newPWD: "",
-                newPWDChk: ""
+            required      : ['email','code','newPWD','newPWDChk'],
+            open          : false,
+            method        : 'alert',
+            popupMsg      : [],
+            msg           : [],
+            formObject    : {
+                type        : "account",
+                email       : queryString.parse(props.location.search)['email'] || "",
+                code        : queryString.parse(props.location.search)['code'] || "",
+                newPWD      : "",
+                newPWDChk   : ""
             }
         }
     }
 
     render(){
 
-        const { msg, formObject } = this.state;
+        const { open, method, popupMsg, msg, formObject } = this.state;
 
         return(
             <React.Fragment>
@@ -86,6 +91,13 @@ class ResetPWD extends React.Component{
                         </button>
                     </div>
                 </form>
+
+                <Confirm
+                    open         = {open}
+                    method       = {method}
+                    container    = {popupMsg}
+                    onCancel     = {this.onCancel.bind(this)}
+                />
             </React.Fragment>
         );
     }
@@ -102,24 +114,40 @@ class ResetPWD extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { location } = this.props;
-        const { pathname, search } = location;
+        const { location }             = this.props;
+        const { pathname, search }     = location;
         const { formObject, required } = this.state;
-        const checkRequired = required.filter( keys => formObject[keys]=="").map( keys => <div key={keys} className="items">{lang['zh-TW']['note'][`${keys} required`]}</div>);
-        const checkPWDFormat = PWD({ password: formObject['newPWD'] , confirm: formObject['newPWDChk'] });
+        const checkRequiredFilter      = checkRequired(required, formObject);
+        const checkPWDFormat           = PWD({ password: formObject['newPWD'] , confirm: formObject['newPWDChk'] });
 
-        if( checkRequired.length==0 ){
+        if( checkRequiredFilter.length==0 ){
             if( checkPWDFormat['status'] ){
-                this.props.dispatch( resetPassword(pathname,{...queryString.parse(search)},formObject) );
+                this.setState({
+                    loading: true
+                },()=>{
+                    this.props.dispatch( resetPassword(pathname,{...queryString.parse(search)},formObject) ).then( res => {
+                        this.setState({
+                            loading: false
+                        },()=>{
+                            switch( res['status'] ){
+                                case 200:
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        });
+                    });
+                });
             }else{
                 this.setState({
                     msg: [<div key={'PWDFormat'} className="items">{lang['zh-TW']['note'][checkPWDFormat['msg']]}</div>]
-                })
+                });
             }
         }else{
             this.setState({
-                msg: checkRequired
-            })
+                msg: checkRequiredFilter
+            });
         }
         
     }

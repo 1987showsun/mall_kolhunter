@@ -1,30 +1,30 @@
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+import React                 from 'react';
+import queryString           from 'query-string';
+import { connect }           from 'react-redux';
 
 // Modules
-import Confirm from '../../../module/confirm';
+import Confirm               from '../../../module/confirm';
 
 // Actions
-import { forget } from '../../../actions/login';
+import { forget }            from '../../../actions/login';
 
 // Lang
-import lang from '../../../public/lang/lang.json';
+import lang                  from '../../../public/lang/lang.json';
 
 class Forget extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            open: false,
-            method: "alert",
-            popupMsg: "",
-            required: ['email'],
-            formObject : {
-                type: 'account',
-                email: ""
+            open          : false,
+            method        : "alert",
+            popupMsg      : "",
+            required      : ['email'],
+            formObject    : {
+                type        : 'account',
+                email       : ""
             },
-            msg : [],
+            msg           : []
         }
     }
 
@@ -59,10 +59,10 @@ class Forget extends React.Component{
                     </div>
                 </form>
                 <Confirm
-                    open={open}
-                    method={method}
-                    container={popupMsg}
-                    onCancel={this.onCancel.bind(this)}
+                    open          = {open}
+                    method        = {method}
+                    container     = {popupMsg}
+                    onCancel      = {this.onCancel.bind(this)}
                 />
             </React.Fragment>
         );
@@ -90,13 +90,16 @@ class Forget extends React.Component{
                 switch( res['status'] ){
                     case 200:
                         this.setState({
-                            open: true,
-                            method: 'alert',
-                            popupMsg: "需求請求成功，將寄送更新密碼網址至註冊信箱"
+                            open        : true,
+                            method      : 'alert',
+                            popupMsg    : "需求請求成功，將寄送更新密碼網址至註冊信箱"
                         })
                         break;
 
                     default:
+                        this.setState({
+                            msg         : [<div className="items">{lang['zh-TW']['err']['system error']}</div>]
+                        })
                         break;
                 }
             });
@@ -109,8 +112,8 @@ class Forget extends React.Component{
 
     onCancel = () => {
         this.props.history.push({
-            pathname: '/account',
-            search: 'goto=home'
+            pathname     : '/account',
+            search       : 'goto=home'
         })
     }
 }

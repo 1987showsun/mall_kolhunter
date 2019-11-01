@@ -31,9 +31,7 @@ export function signin( form ) {
                 return res;
             }
             return res['response'];
-        }).catch( err => {
-            return err['response'];
-        })
+        }).catch( err => err['response'] );
     }
 }
 
@@ -47,9 +45,7 @@ export function signup( form ) {
                 return res;
             }
             return res['response'];
-        }).catch( err => {
-            return err['response'];
-        })
+        }).catch( err => err['response'] );
     }
 }
 
@@ -87,20 +83,20 @@ export function clearToken( type ) {
 }
 
 // 忘記密碼
-export function forget( pathname, query, data={} ){
+export function forget( pathname, query={}, data={} ){
     return (dispatch) => {
 
-        const method = 'post';
+        const method    = 'post';
         const initQuery = {};
-        const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API()['forget'][data['type']]}${search!=""? `?${search}`:''}`;
+        const search    = queryString.stringify({ ...initQuery, ...query });
+        const url       = `${API()['forget'][data['type']]}${search!=""? `?${search}`:''}`;
 
         return Axios({ method, url, data }).then( res => {
             if( !res.hasOwnProperty('response') ){
                 return res
             }
             return res['response'];
-        });
+        }).catch( err => err['response'] );
     }
 }
 
@@ -108,24 +104,24 @@ export function forget( pathname, query, data={} ){
 export function resetPassword( pathname="", query={}, data={} ){
     return (dispatch) => {
 
-        const method = 'put';
-        const type = data['type'];
+        const method    = 'put';
+        const type      = data['type'];
         const initQuery = {};
-        const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API()['reset_password'][type]}${search!=""? `?${search}`:''}`;
+        const search    = queryString.stringify({ ...initQuery, ...query });
+        const url       = `${API()['reset_password'][type]}${search!=""? `?${search}`:''}`;
         return Axios({ method, url, data }).then( res => {
             if( !res.hasOwnProperty('response') ){
                 return res;
             }
             return res['response'];
-        });
+        }).catch( err => err['response'] );
     }
 }
 
 // 驗證
 export function verify( form ) {
     const { type } = form;
-    const uri = API()['verify'][type];
+    const uri      = API()['verify'][type];
     delete form['type'];
 
     Axios({ method: 'post', uri: uri, data: form }).then( res => {
@@ -144,17 +140,17 @@ export function verify( form ) {
 export function clearJWTToken(){
     return (dispatch) => {
         dispatch({
-            type: 'CLEAR_ACCOUNT_JWT_TOKEN',
-            token: ''
+            type     : 'CLEAR_ACCOUNT_JWT_TOKEN',
+            token    : ''
         })
     }
 }
 
 const Axios = ( api ) => {
     return axios({
-        method: api['method'],
-        url: api['url'],
-        data: api['data'],
+        method : api['method'],
+        url    : api['url'],
+        data   : api['data'],
         headers:{
             authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
         }

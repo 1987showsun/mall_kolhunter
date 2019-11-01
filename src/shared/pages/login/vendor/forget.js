@@ -1,30 +1,39 @@
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+import React                 from 'react';
+import queryString           from 'query-string';
+import { connect }           from 'react-redux';
+
+// Modules
+import Confirm               from '../../../module/confirm';
 
 // Actions
-import { forget } from '../../../actions/login';
+import { forget }            from '../../../actions/login';
 
 // Lang
-import lang from '../../../public/lang/lang.json';
+import lang                  from '../../../public/lang/lang.json';
+
+// javascripts
+import { checkRequired }     from '../../../public/javascripts/checkFormat';
 
 class Forget extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            required: ['email'],
-            formObject : {
-                type: 'vendor',
-                email: ""
+            open          : false,
+            method        : "alert",
+            popupMsg      : "",
+            required      : ['email'],
+            formObject    : {
+                type        : 'vendor',
+                email       : ""
             },
-            msg : [],
+            msg           : []
         }
     }
 
     render(){
 
-        const { formObject, msg } = this.state;
+        const { open, method, popupMsg, formObject, msg } = this.state;
 
         return(
             <React.Fragment>
@@ -67,6 +76,12 @@ class Forget extends React.Component{
                         </button>
                     </div>
                 </form>
+                <Confirm
+                    open         = {open}
+                    method       = {method}
+                    container    = {popupMsg}
+                    onCancel     = {this.onCancel.bind(this)}
+                />
             </React.Fragment>
         );
     }
@@ -82,19 +97,51 @@ class Forget extends React.Component{
     }
 
     handleSubmit = (e) => {
-
         e.preventDefault();
-        const { location, match } = this.props;
+
+        const { location }             = this.props;
         const { formObject, required } = this.state;
-        const { pathname, search } = location;
-        const checkQequired = required.filter( keys => formObject[keys]=="" ).map( keys => <div key={keys} className="items">{lang['zh-TW']['note'][`${keys} required`]}</div> );
-        if( checkQequired.length==0 ){
-            this.props.dispatch( forget( pathname, {...queryString.parse(search)}, formObject ) );
+        const { pathname, search }     = location;
+        const checkRequiredFilter      = checkRequired(required, formObject);
+
+        if( checkRequiredFilter.length==0 ){
+            this.setState({
+                loading: true
+            },()=>{
+                this.props.dispatch( forget( pathname, {...queryString.parse(search)}, formObject ) ).then( res => {
+                    this.setState({
+                        loading: false
+                    },()=>{
+                        switch( res['status'] ){
+                            case 200:
+                                this.setState({
+                                    open        : true,
+                                    method      : 'alert',
+                                    popupMsg    : "需求請求成功，將寄送更新密碼網址至註冊信箱"
+                                })
+                                break;
+
+                            default:
+                                this.setState({
+                                    msg         : [<div key="err" className="items">{lang['zh-TW']['err']['system error']}</div>]
+                                })
+                                break;
+                        }
+                    })
+                });
+            });
         }else{
             this.setState({
-                msg: checkQequired
+                msg: checkRequiredFilter
             })
         }
+    }
+
+    onCancel = () => {
+        this.props.history.push({
+            pathname     : '/vendor',
+            search       : 'goto=home'
+        })
     }
 }
 

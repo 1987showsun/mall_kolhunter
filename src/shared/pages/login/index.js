@@ -1,23 +1,24 @@
-import React from 'react';
-import queryString from 'query-string';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React                          from 'react';
+import queryString                    from 'query-string';
+import { Switch, Route, Redirect }    from 'react-router-dom';
+import { Link }                       from 'react-router-dom';
+import { connect }                    from 'react-redux';
 
 // Components
-import AccountSignIn from './member/sign_in';
-import AccountSignUp from './member/sign_up';
-import AccountVerify from './member/verify';
-import AccountForget from './member/forget';
-import AccountResetPWD from './member/resetPWD';
-import VendorSignIn from './vendor/sign_in';
-import VendorSignUp from './vendor/sign_up';
-import VendorLeading from './vendor/leading';
-import VendorVverify from './vendor/verify';
-import VendorForget from './vendor/forget';
-import VendorResetPWD from './vendor/resetPWD';
+import AccountSignIn                  from './member/sign_in';
+import AccountSignUp                  from './member/sign_up';
+import AccountVerify                  from './member/verify';
+import AccountForget                  from './member/forget';
+import AccountResetPWD                from './member/resetPWD';
+import VendorSignIn                   from './vendor/sign_in';
+import VendorSignUp                   from './vendor/sign_up';
+import VendorLeading                  from './vendor/leading';
+import VendorVverify                  from './vendor/verify';
+import VendorForget                   from './vendor/forget';
+import VendorResetPWD                 from './vendor/resetPWD';
 
-import Logo from '../../public/images/logo2.png';
+// Images
+import Logo                           from '../../public/images/logo2.png';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -28,13 +29,13 @@ class Index extends React.Component{
 
         const location = props.location;
         const pathname = location['pathname'].split('/').filter( item => item!='' );
-        let _type = pathname[0];
+        const _type    = pathname[0];
 
         super(props);
         this.state = {
-            token: props[`jwt_${_type}`],
-            DoYouHaveType: ['account','vendor'],
-            DoYouHaveClass: ['signin','signup','leading','verify','forget','resetPWD'],
+            token           : props[`jwt_${_type}`],
+            DoYouHaveType   : ['account','vendor'],
+            DoYouHaveClass  : ['signin','signup','leading','verify','forget','resetPWD'],
         }
     }
 
@@ -42,7 +43,7 @@ class Index extends React.Component{
 
         const location = props.location;
         const pathname = location['pathname'].split('/').filter( item => item!='' );
-        let _type = pathname[0];
+        const _type    = pathname[0];
 
         if( props[`jwt_${_type}`]!=state.token ){
             return {
@@ -88,12 +89,12 @@ class Index extends React.Component{
 
     isCheckLogin = () => {
 
-        const { match, location } = this.props;
+        const { match, location }                      = this.props;
         const { DoYouHaveType, DoYouHaveClass, token } = this.state;
-        const { pathname, search } = location;
-        const pathnameArray = pathname.split('/').filter( item => item!='' );
-        let _type       = pathnameArray[0];
-        let _class      = match['params']['class'] || 'signin';
+        const { pathname, search }                     = location;
+        const pathnameArray                            = pathname.split('/').filter( item => item!='' );
+        let _type                                      = pathnameArray[0];
+        let _class                                     = match['params']['class'] || 'signin';
 
         if( token==undefined || token==null || token=='' ){
             if( !DoYouHaveType.includes(_type) ||!DoYouHaveClass.includes(_class) ){
@@ -113,20 +114,12 @@ class Index extends React.Component{
             }
         }
     }
-
-    getJWTToken = (props) => {
-        if( typeof window !== 'undefined' ){
-            const type = props['location']['pathname'].split('/').filter( item => item!='' )[0];
-            const token = sessionStorage.getItem(`jwt_${type}`) || null;
-            return token;
-        }
-    }
 }
 
 const mapStateToProps = (state) => {
     return{
-        jwt_account: state.login.jwt_account,
-        jwt_vendor: state.login.jwt_vendor
+        jwt_account   : state.login.jwt_account,
+        jwt_vendor    : state.login.jwt_vendor
     }
 }
 

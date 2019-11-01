@@ -195,7 +195,8 @@ class Basic extends React.Component{
                 return data[keys]=='';
             }
         }).map( keys => <div key={keys} className="items">{ lang['zh-TW']['note'][`${keys} required`] }</div>);
-
+        
+        // this.props.returnSuccess({ step: step+1});
         if( checkRequiredFilter.length==0 ){
             this.setState({
                 loading: true

@@ -89,6 +89,7 @@
             "init": "處理中"
         },
         "note": {
+            "file exceeds 300KB size limit": "檔案大小超過 300KB",
             "pay checkcode error": "付款失敗",
             "nickname required": "暱稱必填",
             "username required": "會員帳號必填",
@@ -298,6 +299,7 @@
             "init": "Under processing"
         },
         "note": {
+            "file exceeds 300KB size limit": "File exceeds 300KB size limit",
             "pay checkcode error": "Pay checkcode error",
             "nickname required": "Nickname required",
             "username required": "Username required",

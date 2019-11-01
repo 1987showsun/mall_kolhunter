@@ -113,20 +113,29 @@ class Depiction extends React.Component{
     }
 
     handleChangDepictionImg = (files) => {
-        const nowDate = new Date();
-        let { data } = this.state;
-        data = [
-            ...data,
-            {
-                id: null,
-                type: 'image',
-                content: files['base64'],
-                modified: nowDate.valueOf()
-            }
-        ];
-        this.setState({
-            data
-        })
+        const nowDate  = new Date();
+        const { data } = this.state;
+        const size     = parseInt(files['size']);
+        
+        if( size>800 ){
+            this.setState({
+                msg: [<div key="err" className="items">{lang['zh-TW']['note']['file exceeds 300KB size limit']}</div>]
+            })
+        }else{
+            this.setState({
+                data: [
+                    ...data,
+                    {
+                        id: null,
+                        type: 'image',
+                        content: files['base64'],
+                        modified: nowDate.valueOf(),
+                    }
+                ],
+                msg: []
+            })
+        }
+
     }
 
     handleChangeTextarea = (i,e) => {

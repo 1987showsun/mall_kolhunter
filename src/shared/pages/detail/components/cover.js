@@ -5,6 +5,16 @@ import CurrencyFormat      from 'react-currency-format';
 import { connect }         from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart }  from '@fortawesome/free-solid-svg-icons';
+import {
+    FacebookShareButton,
+    FacebookIcon,
+    TwitterShareButton,
+    TwitterIcon,
+    LineShareButton,
+    LineIcon,
+    EmailShareButton,
+    EmailIcon
+  } from 'react-share';
 
 // Modules
 import CoverSlider         from '../../../module/coverSlider';
@@ -52,6 +62,7 @@ class Cover extends React.Component{
 
         const { location } = this.props;
         const { lock, data, imageData, storeLoading, storeInfo, formObject } = this.state;
+        const url = typeof window!="undefined"? window.location.href:'';
         const itemNumMax = data['spec'].filter( item => item['token']==formObject['specToken']);
 
         // 運送方式
@@ -84,6 +95,33 @@ class Cover extends React.Component{
                         mainSettings= {main}
                         navSettings= {sub}
                     />
+                    <div className="detail-cover-row detail-cover-share-wrap">
+                        <div className="detail-cover-share-wrap-label">
+                            分享
+                        </div>
+                        <ul>
+                            <li>
+                                <FacebookShareButton url={url}>
+                                    <FacebookIcon size={34} round={true} />
+                                </FacebookShareButton>
+                            </li>
+                            <li>
+                                <TwitterShareButton url={url}>
+                                    <TwitterIcon size={34} round={true} />
+                                </TwitterShareButton>
+                            </li>
+                            <li>
+                                <EmailShareButton url={url}>
+                                    <EmailIcon size={34} round={true} />
+                                </EmailShareButton>
+                            </li>
+                            <li>
+                                <LineShareButton url={url}>
+                                    <LineIcon size={34} round={true} />
+                                </LineShareButton>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div className="detail-cover-wrap-col right">
                     <div className="detail-cover-row cover-title">

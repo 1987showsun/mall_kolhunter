@@ -60,8 +60,9 @@ class Index extends React.Component{
     render(){
 
         const { location, match, history } = this.props;
-        const { info } = this.state;
-        const { description } = info;
+        const { imageData, info }          = this.state;
+        const { description }              = info;
+        const url = typeof window!="undefined"? window.location.href:'';
 
         return(
             <React.Fragment>
@@ -69,6 +70,10 @@ class Index extends React.Component{
                     <title>{`網紅電商 - ${info['name']}`}</title>
                     <meta name="keywords" content={`網紅電商,網紅獵人,幫你賣,電商,網購}`} />
                     <meta name="description" content={``} />
+                    <meta property="og:url"                content={url} />
+                    <meta property="og:title"              content={`網紅電商 - ${info['name']}`} />
+                    <meta property="og:description"        content={``} />
+                    <meta property="og:image"              content={`${imageData.length>0? imageData[0]['path']:''}`} />
                 </Helmet>
                 <div className="row">
                     <section className="container detail-content" >

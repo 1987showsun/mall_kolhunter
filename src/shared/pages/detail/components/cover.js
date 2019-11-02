@@ -1,6 +1,7 @@
 import React               from 'react';
 import toaster             from 'toasted-notes';
 import queryString         from 'query-string';
+import CurrencyFormat      from 'react-currency-format';
 import { connect }         from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart }  from '@fortawesome/free-solid-svg-icons';
@@ -56,24 +57,24 @@ class Cover extends React.Component{
         // 運送方式
         const delivery = data['delivery'].map( item => {
             return{
-                id: item['productDeliveryID'],
-                value: item['productDeliveryID'],
-                name: item['name'],
-                cost: item['cost']
+                id         : item['productDeliveryID'],
+                value      : item['productDeliveryID'],
+                name       : item['name'],
+                cost       : item['cost']
             }
         })
 
         // 型號 / 尺寸
         const spec = data['spec'].map( item => {
             return{
-                id: item['token'],
-                value: item['token'],
-                name: item['name'],
-                quantity: item['storage']
+                id         : item['token'],
+                value      : item['token'],
+                name       : item['name'],
+                quantity   : item['storage']
             }
-        })
+        });
 
-        const store = queryString.parse(location['search'])['store'] || null;
+        const discount = Math.round((Number(data['sellPrice'])/Number(data['price']))*100);
 
         return(
             <div className="detail-cover-wrap">
@@ -91,16 +92,10 @@ class Cover extends React.Component{
                     <div className="detail-cover-row cover-other">
                         <ul className="cover-other-ul">
                             <li>
-                                <label>販賣店家家數</label>
-                                <div>{data['celebrityNum']}</div>
+                                <div><span className="value"><CurrencyFormat value={data['celebrityNum']} displayType={'text'} thousandSeparator={true} /></span>店家販售</div>
                             </li>
-                            {/* <li>
-                                <label>已售數量</label>
-                                <div>12</div>
-                            </li> */}
                             <li>
-                                <label>庫存數量</label>
-                                <div>{itemNumMax[0]!=undefined? itemNumMax[0]['storage']:0}</div>
+                                <div><span className="value"><CurrencyFormat value={itemNumMax[0]!=undefined? itemNumMax[0]['storage']:0} displayType={'text'} thousandSeparator={true} /></span>剩餘庫存</div>
                             </li>
                         </ul>
                     </div>
@@ -108,13 +103,20 @@ class Cover extends React.Component{
                         {
                             data['price']!=data['sellPrice']?(
                                 <React.Fragment>
-                                    <div className="cover-money-price">${data['price']}</div>
-                                    <div className="cover-money-sellPrice">${data['sellPrice']}</div>
+                                    <div className="cover-money-price">
+                                        <CurrencyFormat value={data['price']} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                    </div>
+                                    <div className="cover-money-sellPrice">
+                                        <CurrencyFormat value={data['sellPrice']} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                    </div>
+                                    <div className="cover-money-discount">{discount}折</div>
                                 </React.Fragment>
                             ):(
                                 <React.Fragment>
                                     <div className="cover-money-price"></div>
-                                    <div className="cover-money-sellPrice">${data['sellPrice']}</div>
+                                    <div className="cover-money-sellPrice">
+                                        <CurrencyFormat value={data['sellPrice']} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                    </div>
                                 </React.Fragment>
                             )
                         }

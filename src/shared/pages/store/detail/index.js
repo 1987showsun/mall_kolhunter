@@ -93,7 +93,7 @@ class Index extends React.Component{
                                 </div>
                                 <div className="figcaption-row">
                                     <ul className="figcaption-action-ul">
-                                        <li><button type="button">個人頁面</button></li>
+                                        <li><a type="button" href={`https://www.kolhunter.com/celebrity/info/${info['celebName']}/${info['celebToken']}`} target="_blank">網紅介紹</a></li>
                                         {/* <li><button type="button">與他合作</button></li> */}
                                     </ul>
                                 </div>

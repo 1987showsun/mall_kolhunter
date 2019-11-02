@@ -123,51 +123,69 @@
             }
         }
         &.cover-other{
-            min-height: 50px;
-            align-items: center;
-            background: #F2f2f2;
+            align-items  : center;
             .cover-other-ul{
-                display: flex;
-                font-size: 0.9rem;
-                color: rgb(102, 102, 102);
+                display    : flex;
+                font-size  : 0.7rem;
+                color      : #767676;
                 >li{
-                    display: inline-flex;
-                    align-items: center;
-                    margin-right: 10px;
-                    &:last-child{
-                        margin-right: 0px;
+                    padding          : 0px 10px 0px 10px;
+                    display          : inline-flex;
+                    align-items      : flex-end;
+                    border-right     : 1px solid #ccc;
+                    &:first-child{
+                        padding-left      : 0px;
                     }
-                    label{
-                        &:after{
-                            content: "：";
-                        }
+                    &:last-child{
+                        padding-right     : 0px;
+                        border-right      : none;
+                    }
+                    .value{
+                        font-size    : 1rem;
+                        font-weight  : 600;
+                        color        : #ee4d2d;
+                        display      : inline-flex;
+                        margin-right : 5px;
                     }
                 }
             }
             @media (max-width: 420px) {
                 min-height: 40px;
                 .cover-other-ul{
-                    font-size: 0.8rem;
+                    font-size: 0.6rem;
+                    >li{
+                        .value{
+                            font-size    : 0.9rem;
+                        }
+                    }
                 }
             }
         }
         &.cover-money{
-            align-items: flex-end;
+            align-items      : center;
+            background       : #fafafa;
             >div{
-                margin-right: 20px;
+                margin-right: 15px;
                 &:last-child{
                     margin-right: 0px;
                 }
             }
             .cover-money-price{
-                font-size: 1.1rem;
+                font-size: 1rem;
                 text-decoration: line-through;
                 color: #999;
             }
             .cover-money-sellPrice{
-                font-size: 2.2rem;
+                font-size: 1.9rem;
                 font-weight: bolder;
                 color: var(--main);
+            }
+            .cover-money-discount{
+                padding       : 2px 5px;
+                border-radius : 3px;
+                background    : var(--main);
+                color         : #fff;
+                font-size     : 0.7rem;
             }
             @media (max-width: 1000px) and (min-width: 860px) {
                 .cover-money-price{

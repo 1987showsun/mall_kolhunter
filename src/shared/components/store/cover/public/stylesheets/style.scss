@@ -6,14 +6,15 @@
     overflow: hidden;
     position: relative;
     .store-cover-background-img{
-        width: 120%;
-        height: 120%;
-        opacity: .3;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        position: absolute;
-        z-index: 1;
+        width               : 120%;
+        height              : 120%;
+        opacity             : .3;
+        background-position : center;
+        background-repeat   : no-repeat;
+        background-size     : cover;
+        position            : absolute;
+        z-index             : 1;
+        filter              : blur(5px);
     }
     @media (max-width: 420px) {
         margin-bottom: 10px;
@@ -25,14 +26,15 @@
     position: relative;
     z-index: 2;
     figure{
-        width: 100%;
-        max-width: 380px;
-        padding: 50px 0px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        position: relative;
-        z-index: 2;
+        width           : 100%;
+        max-width       : 380px;
+        padding         : 50px 0px;
+        display         : flex;
+        flex-wrap       : wrap;
+        justify-content : center;
+        position        : relative;
+        z-index         : 2;
+        overflow: initial;
         @media (max-width: 768px) and (min-width: 421px) {
             padding: 35px 0px;
         }
@@ -40,17 +42,21 @@
             padding: 20px 0px;
         }
         .figure-img{
-            width: 200px;
-            height: 200px;
-            margin-bottom: 20px;
-            background: #000;
-            border-radius: 100%;
-            overflow: hidden;
-            box-shadow: 0px 0px 10px rgba(0,0,0,.2);
-            position: relative;
+            width          : 190px;
+            height         : 190px;
+            padding        : 4px;
+            margin-bottom  : 20px;
+            border-radius  : 100%;
+            display        : flex;
+            align-items    : center;
+            justify-content: center;
+            border         : 5px solid var(--red);
+            overflow       : hidden;
+            position       : relative;
             img{
-                width: 100%;
-                display: block;
+                width              : 100%;
+                display            : block;
+                border-radius      : 100%;
             }
             @media (max-width: 768px) and (min-width: 421px) {
                 width: 120px;
@@ -107,8 +113,9 @@
                 }
             }
             .figcaption-info-ul{
-                width: 100%;
-                display: flex;
+                width          : 100%;
+                display        : flex;
+                user-select    : none;
                 >li{
                     width: 100%;
                     padding: 10px;
@@ -130,20 +137,39 @@
                 }
             }
             .figcaption-action-ul{
-                width: 80%;
-                display: flex;
+                width           : 100%;
+                display         : flex;
                 >li{
-                    width: 100%;
-                    display: inline-flex;
-                    flex-wrap: wrap;
-                    margin-right: 15px;
+                    width            : 100%;
+                    display          : inline-flex;
+                    flex-wrap        : wrap;
+                    margin-right     : 15px;
                     &:last-child{
-                        margin-right: 0px;
+                        margin-right      : 0px;
                     }
-                    button{
-                        width: 100%;
-                        height: 40px;
-                        background: var(--main);
+                    button, a{
+                        width             : 100%;
+                        height            : 40px;
+                        display           : flex;
+                        align-items       : center;
+                        justify-content   : center;
+                        border-radius     : 3px;
+                        background        : linear-gradient(60deg, rgba(246, 16, 45, 1)0%, rgba(230, 119, 89, 1)100%);
+                        background        : -moz-linear-gradient(60deg, rgba(246, 16, 45, 1)0%, rgba(230, 119, 89, 1)100%);
+                        background        : -webkit-linear-gradient(60deg, rgba(246, 16, 45, 1)0%, rgba(230, 119, 89, 1)100%);
+                        background        : -o-linear-gradient(60deg, rgba(246, 16, 45, 1)0%, rgba(230, 119, 89, 1)100%);
+                        color             : #fff;
+                        font-size         : 0.9rem;
+                        transition        : transform .2s;
+                    }
+                }
+                @media ( min-width: 768px ) {
+                    >li{
+                        button, a{
+                            &:hover{
+                                transform: scale(1.02);
+                            }
+                        }
                     }
                 }
                 @media ( max-width: 420px ) {

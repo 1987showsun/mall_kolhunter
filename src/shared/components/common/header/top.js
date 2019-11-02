@@ -36,12 +36,12 @@ export default ( props ) => {
                 <li>
                     <span>追蹤我們</span>
                     <span className="share-icon">
-                        <a to="https://www.facebook.com/%E7%B6%B2%E7%B4%85%E9%9B%BB%E5%95%86-KOL-Mall-106307374129745/" target="_blank">
+                        <a href="https://www.facebook.com/%E7%B6%B2%E7%B4%85%E9%9B%BB%E5%95%86-KOL-Mall-106307374129745/" target="_blank">
                             <img src={facebook} alt="網紅電商 facebook" title="網紅電商 facebook"/>
                         </a>
                     </span>
                     <span className="share-icon">
-                        <a to="https://www.instagram.com/explore/locations/106307374129745/kol-mall/" target="_blank">
+                        <a href="https://www.instagram.com/explore/locations/106307374129745/kol-mall/" target="_blank">
                             <img src={instagram} alt="網紅電商 instagram" title="網紅電商 instagram"/>
                         </a>
                     </span>

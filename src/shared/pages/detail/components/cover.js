@@ -74,7 +74,7 @@ class Cover extends React.Component{
             }
         });
 
-        const discount = Math.round((Number(data['sellPrice'])/Number(data['price']))*100);
+        const discount = ((Number(data['sellPrice'])/Number(data['price']))*10).toFixed(1);
 
         return(
             <div className="detail-cover-wrap">

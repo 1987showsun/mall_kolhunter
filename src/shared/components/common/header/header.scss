@@ -6,11 +6,11 @@ header{
     position: sticky;
     z-index: 10;
     top: 0px;
-    background: #f6102d; /* Old browsers */
-    background: -moz-linear-gradient(top,  #f6102d 0%, #ff3b54 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top,  #f6102d 0%,#ff3b54 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  #f6102d 0%,#ff3b54 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6102d', endColorstr='#ff3b54',GradientType=0 ); /* IE6-9 */
+    background: rgb(242,0,28); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(242,0,28,1) 0%, rgba(255,84,84,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(242,0,28,1) 0%,rgba(255,84,84,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(242,0,28,1) 0%,rgba(255,84,84,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2001c', endColorstr='#ff5454',GradientType=0 ); /* IE6-9 */
     .container{
         display: flex;
         justify-content: space-between;
@@ -68,6 +68,7 @@ header{
             width: 100%;
             position: relative;
             .input-box{
+                height: 40px;
                 background: #fff;
                 border-radius: 2px;
                 align-items: center;
@@ -82,10 +83,13 @@ header{
             }
             [type=submit]{
                 width: 60px;
-                height: 30px;
+                height: 35px;
                 position: absolute;
                 z-index: 10;
                 right: 5px;
+                background: #FF416C;  /* fallback for old browsers */
+                background: -webkit-linear-gradient(to bottom, #FF4B2B, rgb(255, 57, 103));
+                background: linear-gradient(to bottom, #FF4B2B, rgb(255, 57, 103));
                 svg{
                     display: none;
                 }
@@ -94,13 +98,15 @@ header{
                 .input-box{
                     height: 100%;
                     border: none;
-                    padding-right: 35px;
+                    padding-right: 45px;
                     &.select{
-                        max-width: 120px;
+                        max-width: 100px;
+                        min-width: 100px;
                     }
                 }
                 [type=submit]{
-                    width: 30px;
+                    width: 35px;
+                    border-radius: 3px;
                     span{
                         display: none;
                     }

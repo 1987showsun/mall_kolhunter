@@ -1,5 +1,7 @@
 {
     "zh-TW": {
+        "delete": "刪除",
+        "product": "商品",
         "Commodity management": "商品管理",
         "planform management": "方案列表",
         "Order management": "訂單管理",
@@ -210,6 +212,8 @@
         }
     },
     "en": {
+        "delete": "Delete",
+        "product": "product",
         "Commodity management": "Commodity management",
         "planform management": "Planform management",
         "Order management": "Order management",

@@ -37,10 +37,6 @@ export function recommendStore( pathname,query={},data={} ){
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...query });
         const url       = `${API(NODE_ENV)['mall']['store']['recommend']}${search!=""? `?${search}`:''}`;
-        dispatch({
-            type: "HOME_RECOMND_STORE",
-            list: []
-        })
 
         return Axios({method, url, data}).then( res => {
             if( !res.hasOwnProperty('response') ){

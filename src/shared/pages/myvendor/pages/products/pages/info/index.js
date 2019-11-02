@@ -15,7 +15,7 @@ import Confirm from '../../../../../../module/confirm';
 import Table from '../../../../../../module/table';
 
 // Actions
-import { infoProduct, deleteProduct, quota } from '../../../../../../actions/myvendor';
+import { infoProduct, deleteProduct, vinfo } from '../../../../../../actions/myvendor';
 import { deliveries, categories } from '../../../../../../actions/common';
 
 // Lang
@@ -170,14 +170,14 @@ class Product extends React.Component{
                                 className="remove" 
                                 onClick={()=>
                                     this.setState({
-                                        open: true,
+                                        open    : true,
                                         popupMsg: lang['zh-TW']['Are you sure you want to delete this particular product']
                                     })
                                 }
                             >
-                                    刪除
+                                    {lang['zh-TW']['delete']}
                                     <span className="p_name">{data['name']}</span>
-                                    商品
+                                    {lang['zh-TW']['product']}
                             </button>
                     }
                 </div>
@@ -237,10 +237,9 @@ class Product extends React.Component{
                     open: false,
                     popupMsg: ""
                 },()=>{
-                    if( status=='none-auth' ){
-                        this.props.dispatch( quota('sum',profile) );
-                    }
-                    this.props.history.goBack();
+                    this.props.dispatch( vinfo() ).then( res => {
+                        this.props.history.goBack();
+                    });
                 });
             }
         });

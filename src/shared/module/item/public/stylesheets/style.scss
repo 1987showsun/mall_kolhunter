@@ -148,12 +148,29 @@ figure {
 }
 
 .store-card{
+
+    figure{
+        border-right: 5px;
+        figcaption{
+            .figcaption-row{
+                &:first-child{
+                    min-height: auto;
+                }
+            }
+            h3{
+                max-height: 25px;
+                line-height: 1.5rem;
+                -webkit-line-clamp: 1;
+            }
+        }
+    }
+
     .slick-arrow{
-        width: 25px;
-        height: 25px;
-        background-color: #fff;
-        border-radius: 100%;
-        box-shadow: 0px 0px 5px rgba(0,0,0,.4);
+        width             : 25px;
+        height            : 25px;
+        background-color  : #fff;
+        border-radius     : 100%;
+        box-shadow        : 0px 0px 5px rgba(0,0,0,.4);
         &.slick-disabled{
             visibility: hidden;
         }

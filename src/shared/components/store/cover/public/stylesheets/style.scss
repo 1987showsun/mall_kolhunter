@@ -23,13 +23,27 @@
     .store-cover-background-img{
         width               : 120%;
         height              : 120%;
-        opacity             : .7;
+        opacity             : .8;
         background-position : center;
         background-repeat   : no-repeat;
         background-size     : cover;
         position            : absolute;
         z-index             : 1;
         filter              : blur(5px);
+    }
+    .store-cover-share-list{
+        display: flex;
+        >li{
+            display: inline-flex;
+            margin-right: 10px;
+            >div{
+                outline   : none;
+                cursor    : pointer;
+            }
+            &:last-child{
+                margin-right: 0px;
+            }
+        }
     }
     @media (max-width: 420px) {
         margin-bottom: 5px !important;
@@ -43,7 +57,7 @@
     figure{
         width           : 100%;
         max-width       : 380px;
-        padding         : 50px 0px;
+        padding         : 40px 0px 60px 0px;
         display         : flex;
         flex-wrap       : wrap;
         justify-content : center;
@@ -54,14 +68,14 @@
             padding: 35px 0px;
         }
         @media (max-width: 420px) {
-            max-width  : 80%;
+            max-width  : 90%;
             padding    : 20px 0px;
         }
         .figure-img{
-            width          : 190px;
-            height         : 190px;
+            width          : 180px;
+            height         : 180px;
             padding        : 4px;
-            margin-bottom  : 20px;
+            margin-bottom  : 10px;
             border-radius  : 100%;
             display        : flex;
             align-items    : center;
@@ -75,14 +89,18 @@
                 border-radius      : 100%;
             }
             @media (max-width: 768px) and (min-width: 421px) {
-                width: 120px;
-                height: 120px;
-                margin-bottom: 15px;
+                width          : 120px;
+                height         : 120px;
+                padding        : 3px;
+                margin-bottom  : 15px;
+                border         : 4px solid var(--red);
             }
             @media (max-width: 420px) {
-                width: 130px;
-                height: 130px;
-                margin-bottom: 15px;
+                width          : 110px;
+                height         : 110px;
+                padding        : 2px;
+                margin-bottom  : 15px;
+                border         : 3px solid var(--red);
             }
         }
         figcaption{
@@ -92,7 +110,7 @@
             justify-content: center;
             .figcaption-row{
                 width: 100%;
-                margin-bottom: 25px;
+                margin-bottom: 15px;
                 display: flex;
                 justify-content: center;
                 &:last-child{
@@ -104,7 +122,7 @@
             }
             .name{
                 width: 100%;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
                 .input-box{
                     height: 45px;
                     button{

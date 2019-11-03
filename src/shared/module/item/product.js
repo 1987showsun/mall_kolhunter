@@ -1,6 +1,6 @@
-import React from 'react';
+import React          from 'react';
 import CurrencyFormat from 'react-currency-format';
-import { Link } from 'react-router-dom';
+import { Link }       from 'react-router-dom';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -9,12 +9,17 @@ export default class Product extends React.Component{
     render(){
 
         const { path, data } = this.props;
+        const discount       = ((Number(data['sellPrice'])/Number(data['price']))*10).toFixed(1);
         
         return(
             <figure className="card">
                 <div className="img">
                     <Link to={path || ""}></Link>
                     <img src={this.dataImagesTypeOf(data['images'])} alt={data['name']} title={data['name']} />
+                    {
+                        Math.floor(data['price'])!=Math.floor(data['sellPrice']) &&
+                            <div className="discount"><span>{discount}折</span></div>
+                    }
                 </div>
                 <figcaption>
                     <section className="figcaption-row">

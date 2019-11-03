@@ -6,6 +6,7 @@ import { connect }        from 'react-redux';
 
 // Components
 import Filter             from './components/filter';
+import Header             from './components/header';
 import Breadcrumbs        from './components/breadcrumbs';
 
 // Mudules
@@ -31,77 +32,50 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            coverLoading: false,
-            productLoading: false,
-            current: props.current,
-            total: props.total,
-            limit: props.limit,
-            info: props.info,
-            list: props.productList
+            coverLoading    : false,
+            productLoading  : false,
+            current         : props.current,
+            total           : props.total,
+            limit           : props.limit,
+            info            : props.info,
+            list            : props.productList
         }
     }
 
     static getDerivedStateFromProps(props,state){
         return{
-            current: props.current,
-            total: props.total,
-            limit: props.limit,
-            info: props.info,
-            list: props.productList
+            current         : props.current,
+            total           : props.total,
+            limit           : props.limit,
+            info            : props.info,
+            list            : props.productList
         }
     }
 
     render(){
 
-        const { match, location, history } = this.props;
+        const { match, location } = this.props;
         const { coverLoading, productLoading, current, total, limit, info, list } = this.state;
+        const url   = typeof window!="undefined"? window.location.href:'';
         const store = match['params']['id'];
 
         return(
             <React.Fragment>
                 <Helmet encodeSpecialCharacters={false}>
-                    <title>{`網紅電商,網紅店舖 - `}</title>
-                    <meta name="keywords" content={`網紅電商,網紅獵人,找網紅就是快,幫你賣,電商,網購}`} />
-                    <meta name="description" content={``} />
+                    <title>{`網紅電商 - ${info['name']},網紅店舖`}</title>
+                    <meta name="keywords"                  content={`網紅電商,網紅獵人,找網紅就是快,幫你賣,電商,網購}`} />
+                    <meta name="description"               content={`${info['description']}`} />
+                    <meta property="og:url"                content={url} />
+                    <meta property="og:type"               content="article" />
+                    <meta property="og:title"              content={`網紅電商 - ${info['name']}網紅店舖`} />
+                    <meta property="og:description"        content={`${info['description']}`} />
+                    <meta property="og:image"              content={`${info['cover']}`} />
                 </Helmet>
-                <div className="row store-cover-wrap">
-                    <div className="store-cover-background-img" style={{backgroundImage: `url(${info['cover']})`}}></div>
-                    <section className="container store-cover">
-                        <figure>
-                            <div className="figure-img">
-                                <img src={info['photo']} alt="" title="" />
-                            </div>
-                            <figcaption>
-                                <div className="name">
-                                    <h2>{info['name']}</h2>
-                                </div>
-                                <div className="figcaption-row">
-                                    <ul className="figcaption-info-ul">
-                                        <li>
-                                            <div className="figcaption-ul-head">總成交金額</div>
-                                            <div className="figcaption-ul-content">
-                                                <CurrencyFormat value={info['salesAmount']} displayType={'text'} thousandSeparator={true} />
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className="figcaption-ul-head">商品總數</div>
-                                            <div className="figcaption-ul-content">
-                                                <CurrencyFormat value={total} displayType={'text'} thousandSeparator={true} />
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="figcaption-row">
-                                    <ul className="figcaption-action-ul">
-                                        <li><a type="button" href={`https://www.kolhunter.com/celebrity/info/${info['celebName']}/${info['celebToken']}`} target="_blank">網紅介紹</a></li>
-                                        {/* <li><button type="button">與他合作</button></li> */}
-                                    </ul>
-                                </div>
-                            </figcaption>
-                        </figure>
-                    </section>
-                    <Loading loading={coverLoading} />
-                </div>
+                <Header 
+                    info        = {info}
+                    productTotal= {total}
+                    loading     = {coverLoading}
+                />
                 <div className="row">
                     <section className="container main-content">
                         {/* <Filter
@@ -194,11 +168,11 @@ class Index extends React.Component{
 
 const mapStateToProps = state => {
     return{
-        current: state.store.current,
-        total: state.store.total,
-        limit: state.store.limit,
-        info : state.store.info,
-        productList: state.store.product
+        current       : state.store.current,
+        total         : state.store.total,
+        limit         : state.store.limit,
+        info          : state.store.info,
+        productList   : state.store.product
     }
 }
 

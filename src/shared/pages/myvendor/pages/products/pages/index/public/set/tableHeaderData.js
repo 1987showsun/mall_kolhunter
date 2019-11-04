@@ -23,11 +23,6 @@ export const tableHeadKey = [
         className: 'table-min-width',
         path: '/myvendor/products/info'
     },
-    // {
-    //     key: 'brand',
-    //     type: 'text',
-    //     title: '品牌'
-    // },
     {
         key: 'category',
         type: 'text',
@@ -49,8 +44,8 @@ export const tableHeadKey = [
         title: '特價'
     },
     {
-        key: 'divided',
-        type: 'percent',
+        key: 'vendorFee',
+        type: 'text',
         title: '分潤比'
     }
 ]

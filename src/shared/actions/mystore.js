@@ -7,34 +7,42 @@ import queryString from 'query-string';
 export function mystoreProductList( pathname,query, data={} ) {
     return (dispatch,NODE_ENV) => {
         
-        const method = 'get';
+        const method    = 'get';
         const initQuery = {
-            page: 1,
-            limit: 30,
-            sort: "desc",
-            sortBy: "created"
+            page          : 1,
+            limit         : 30,
+            sort          : "desc",
+            sortBy        : "created"
         };
-        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url = `${API(NODE_ENV)['mystore']['candidates']}${search!=''? `?${search}`: ''}`;
+        const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url       = `${API(NODE_ENV)['mystore']['candidates']}${search!=''? `?${search}`: ''}`;
 
         dispatch({
-            type: 'MYSTORE_STOREPRODUCT_STATUS',
-            total: 0,
-            limit: 30,
-            current: 1
+            type          : 'MYSTORE_STOREPRODUCT_STATUS',
+            total         : 0,
+            limit         : 30,
+            current       : 1
         })
 
         return Axios({ method,  url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
+
+                const { total, limit, page, list } = res['data'];
+
                 dispatch({
-                    type: 'MYSTORE_STOREPRODUCT_STATUS',
-                    total: res['data']['total'],
-                    limit: res['data']['limit'],
-                    current: res['data']['page']
+                    type       : 'MYSTORE_STOREPRODUCT_STATUS',
+                    total      : total,
+                    limit      : limit,
+                    current    : page
                 })
                 dispatch({
-                    type: 'MYSTORE_STOREPRODUCT_LIST',
-                    list: res['data']['list']
+                    type       : 'MYSTORE_STOREPRODUCT_LIST',
+                    list       : list.map( item => {
+                        return{
+                            ...item,
+                            kolFee : `${(item['kolFee'] || 0)*100}％`
+                        }
+                    })
                 })
                 return res;
             }
@@ -69,25 +77,25 @@ export function mystoreStoreInfo( pathname, query={}, data={} ) {
 export function mystoreStoreProductList( pathname,query,data={} ) {
     return (dispatch,NODE_ENV) => {
         
-        const method = 'get';
+        const method    = 'get';
         const initQuery = {
-            page: 1,
-            limit: 30,
-            sort: "desc",
-            sortBy: "created"
+            page     : 1,
+            limit    : 30,
+            sort     : "desc",
+            sortBy   : "created"
         };
-        const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API(NODE_ENV)['mystore']['storeProductList']}${search!=''? `?${search}`: ''}`;
+        const search    = queryString.stringify({ ...initQuery, ...query });
+        const url       = `${API(NODE_ENV)['mystore']['storeProductList']}${search!=''? `?${search}`: ''}`;
 
         dispatch({
-            type: 'MYSTORE_STOREPRODUCT_STATUS',
-            total: 0,
-            limit: 30,
-            current: 1
+            type     : 'MYSTORE_STOREPRODUCT_STATUS',
+            total    : 0,
+            limit    : 30,
+            current  : 1
         })
         dispatch({
-            type: 'MYSTORE_STOREPRODUCT_LIST',
-            list: []
+            type     : 'MYSTORE_STOREPRODUCT_LIST',
+            list     : []
         })
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
@@ -95,18 +103,19 @@ export function mystoreStoreProductList( pathname,query,data={} ) {
                     return{
                         ...item,
                         status: "on",
+                        kolFee: `${item['kolFee']*100} ％`
                     }
                 });
-                            
+                      
                 dispatch({
-                    type: 'MYSTORE_STOREPRODUCT_STATUS',
-                    total: res['data']['total'],
-                    limit: res['data']['limit'],
-                    current: res['data']['page']
+                    type       : 'MYSTORE_STOREPRODUCT_STATUS',
+                    total      : res['data']['total'],
+                    limit      : res['data']['limit'],
+                    current    : res['data']['page']
                 })
                 dispatch({
-                    type: 'MYSTORE_STOREPRODUCT_LIST',
-                    list: list
+                    type       : 'MYSTORE_STOREPRODUCT_LIST',
+                    list       : list
                 })
                 return res;
             }

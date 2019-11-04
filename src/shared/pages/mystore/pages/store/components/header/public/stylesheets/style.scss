@@ -72,21 +72,22 @@
             padding    : 20px 0px;
         }
         .figure-img{
-            width          : 180px;
-            height         : 180px;
-            padding        : 4px;
-            margin-bottom  : 10px;
-            border-radius  : 100%;
-            display        : flex;
-            align-items    : center;
-            justify-content: center;
-            border         : 5px solid var(--red);
-            overflow       : hidden;
-            position       : relative;
+            width             : 180px;
+            height            : 180px;
+            padding           : 4px;
+            margin-bottom     : 10px;
+            border-radius     : 100%;
+            display           : flex;
+            align-items       : center;
+            justify-content   : center;
+            overflow          : hidden;
+            position          : relative;
+            background-image  : linear-gradient(to top, #f77062 0%, #fe5196 100%);
             img{
                 width              : 100%;
                 display            : block;
                 border-radius      : 100%;
+                border             : 2px solid #fff;
             }
             @media (max-width: 768px) and (min-width: 421px) {
                 width          : 120px;
@@ -125,10 +126,16 @@
                 margin-bottom: 10px;
                 .input-box{
                     height: 45px;
+                    border: none;
+                    border-radius: 4px;
                     button{
-                        width: 70px;
-                        height: 100%;
-                        border-radius: 0px;
+                        width           : 65px;
+                        height          : 80%;
+                        border-radius   : 3px;
+                        margin-right    : 5px;
+                        background: #FF416C;  /* fallback for old browsers */
+                        background: -webkit-linear-gradient(to bottom, #FF4B2B, rgb(255, 57, 103));
+                        background: linear-gradient(to bottom, #FF4B2B, rgb(255, 57, 103));
                     }
                 }
                 h2{

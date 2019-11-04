@@ -65,6 +65,8 @@ export function listProduct( pathname,query={}, data={} ) {
             // 商品類別 陣列 -> 字串
 
             if( !res.hasOwnProperty('response') ){
+
+                const { list } = res['data'];
                 const categoryToText = ( arr ) => {
                     let text = "";
                     arr.forEach(( item,i ) => {
@@ -78,33 +80,33 @@ export function listProduct( pathname,query={}, data={} ) {
                     });
                     return text;
                 }
-                const list = res['data']['list'].map( item => {
-                    return {
-                        id: item['id'],
-                        status: item['status']=="none-auth"? (item['status']): ( item['display']==true? 'auth':'non-display' ),
-                        cover: item['images'].length!=0? item['images'][0]['path'] : "",
-                        name: item['name'],
-                        brand: item['brand']!=undefined? item['brand'] : "N/A",
-                        category: item['category']!=undefined? ( categoryToText(item['category']) ) :( "N/A"),
-                        store: item['store']!=undefined? item['store'] : 0,
-                        price: item['price']!=undefined? item['price'] : 0,
-                        sellPrice: item['sellPrice']!=undefined? item['sellPrice'] : item['price'],
-                        divided: item['profitMargin']!=undefined? item['profitMargin'] : 0,
-                        display: item['display']
-                    }
-                })
 
                 dispatch({
-                    type: "VENDOR_PRODUCT_HEAD",
-                    noneDisplay: res['data']['status']['none-display'] || 0,
-                    display: res['data']['status']['display'] || 0,
-                    review: res['data']['status']['review'] || 0,
-                    total: res['data']['status']['total'] || 0
+                    type                  : "VENDOR_PRODUCT_HEAD",
+                    noneDisplay           : res['data']['status']['none-display'] || 0,
+                    display               : res['data']['status']['display'] || 0,
+                    review                : res['data']['status']['review'] || 0,
+                    total                 : res['data']['status']['total'] || 0
                 })
-
+                
                 dispatch({
-                    type: 'VENDOR_PRODUCT_LIST',
-                    list: list,
+                    type                  : 'VENDOR_PRODUCT_LIST',
+                    list                  : list.map( item => {
+                        return {
+                            id              : item['id'],
+                            status          : item['status']=="none-auth"? (item['status']): ( item['display']==true? 'auth':'non-display' ),
+                            cover           : item['images'].length!=0? item['images'][0]['path'] : "",
+                            name            : item['name'],
+                            brand           : item['brand']!=undefined? item['brand'] : "N/A",
+                            category        : item['category']!=undefined? ( categoryToText(item['category']) ) :( "N/A"),
+                            store           : item['store']!=undefined? item['store'] : 0,
+                            price           : item['price']!=undefined? item['price'] : 0,
+                            sellPrice       : item['sellPrice']!=undefined? item['sellPrice'] : item['price'],
+                            divided         : item['profitMargin']!=undefined? item['profitMargin'] : 0,
+                            display         : item['display'],
+                            vendorFee       : `${(item['vendorFee'] || 0)*100} ％`
+                        }
+                    })
                 });
 
                 return res;

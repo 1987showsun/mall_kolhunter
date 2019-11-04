@@ -25,23 +25,23 @@ class Product extends React.Component{
     constructor(props){        
         super(props);
         this.state = {
-            loading: false,
-            tableHeadKey : tableHeadKey,
+            loading       : false,
+            tableHeadKey  : tableHeadKey,
             tableBodyData : props.list,
-            noneDisplay: props.noneDisplay,
-            display: props.display,
-            review: props.review,
-            total: props.total,
+            noneDisplay   : props.noneDisplay,
+            display       : props.display,
+            review        : props.review,
+            total         : props.total,
         }
     }
 
     static getDerivedStateFromProps ( props,state ){
         return{
-            noneDisplay: props.noneDisplay,
-            display: props.display,
-            review: props.review,
-            total: props.total,
-            tableBodyData: props.list
+            noneDisplay    : props.noneDisplay,
+            display        : props.display,
+            review         : props.review,
+            total          : props.total,
+            tableBodyData  : props.list
         }
     }
 
@@ -93,7 +93,7 @@ class Product extends React.Component{
 
     getSnapshotBeforeUpdate(prevProps, prevState){
         const prevlocationSearch = prevProps.location['search'];
-        const locationSearch = this.props.location['search'];
+        const locationSearch     = this.props.location['search'];
         if( prevlocationSearch!=locationSearch ){
             this.getProductList();
         }
@@ -105,7 +105,7 @@ class Product extends React.Component{
     }
 
     getProductList = () => {
-        const { location } = this.props;
+        const { location }         = this.props;
         const { pathname, search } = location;
         this.setState({
             loading: true
@@ -123,8 +123,8 @@ class Product extends React.Component{
 
     tableButtonAction = ( val ) => {
         const { noneDisplay, display, review, total, tableBodyData } = this.state;
-        const { location, match } = this.props;
-        const { pathname, search } = location;
+        const { location }           = this.props;
+        const { pathname, search }   = location;
         const mergeData = {
             noneDisplay, 
             display, 

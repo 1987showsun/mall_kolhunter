@@ -1,45 +1,45 @@
-import $ from 'jquery';
-import React from 'react';
-import toaster from 'toasted-notes';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+import $                     from 'jquery';
+import React                 from 'react';
+import toaster               from 'toasted-notes';
+import queryString           from 'query-string';
+import { connect }           from 'react-redux';
 
 // Components
-import Cover from '../../../../components/store/cover';
+import Cover                 from './components/header';
 
 // Modules
-import Table from '../../../../module/table';
-import Loading from '../../../../module/loading/mallLoading';
-import Pagination from '../../../../module/pagination';
+import Table                 from '../../../../module/table';
+import Loading               from '../../../../module/loading/mallLoading';
+import Pagination            from '../../../../module/pagination';
 
 // Actions
 import { mystoreStoreInfo, mystoreStoreProductList, mystoreStoreProductRemove } from '../../../../actions/mystore';
 
 // Set
-import tableHeadData from '../../public/setup/tableHeadData';
+import tableHeadData         from '../../public/setup/tableHeadData';
 
 class Index extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            loading: false,
-            storeInfo: props.storeInfo,
-            total: props.total,
-            limit: props.limit,
-            current: props.current,
-            tableHeadData: tableHeadData['store'],
-            tableBodyData: props.productList
+            loading           : false,
+            storeInfo         : props.storeInfo,
+            total             : props.total,
+            limit             : props.limit,
+            current           : props.current,
+            tableHeadData     : tableHeadData['store'],
+            tableBodyData     : props.productList
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return {
-            storeInfo: props.storeInfo,
-            total: props.total,
-            limit: props.limit,
-            current: props.current,
-            tableBodyData: props.productList
+            storeInfo         : props.storeInfo,
+            total             : props.total,
+            limit             : props.limit,
+            current           : props.current,
+            tableBodyData     : props.productList
         }
     }
 
@@ -59,12 +59,13 @@ class Index extends React.Component{
         const pathname = location['pathname'].split('/').filter( filterItem => filterItem!='' );
         const productList = tableBodyData.map( item => {
             return{
-                id: item['id'],
-                status: [<button key={`status-on_`} className="status-on" onClick={this.tableButtonAction.bind(this,item)}>販賣中</button>],
-                image: item['image'],
-                name: item['name'],
-                price: item['price'],
-                sellPrice: item['sellPrice']
+                id          : item['id'],
+                status      : [<button key={`status-on_`} className="status-on" onClick={this.tableButtonAction.bind(this,item)}>販賣中</button>],
+                image       : item['image'],
+                name        : item['name'],
+                price       : item['price'],
+                sellPrice   : item['sellPrice'],
+                kolFee      : item['kolFee']
             }
         })
 

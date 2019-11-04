@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Modules
-import AvatarCropper from '../../../module/avatarCropper';
+import AvatarCropper from '../../../../../../module/avatarCropper';
 
 export default class BGImg extends React.Component{
 

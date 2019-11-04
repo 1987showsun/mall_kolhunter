@@ -58,7 +58,7 @@ export default ( props ) => {
                         <div className="figcaption-row">
                             <ul className="figcaption-info-ul">
                                 <li>
-                                    <div className="figcaption-ul-head">總成交金額</div>
+                                    <div className="figcaption-ul-head">總成交商品數</div>
                                     <div className="figcaption-ul-content">
                                         <CurrencyFormat value={info['salesAmount']} displayType={'text'} thousandSeparator={true} />
                                     </div>

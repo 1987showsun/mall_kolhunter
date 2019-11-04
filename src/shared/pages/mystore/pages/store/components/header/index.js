@@ -1,19 +1,19 @@
-import React from 'react';
-import toaster from 'toasted-notes';
-import { connect } from 'react-redux';
+import React                      from 'react';
+import toaster                    from 'toasted-notes';
+import { connect }                from 'react-redux';
 
 // Components
-import BGImg from './BGImg';
-import Photo from './photo';
-import Name from './name';
-import Digital from './digital';
-import Action from './action';
+import BGImg                      from './BGImg';
+import Photo                      from './photo';
+import Name                       from './name';
+import Digital                    from './digital';
+import Action                     from './action';
 
 // Modules
-import Loading from '../../../module/loading/mallLoading';
+import Loading                    from '../../../../../../module/loading/mallLoading';
 
 // Actions
-import { mystoreStoreInfoUpdate } from '../../../actions/mystore';
+import { mystoreStoreInfoUpdate } from '../../../../../../actions/mystore';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -32,12 +32,12 @@ class Index extends React.Component{
 
         super(props);
         this.state = {
-            loading: false,
-            data: props.data,
-            formObject: props.data,
-            actionSwitchDisplay: actionSwitchDisplay(),
-            className: props.className || "",
-            photo: ""
+            loading                : false,
+            data                   : props.data,
+            formObject             : props.data,
+            actionSwitchDisplay    : actionSwitchDisplay(),
+            className              : props.className || "",
+            photo                  : ""
         }
     }
 

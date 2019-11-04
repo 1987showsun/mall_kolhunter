@@ -31,6 +31,11 @@ export default {
             key: 'sellPrice',
             type: 'number',
             title: '特價'
+        },
+        {
+            key    : 'kolFee',
+            type   : 'text',
+            title  : '分潤比'
         }
     ],
     'store': [
@@ -62,6 +67,11 @@ export default {
             key: 'sellPrice',
             type: 'number',
             title: '特價'
+        },
+        {
+            key: 'kolFee',
+            type: 'text',
+            title: '分潤比'
         }
     ],
     'fansorders': [

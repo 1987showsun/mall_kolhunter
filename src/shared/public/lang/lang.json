@@ -169,7 +169,11 @@
             "cvc required": "信用卡驗證碼不能為空",
             "exp required": "信用卡有效日期不能為空",
             "ErrThisEmailHasBeenSignup": "該信箱已存在了",
-            "invoice wrong format": "發票格式錯誤"
+            "invoice wrong format": "發票格式錯誤",
+            "format": {
+                "name required": "型號 / 尺寸 / 顏色 必填",
+                "quantity required": "庫存數量必填"
+            }
         },
         "err": {
             "ID or password error.": "帳號或密碼錯誤",
@@ -380,7 +384,11 @@
             "cvc required": "",
             "exp required": "",
             "ErrThisEmailHasBeenSignup": "This email has been signup",
-            "invoice wrong format": "Invoice wrong format"
+            "invoice wrong format": "Invoice wrong format",
+            "format": {
+                "name required": "Model / Size / Color required",
+                "quantity required": "Stock quantity required"
+            }
         },
         "err": {
             "ID or password error.": "ID or password error.",

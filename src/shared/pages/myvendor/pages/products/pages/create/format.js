@@ -131,7 +131,7 @@ class Format extends React.Component{
                     return true;
                 }
             });
-        }).map( keys => <div key={keys} className="items">{ lang['zh-TW']['note'][`${keys} required`] }</div>);
+        }).map( keys => <div key={keys} className="items">{ lang['zh-TW']['note']['format'][`${keys} required`] }</div>);
 
         // this.props.returnSuccess({ step: step+1 });
         if( checkRequiredFilter.length==0 ){

@@ -1,34 +1,36 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPlus }from '@fortawesome/free-solid-svg-icons';
+import React                            from 'react';
+import { connect }                      from 'react-redux';
+import { FontAwesomeIcon }              from '@fortawesome/react-fontawesome';
+import { faPlus }                       from '@fortawesome/free-solid-svg-icons';
 
 // Modules
-import InputTable from '../../../../../../module/inputTable';
-import Loading from '../../../../../../module/loading';
+import InputTable                       from '../../../../../../module/inputTable';
+import Loading                          from '../../../../../../module/loading';
 
 // Actions
-import { createProduct } from '../../../../../../actions/myvendor';
+import { createProduct }                from '../../../../../../actions/myvendor';
 
 // Lang
-import lang from '../../../../../../public/lang/lang.json';
+import lang                             from '../../../../../../public/lang/lang.json';
 
 class Format extends React.Component{
 
     constructor(props){
         super(props);
-        this.state = {
-            loading: false,
-            id: props.id,
-            step: props.step,
-            msg: [],
-            required: ['name','quantity'],
-            data: [],
+        const id      = sessionStorage.getItem('createProductId');
+        const data    = JSON.parse(sessionStorage.getItem(`createProductStep${props.step}`));
+        this.state    = {
+            loading      : false,
+            id           : id!=null? id:'',
+            step         : props.step,
+            msg          : [],
+            required     : ['name','quantity'],
+            data         : data!=null? data['spec']:[],
             tableHeadKey : [
                 {
-                    key: 'name',
-                    type: 'text',
-                    title: '型號 / 尺寸 / 顏色'
+                    key       : 'name',
+                    type      : 'text',
+                    title     : '型號 / 尺寸 / 顏色'
                 },
                 // {
                 //     key: 'sku',
@@ -36,15 +38,15 @@ class Format extends React.Component{
                 //     title: '商品編號'
                 // },
                 {
-                    key: 'quantity',
-                    type: 'number',
-                    title: '庫存數量',
-                    className: 'number'
+                    key       : 'quantity',
+                    type      : 'number',
+                    title     : '庫存數量',
+                    className : 'number'
                 },
                 {
-                    key: 'action',
-                    type: 'action',
-                    title: '其他'
+                    key       : 'action',
+                    type      : 'action',
+                    title     : '其他'
                 }
             ]
         }
@@ -52,7 +54,6 @@ class Format extends React.Component{
 
     static getDerivedStateFromProps( props,state ){
         return{
-            id: props.id,
             step: props.step
         }
     }
@@ -84,6 +85,9 @@ class Format extends React.Component{
                         <ul>
                             <li>
                                 <button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button>
+                            </li>
+                            <li>
+                                <button type="button" className="previous" onClick={this.goPrevious.bind(this)}>{lang['zh-TW']['Previous']}</button>
                             </li>
                             <li>
                                 <button type="submit">{ step!=5? lang['zh-TW']['Submit Next'] : lang['zh-TW']['Finish'] }</button>
@@ -142,8 +146,9 @@ class Format extends React.Component{
                             case 200:
                                 this.setState({
                                     msg: []
-                                },()=>{                        
-                                    this.props.returnSuccess({ step: step+1 });
+                                },()=>{
+                                    sessionStorage.setItem('createProductStep3', JSON.stringify({id, spec: data}));       
+                                    this.props.returnSuccess({ step: Number(step)+1 });
                                 })
                                 break;
 
@@ -162,8 +167,9 @@ class Format extends React.Component{
         }
     }
 
-    handleCancel = () => {
-
+    goPrevious = () => {
+        const { step } = this.state;
+        this.props.returnSuccess({ step: step-1 });
     }
 }
 

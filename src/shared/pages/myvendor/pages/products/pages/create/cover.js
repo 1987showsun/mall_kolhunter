@@ -1,44 +1,45 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faTimes, faMapPin }from '@fortawesome/free-solid-svg-icons';
+import React                         from 'react';
+import { connect }                   from 'react-redux';
+import { FontAwesomeIcon }           from '@fortawesome/react-fontawesome';
+import { faTimes, faMapPin }         from '@fortawesome/free-solid-svg-icons';
 
 // Modules
-import BlockList from '../../../../../../module/blockList';
-import AvatarCropper from '../../../../../../module/avatarCropper';
-import Loading from '../../../../../../module/loading';
+import BlockList                     from '../../../../../../module/blockList';
+import AvatarCropper                 from '../../../../../../module/avatarCropper';
+import Loading                       from '../../../../../../module/loading';
 
 // Actions
-import { createProduct } from '../../../../../../actions/myvendor';
+import { createProduct }             from '../../../../../../actions/myvendor';
 
 // Lang
-import lang from '../../../../../../public/lang/lang.json';
+import lang                          from '../../../../../../public/lang/lang.json';
 
 class Cover extends React.Component{
 
     constructor(props){
         super(props);
+        const id   = sessionStorage.getItem('createProductId');
+        const data = JSON.parse(sessionStorage.getItem(`createProductStep${props.step}`));
         this.state = {
-            loading: false,
-            id: props.id,
-            step: props.step,
-            msg: [],
-            required: ['images'],
-            selectedIndex: 0,
-            data: []
+            loading       : false,
+            id            : id!=null? id:'',
+            step          : props.step,
+            msg           : [],
+            required      : ['images'],
+            selectedIndex : 0,
+            data          : data!=null? data['images']:[]
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return{
-            id: props.id,
             step: props.step
         }
     }
 
     render(){
 
-        let { loading, id, step, msg, data, selectedIndex } = this.state;
+        let { loading, step, msg, data, selectedIndex } = this.state;
 
         return(
             <React.Fragment>
@@ -89,6 +90,9 @@ class Cover extends React.Component{
                                 <button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button>
                             </li>
                             <li>
+                                <button type="button" className="previous" onClick={this.goPrevious.bind(this)}>{lang['zh-TW']['Previous']}</button>
+                            </li>
+                            <li>
                                 <button type="submit">{ step!=5? lang['zh-TW']['Submit Next'] : lang['zh-TW']['Finish'] }</button>
                             </li>
                         </ul>
@@ -130,8 +134,8 @@ class Cover extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const method = 'put';
         const { id, step, required, data } = this.state;
+        let method = 'put';
         const checkRequiredFilter = required.filter( keys => {
             if( data.length<=0 ){
                 return keys
@@ -151,8 +155,9 @@ class Cover extends React.Component{
                             case 200:
                                 this.setState({
                                     msg: []
-                                },()=>{                        
-                                    this.props.returnSuccess({ step: step+1 });
+                                },()=>{
+                                    sessionStorage.setItem('createProductStep2', JSON.stringify({id, images: data}));
+                                    this.props.returnSuccess({ step: Number(step)+1 });
                                 })
                                 break;
 
@@ -171,8 +176,9 @@ class Cover extends React.Component{
         }
     }
 
-    handleCancel = () => {
-
+    goPrevious = () => {
+        const { step } = this.state;
+        this.props.returnSuccess({ step: step-1 });
     }
 }
 

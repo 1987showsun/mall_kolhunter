@@ -68,6 +68,15 @@ app.all("*", (req, res, next) => {
             <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/appIcon57.png" />
             <link href="https://fonts.googleapis.com/css?family=Roboto:300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
             <link rel="manifest" href="/assets/manifest.json">
+
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ6QQTWJJD"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-EQ6QQTWJJD');
+            </script>
           </head>
 
           <body>

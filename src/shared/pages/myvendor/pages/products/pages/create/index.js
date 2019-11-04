@@ -1,50 +1,55 @@
-import React from 'react';
-import { Prompt } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Helmet } from "react-helmet";
+import React                                   from 'react';
+import queryString                             from 'query-string';
+import { Prompt }                              from 'react-router-dom';
+import { connect }                             from 'react-redux';
+import { Helmet }                              from "react-helmet";
 
 // Components
-import Step from './step';
-import Cover from './cover';
-import Basic from './basic';
-import Freight from './freight';
-import Format from './format';
-import Depiction from './depiction';
+import Step                                    from './step';
+import Cover                                   from './cover';
+import Basic                                   from './basic';
+import Freight                                 from './freight';
+import Format                                  from './format';
+import Depiction                               from './depiction';
 
 // Modules
-import Confirm from '../../../../../../module/confirm';
+import Confirm                                 from '../../../../../../module/confirm';
 
 // Actions
-import { createProduct, quota, deleteProduct } from '../../../../../../actions/myvendor';
-import { categories } from '../../../../../../actions/common';
+import { vinfo, deleteProduct }                from '../../../../../../actions/myvendor';
+import { categories }                          from '../../../../../../actions/common';
 
 //Lang
-import lang from '../../../../../../public/lang/lang.json';
+import lang                                    from '../../../../../../public/lang/lang.json';
 
 class Index extends React.Component{
 
     constructor(props){
         super(props);
+        const { location } = props;
+        const { search }   = location;
+        const id           = sessionStorage.getItem('createProductId');
+        const step         = queryString.parse(search)['step'] || 1;
         this.state = {
-            open: false,
-            popupMsg: "",
-            maxStep: 5,
-            step: 1,
-            id: "",
-            categoriesItem: [],
-            profile: props.profile
+            open             : false,
+            popupMsg         : "",
+            maxStep          : 5,
+            step             : step,
+            id               : id!=undefined? id : '',
+            categoriesItem   : [],
+            profile          : props.profile
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return{
-            profile: props.profile
+            profile          : props.profile
         }
     }
 
     render(){
 
-        const { loading, open, popupMsg, id, step,  categoriesItem } = this.state;
+        const { open, popupMsg, id, step, categoriesItem } = this.state;
 
         return(
             <React.Fragment>
@@ -117,10 +122,10 @@ class Index extends React.Component{
                     }
                 </section>
                 <Confirm
-                    open={open}
-                    method='alert'
-                    container={popupMsg}
-                    onCancel={this.handleConfirm.bind(this)}
+                    open      = {open}
+                    method    = 'alert'
+                    container = {popupMsg}
+                    onCancel  = {this.handleConfirm.bind(this)}
                 />
                 <Prompt when={true} message={ location => {
                     location.pathname.startsWith("/myvendor/products/create")? (
@@ -134,7 +139,6 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
-        // window.addEventListener("beforeunload", this.onUnload);
         // 取得類別
         this.props.dispatch( categories() ).then(res=>{
             this.setState({
@@ -144,7 +148,6 @@ class Index extends React.Component{
     }
 
     componentDidUpdate(prevProps, prevState) {
-
         const { history } = this.props;
         const { profile } = this.state;
         // 檢查配額
@@ -153,10 +156,6 @@ class Index extends React.Component{
                 pathname: '/myvendor/planform/list'
             })
         }
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener("beforeunload", this.onUnload);
     }
 
     handleConfirm = ( val ) => {
@@ -173,16 +172,16 @@ class Index extends React.Component{
     }
 
     onUnload = (e) => {
-        const { history } = this.props;
-        const { id, step, profile } = this.state;
+        const { id, step } = this.state;
+        sessionStorage.removeItem('createProductId');
+        for( let i=1 ; i<=5 ; i++ ){
+            sessionStorage.removeItem(`createProductStep${i}`);
+        }
         if( step>1 && step<5 ){
-            for( let i=1 ; i<=5 ; i++ ){
-                sessionStorage.removeItem(`productCreateStep${i}`);
-            }
             this.props.dispatch( deleteProduct(id) ).then( res => {
                 switch( res['status'] ){
                     case 200:
-                        this.props.dispatch( quota('sum',profile) );
+                        this.props.dispatch( vinfo() );
                         break;
 
                     default:
@@ -190,33 +189,47 @@ class Index extends React.Component{
                 }
             })
         }
-        let confirmationMessage = '你正在離開該頁面，我們將會刪除為完成資料！';
-        (e || window.event).returnValue = confirmationMessage;
-        return confirmationMessage;
     }
 
     success = ( val ) => {
         if( !val.hasOwnProperty('status') ){
-            const { id, step } = val;
-            const { profile } = this.state;
+            const { history, location }  = this.props;
+            const { pathname, search }   = location;
+            const { step } = val;
             if( val.hasOwnProperty('id') ){
+                const { id } = val;
                 if( step=='2' ){
-                    this.props.dispatch( quota('less',profile) );
+                    this.props.dispatch( vinfo() );
                 }
                 this.setState({
                     step,
                     id
+                },()=>{
+                    history.push({
+                        pathname,
+                        search: queryString.stringify({ ...queryString.parse(search), id, step })
+                    })
                 })
-            }else{
+            }else{           
                 this.setState({
                     step
+                },()=>{
+                    history.push({
+                        pathname,
+                        search: queryString.stringify({ ...queryString.parse(search), step })
+                    })
                 })
             }
         }else{
-            const { profile } = this.state;
             this.setState({
-                open: true,
-                popupMsg: '新增成功'
+                open     : true,
+                popupMsg : '新增成功'
+            },()=>{
+                Object.keys(sessionStorage).map( keys => {
+                    if( keys.indexOf('createProduct')>=0 ){
+                        sessionStorage.removeItem(keys);
+                    }
+                })
             })
         }
     } 

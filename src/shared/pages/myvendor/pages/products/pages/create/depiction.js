@@ -1,29 +1,31 @@
-import React from 'react';
-import FileBase64 from 'react-file-base64';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faArrowDown, faArrowUp }from '@fortawesome/free-solid-svg-icons';
+import React                                        from 'react';
+import FileBase64                                   from 'react-file-base64';
+import { connect }                                  from 'react-redux';
+import { FontAwesomeIcon }                          from '@fortawesome/react-fontawesome';
+import { faTrashAlt, faArrowDown, faArrowUp }       from '@fortawesome/free-solid-svg-icons';
 
 // Actions
-import { createProduct } from '../../../../../../actions/myvendor';
+import { createProduct }                            from '../../../../../../actions/myvendor';
 
 // Modules
-import Loading from '../../../../../../module/loading';
+import Loading                                      from '../../../../../../module/loading';
 
 // Lang
-import lang from '../../../../../../public/lang/lang.json';
+import lang                                         from '../../../../../../public/lang/lang.json';
 
 class Depiction extends React.Component{
 
     constructor(props){
         super(props);
+        const id      = sessionStorage.getItem('createProductId');
+        const data    = JSON.parse(sessionStorage.getItem(`createProductStep${props.step}`));
         this.state = {
-            loading: false,
-            id: props.id,
-            step: props.step,
-            msg: [],
-            required: ['descriptions'],
-            data : props.data || []
+            loading    : false,
+            id         : id!=null? id:'',
+            step       : props.step,
+            msg        : [],
+            required   : ['descriptions'],
+            data       : data!=null? data['descriptions']:[],
         }
     }
 
@@ -92,6 +94,9 @@ class Depiction extends React.Component{
                         <ul>
                             <li>
                                 <button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button>
+                            </li>
+                            <li>
+                                <button type="button" className="previous" onClick={this.goPrevious.bind(this)}>{lang['zh-TW']['Previous']}</button>
                             </li>
                             <li>
                                 <button type="submit">{ step!=5? lang['zh-TW']['Submit Next'] : lang['zh-TW']['Finish'] }</button>
@@ -222,8 +227,9 @@ class Depiction extends React.Component{
                             case 200:
                                 this.setState({
                                     msg: []
-                                },()=>{                        
-                                    this.props.returnSuccess({ step: step+1 });
+                                },()=>{
+                                    sessionStorage.setItem('createProductStep4', JSON.stringify({id, descriptions: data}));
+                                    this.props.returnSuccess({ step: Number(step)+1 });
                                 })
                                 break;
 
@@ -242,8 +248,9 @@ class Depiction extends React.Component{
         }
     }
 
-    handleCancel = () => {
-
+    goPrevious = () => {
+        const { step } = this.state;
+        this.props.returnSuccess({ step: step-1 });
     }
 }
 

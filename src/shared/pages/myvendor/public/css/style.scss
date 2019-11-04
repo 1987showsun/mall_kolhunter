@@ -461,6 +461,9 @@
             &[type=submit]{
                 background: var(--primary);
             }
+            &.previous{
+                background: #555;
+            }
         }
         a{
             width: 110px;

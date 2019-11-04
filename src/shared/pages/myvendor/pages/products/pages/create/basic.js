@@ -1,54 +1,66 @@
-import React from 'react';
-import CurrencyFormat from 'react-currency-format';
-import { connect } from 'react-redux';
+import React                   from 'react';
+import CurrencyFormat          from 'react-currency-format';
+import { connect }             from 'react-redux';
 
 // Modules
-import Loading from '../../../../../../module/loading';
+import Loading                 from '../../../../../../module/loading';
 
 // Actions
-import { createProduct } from '../../../../../../actions/myvendor';
+import { createProduct }       from '../../../../../../actions/myvendor';
 
 // Lang
-import lang from '../../../../../../public/lang/lang.json';
+import lang                    from '../../../../../../public/lang/lang.json';
 
 class Basic extends React.Component{
 
     constructor(props){
         super(props);
+        const id   = sessionStorage.getItem('createProductId');
+        const data = JSON.parse(sessionStorage.getItem(`createProductStep${props.step}`));
+        console.log('constructor',id);
         this.state = {
-            loading: false,
-            step: props.step,
-            msg: [],
-            required: ['name','categories','price'],
-            categoriesItem: props.categoriesItem,
-            data: {
-                id: "",
-                name: "",
-                categories: [],
-                price: "",
-                priceSale: ""
+            loading         : false,
+            step            : props.step,
+            msg             : [],
+            required        : ['name','categories','price'],
+            categoriesItem  : [],
+            data            : {
+                id            : id!=null  ? id                 : '',
+                name          : data!=null? data['name']       : "",
+                categories    : data!=null? data['categories'] : [],
+                price         : data!=null? data['price']      : "",
+                priceSale     : data!=null? data['priceSale']  : ""
             },
             categoriesLevel1: {
-                id: "",
-                title: ""
+                id            : data!=null? data['categories'][0]['id']    : "",
+                title         : data!=null? data['categories'][0]['title'] : ""
             },
             categoriesLevel2: {
-                id: "",
-                title: ""
+                id            : data!=null? data['categories'][1]['id']    : "",
+                title         : data!=null? data['categories'][1]['title'] : ""
             }
         }
     }
 
     static getDerivedStateFromProps(props, state) {
+        let step           = state.step;
+        let categoriesItem = state.categoriesItem;
+        if( props.step!=step ){
+            step = props.step;
+        }
+        if( categoriesItem.length==0 ){
+            categoriesItem = props.categoriesItem;
+        }
         return{
-            step: props.step,
-            categoriesItem: props.categoriesItem
+            step,
+            categoriesItem
         }
     }
 
     render(){
 
         const { loading, msg, step, data, categoriesItem, categoriesLevel1 } = this.state;
+        const { categories } = data;
 
         return(
             <React.Fragment>
@@ -69,7 +81,7 @@ class Basic extends React.Component{
                             <label>* 商品分類</label>
                             <div>
                                 <div className="input-box select category">
-                                    <select name="categoriesLevel1" value={data['categoriesLevel1']} onChange={this.categoriesChange.bind(this)}>
+                                    <select name="categoriesLevel1" value={categories.length>0? categories[0]['id']:""} onChange={this.categoriesChange.bind(this)}>
                                         <option value="" >請選擇主分類</option>
                                         {
                                             categoriesItem.map( (cItem,i)=> {
@@ -85,7 +97,7 @@ class Basic extends React.Component{
                                         if(cItem['id']==categoriesLevel1['id'] && cItem['children'].length!=0){                                     
                                             return(
                                                 <div className="input-box select category" key={i}>
-                                                    <select name="categoriesLevel2" value={data['categoriesLevel2']} onChange={this.categoriesChange.bind(this)}>
+                                                    <select name="categoriesLevel2" value={categories.length>1? categories[1]['id']:""} onChange={this.categoriesChange.bind(this)}>
                                                         <option value="" >請選擇次分類</option>
                                                         {
                                                             cItem['children'].map( (childrenItem,c_i) => {
@@ -150,16 +162,15 @@ class Basic extends React.Component{
     }
 
     categoriesChange = (e) => {
-        let { data } = this.state; 
-        let name = e.target.name;
-        let val = e.target.value;
-        let index = e.nativeEvent.target.selectedIndex;
-        let text = e.nativeEvent.target[index].text;
+        const { name, value } = e.target;
+        let { data }          = this.state; 
+        let index             = e.nativeEvent.target.selectedIndex;
+        let text              = e.nativeEvent.target[index].text;
 
         this.setState({
             [name] : {
-                id: val,
-                title: text
+                id    : value,
+                title : text
             }
         },()=>{
             const { categoriesLevel1,categoriesLevel2 } = this.state;
@@ -186,8 +197,11 @@ class Basic extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const method = 'post';
+        
         const { step, required, data } = this.state;
+        const { id } = data;
+        let   method = id==""? 'post':'put';
+
         const checkRequiredFilter = required.filter( keys => {
             if( keys=='categories' ){
                 return data[keys].length<=0;
@@ -195,7 +209,6 @@ class Basic extends React.Component{
                 return data[keys]=='';
             }
         }).map( keys => <div key={keys} className="items">{ lang['zh-TW']['note'][`${keys} required`] }</div>);
-        
         // this.props.returnSuccess({ step: step+1});
         if( checkRequiredFilter.length==0 ){
             this.setState({
@@ -207,11 +220,13 @@ class Basic extends React.Component{
                     },()=>{
                         switch( res['status'] ){
                             case 200:
-                                const { id } = res.data;
+                                const resId  = id==""? res['data']['id'] : id;
                                 this.setState({
                                     msg: []
-                                },()=>{                        
-                                    this.props.returnSuccess({ step: step+1, id: id });
+                                },()=>{
+                                    sessionStorage.setItem('createProductId',resId);
+                                    sessionStorage.setItem('createProductStep1', JSON.stringify({...data, id: resId}));     
+                                    this.props.returnSuccess({ id: resId, step: Number(step)+1 });
                                 })
                                 break;
 

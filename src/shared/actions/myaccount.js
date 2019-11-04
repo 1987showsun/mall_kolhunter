@@ -19,14 +19,9 @@ export function ainfo(){
                         })
                         return res;
                     }
-                    switch( res['response']['status'] ){
-                        case 401:
-                            break;
-                    }
                     return res['response'];
                 });
             }
-
         }
     }
 }

@@ -1,48 +1,50 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPlus }from '@fortawesome/free-solid-svg-icons';
+import React                        from 'react';
+import { connect }                  from 'react-redux';
+import { FontAwesomeIcon }          from '@fortawesome/react-fontawesome';
+import { faPlus }                   from '@fortawesome/free-solid-svg-icons';
 
 // Modules
-import InputTable from '../../../../../../module/inputTable';
-import Loading from '../../../../../../module/loading';
+import InputTable                   from '../../../../../../module/inputTable';
+import Loading                      from '../../../../../../module/loading';
 
 // Actions
-import { deliveries } from '../../../../../../actions/common';
-import { createProduct } from '../../../../../../actions/myvendor';
+import { deliveries }               from '../../../../../../actions/common';
+import { createProduct }            from '../../../../../../actions/myvendor';
 
 // Lang
-import lang from '../../../../../../public/lang/lang.json';
+import lang                         from '../../../../../../public/lang/lang.json';
 
 class Freight extends React.Component{
 
     constructor(props){
         super(props);
+        const id      = sessionStorage.getItem('createProductId');
+        const data    = JSON.parse(sessionStorage.getItem(`createProductStep${props.step}`));
         this.state = {
-            loading: false,
-            id: props.id,
-            step: props.step,
-            msg: [],
-            required: ['deliveryID','deliveryCost'],
-            deliveries: [],
-            data : [],
+            loading      : false,
+            id           : id!=null? id:'',
+            step         : props.step,
+            msg          : [],
+            required     : ['deliveryID','deliveryCost'],
+            deliveries   : [],
+            data         : data!=null? data['deliveries']:[],
             tableHeadKey : [
                 {
-                    key: 'deliveryID',
-                    type: 'select',
-                    title: '貨運名稱',
-                    options: []
+                    key          : 'deliveryID',
+                    type         : 'select',
+                    title        : '貨運名稱',
+                    options      : []
                 },
                 {
-                    key: 'deliveryCost',
-                    type: 'number',
-                    title: '費用',
-                    className: 'number'
+                    key          : 'deliveryCost',
+                    type         : 'number',
+                    title        : '費用',
+                    className    : 'number'
                 },
                 {
-                    key: 'action',
-                    type: 'action',
-                    title: '其他'
+                    key          : 'action',
+                    type         : 'action',
+                    title        : '其他'
                 }
             ]
         }
@@ -50,7 +52,7 @@ class Freight extends React.Component{
 
     render(){
 
-        const { loading, id, step, msg, tableHeadKey, data } = this.state;
+        const { loading, step, msg, tableHeadKey, data } = this.state;
 
         return(
             <React.Fragment>
@@ -75,6 +77,9 @@ class Freight extends React.Component{
                         <ul>
                             <li>
                                 <button type="button" className="cancel" onClick={this.props.returnCancel.bind(this)}>取消</button>
+                            </li>
+                            <li>
+                                <button type="button" className="previous" onClick={this.goPrevious.bind(this)}>{lang['zh-TW']['Previous']}</button>
                             </li>
                             <li>
                                 <button type="submit">{ step!=5? lang['zh-TW']['Submit Next'] : lang['zh-TW']['Finish'] }</button>
@@ -177,8 +182,9 @@ class Freight extends React.Component{
         }
     }
 
-    handleCancel = () => {
-
+    goPrevious = () => {
+        const { step } = this.state;
+        this.props.returnSuccess({ step: step-1 });
     }
 }
 

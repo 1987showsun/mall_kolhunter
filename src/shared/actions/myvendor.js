@@ -1,13 +1,13 @@
-import axios from 'axios';
-import queryString from 'query-string';
-import dayjs from 'dayjs';
-import API from './apiurl';
+import axios              from 'axios';
+import queryString        from 'query-string';
+import dayjs              from 'dayjs';
+import API                from './apiurl';
 
 // Actions
-import { catchError } from './catchErrorStatus';
+import { catchError }     from './catchErrorStatus';
 
 // Lang
-import lang from '../public/lang/lang.json';
+import lang               from '../public/lang/lang.json';
 
 // 額度新增刪除
 export function quota( actions="less",data={} ) {

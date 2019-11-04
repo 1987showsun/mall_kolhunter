@@ -52,8 +52,8 @@ app.all("*", (req, res, next) => {
           <head>
             <meta charset="utf-8">
             <meta name="theme-color" content="#131722">
-            <meta name="robots" content="none , noarchive, nosnippet, noimageindex, notranslate">
             <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="google-site-verification" content="dGVuJ2TR7aWJiIUs1o9I0byFSR2Sc9MGEqJnNhGK9Uc" />
             <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no">
             <meta name="apple-mobile-web-app-title" content="Musik">
             <meta http-equiv="Content-Language" content="zh-TW">

@@ -62,8 +62,8 @@ class Index extends React.Component{
         return(
             <React.Fragment>
                 <Helmet encodeSpecialCharacters={false}>
-                    <title>{`網紅電商 - ${info['name']},網紅店舖`}</title>
-                    <meta name="keywords"                  content={`網紅電商,網紅獵人,找網紅就是快,幫你賣,電商,網購}`} />
+                    <title>{`網紅電商 KOL Mall | 你的商品網紅幫你賣 - ${info['name']},網紅店舖`}</title>
+                    <meta name="keywords"                  content={`網紅電商,網紅獵人,找網紅就是快,幫你賣,電商,網購,網紅`} />
                     <meta name="description"               content={`${info['description']}`} />
                     <meta property="og:url"                content={url} />
                     <meta property="og:type"               content="article" />

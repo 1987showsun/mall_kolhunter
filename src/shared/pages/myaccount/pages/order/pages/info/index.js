@@ -51,7 +51,7 @@ class Index extends React.Component{
                             <div>{info['orderID']}</div>
                         </li>
                         <li>
-                            <label>訂購狀態</label>
+                            <label>訂單狀態</label>
                             <div>{lang['zh-TW']['orderStatus'][info['orderStatus']]}</div>
                         </li>
                         <li>
@@ -62,6 +62,23 @@ class Index extends React.Component{
                             <label>訂購日期</label>
                             <div>{dayjs(this.state.createTimeMs).format("YYYY / MM / DD")}</div>
                         </li>
+                        <li>
+                            <label>付款方式</label>
+                            <div>{lang['zh-TW']['payment'][info['payMethod']]}</div>
+                        </li>
+                        {
+                            info['payMethod']=='atm' &&
+                                <React.Fragment>
+                                    <li>
+                                        <label>銀行代號</label>
+                                        <div>{info['payAdditionalInfo']['BankCode']}</div>
+                                    </li>
+                                    <li>
+                                        <label>匯款帳號</label>
+                                        <div>{info['payAdditionalInfo']['VaccNo']}</div>
+                                    </li>
+                                </React.Fragment>
+                        }
                     </ul>
                 </section>
 

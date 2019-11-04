@@ -70,12 +70,13 @@ app.all("*", (req, res, next) => {
             <link rel="manifest" href="/assets/manifest.json">
 
             <!-- Global site tag (gtag.js) - Google Analytics -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ6QQTWJJD"></script>
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151414761-1"></script>
             <script>
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-EQ6QQTWJJD');
+
+              gtag('config', 'UA-151414761-1');
             </script>
           </head>
 

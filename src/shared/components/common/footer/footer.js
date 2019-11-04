@@ -73,7 +73,7 @@ class Footer extends React.Component{
                                             </React.Fragment>
                                         ):(
                                             <React.Fragment>
-                                                <li><Link to="/vendor/signup">加入經銷商</Link></li>
+                                                <li><Link to="/vendor/leading">加入經銷商</Link></li>
                                                 <li><Link to="/vendor">廠商登入</Link></li>
                                             </React.Fragment>
                                         )

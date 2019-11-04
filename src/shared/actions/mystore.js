@@ -40,7 +40,7 @@ export function mystoreProductList( pathname,query, data={} ) {
                     list       : list.map( item => {
                         return{
                             ...item,
-                            kolFee : `${(item['kolFee'] || 0)*100}％`
+                            kolFee : `${((item['kolFee'] || 0)*100).toFixed(1)}％`
                         }
                     })
                 })
@@ -99,14 +99,7 @@ export function mystoreStoreProductList( pathname,query,data={} ) {
         })
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
-                const list = res['data']['list'].map( item => {
-                    return{
-                        ...item,
-                        status: "on",
-                        kolFee: `${item['kolFee']*100} ％`
-                    }
-                });
-                      
+                const { list } = res['data'];
                 dispatch({
                     type       : 'MYSTORE_STOREPRODUCT_STATUS',
                     total      : res['data']['total'],
@@ -115,7 +108,13 @@ export function mystoreStoreProductList( pathname,query,data={} ) {
                 })
                 dispatch({
                     type       : 'MYSTORE_STOREPRODUCT_LIST',
-                    list       : list
+                    list       : list.map( item => {
+                        return{
+                            ...item,
+                            status: "on",
+                            kolFee: `${((item['kolFee'] || 0)*100).toFixed(1)} ％`
+                        }
+                    })
                 })
                 return res;
             }
@@ -127,10 +126,10 @@ export function mystoreStoreProductList( pathname,query,data={} ) {
 export function mystoreStoreProductAdd( pathname,query,data ) {
     return (dispatch,NODE_ENV) => {
 
-        const method = 'post';
+        const method    = 'post';
         const initQuery = {};
-        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url = `${API(NODE_ENV)['mystore']['addProduct']}${search!=''? `?${search}`: ''}`;
+        const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url       = `${API(NODE_ENV)['mystore']['addProduct']}${search!=''? `?${search}`: ''}`;
 
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
@@ -144,10 +143,10 @@ export function mystoreStoreProductAdd( pathname,query,data ) {
 export function mystoreStoreProductRemove( pathname,query,data ) {
     return (dispatch,NODE_ENV) => {
 
-        const method = 'delete';
+        const method    = 'delete';
         const initQuery = {};
-        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url = `${API(NODE_ENV)['mystore']['deleteProduct']}${search!=''? `?${search}`: ''}`;
+        const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url       = `${API(NODE_ENV)['mystore']['deleteProduct']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
@@ -162,10 +161,10 @@ export function mystoreStoreProductRemove( pathname,query,data ) {
 export function mystoreStoreInfoUpdate( pathname, query={}, data={} ) {
     return (dispatch,NODE_ENV) => {
 
-        const method = 'put';
+        const method    = 'put';
         const initQuery = {};
-        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url = `${API(NODE_ENV)['mystore']['updateInfo']}${search!=''? `?${search}`: ''}`;
+        const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url       = `${API(NODE_ENV)['mystore']['updateInfo']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
@@ -181,10 +180,10 @@ export function mystoreStoreInfoUpdate( pathname, query={}, data={} ) {
 export function mystoreBankInfo( pathname,query,data={} ) {
     return (dispatch,NODE_ENV) => {
 
-        const method = 'get';
+        const method    = 'get';
         const initQuery = {};
-        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url = `${API(NODE_ENV)['mystore']['bank']}${search!=''? `?${search}`: ''}`;
+        const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url       = `${API(NODE_ENV)['mystore']['bank']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
@@ -205,10 +204,10 @@ export function mystoreBankInfo( pathname,query,data={} ) {
 export function mystoreBankInfoUpdate( pathname,query,data={} ) {
     return (dispatch,NODE_ENV) => {
 
-        const method = 'put';
+        const method    = 'put';
         const initQuery = {};
-        const search = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url = `${API(NODE_ENV)['mystore']['bank']}${search!=''? `?${search}`: ''}`;
+        const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
+        const url       = `${API(NODE_ENV)['mystore']['bank']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){

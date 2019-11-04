@@ -1,7 +1,5 @@
 import React                  from 'react';
 import { Link }               from 'react-router-dom';
-import { FontAwesomeIcon }    from '@fortawesome/react-fontawesome';
-import { faInstagram }from '@fortawesome/free-solid-svg-icons';
 
 // Images
 import instagram from '../../../public/images/icon/instagram.svg';
@@ -28,7 +26,7 @@ export default ( props ) => {
                                 <Link to="/vendor">廠商登入</Link>
                             </li>
                             <li>
-                                <Link to="/vendor/signup">加入經銷商</Link>
+                                <Link to="/vendor/leading">加入經銷商</Link>
                             </li>
                         </>
                     )

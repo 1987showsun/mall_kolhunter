@@ -10,9 +10,9 @@ export default function Index(props){
         const handleResize = () => {
             const detectionBlock_w = detectionBlock['current'].parentElement.clientWidth;
             let returnStyle = setRWDStyle;
-            if( detectionBlock_w>=1000  ){
+            if( detectionBlock_w>=1100  ){
                 returnStyle = 1;
-            }else if( detectionBlock_w<1000 && detectionBlock_w>=780 ){
+            }else if( detectionBlock_w<1100 && detectionBlock_w>=780 ){
                 returnStyle = 2;
             }else if( detectionBlock_w<780 && detectionBlock_w>=480 ){
                 returnStyle = 3;

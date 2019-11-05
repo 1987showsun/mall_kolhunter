@@ -813,7 +813,6 @@ figure{
         display         : flex;
         align-items     : center;
         justify-content : center;
-        font-size       : 0.7rem;
         color           : #fff;
         user-select     : none;
     }
@@ -853,6 +852,7 @@ figure{
         .permanent-tool-head{
             height          : 25px;
             background      : #ee4d2d;
+            font-size       : 0.7rem;
         }
         .permanent-tool-prompt{
             justify-content : center;
@@ -893,13 +893,14 @@ figure{
             top               : 0px;
             left              : 0px;
             opacity           : 0;
-            transition        : opacity .2s;
+            transition        : opacity .3s;
         }
         .permanent-tool-head{
             height            : 50px;
             background        : #ee4d2d;
             border-radius     : 100px;
             box-shadow        : 0px 0px 3px rgba(0,0,0,.4);
+            font-size         : 0.9rem;
         }
         .permanent-tool-prompt{
             margin-right      : 10px;
@@ -912,10 +913,10 @@ figure{
             width             : 160px;
             flex-wrap         : wrap;
             position          : absolute;
-            bottom            : 0px;
+            bottom            : 30px;
             right             : 0px;
             opacity           : 0;
-            transition        : opacity .2s, bottom .2s;
+            transition        : opacity .3s, bottom .3s;
             >li{
                 border-radius     : 100px;
                 margin-top        : 10px;

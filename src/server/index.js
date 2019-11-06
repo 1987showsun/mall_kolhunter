@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import express                            from "express";
 import cors                               from "cors";
 import React                              from "react";
@@ -70,13 +75,13 @@ app.all("*", (req, res, next) => {
             <link rel="manifest" href="/assets/manifest.json">
 
             <!-- Global site tag (gtag.js) - Google Analytics -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151414761-1"></script>
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132884770-2"></script>
             <script>
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
 
-              gtag('config', 'UA-151414761-1');
+              gtag('config', 'UA-132884770-2');
             </script>
           </head>
 

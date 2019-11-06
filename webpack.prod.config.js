@@ -1,10 +1,17 @@
-const webpack            = require('webpack');
-const ExtractTextPlugin  = require('extract-text-webpack-plugin');
-const autoprefixer       = require('autoprefixer');
-const CopyWebpackPlugin  = require("copy-webpack-plugin");
-const { InjectManifest } = require('workbox-webpack-plugin');
-const CompressionPlugin  = require("compression-webpack-plugin");
-const nodeExternals      = require('webpack-node-externals');
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+const TerserPlugin         = require('terser-webpack-plugin');
+const path                 = require('path');
+const webpack              = require('webpack');
+const ExtractTextPlugin    = require('extract-text-webpack-plugin');
+const autoprefixer         = require('autoprefixer');
+const CopyWebpackPlugin    = require("copy-webpack-plugin");
+const { InjectManifest }   = require('workbox-webpack-plugin');
+const CompressionPlugin    = require("compression-webpack-plugin");
+const nodeExternals        = require('webpack-node-externals');
 
 const keyName= {};
 let SETUP= {
@@ -27,8 +34,8 @@ const browserConfig = {
   mode: 'production',
   entry: "./src/browser/index.js",
   output: {
-    path: __dirname,
-    filename: "./public/bundle.js"
+    path: path.join(__dirname, 'public'),
+    filename: "./bundle.js"
   },
   module: {
     rules: [
@@ -78,7 +85,7 @@ const browserConfig = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: "public/css/[name].css"
+      filename: "css/[name].css"
     }),
     new webpack.DefinePlugin({
       "process.env": SETUP
@@ -86,9 +93,18 @@ const browserConfig = {
     new CopyWebpackPlugin([
       { 
         from: "./src/server/public", 
-        to: "public/assets"
+        to: "assets"
       }
     ]),
+    new TerserPlugin({
+      cache: true,
+      parallel: true,
+      terserOptions: {
+          output: {
+              comments: false,
+          }
+      }
+    }),
     new CompressionPlugin(),
   ]
 };
@@ -98,7 +114,7 @@ const serverConfig = {
   entry: "./src/server/index.js",
   target: "node",
   output: {
-    path: __dirname,
+    path: path.join(__dirname),
     filename: "server.js",
     libraryTarget: "commonjs2"
   },
@@ -133,7 +149,18 @@ const serverConfig = {
         query: { presets: ["react-app"] }
       }
     ]
-  }
+  },
+  plugins: [
+    new TerserPlugin({
+      cache: true,
+      parallel: true,
+      terserOptions: {
+          output: {
+              comments: false,
+          }
+      }
+    })
+  ]
 };
 
 module.exports = [browserConfig, serverConfig];

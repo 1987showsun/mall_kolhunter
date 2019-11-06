@@ -4,4 +4,5 @@ node_modules
 
 /server.js
 /server.js.map
+/server.js.LICENSE
 /precache-manifest.js

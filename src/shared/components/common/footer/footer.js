@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -85,7 +90,7 @@ class Footer extends React.Component{
                             <div className="footer-nav-wrap" data-direction="column">
                                 <div className="footer-nav-wrap-title">網紅專區</div>
                                 <ul>
-                                    <li><a href="https://www.kolhunter.com/member/imcelebrity" target="_blank">我是網紅</a></li>
+                                    <li><a href="https://kolhunter.com/member/imcelebrity?refUrl=https://mall.kolhunter.com/account" target="_blank">我是網紅</a></li>
                                     {/* <li><Link to="">分潤快問快答</Link></li>
                                     <li><Link to="">網紅店家條款</Link></li> */}
                                 </ul>

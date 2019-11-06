@@ -1,51 +1,42 @@
 .Toaster__alert {
-  background-color: white;
-  overflow: hidden;
-  max-width: 650px;
-  position: relative;
-  border-radius: 0.4rem;
-  display: flex;
-  padding: 1rem;
-  padding-right: 48px;
-  box-shadow: rgba(52, 58, 64, 0.15) 0px 1px 10px 0px,
-    rgba(52, 58, 64, 0.1) 0px 6px 12px 0px,
-    rgba(52, 58, 64, 0.12) 0px 6px 15px -2px;
+  max-width            : 650px;
+  background-color     : white;
+  overflow             : hidden;
+  position             : relative;
+  border-radius        : 4px;
+  display              : flex;
+  align-items          : center;
+  padding              : 0px;
+  box-shadow           : rgba(52, 58, 64, 0.15) 0px 1px 10px 0px, rgba(52, 58, 64, 0.1) 0px 6px 12px 0px, rgba(52, 58, 64, 0.12) 0px 6px 15px -2px;
 }
 
 .Toaster__alert_text {
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  color: rgb(33, 37, 41);
+  box-sizing          : border-box;
+  font-family         : -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  color               : rgb(33, 37, 41);
   -webkit-font-smoothing: antialiased;
-  font-weight: 500;
-  line-height: 1.5;
-  font-size: 1rem;
-  margin: 0px;
+  font-weight         : 500;
+  line-height         : 1.5;
+  font-size           : 1rem;
+  margin              : 0px;
 }
 
 .Toaster__alert_close {
-  padding: 12px;
-  outline: none;
-  cursor: pointer;
-  background-color: transparent;
-  position: absolute;
-  top: 7px;
-  right: 4px;
-  border-radius: 0.4rem;
-  border: 0;
-  -webkit-appearance: none;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1;
-  text-shadow: 0 1px 0 #fff;
-  opacity: 0.5;
-  color: #333;
-}
-
-.Toaster__alert_close:focus {
-  box-shadow: rgba(52, 58, 64, 0.15) 0px 0px 0px 3px;
+  width               : 30px;
+  height              : 35px;
+  display             : flex;
+  align-items         : center;
+  justify-content     : center;
+  outline             : none;
+  cursor              : pointer;
+  background-color    : transparent;
+  position            : absolute;
+  right               : 5px;
+  border-radius       : 0.4rem;
+  border              : 0;
+  -webkit-appearance  : none;
+  font-size           : 1.2rem;
+  color               : #fff;
 }
 
 .Toaster__message-wrapper {
@@ -53,11 +44,13 @@
 }
 
 .toaster-status{
-  font-weight: bolder;
+  padding               : 15px 35px 15px 15px;
+  color                 : #fff;
+  font-weight           : bolder;
   &.success{
-    color: var(--green);
+    background-image      : linear-gradient(to top, #0ba360 0%, #3cba92 100%);
   }
   &.failure{
-    color: var(--main);
+    background-image      : linear-gradient(to top, #ff0844 0%, #ffb199 100%);
   }
 }

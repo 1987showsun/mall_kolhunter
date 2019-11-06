@@ -90,15 +90,6 @@ const browserConfig = {
         to: "assets"
       }
     ]),
-    new TerserPlugin({
-      cache: true,
-      parallel: true,
-      terserOptions: {
-          output: {
-              comments: false,
-          }
-      }
-    }),
     new CompressionPlugin()
     // new InjectManifest({
     //   swDest: './public/sw.js',
@@ -153,15 +144,6 @@ const serverConfig = {
     ]
   },
   plugins: [
-    new TerserPlugin({
-      cache: true,
-      parallel: true,
-      terserOptions: {
-          output: {
-              comments: false,
-          }
-      }
-    })
   ]
 };
 

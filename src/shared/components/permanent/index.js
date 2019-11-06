@@ -1,4 +1,14 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React                             from 'react';
+import { FontAwesomeIcon }               from '@fortawesome/react-fontawesome';
+import { faExclamationCircle, faExclamationTriangle }           from '@fortawesome/free-solid-svg-icons';
+
+// Stylesheets
+import './public/stylesheets/style.scss';
 
 // Images
 import service                           from '../../public/images/icon/service.png';
@@ -6,7 +16,10 @@ import service                           from '../../public/images/icon/service.
 export default () => {
     return(
         <div className="permanent-tool">
-            <label htmlFor="permanent-switch" className="permanent-tool-head">幫助</label>
+            <label htmlFor="permanent-switch" className="permanent-tool-head">
+                <i><FontAwesomeIcon icon={faExclamationTriangle}/></i>
+                <span className="permanent-switch-text">幫助</span>
+            </label>
             <input type="checkbox" id="permanent-switch" name="permanent-switch"/>
             <label htmlFor="permanent-switch" className="permanent-tool-mask"></label>
             <ul className="permanent-tool-list">

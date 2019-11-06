@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 export const storeSlider = {
     className: "slider-nromal store-card",
     dots: false,

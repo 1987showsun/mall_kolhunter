@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React        from 'react';
 import queryString  from 'query-string';
 import { connect }  from 'react-redux';
@@ -5,6 +10,7 @@ import { Helmet }   from "react-helmet";
 
 // Components
 import Filter      from './components/filter';
+import MobileNav   from './components/mobileNav/mobileNav';
 import Breadcrumbs from './components/breadcrumbs';
 
 // Modules
@@ -71,34 +77,37 @@ class Index extends React.Component{
                 <div className="row">
                     <section className="container main-content">
                         <Filter
-                            history= {history}
-                            match= {match}
-                            location= {location}
+                            history     = {history}
+                            match       = {match}
+                            location    = {location}
                         />
                         <section className="container-col" data-flexdirection="column" >
+                            <MobileNav 
+                                history    = {history}
+                                match      = {match}
+                                location   = {location}
+                            />
                             <Breadcrumbs
                                 history= {history}
                                 match= {match}
                                 location= {location}
                             />
-                            {
-                                data.length>0?(
-                                    <BlockList className="product-card">
-                                        {
-                                            data.map( item => {
-                                                return(
-                                                    <li key={item['token']}>
-                                                        <Item path={`/detail/${item['token']}`} data={item}/>
-                                                    </li>
-                                                )
-                                            })
-                                        }
-                                    </BlockList>
-                                ):(
-                                    !loading &&
-                                        <div className="list-nodata">該類別暫無任何商品</div>
-                                )
-                            }
+                            <BlockList className="product-card">
+                                {
+                                    data.length>0?(
+                                        data.map( item => {
+                                            return(
+                                                <li key={item['token']}>
+                                                    <Item path={`/detail/${item['token']}`} data={item}/>
+                                                </li>
+                                            )
+                                        })
+                                    ):(
+                                        !loading &&
+                                            <div className="noData">該類別暫無任何商品</div>
+                                    )
+                                }
+                            </BlockList>
                             <Pagination
                                 query= {{...queryString.parse(location['search'])}}
                                 current= {current}

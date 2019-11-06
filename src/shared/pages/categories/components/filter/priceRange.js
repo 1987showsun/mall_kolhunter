@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import queryString from 'query-string';
 import CurrencyFormat from 'react-currency-format';

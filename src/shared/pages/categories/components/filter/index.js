@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
@@ -36,6 +41,7 @@ class Filter extends React.Component{
                 <input type="checkbox" id="openFilterWrap" />
                 <label htmlFor="openFilterWrap" className="openFilterWrapLabel">
                     <FontAwesomeIcon icon={faFilter} />
+                    {/* <span class="openFilterWrapLabel-text">幫助</span> */}
                 </label>
                 <label htmlFor="openFilterWrap" className="openFilterWrapLabelMask" />
                 <section className="container-col filter-wrap">

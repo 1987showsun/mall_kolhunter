@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 // 付款方式
 import React       from 'react';
 import { connect } from 'react-redux';
@@ -47,13 +52,13 @@ class Index extends React.Component{
                             </div>
                         </label>
                     </li>
-                    {/* <li>
+                    <li>
                         <label className="radio">
                             <input type="radio" name="payMethod" value="cvs" onChange={this.handleChange.bind(this)} checked={formObject['payMethod']=='cvs'}/>
                             <div className="box"></div>
                             <div>超商付款</div>
                         </label>
-                    </li> */}
+                    </li>
                 </ul>
             </React.Fragment>
         );

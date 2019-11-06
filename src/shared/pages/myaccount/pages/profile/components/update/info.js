@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React                     from 'react';
 import dayjs                     from 'dayjs';
 import toaster                   from 'toasted-notes';
@@ -27,7 +32,7 @@ class Info extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            required: ['name','nickname','phone'],
+            required: ['name','phone'],
             accountInfo: {},
             formObject: {
                 photo      : '',

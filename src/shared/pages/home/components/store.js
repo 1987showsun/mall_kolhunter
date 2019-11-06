@@ -16,7 +16,7 @@ import StroeItem                     from '../../../module/item/store';
 import { storeSlider }               from '../public/set/slider';
 
 export default (props) => {
-  const { list } = this.props;
+  const { data } = props;
   return(
       <div className="row">
           <section className="container" data-direction="column" style={{paddingTop: '10px'}}>
@@ -30,7 +30,7 @@ export default (props) => {
                   </div>
                   <Slider settings={storeSlider}>
                       {
-                        list.map( (item,i) => {
+                        data.map( (item,i) => {
                           return <StroeItem key={item['id']} path={`/store/${item['id']}`} data={item}/>
                         })
                       }

@@ -16,7 +16,7 @@ import sliderSet                     from './public/set/slider';
 // Stylesheets
 import './public/stylesheets/style.scss';
 
-const mobileNav = (props) => {
+const MobileNav = (props) => {
     const { match, list }= props;
     const mobileNavSet   = sliderSet['mobileNav'];
     const mainId         = match['params']['main'] || "";
@@ -66,4 +66,4 @@ const mapStateToPeops = state => {
     }
 }
 
-export default connect( mapStateToPeops )( mobileNav );
+export default connect( mapStateToPeops )( MobileNav );

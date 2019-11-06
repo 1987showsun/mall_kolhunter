@@ -10,7 +10,7 @@ import { Helmet }   from "react-helmet";
 
 // Components
 import Filter      from './components/filter';
-import MobileNav   from './components/mobileNav/mobileNav';
+//import MobileNav   from './components/mobileNav/mobileNav';
 import Breadcrumbs from './components/breadcrumbs';
 
 // Modules
@@ -82,11 +82,11 @@ class Index extends React.Component{
                             location    = {location}
                         />
                         <section className="container-col" data-flexdirection="column" >
-                            <MobileNav 
+                            {/* <MobileNav 
                                 history    = {history}
                                 match      = {match}
                                 location   = {location}
-                            />
+                            /> */}
                             <Breadcrumbs
                                 history= {history}
                                 match= {match}

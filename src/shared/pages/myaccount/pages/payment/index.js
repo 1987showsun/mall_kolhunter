@@ -1,51 +1,61 @@
-import React from 'react';
-import queryString from 'query-string';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
 
-// Pages
-import Atm from './pages/atm';
-import Cc from './pages/cc';
-import Cvs from './pages/cvs';
+import React, { useState, useEffect }       from 'react';
+import queryString                          from 'query-string';
+import { connect }                          from 'react-redux';
 
+// Components
+import PayMethodInfo                        from './components/payMethodInfo';
+import Receiving                            from './components/receiving';
+import Product                              from './components/product';
 
-export default class Index extends React.Component{
+// Modules
+import Loading                              from '../../../../module/loading/mallLoading';
 
-    constructor(props){
-        super(props);
-        this.state = {
-            components: {
-                atm: {
-                    components: Atm
-                },
-                cc: {
-                    components: Cc
-                },
-                cvs: {
-                    components: Cvs
-                }
-            }
-        }
-    }
+// Actions
+import { ordersInfo }                       from '../../../../actions/myaccount';
 
-    render(){
+const Index = props => {
 
-        const { components } = this.state;
-        const { location, match, history } = this.props;
+    const [ loading, setPageLoading ] = useState(true);
+    const [ info   , setPayInfo]      = useState({});
+
+    useEffect(()=>{
+        const { location } = props;
         const { pathname, search } = location;
-        const query = queryString.parse(search);
-        const payMethod = query['payMethod'] || "atm";
-        const orderID = query['orderID'] || "";
-        const Component = components[payMethod]['components'] || null;
+        props.dispatch( ordersInfo(pathname,queryString.parse(search)) ).then( res => {
+            setPageLoading( false );
+            setPayInfo(res);
+        });
+    },[loading])
 
-        return(
-            <React.Fragment>
-                <Component 
-                    match= {match}
-                    history= {history}
-                    location= {location}
-                    payMethod= {payMethod}
-                    orderID= {orderID}
-                />
-            </React.Fragment>
-        );
+    return(
+        <>
+            <PayMethodInfo 
+                data= {info}
+            />
+
+            <Receiving 
+                data    = {info}
+            />
+
+            <Product 
+                list    = {info['orderDetail'] || []}
+                amount  = {info['amount'] || 0}
+            />
+
+            <Loading loading={loading} />
+        </>
+    );
+}
+
+const mapStateToProps = state =>{
+    return{
+
     }
 }
+
+export default connect( mapStateToProps )( Index );

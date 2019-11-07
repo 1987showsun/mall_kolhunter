@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React                  from 'react';
 import axios                  from 'axios';
 import toaster                from 'toasted-notes';
@@ -38,22 +43,23 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            open: false,
-            loading: false,
-            method: "confirm",
-            popupMsg: "",
-            required: required,        
-            formObject: {
-                memberType: "member",
-                cartToken: localStorage.getItem('cartID')
+            open                : false,
+            loading             : false,
+            method              : "confirm",
+            popupMsg            : "",
+            required            : required, 
+            spgatewayFormName   : '',
+            formObject          : {
+                memberType        : "member",
+                cartToken         : localStorage.getItem('cartID')
             },
-            paymentFormObject: {},
-            invoiceFormObject: {},
-            newebpayFormObject: {
-                url: "",
-                val: ""
+            paymentFormObject   : {},
+            invoiceFormObject   : {},
+            newebpayFormObject  : {
+                url               : "",
+                val               : ""
             },
-            returnBody: ""
+            returnBody          : ""
         }
     }
 
@@ -161,11 +167,11 @@ class Index extends React.Component{
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { returnBody } = this.state;
+        const { spgatewayFormName, returnBody } = this.state;
         if( returnBody!="" ){
             const s = document.createElement('script');
             s.async = true;
-            s.innerHTML = "setTimeout(function(){ document.forms.pay2go.submit(); }, 1000)";
+            s.innerHTML = `setTimeout(function(){ document.forms.${spgatewayFormName}.submit(); }, 1000)`;
             this.instance.appendChild(s);
         }
     }
@@ -211,8 +217,8 @@ class Index extends React.Component{
                         },()=>{
                             switch( res['status'] ){
                                 case 200:
-                                    const payMethod  = res['data']['payMethod'];
-                                    const returnBody = payMethod=='cc'? res['data']['body'] : "";
+                                    const payMethod   = res['data']['payMethod'];
+                                    const returnBody  = payMethod=='cc'? res['data']['body'] : "";
                                     if( returnBody!='pay checkcode error' || returnBody=="" ){
                                         // 刪除現有的購物車 cartID
                                         localStorage.removeItem('cartID');
@@ -224,23 +230,42 @@ class Index extends React.Component{
                                                 case 'atm':
                                                     // 成功後導頁
                                                     history.push({
-                                                        pathname: '/myaccount/payment/success',
-                                                        search: queryString.stringify({
+                                                        pathname  : '/myaccount/payment/success',
+                                                        search    : queryString.stringify({
                                                             orderID,
                                                             payMethod
                                                         })
-                                                    })
+                                                    });
                                                     break;
 
                                                 case 'cc':
                                                     // 刪除現有的購物車 cartID
-                                                    this.setState({
-                                                        returnBody
-                                                    })
+                                                    const isCheckString = returnBody.indexOf('<html>')>=0? true : false;
+                                                    if( isCheckString ){
+                                                        const searchStaetIndex = returnBody.search('<form');
+                                                        const searchEndIndex   = returnBody.search('</form>')+7;
+                                                        const filterTEXT       = returnBody.substring( searchStaetIndex, searchEndIndex+7 );
+                                                        const mergeTEXT        = `<div style='padding:10%;text-align: center;'><div><img style='min-width: 55%;max-width: 50%;' src='https://ccore.newebpay.com/images/logo/logo_footer.png'/></div><div style='font-family:Microsoft JhengHei;font-size:2em'>頁面轉跳中，請稍候<span id='dote'>...</span></div></div>${filterTEXT}<script language=javascript>setTimeout(function(){ document.forms.HPP.submit(); }, 1000);</script>`
+                                                        this.setState({
+                                                            returnBody: mergeTEXT,
+                                                            spgatewayFormName: 'HPP'
+                                                        })
+                                                    }else{
+                                                        this.setState({
+                                                            returnBody,
+                                                            spgatewayFormName: 'pay2go'
+                                                        })
+                                                    }
                                                     break;
 
                                                 default:
-
+                                                    history.push({
+                                                        pathname  : '/myaccount/payment/success',
+                                                        search    : queryString.stringify({
+                                                            orderID,
+                                                            payMethod
+                                                        })
+                                                    });
                                                     break;
                                             }
                                         });

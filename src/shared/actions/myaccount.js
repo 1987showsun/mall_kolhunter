@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import axios from 'axios';
 import queryString from 'query-string';
 import API from './apiurl';
@@ -224,7 +229,7 @@ export function ordersInfo( pathname,query,data ){
             if( !res.hasOwnProperty('response') ){
 
                 // 商品圖片篩選第一張作為主圖
-                const infoData = res['data']['orderDetail'].map( p_item => {
+                const infoData  = res['data']['orderDetail'].map( p_item => {
                     return{ ...p_item, image: p_item['productImgs'][0]['path'] };
                 })
                 const mergeData = { ...res['data'], orderDetail: infoData };
@@ -237,7 +242,7 @@ export function ordersInfo( pathname,query,data ){
                 return mergeData;
             }
             return res['response'];
-        });
+        }).catch( err => err['response']);
 
     }
 }

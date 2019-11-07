@@ -3,22 +3,23 @@
  *   All rights reserved.
  */
 
-import React               from 'react';
-import toaster             from 'toasted-notes';
-import queryString         from 'query-string';
-import CurrencyFormat      from 'react-currency-format';
-import { connect }         from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart }  from '@fortawesome/free-solid-svg-icons';
+import React                                 from 'react';
+import toaster                               from 'toasted-notes';
+import queryString                           from 'query-string';
+import CurrencyFormat                        from 'react-currency-format';
+import { connect }                           from 'react-redux';
+import { FontAwesomeIcon }                   from '@fortawesome/react-fontawesome';
+import { faShoppingCart }                    from '@fortawesome/free-solid-svg-icons';
 
 // Components
-import Share               from './share';
+import Share                                 from './share';
+import Price                                 from './price';
 
 // Modules
-import CoverSlider         from '../../../module/coverSlider';
-import Quantity            from '../../../module/quantity';
-import OpenSelect          from '../../../module/openSelect';
-import Loading             from '../../../module/loading';
+import CoverSlider                           from '../../../module/coverSlider';
+import Quantity                              from '../../../module/quantity';
+import OpenSelect                            from '../../../module/openSelect';
+import Loading                               from '../../../module/loading';
 
 // Actions
 import { updateCartProductItem, cartsCount } from '../../../actions/myaccount';
@@ -38,21 +39,19 @@ class Cover extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            lock: false,
-            data: props.data,
-            storeLoading: false,
-            storeInfo: {},
-            formObject: {
-                cartToken: "",
-                productToken: props.data['token'],
-                productDeliveryID: props.data['delivery'].length!=0? props.data['delivery'][0]['productDeliveryID'] : "",
-                specToken: props.data['spec'].length!=0? props.data['spec'][0]['token'] : "",
-                itemNumber: 1,
-                storeID: ""
+            lock             : false,
+            data             : props.data,
+            storeLoading     : false,
+            storeInfo        : {},
+            formObject       : {
+                cartToken            : "",
+                productToken         : props.data['token'],
+                productDeliveryID    : props.data['delivery'].length!=0? props.data['delivery'][0]['productDeliveryID'] : "",
+                specToken            : props.data['spec'].length!=0? props.data['spec'][0]['token'] : "",
+                itemNumber           : 1,
+                storeID              : ""
             },
-            imageData: props.data['images'].map( item => {
-                return item['path'];
-            })
+            imageData        : props.data['images'].map( item => item['path'] )
         }
     }
 
@@ -81,15 +80,14 @@ class Cover extends React.Component{
             }
         });
 
-        const discount = ((Number(data['sellPrice'])/Number(data['price']))*10).toFixed(1);
-
         return(
             <div className="detail-cover-wrap">
                 <div className="detail-cover-wrap-col left">
                     <CoverSlider 
-                        data= {imageData}
-                        mainSettings= {main}
-                        navSettings= {sub}
+                        name         = {data['name']}
+                        data         = {imageData}
+                        mainSettings = {main}
+                        navSettings  = {sub}
                     />
                     <Share />
                 </div>
@@ -107,28 +105,9 @@ class Cover extends React.Component{
                             </li>
                         </ul>
                     </div>
-                    <div className="detail-cover-row cover-money">
-                        {
-                            data['price']!=data['sellPrice']?(
-                                <React.Fragment>
-                                    <div className="cover-money-price">
-                                        <CurrencyFormat value={data['price']} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                                    </div>
-                                    <div className="cover-money-sellPrice">
-                                        <CurrencyFormat value={data['sellPrice']} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                                    </div>
-                                    <div className="cover-money-discount">{discount}折</div>
-                                </React.Fragment>
-                            ):(
-                                <React.Fragment>
-                                    <div className="cover-money-price"></div>
-                                    <div className="cover-money-sellPrice">
-                                        <CurrencyFormat value={data['sellPrice']} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                                    </div>
-                                </React.Fragment>
-                            )
-                        }
-                    </div>
+                    <Price 
+                        data= { data }
+                    />
                     <div className="detail-cover-row cover-select">
                         <label>{lang['zh-TW']['label']['delivery']}</label>                            
                         <OpenSelect 

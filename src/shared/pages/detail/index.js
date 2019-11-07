@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
@@ -5,6 +10,7 @@ import { Helmet } from "react-helmet";
 
 // Components
 import Cover from './components/cover';
+import Description from './components/description';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -24,16 +30,16 @@ class Index extends React.Component{
         this.state = {
             imageData: [],
             info: {
-                token: "",
-                name: "",
-                celebrityNum: 0,
-                images: [],
-                description: [],
-                delivery: [],
-                spec: [],
-                onSale: false,
-                price: 0,
-                sellPrice: 0
+                token              : "",
+                name               : "",
+                celebrityNum       : 0,
+                images             : [],
+                description        : [],
+                delivery           : [],
+                spec               : [],
+                onSale             : false,
+                price              : 0,
+                sellPrice          : 0
             }
         }
     }
@@ -43,16 +49,16 @@ class Index extends React.Component{
             imageData: props.images,
             info: {
                 ...state.info,
-                token: props.token,
-                name: props.name,
-                celebrityNum: props.celebrityNum,
-                images: props.images,
-                description: props.description,
-                delivery: props.delivery,
-                spec: props.spec,
-                onSale: props.onSale,
-                price: props.price,
-                sellPrice: props.sellPrice
+                token              : props.token,
+                name               : props.name,
+                celebrityNum       : props.celebrityNum,
+                images             : props.images,
+                description        : props.description,
+                delivery           : props.delivery,
+                spec               : props.spec,
+                onSale             : props.onSale,
+                price              : props.price,
+                sellPrice          : props.sellPrice
             }
         }
     }
@@ -62,7 +68,6 @@ class Index extends React.Component{
         const { location, match, history } = this.props;
         const { imageData, info }          = this.state;
         const { description }              = info;
-        const url = typeof window!="undefined"? window.location.href:'';
 
         return(
             <React.Fragment>
@@ -70,7 +75,7 @@ class Index extends React.Component{
                     <title>{`網紅電商 KOL Mall | 你的商品網紅幫你賣 - ${info['name']}`}</title>
                     <meta name="keywords"                  content={`網紅電商,網紅獵人,找網紅就是快,幫你賣,電商,網購,網紅`} />
                     <meta name="description"               content={`網紅電商結合時下熱門網紅幫你推銷商品，讓消費者可透過網紅電商用最划算的價格買到所有需要、想要的商品，包含美妝保健、流行服飾配件、母嬰居家、美食旅遊票券、3C家電影音等千萬件熱銷好物等你來選購`} />
-                    <meta property="og:url"                content={url} />
+                    <meta property="og:url"                content={typeof window!="undefined"? window.location.href:''} />
                     <meta property="og:title"              content={`網紅電商 - ${info['name']}`} />
                     <meta property="og:description"        content={``} />
                     <meta property="og:image"              content={`${imageData.length>0? imageData[0]['path']:''}`} />
@@ -90,26 +95,11 @@ class Index extends React.Component{
                                     <div className="detail-cover-loading"> Loading... </div>
                                 )
                             }
-                        </div>
-                        <div className="container-row">
-                            <div className="detail-cover-wrap detail-container">
-                                {
-                                    description.map( item => {
-                                        switch( item['type'] ){
-                                            case "image":
-                                                return <img key={item['sort']} src={item['content']} alt="" title="" />;
-
-                                            case "html":
-                                                return (
-                                                    <div key={item['sort']} className="detail-container-text">
-                                                        <p>{item['content']}</p>
-                                                    </div>
-                                                );
-                                        }
-                                    })
-                                }
-                            </div>
-                        </div>
+                        </div>                    
+                        <Description 
+                            name={ info['name'] }
+                            data={ description  }
+                        />
                     </section>
                 </div>
             </React.Fragment>

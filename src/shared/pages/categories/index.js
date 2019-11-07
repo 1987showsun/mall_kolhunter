@@ -3,24 +3,24 @@
  *   All rights reserved.
  */
 
-import React        from 'react';
-import queryString  from 'query-string';
-import { connect }  from 'react-redux';
-import { Helmet }   from "react-helmet";
+import React, { useState, useEffect }  from 'react';
+import queryString                     from 'query-string';
+import { connect }                     from 'react-redux';
+import { Helmet }                      from "react-helmet";
 
 // Components
-import Filter      from './components/filter';
-import MobileNav   from './components/mobileNav/mobileNav';
-import Breadcrumbs from './components/breadcrumbs';
+import Filter                          from './components/filter';
+import MobileNav                       from './components/mobileNav/mobileNav';
+import Breadcrumbs                     from './components/breadcrumbs';
 
 // Modules
-import Item       from '../../module/item/product';
-import Loading    from '../../module/loading/mallLoading';
-import BlockList  from '../../module/blockList';
-import Pagination from '../../module/pagination';
+import Item                            from '../../module/item/product';
+import Loading                         from '../../module/loading/mallLoading';
+import BlockList                       from '../../module/blockList';
+import Pagination                      from '../../module/pagination';
 
 // Actions
-import { mallDelivery } from '../../actions/common';
+import { mallDelivery }                from '../../actions/common';
 import { productList, ssrProductList } from '../../actions/categories';
 
 class Index extends React.Component{

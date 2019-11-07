@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import axios        from 'axios';
 import queryString  from 'query-string';
 import API          from './apiurl';

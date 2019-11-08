@@ -153,7 +153,7 @@
             align-items  : center;
             .cover-other-ul{
                 display    : flex;
-                font-size  : 0.7rem;
+                font-size  : 0.8rem;
                 color      : #767676;
                 >li{
                     padding          : 0px 10px 0px 10px;
@@ -326,7 +326,7 @@
                 background: #ccc;
                 font-size: 1rem;
                 &.add-cart{
-                    background: var(--main);
+                    background         : linear-gradient(to bottom, #FF4B2B, #FF416C);
                 }
                 &.direct-purchase{
                     color: var(--main);
@@ -487,8 +487,9 @@
         }
     }
     .slick-arrow{
-        background-color: rgba(0,0,0,.3);
-        z-index: 2;
+        background-color  : rgba(0,0,0,.3);
+        z-index           : 2;
+        cursor            : pointer;
         &.slick-prev{
             left: 0px;
         }
@@ -514,8 +515,23 @@
             padding: 3px;
         }
         .slick-arrow{
-            width: 20px;
-            height: 45px;
+            width            : 25px;
+            height           : 25px;
+            background-color : #fff;
+            box-shadow       : 0px 0px 3px rgba(0,0,0,.3);
+            border-radius    : 100px;
+            &.slick-prev{
+                left                : -10px;
+                background-image    : url('../../../../public/images/icon/arrow-prev.png');
+            }
+            &.slick-next{
+                right               : -10px;
+                background-image    : url('../../../../public/images/icon/arrow-next.png');
+            }
+            &:hover{
+                transform           : scale(1.2);
+                margin-top          : -12px;
+            }
         }
         .slick-track{
             .slick-slide{
@@ -528,32 +544,37 @@
     }
 }
 .detail-store-wrap{
-    padding: 5px 10px;
-    display: flex;
-    align-items: center;
-    background: var(--main);
-    border-radius: 5px;
-    color: #fff;
-    position: relative;
+    padding         : 5px 10px;
+    display         : flex;
+    align-items     : center;
+    background      : linear-gradient(to bottom, #FF4B2B, #FF416C);
+    border-radius   : 5px;
+    color           : #fff;
+    position        : relative;
+    user-select     : none;
     .img{
-        width: 40px;
-        height: 40px;
-        background: #ccc;
-        display: inline-flex;
-        align-items: center;
-        margin-right: 5px;
-        border-radius: 100px;
-        overflow: hidden;
+        width           : 30px;
+        height          : 30px;
+        background      : #ccc;
+        display         : inline-flex;
+        align-items     : center;
+        margin-right    : 10px;
+        border-radius   : 100px;
+        overflow        : hidden;
         img{
-            width: 100%;
-            display: block;
+            width          : 100%;
+            display        : block;
         }
     }
     .name{
-        max-width: 160px;
-        height: 100%;
-        display: inline-flex;
-        align-items: center;
+        max-width      : 160px;
+        height         : 100%;
+        display        : inline-flex;
+        align-items    : center;
+        h3{
+            font-size       : 1rem;
+            font-weight     : 400;
+        }
     }
 }
 

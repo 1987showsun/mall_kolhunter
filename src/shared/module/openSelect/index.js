@@ -14,7 +14,7 @@ export default class Index extends React.Component{
             name: name,
             data: props.data || [],
             formObject: {
-                [name]: props.data.length!=0? props.data[0]['value'] : ""
+                [name]: props.initSelected
             }
         }
     }
@@ -31,14 +31,14 @@ export default class Index extends React.Component{
                             <li key={item['id']}>
                                 <label htmlFor={`${item['id']}`}>
                                     <input 
-                                        type="radio" 
-                                        name={name} 
-                                        id={`${item['id']}`} 
-                                        className="variant" 
-                                        value={`${item['value']}`} 
-                                        onChange={this.handleChange.bind(this)} 
-                                        checked={formObject[name]== item['value'] } 
-                                        disabled={ item.hasOwnProperty('quantity')? item['quantity']==0 || false : false }
+                                        type          = "radio" 
+                                        name          = {name} 
+                                        id            = {`${item['id']}`}
+                                        className     = "variant" 
+                                        value         = {`${item['value']}`} 
+                                        onChange      = { this.handleChange.bind(this) }
+                                        checked       = { formObject[name]== item['value'] } 
+                                        disabled      = { item.hasOwnProperty('quantity')? item['quantity']==0 || false : false }
                                     />
                                     <span>
                                         {item['name']} 

@@ -649,34 +649,45 @@ figure{
 }
 
 .quantity-wrap{
-    width: 100%;
-    max-width: 150px;
-    height: 40px;
-    display: flex;
-    overflow: hidden;
-    border-radius: 2px;
+    width             : 100%;
+    max-width         : 150px;
+    height            : 40px;
+    display           : flex;
+    overflow          : hidden;
+    border-radius     : 2px;
     button{
-        width: 25px;
-        height: 100%;
-        padding: 0px;
-        display: inline-flex;
-        background: var(--main);
-        color: #fff;
-        border-radius: 0px;
+        width              : 28px;
+        min-width          : 28px;
+        height             : 100%;
+        padding            : 0px;
+        display            : inline-flex;
+        background         : linear-gradient(to bottom, #FF4B2B, #FF416C);
+        color              : #fff;
+        border-radius      : 0px;
+    }
+    .input-box, .show-quantity{
+        width                : calc(100% - 56px);
+        height               : 100%;
+        border               : none;
+        border-top           : 1px solid #e7e7e7;
+        border-bottom        : 1px solid #e7e7e7;
+        font-size            : 1.2rem;
+        font-weight          : bold;
     }
     .input-box{
-        width: calc(100% - 50px);
-        height: 100%;
-        margin: 0px;
-        border: none;
-        border-top: 1px solid #e7e7e7;
-        border-bottom: 1px solid #e7e7e7;
+        margin               : 0px;
         input{
-            width: 100%;
-            text-align: center;
-            font-size: 1.2em;
-            border: none;
+            width              : 100%;
+            text-align         : center;
+            font-size          : 1.2em;
+            border             : none;
         }
+    }
+    .show-quantity{
+        display              : flex;
+        align-items          : center;
+        justify-content      : center;
+        user-select          : none;
     }
 }
 

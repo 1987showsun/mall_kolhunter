@@ -1,32 +1,42 @@
-import React from 'react';
-import queryString from 'query-string';
-import CurrencyFormat from 'react-currency-format';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus }from '@fortawesome/free-solid-svg-icons';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                                 from 'react';
+import queryString                           from 'query-string';
+import CurrencyFormat                        from 'react-currency-format';
+import { Link }                              from 'react-router-dom';
+import { connect }                           from 'react-redux';
+import { FontAwesomeIcon }                   from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus }                   from '@fortawesome/free-solid-svg-icons';
+
+
+// Modules
+import Quantity                              from '../../../../../../module/quantity';
 
 class Item extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            itemNumMax: 10,
-            formObject: {
-                specToken: props.data['specToken'],
-                productToken: props.data['productToken'],
-                productDeliveryID: props.data['productDeliveryID'],
-                storeID: props.data['storeToken'],
-                itemNum: props.data['itemNum']
+            itemNumMax           : 10,
+            formObject           : {
+                specToken          : props.data['specToken'],
+                productToken       : props.data['productToken'],
+                productDeliveryID  : props.data['productDeliveryID'],
+                storeID            : props.data['storeToken'],
+                itemNum            : props.data['itemNum']
             }
         }
     }
 
     render(){
 
-        const { data, location } = this.props;
-        const { formObject } = this.state;
-        const { search } = location;
+        const { data }           = this.props;
+        const { formObject }     = this.state;
+        const itemNumMax         = data['storage'];
+        console.log( itemNumMax );
         
         return(
             <figure className="product-item-figure">
@@ -34,7 +44,7 @@ class Item extends React.Component{
                     <img src={data['image']} alt={data['productName']} title=""/>
                 </div>
                 <figcaption>
-                    <h3> {/* ?store=${formObject['storeID']} */}
+                    <h3>
                         <Link to={`/detail/${formObject['productToken']}`} target="_blank">
                             {data['productName']}
                         </Link>
@@ -56,17 +66,19 @@ class Item extends React.Component{
                         </li>
                         <li>
                             <label>數量</label>
-                            <div className="quantity-wrap">
-                                <button type="button" onClick={this.quantityChange.bind(this,"minus")}>
-                                    <FontAwesomeIcon icon={faMinus} />
-                                </button>
-                                <div className="input-box">
-                                    <CurrencyFormat value={formObject['itemNum']} format={this.cardExpiry} thousandSeparator={true} onValueChange={ values => this.handleQuantity.bind(this,values)} />
-                                </div>
-                                <button type="button" onClick={this.quantityChange.bind(this,"plus")}>
-                                    <FontAwesomeIcon icon={faPlus} />
-                                </button>
-                            </div>
+                            <Quantity 
+                                initVal   = { formObject['itemNum'] }
+                                itemNumMax= { itemNumMax||0 }
+                                returnForm= { val => {
+                                    this.setState({
+                                        formObject: { 
+                                            ...this.state.formObject, itemNum: val['itemNum'] 
+                                        }
+                                    },()=>{
+                                        this.updateData();
+                                    })
+                                }}
+                            />
                         </li>
                         <li>
                             <label>運送方式</label>
@@ -97,46 +109,46 @@ class Item extends React.Component{
         )
     }
 
-    handleQuantity = (values) => {
-        const formObject = { ...this.state.formObject, itemNum: values['value'] }
-        this.setState({
-            formObject
-        })
-    }
+    // handleQuantity = (values) => {
+    //     const formObject = { ...this.state.formObject, itemNum: values['value'] }
+    //     this.setState({
+    //         formObject
+    //     })
+    // }
 
-    quantityChange = ( method ) => {
-        const { itemNumMax, formObject } = this.state;
-        let itemNum = formObject['itemNum'];
-        switch( method ){
-            case 'minus':
-                // 減
-                itemNum<=1? 1 : itemNum--;
-                break;
+    // quantityChange = ( method ) => {
+    //     const { itemNumMax, formObject } = this.state;
+    //     let itemNum = formObject['itemNum'];
+    //     switch( method ){
+    //         case 'minus':
+    //             // 減
+    //             itemNum<=1? 1 : itemNum--;
+    //             break;
 
-            default:
-                // 加
-                itemNum>=itemNumMax? itemNumMax : itemNum++;
-                break;
-        }
+    //         default:
+    //             // 加
+    //             itemNum>=itemNumMax? itemNumMax : itemNum++;
+    //             break;
+    //     }
 
-        this.setState({
-            formObject : { ...formObject, itemNum } 
-        },()=>{
-            this.updateData();
-        })
-    }
+    //     this.setState({
+    //         formObject : { ...formObject, itemNum } 
+    //     },()=>{
+    //         this.updateData();
+    //     })
+    // }
 
-    cardExpiry = ( val ) =>{
-        const { itemNumMax } = this.state;
-        val = Number( val );
-        if( val<=0 ){
-            val = 1;
-        }else if( val>=itemNumMax ){
-            val = itemNumMax;
-        } 
+    // cardExpiry = ( val ) =>{
+    //     const { itemNumMax } = this.state;
+    //     val = Number( val );
+    //     if( val<=0 ){
+    //         val = 1;
+    //     }else if( val>=itemNumMax ){
+    //         val = itemNumMax;
+    //     } 
 
-        return String(val);
-    }
+    //     return String(val);
+    // }
 
     handleChange = ( e ) => {
         const { formObject } = this.state;

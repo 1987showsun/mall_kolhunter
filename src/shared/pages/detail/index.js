@@ -3,20 +3,20 @@
  *   All rights reserved.
  */
 
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
-import { Helmet } from "react-helmet";
+import React                                       from 'react';
+import queryString                                 from 'query-string';
+import { connect }                                 from 'react-redux';
+import { Helmet }                                  from "react-helmet";
 
 // Components
-import Cover from './components/cover';
-import Description from './components/description';
-
-// Stylesheets
-import './public/stylesheets/style.scss';
+import Cover                                       from './components/cover';
+import Description                                 from './components/description';
 
 // Actions
 import { ssrApproachProduct, mallApproachProduct } from '../../actions/categories';
+
+// Stylesheets
+import './public/stylesheets/style.scss';
 
 class Index extends React.Component{
 
@@ -77,8 +77,13 @@ class Index extends React.Component{
                     <meta name="description"               content={`網紅電商結合時下熱門網紅幫你推銷商品，讓消費者可透過網紅電商用最划算的價格買到所有需要、想要的商品，包含美妝保健、流行服飾配件、母嬰居家、美食旅遊票券、3C家電影音等千萬件熱銷好物等你來選購`} />
                     <meta property="og:url"                content={typeof window!="undefined"? window.location.href:''} />
                     <meta property="og:title"              content={`網紅電商 - ${info['name']}`} />
-                    <meta property="og:description"        content={``} />
+                    <meta property="og:description"        content={`網紅電商結合時下熱門網紅幫你推銷商品，讓消費者可透過網紅電商用最划算的價格買到所有需要、想要的商品，包含美妝保健、流行服飾配件、母嬰居家、美食旅遊票券、3C家電影音等千萬件熱銷好物等你來選購`} />
                     <meta property="og:image"              content={`${imageData.length>0? imageData[0]['path']:''}`} />
+                    {/* Twitter Card data */}
+                    <meta name="twitter:title"             content={`網紅電商 - ${info['name']}`} /> 
+                    <meta name="twitter:description"       content={`網紅電商結合時下熱門網紅幫你推銷商品，讓消費者可透過網紅電商用最划算的價格買到所有需要、想要的商品，包含美妝保健、流行服飾配件、母嬰居家、美食旅遊票券、3C家電影音等千萬件熱銷好物等你來選購`} /> 
+                    <meta name="twitter:creator"           content="sun li" /> 
+                    <meta name="twitter:image:src"         content={`${imageData.length>0? imageData[0]['path']:''}`} />
                 </Helmet>
                 <div className="row">
                     <section className="container detail-content" >

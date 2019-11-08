@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 // 產品列表
 import React                 from 'react';
 import queryString           from 'query-string';
@@ -77,7 +82,7 @@ class Index extends React.Component{
             productToken: val['productToken'],
             specToken: val['specToken'],
             itemNumber: val['itemNum'],
-            storeID: val['storeID'] || "",
+            storeID   : val['storeID'] || "",
             productDeliveryID: val['productDeliveryID']
         }
 

@@ -38,27 +38,33 @@ class Cover extends React.Component{
 
     constructor(props){
         super(props);
+
+        const { delivery, spec } = props['data'];
+        const productDeliveryID  = delivery.length!=0?   delivery[0]['productDeliveryID'] : "";
+        const specToken          = spec.length!=0?       spec[spec.findIndex( item => item['storage']!=0 )]['token'] : '';
+
         this.state = {
-            lock             : false,
-            data             : props.data,
-            storeLoading     : false,
-            storeInfo        : {},
-            formObject       : {
+            lock                   : false,
+            data                   : props.data,
+            storeLoading           : false,
+            storeInfo              : {},
+            formObject             : {
                 cartToken            : "",
                 productToken         : props.data['token'],
-                productDeliveryID    : props.data['delivery'].length!=0? props.data['delivery'][0]['productDeliveryID'] : "",
-                specToken            : props.data['spec'].length!=0? props.data['spec'][0]['token'] : "",
+                productDeliveryID    : productDeliveryID,
+                specToken            : specToken,
                 itemNumber           : 1,
                 storeID              : ""
             },
-            imageData        : props.data['images'].map( item => item['path'] )
+            imageData              : props.data['images'].map( item => item['path'] )
         }
     }
 
     render(){
 
         const { lock, data, imageData, storeLoading, storeInfo, formObject } = this.state;
-        const itemNumMax = data['spec'].filter( item => item['token']==formObject['specToken']);
+        const { specToken }  = formObject;
+        const itemNumMax     = data['spec'].filter( item => item['token']==formObject['specToken'])[0]['storage'];
 
         // 運送方式
         const delivery = data['delivery'].map( item => {
@@ -81,8 +87,8 @@ class Cover extends React.Component{
         });
 
         return(
-            <div className="detail-cover-wrap">
-                <div className="detail-cover-wrap-col left">
+            <section className="detail-cover-wrap">
+                <section className="detail-cover-wrap-col left">
                     <CoverSlider 
                         name         = {data['name']}
                         data         = {imageData}
@@ -90,8 +96,8 @@ class Cover extends React.Component{
                         navSettings  = {sub}
                     />
                     <Share />
-                </div>
-                <div className="detail-cover-wrap-col right">
+                </section>
+                <section className="detail-cover-wrap-col right">
                     <div className="detail-cover-row cover-title">
                         <h1>{data['name'] || ""}</h1>
                     </div>
@@ -101,7 +107,7 @@ class Cover extends React.Component{
                                 <div><span className="value"><CurrencyFormat value={data['celebrityNum']} displayType={'text'} thousandSeparator={true} /></span>店家販售</div>
                             </li>
                             <li>
-                                <div><span className="value"><CurrencyFormat value={itemNumMax[0]!=undefined? itemNumMax[0]['storage']:0} displayType={'text'} thousandSeparator={true} /></span>剩餘庫存</div>
+                                <div><span className="value"><CurrencyFormat value={itemNumMax||0} displayType={'text'} thousandSeparator={true} /></span>剩餘庫存</div>
                             </li>
                         </ul>
                     </div>
@@ -111,9 +117,10 @@ class Cover extends React.Component{
                     <div className="detail-cover-row cover-select">
                         <label>{lang['zh-TW']['label']['delivery']}</label>                            
                         <OpenSelect 
-                            data= {delivery}
-                            name= "productDeliveryID"
-                            returnForm= { val => {
+                            data         = {delivery}
+                            name         = "productDeliveryID"
+                            initSelected = {formObject['productDeliveryID']}
+                            returnForm   = { val => {
                                 this.setState({
                                     formObject: { ...this.state.formObject, ...val }
                                 })
@@ -123,9 +130,10 @@ class Cover extends React.Component{
                     <div className="detail-cover-row cover-select">
                         <label>{lang['zh-TW']['label']['size']}</label>
                         <OpenSelect 
-                            data= {spec}
-                            name= "specToken"
-                            returnForm= { val => {
+                            data         = {spec}
+                            name         = "specToken"
+                            initSelected = {formObject['specToken']}
+                            returnForm   = { val => {
                                 this.setState({
                                     formObject: { ...this.state.formObject, ...val }
                                 })
@@ -135,7 +143,7 @@ class Cover extends React.Component{
                     <div className="detail-cover-row cover-quantity">
                         <label>{lang['zh-TW']['label']['buy quantity']}</label>
                         <Quantity 
-                            itemNumMax= { itemNumMax[0]!=undefined? itemNumMax[0]['storage']:0  }
+                            itemNumMax= { itemNumMax||0 }
                             returnForm= { val => {
                                 this.setState({
                                     formObject: { ...this.state.formObject, itemNumber: val['itemNum'] }
@@ -164,8 +172,8 @@ class Cover extends React.Component{
                             <li className="direct-purchase-li"><button type="button" className="direct-purchase" disabled={lock} onClick={this.callCarts.bind(this,"direct")}>{lang['zh-TW']['button']['buy now']}</button></li>
                         </ul>
                     </div>
-                </div>
-            </div>
+                </section>
+            </section>
         );
     }
 

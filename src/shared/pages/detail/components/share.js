@@ -12,10 +12,14 @@ import {
     LineShareButton,
     LineIcon,
     EmailShareButton,
-    EmailIcon
+    EmailIcon,
+    TelegramShareButton,
+    TelegramIcon,
+    WhatsappShareButton,
+    WhatsappIcon
   } from 'react-share';
 
-  export default () => {
+export default () => {
     const url = typeof window!="undefined"? window.location.href:'';
     return(
         <div className="detail-cover-row detail-cover-share-wrap">
@@ -43,7 +47,17 @@ import {
                         <LineIcon size={34} round={true} />
                     </LineShareButton>
                 </li>
+                <li>
+                    <TelegramShareButton url={url}>
+                        <TelegramIcon size={34} round={true} />
+                    </TelegramShareButton>
+                </li>
+                <li>
+                    <WhatsappShareButton url={url}>
+                        <WhatsappIcon size={34} round={true} />
+                    </WhatsappShareButton>
+                </li>
             </ul>
         </div>
     );
-  }
+}

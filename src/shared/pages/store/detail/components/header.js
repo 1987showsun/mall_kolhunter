@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React              from 'react';
 import CurrencyFormat     from 'react-currency-format';
 import {
@@ -8,7 +13,11 @@ import {
     LineShareButton,
     LineIcon,
     EmailShareButton,
-    EmailIcon
+    EmailIcon,
+    TelegramShareButton,
+    TelegramIcon,
+    WhatsappShareButton,
+    WhatsappIcon
   } from 'react-share';
 
 // Mudules
@@ -29,29 +38,39 @@ export default ( props ) => {
                     </div>
                     <figcaption>
                         <div className="name">
-                            <h2>{info['name']}</h2>
+                            <h1>{info['name']}</h1>
                         </div>
                         <div className="figcaption-row">
                             <ul className="store-cover-share-list">
                                 <li>
                                     <FacebookShareButton url={url}>
-                                        <FacebookIcon size={40} round={true} />
+                                        <FacebookIcon size={38} round={true} />
                                     </FacebookShareButton>
                                 </li>
                                 <li>
                                     <TwitterShareButton url={url}>
-                                        <TwitterIcon size={40} round={true} />
+                                        <TwitterIcon size={38} round={true} />
                                     </TwitterShareButton>
                                 </li>
                                 <li>
                                     <EmailShareButton url={url}>
-                                        <EmailIcon size={40} round={true} />
+                                        <EmailIcon size={38} round={true} />
                                     </EmailShareButton>
                                 </li>
                                 <li>
                                     <LineShareButton url={url}>
-                                        <LineIcon size={40} round={true} />
+                                        <LineIcon size={38} round={true} />
                                     </LineShareButton>
+                                </li>
+                                <li>
+                                    <TelegramShareButton url={url}>
+                                        <TelegramIcon size={38} round={true} />
+                                    </TelegramShareButton>
+                                </li>
+                                <li>
+                                    <WhatsappShareButton url={url}>
+                                        <WhatsappIcon size={38} round={true} />
+                                    </WhatsappShareButton>
                                 </li>
                             </ul>
                         </div>

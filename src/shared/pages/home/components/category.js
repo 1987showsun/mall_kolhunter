@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -32,15 +37,17 @@ export default class Category extends React.Component{
                         <Slider settings={categorySlider}>
                             {
                                 data.map( item => {
-                                  return(
-                                      <figure key={item['id']}>
-                                          <Link to={`/categories/${item['id']}`} />
-                                          <div className="category-figure-img">
-                                              <img src={item['imagePath']} alt="" title="" />
-                                          </div>
-                                          <figcaption>{item['title']}</figcaption>
+                                    return(
+                                        <figure key={item['id']}>
+                                            <Link to={`/categories/${item['id']}`} />
+                                            <div className="category-figure-img">
+                                                <img src={item['imagePath']} alt="" title="" />
+                                            </div>
+                                            <figcaption>
+                                                <h3>{item['title']}</h3>
+                                            </figcaption>
                                       </figure>
-                                  )
+                                    )
                                 })
                             }
                         </Slider>

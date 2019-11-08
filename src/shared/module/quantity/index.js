@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
@@ -10,16 +15,29 @@ export default class Index extends React.Component{
         this.state = {
             itemNumMax: props.itemNumMax || 1,
             formObject: {
-                itemNum: 1
+                itemNum: props.initVal || 1
             }
         }
     }
 
-    static getDerivedStateToProps( props,state ){
-    
-        return{
-            itemNumMax: props.itemNumMax || 1
+    static getDerivedStateFromProps( props,state ){
+
+        let { itemNum }    = state.formObject;
+        let { itemNumMax } = state.itemNumMax;
+
+        if( itemNumMax!=props.itemNumMax ){
+            itemNumMax = props.itemNumMax;
+            if( itemNum>props.itemNumMax ){
+                itemNum = props.itemNumMax;
+            }
         }
+        return {
+            formObject: {
+                ...state.formObject,
+                itemNum
+            },
+            itemNumMax
+        };
     }
 
     render(){
@@ -31,8 +49,8 @@ export default class Index extends React.Component{
                 <button type="button" onClick={this.quantityChange.bind(this,"minus")}>
                     <FontAwesomeIcon icon={faMinus} />
                 </button>
-                <div className="input-box">
-                    <CurrencyFormat value={formObject['itemNum']} format={this.cardExpiry} thousandSeparator={true} onValueChange={ values => this.handleQuantity(values)} />
+                <div className="show-quantity">
+                    <CurrencyFormat value={formObject['itemNum']} displayType={'text'} thousandSeparator={true} />
                 </div>
                 <button type="button" onClick={this.quantityChange.bind(this,"plus")}>
                     <FontAwesomeIcon icon={faPlus} />
@@ -45,17 +63,11 @@ export default class Index extends React.Component{
         this.updateFormObject();
     }
 
-    handleQuantity = (values) => {
-        this.setState({
-            formObject: { ...this.state.formObject, itemNum: Number(values['value']) }
-        },()=>{
-            this.updateFormObject();
-        })
-    }
-
     quantityChange = ( method ) => {
+
         const { itemNumMax, formObject } = this.state;
-        let itemNum = formObject['itemNum'];
+        let   { itemNum }                = formObject;
+
         switch( method ){
             case 'minus':
                 // 減

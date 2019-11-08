@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
@@ -34,6 +39,7 @@ class Step2 extends React.Component{
             method                : "confirm",
             popupMsg              : [],
             required              : required,
+            spgatewayFormName     : '',
             profile               : props.profile,
             vendorBuyPlanform     : JSON.parse(sessionStorage.getItem('vendorBuyPlanform')),
             mergeFormObject       : {},
@@ -235,12 +241,11 @@ class Step2 extends React.Component{
     }
 
     componentDidUpdate(prevProps, prevState) {
-
-        const { returnBody } = this.state;
+        const { spgatewayFormName, returnBody } = this.state;
         if( returnBody!="" ){
             const s = document.createElement('script');
             s.async = true;
-            s.innerHTML = "setTimeout(function(){ document.forms.pay2go.submit(); }, 1000)";
+            s.innerHTML = `setTimeout(function(){ document.forms.${spgatewayFormName}.submit(); }, 1000)`;
             this.instance.appendChild(s);
         }
 
@@ -295,35 +300,60 @@ class Step2 extends React.Component{
             },()=>{
                 switch( res['status'] ){
                     case 200:
-                        const orderID     = res['data']['orderID'];
                         const payMethod   = res['data']['payMethod'];
-                        switch( payMethod ){
-                            case 'atm':
-                                // ATM 付款
-                                history.push({
-                                    pathname: `/myvendor/planform/payment/step3`,
-                                    search: `orderID=${orderID}`
-                                });
-                                break;
+                        const returnBody  = payMethod=='cc'? res['data']['body'] : "";
+                        if( returnBody!='pay checkcode error' || returnBody=="" ){
+                            const orderID     = res['data']['orderID'];
+                            switch( payMethod ){
+                                case 'atm':
+                                    // ATM 付款
+                                    history.push({
+                                        pathname   : `/myvendor/planform/payment/step3`,
+                                        search     : `orderID=${orderID}`
+                                    });
+                                    break;
 
-                            case 'cc':
-                                // 信用卡付款
-                                const returnBody = payMethod=='cc'? res['data']['body'] : "";
-                                this.setState({
-                                    returnBody
-                                })
-                                break;
+                                case 'cc':
+                                    // 信用卡付款
+                                    const isCheckString = returnBody.indexOf('<html>')>=0? true : false;
+                                    if( isCheckString ){
+                                        const searchStaetIndex = returnBody.search('<form');
+                                        const searchEndIndex   = returnBody.search('</form>')+7;
+                                        const filterTEXT       = returnBody.substring( searchStaetIndex, searchEndIndex+7 );
+                                        const mergeTEXT        = `<div style='padding:10%;text-align: center;'><div><img style='min-width: 55%;max-width: 50%;' src='https://ccore.newebpay.com/images/logo/logo_footer.png'/></div><div style='font-family:Microsoft JhengHei;font-size:2em'>頁面轉跳中，請稍候<span id='dote'>...</span></div></div>${filterTEXT}<script language=javascript>setTimeout(function(){ document.forms.HPP.submit(); }, 1000);</script>`
+                                        this.setState({
+                                            returnBody: mergeTEXT,
+                                            spgatewayFormName: 'HPP'
+                                        })
+                                    }else{
+                                        this.setState({
+                                            returnBody,
+                                            spgatewayFormName: 'pay2go'
+                                        })
+                                    }
+                                    break;
 
-                            case 'COUPON':
-                                history.push({
-                                    pathname: `/myvendor/planform/payment/step3`,
-                                    search: `orderID=${orderID}`
-                                });
-                                break;
+                                case 'COUPON':
+                                    history.push({
+                                        pathname: `/myvendor/planform/payment/step3`,
+                                        search: `orderID=${orderID}`
+                                    });
+                                    break;
 
-                            default:
-                                // 超商付款
-                                break;
+                                default:
+                                    // 超商付款
+                                    history.push({
+                                        pathname   : `/myvendor/planform/payment/step3`,
+                                        search     : `orderID=${orderID}`
+                                    });
+                                    break;
+                            }
+                        }else{
+                            this.setState({
+                                open        : true,
+                                method      : 'alert',
+                                popupMsg    : `<div className="items">${lang['zh-TW']['note']['pay checkcode error']}</div>`
+                            })
                         }
                         break;
 

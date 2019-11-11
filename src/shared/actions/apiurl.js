@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import axios from 'axios';
 
 axios.interceptors.request.use(function (config) {
@@ -56,12 +61,12 @@ export default function API(){
             'vendor'       : `${API_ADDRESS()}/v1/vendor/signup`
         },
         'forget'         : {
-            'account'      : `${API_ADDRESS()}/v1/member/request/resetpassword`,
-            'vendor'       : `${API_ADDRESS()}/v1/vendor/request/resetpassword`
+            'account'      : `${API_ADDRESS()}/v1/member/resetpassword`,
+            'vendor'       : `${API_ADDRESS()}/v1/vendor/resetpassword`
         },
         'reset_password' : {
-            'account'      : `${API_ADDRESS()}/v1/member/password`,
-            'vendor'       : `${API_ADDRESS()}/v1/vendor/password`
+            'account'      : `${API_ADDRESS()}/v1/member/resetpassword`,
+            'vendor'       : `${API_ADDRESS()}/v1/vendor/resetpassword`,
         },
         'verify'         : {
             'account'      : `${API_ADDRESS()}/v1/member/verify`,

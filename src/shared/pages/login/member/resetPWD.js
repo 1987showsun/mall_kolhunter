@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React                 from 'react';
 import queryString           from 'query-string';
 import { connect }           from 'react-redux';
@@ -19,7 +24,7 @@ class ResetPWD extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            required      : ['email','code','newPWD','newPWDChk'],
+            required      : ['email','code','newpwd','checkpwd'],
             open          : false,
             method        : 'alert',
             popupMsg      : [],
@@ -27,16 +32,20 @@ class ResetPWD extends React.Component{
             formObject    : {
                 type        : "account",
                 email       : queryString.parse(props.location.search)['email'] || "",
-                code        : queryString.parse(props.location.search)['code'] || "",
-                newPWD      : "",
-                newPWDChk   : ""
+                code        : queryString.parse(props.location.search)['code']  || "",
+                newpwd      : "",
+                checkpwd    : ""
             }
         }
     }
 
     render(){
 
+        const { location, history } = this.props;
         const { open, method, popupMsg, msg, formObject } = this.state;
+        const query = { ...queryString.parse(location.search) };
+        const codeInputDisplay  = query.hasOwnProperty('code');
+        const emailInputDisplay = query.hasOwnProperty('email');
 
         return(
             <React.Fragment>
@@ -45,17 +54,37 @@ class ResetPWD extends React.Component{
                         <h4>會員密碼重置</h4>
                     </div>
                     <ul>
+                        {
+                            !codeInputDisplay &&
+                                <li>
+                                    <label htmlFor="code">
+                                        <div className="input-box">
+                                            <input type="text" name="code" id="code" value={ formObject['code'] } onChange={this.handleChange.bind(this)} placeholder="驗證碼"/>
+                                        </div>
+                                    </label>
+                                </li>
+                        }
+                        {
+                            !emailInputDisplay &&
+                                <li>
+                                    <label htmlFor="email">
+                                        <div className="input-box">
+                                            <input type="email" name="email" id="email" value={ formObject['email'] } onChange={this.handleChange.bind(this)} placeholder="註冊信箱"/>
+                                        </div>
+                                    </label>
+                                </li>
+                        }
                         <li>
-                            <label htmlFor="newPWD">
+                            <label htmlFor="newpwd">
                                 <div className="input-box">
-                                    <input type="password" name="newPWD" id="newPWD" value={ formObject['newPWD'] } onChange={this.handleChange.bind(this)} placeholder="新密碼"/>
+                                    <input type="password" name="newpwd" id="newpwd" value={ formObject['newpwd'] } onChange={this.handleChange.bind(this)} placeholder="新密碼"/>
                                 </div>
                             </label>
                         </li>
                         <li>
-                            <label htmlFor="newPWDChk">
+                            <label htmlFor="checkpwd">
                                 <div className="input-box">
-                                    <input type="password" name="newPWDChk" id="newPWDChk" value={ formObject['newPWDChk'] } onChange={this.handleChange.bind(this)} placeholder="再次確認密碼"/>
+                                    <input type="password" name="checkpwd" id="checkpwd" value={ formObject['checkpwd'] } onChange={this.handleChange.bind(this)} placeholder="再次確認密碼"/>
                                 </div>
                             </label>
                         </li>
@@ -70,20 +99,20 @@ class ResetPWD extends React.Component{
                     <div className="form-row" data-direction="column">
                         <button type="button" className="goBack" onClick={()=> {
                             const { location } = this.props;
-                            const { pathname, search } = location;
+                            const { search }   = location;
                             const searchObject = queryString.parse(search);
-                            const backStatus = searchObject['goto'] || 'prev';
+                            const backStatus   = searchObject['goto'] || 'prev';
                             switch( backStatus ){
                                 case 'home':
-                                    this.props.history.push('/');
+                                    history.push('/');
                                     break;
 
                                 case 'prev':
-                                    this.props.history.goBack();
+                                    history.goBack();
                                     break;
 
                                 default:
-                                    this.props.history.goBack();
+                                    history.goBack();
                                     break;
                             }                            
                         }}>
@@ -118,7 +147,7 @@ class ResetPWD extends React.Component{
         const { pathname, search }     = location;
         const { formObject, required } = this.state;
         const checkRequiredFilter      = checkRequired(required, formObject);
-        const checkPWDFormat           = PWD({ password: formObject['newPWD'] , confirm: formObject['newPWDChk'] });
+        const checkPWDFormat           = PWD({ password: formObject['newpwd'] , confirm: formObject['checkpwd'] });
 
         if( checkRequiredFilter.length==0 ){
             if( checkPWDFormat['status'] ){
@@ -131,6 +160,10 @@ class ResetPWD extends React.Component{
                         },()=>{
                             switch( res['status'] ){
                                 case 200:
+                                    this.setState({
+                                        open         : true,
+                                        popupMsg     : [<div key="success" className="items">修改完成</div>]
+                                    })
                                     break;
 
                                 default:
@@ -150,6 +183,13 @@ class ResetPWD extends React.Component{
             });
         }
         
+    }
+
+    onCancel = () => {
+        const { history } = this.props;
+        history.push({
+            pathname: '/account'
+        })
     }
 }
 

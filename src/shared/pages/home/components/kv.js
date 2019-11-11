@@ -1,72 +1,36 @@
-import React from 'react';
-import { connect } from 'react-redux';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React               from 'react';
+import { connect }         from 'react-redux';
 
 // Modules
-import Slider from '../../../module/slider';
+import Slider              from '../../../module/slider';
+import KvSlider            from '../../../module/item/kv';
+
+// Setup
+import { kvSlider }        from '../public/set/slider';
 
 class Kv extends React.Component{
 
   constructor(props){
     super(props);
     this.state = {
-      data: props.data
+      settings     : kvSlider,
+      data         : props.data || []
     }
   }
 
   static getDerivedStateFromProps( props,state ){
     return{
-        data: props.data || []
+        data       : props.data || []
     }
   }
 
   render(){
-    const { data } = this.state;
-    const settings = {
-      className: "center kv-slider-wrap",
-      dots: true,
-      autoplay: true,
-      centerMode: true,
-      infinite: true,
-      centerPadding: "14%",
-      autoplaySpeed: 4000,
-      speed: 500,
-      responsive: [
-        {
-          breakpoint: 1280,
-          settings: {
-            centerPadding: "0px",
-            slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        },
-        {
-          breakpoint: 1024,
-          settings: {
-            centerPadding: "0px",
-            slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        },
-        {
-          breakpoint: 600,
-          settings: {
-            arrows: false,
-            centerPadding: "0px",
-            slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        },
-        {
-          breakpoint: 420,
-          settings: {
-            arrows: false,
-            centerPadding: "0px",
-            slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        }
-      ]
-    };
+    const { settings, data } = this.state;
 
     return(
         <div className="row kv-wrap">
@@ -75,11 +39,7 @@ class Kv extends React.Component{
                   data.length!=0 &&
                     data.map( (item,i) => {
                       return(
-                        <div key={i} className="slider-item">
-                          <a href={item['url']} target="_blank">
-                            <img src={item['image']} alt={item['title']} title={item['title']} />
-                          </a>
-                        </div>
+                        <KvSlider key={item['id']} data={item}/>
                       )
                     })
                 }

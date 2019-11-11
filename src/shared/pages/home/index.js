@@ -26,19 +26,19 @@ class Home extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            kv: props.kv,
-            store: props.store,
-            latest: props.latest,
-            categories: props.categories
+            kv               : props.kv,
+            store            : props.store,
+            latest           : props.latest,
+            categories       : props.categories
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return{
-            kv: props.kv,
-            store: props.store,
-            latest: props.latest,
-            categories: props.categories
+            kv               : props.kv,
+            store            : props.store,
+            latest           : props.latest,
+            categories       : props.categories
         }
     }
 

@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import axios         from 'axios';
 import queryString   from 'query-string';
 import API           from './apiurl';
@@ -12,11 +17,6 @@ export function kv( pathname,query={},data={} ){
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...query });
         const url       = `${API(NODE_ENV)['mall']['home']['kv']}${search!=""? `?${search}`:''}`;
-        dispatch({
-            type: "HOME_KV",
-            data: []
-        })
-
         return Axios({method, url, data}).then( res => {
             if( !res.hasOwnProperty('response') ){
                 dispatch({

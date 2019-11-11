@@ -3,6 +3,53 @@
  *   All rights reserved.
  */
 
+export const kvSlider = {
+    className: "center kv-slider-wrap",
+      dots: true,
+      autoplay: true,
+      centerMode: true,
+      infinite: true,
+      centerPadding: "14%",
+      autoplaySpeed: 4000,
+      speed: 500,
+      responsive: [
+        {
+          breakpoint: 1280,
+          settings: {
+            centerPadding: "0px",
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        },
+        {
+          breakpoint: 1024,
+          settings: {
+            centerPadding: "0px",
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            arrows: false,
+            centerPadding: "0px",
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        },
+        {
+          breakpoint: 420,
+          settings: {
+            arrows: false,
+            centerPadding: "0px",
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+    ]
+}
+
 export const storeSlider = {
     className: "slider-nromal store-card",
     dots: false,

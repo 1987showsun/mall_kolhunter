@@ -74,6 +74,9 @@ app.all("*", (req, res, next) => {
             <link href="https://fonts.googleapis.com/css?family=Roboto:300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
             <link rel="manifest" href="/assets/manifest.json">
 
+            <script src="/bundle.js" defer></script>
+            <script>window.__initialData__ = ${serialize(initialData)}</script>
+
             <!-- Global site tag (gtag.js) - Google Analytics -->
             <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132884770-2"></script>
             <script>
@@ -87,8 +90,6 @@ app.all("*", (req, res, next) => {
 
           <body>
             <div id="root">${markup}</div>
-            <script src="/bundle.js" defer></script>
-            <script>window.__initialData__ = ${serialize(initialData)}</script>
           </body>
         </html>
       `);

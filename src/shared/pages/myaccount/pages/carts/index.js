@@ -141,11 +141,12 @@ class Index extends React.Component{
                         </React.Fragment>
                 }
                 <Confirm
-                    header={header}
-                    open={open}
-                    method={method}
-                    container={popupMsg}
-                    onCancel={this.onCancel.bind(this)}
+                    header     = {header}
+                    open       = {open}
+                    method     = {method}
+                    container  = {popupMsg}
+                    onConfirm  = {this.onConfirm.bind(this)}
+                    onCancel   = {this.onCancel.bind(this)}
                 />
                 <Loading loading={loading} />
             </React.Fragment>
@@ -169,8 +170,8 @@ class Index extends React.Component{
     componentDidUpdate(prevProps, prevState) {
         const { spgatewayFormName, returnBody } = this.state;
         if( returnBody!="" ){
-            const s = document.createElement('script');
-            s.async = true;
+            const s     = document.createElement('script');
+            s.async     = true;
             s.innerHTML = `setTimeout(function(){ document.forms.${spgatewayFormName}.submit(); }, 1000)`;
             this.instance.appendChild(s);
         }
@@ -207,115 +208,131 @@ class Index extends React.Component{
             
             // 檢查發票格式
             if( checkInvoiceFormat ) {
-                // 填寫完整  
+                // 填寫完整
                 this.setState({
-                    loading: true
-                },()=>{
-                    this.props.dispatch( paymentAddOrder( pathname, queryString.parse(search),mergeFormObject ) ).then( res => {
-                        this.setState({
-                            loading: false
-                        },()=>{
-                            switch( res['status'] ){
-                                case 200:
-                                    const payMethod   = res['data']['payMethod'];
-                                    const returnBody  = payMethod=='cc'? res['data']['body'] : "";
-                                    if( returnBody!='pay checkcode error' || returnBody=="" ){
-                                        // 刪除現有的購物車 cartID
-                                        localStorage.removeItem('cartID');
-                                        const orderID    = res['data']['orderID'];
-                                        // 要回新一組 cartID
-                                        this.props.dispatch( getCartID() ).then( cartRes => {
-                                            this.props.dispatch( cartsCount() );
-                                            switch( payMethod ){
-                                                case 'atm':
-                                                    // 成功後導頁
-                                                    history.push({
-                                                        pathname  : '/myaccount/payment/success',
-                                                        search    : queryString.stringify({
-                                                            orderID,
-                                                            payMethod
-                                                        })
-                                                    });
-                                                    break;
-
-                                                case 'cc':
-                                                    // 刪除現有的購物車 cartID
-                                                    const isCheckString = returnBody.indexOf('<html>')>=0? true : false;
-                                                    if( isCheckString ){
-                                                        const searchStaetIndex = returnBody.search('<form');
-                                                        const searchEndIndex   = returnBody.search('</form>')+7;
-                                                        const filterTEXT       = returnBody.substring( searchStaetIndex, searchEndIndex+7 );
-                                                        const mergeTEXT        = `<div style='padding:10%;text-align: center;'><div><img style='min-width: 55%;max-width: 50%;' src='https://ccore.newebpay.com/images/logo/logo_footer.png'/></div><div style='font-family:Microsoft JhengHei;font-size:2em'>頁面轉跳中，請稍候<span id='dote'>...</span></div></div>${filterTEXT}<script language=javascript>setTimeout(function(){ document.forms.HPP.submit(); }, 1000);</script>`
-                                                        this.setState({
-                                                            returnBody: mergeTEXT,
-                                                            spgatewayFormName: 'HPP'
-                                                        })
-                                                    }else{
-                                                        this.setState({
-                                                            returnBody,
-                                                            spgatewayFormName: 'pay2go'
-                                                        })
-                                                    }
-                                                    break;
-
-                                                default:
-                                                    history.push({
-                                                        pathname  : '/myaccount/payment/success',
-                                                        search    : queryString.stringify({
-                                                            orderID,
-                                                            payMethod
-                                                        })
-                                                    });
-                                                    break;
-                                            }
-                                        });
-                                    }else{
-                                        this.setState({
-                                            open: true,
-                                            method: 'alert',
-                                            popupMsg: `<div className="items">${lang['zh-TW']['note']['pay checkcode error']}</div>`
-                                        })
-                                    }
-
-                                    break;
-
-                                default:
-                                    // 失敗就於右下角跳出錯誤訊息
-                                    const status_text = res['data']['status_text'];
-                                    toaster.notify(
-                                        <div className={`toaster-status failure`}>{lang['zh-TW'][status_text]}</div>
-                                    ,{
-                                        position: 'bottom-right', // 訊息窗顯示於右下角
-                                        duration: 5000 // 訊息5秒後消失
-                                    })
-                                    break;
-                            }
-                        })
-                    });
-                })  
+                    open       : true,
+                    method     : 'confirm',
+                    popupMsg   : `<div className="items">所購買之商品可能為不同廠商出貨，配送時間將依廠商寄送為主。</div>`
+                });
             }else{
                 this.setState({
-                    open: true,
-                    method: 'alert',
-                    popupMsg: `<div className="items">${lang['zh-TW']['note']['invoice wrong format']}</div>`
+                    open       : true,
+                    method     : 'alert',
+                    popupMsg   : `<div className="items">${lang['zh-TW']['note']['invoice wrong format']}</div>`
                 })
             }
         }else{
             // 沒填寫完整
             this.setState({
-                open: true,
-                method: 'alert',
-                popupMsg: checkRequiredFilter
+                open      : true,
+                method    : 'alert',
+                popupMsg  : checkRequiredFilter
             })
         }        
     }
 
     onCancel = () => {
         this.setState({
-            open: false,
-            method: 'confirm',
-            popupMsg: ""
+            open           : false,
+            method         : 'confirm',
+            popupMsg       : ""
         })
+    }
+
+    onConfirm = () => {
+
+        const { location, history } = this.props;
+        const { pathname, search }  = location;
+        const { formObject, paymentFormObject, invoiceFormObject } = this.state;
+        const mergeFormObject     = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
+
+        this.setState({
+            loading    : true,
+            open       : false,
+            popupMsg   : []
+        },()=>{
+            this.props.dispatch( paymentAddOrder( pathname, queryString.parse(search),mergeFormObject ) ).then( res => {
+                this.setState({
+                    loading: false
+                },()=>{
+                    switch( res['status'] ){
+                        case 200:
+                            const payMethod   = res['data']['payMethod'];
+                            const returnBody  = payMethod=='cc'? res['data']['body'] : "";
+                            if( returnBody!='pay checkcode error' || returnBody=="" ){
+                                // 刪除現有的購物車 cartID
+                                localStorage.removeItem('cartID');
+                                const orderID    = res['data']['orderID'];
+                                // 要回新一組 cartID
+                                this.props.dispatch( getCartID() ).then( cartRes => {
+                                    this.props.dispatch( cartsCount() );
+                                    switch( payMethod ){
+                                        case 'atm':
+                                            // 成功後導頁
+                                            history.push({
+                                                pathname  : '/myaccount/payment/success',
+                                                search    : queryString.stringify({
+                                                    orderID,
+                                                    payMethod
+                                                })
+                                            });
+                                            break;
+
+                                        case 'cc':
+                                            // 刪除現有的購物車 cartID
+                                            const isCheckString = returnBody.indexOf('<html>')>=0? true : false;
+                                            if( isCheckString ){
+                                                const searchStaetIndex = returnBody.search('<form');
+                                                const searchEndIndex   = returnBody.search('</form>')+7;
+                                                const filterTEXT       = returnBody.substring( searchStaetIndex, searchEndIndex+7 );
+                                                const mergeTEXT        = `<div style='padding:10%;text-align: center;'><div><img style='min-width: 55%;max-width: 50%;' src='https://ccore.newebpay.com/images/logo/logo_footer.png'/></div><div style='font-family:Microsoft JhengHei;font-size:2em'>頁面轉跳中，請稍候<span id='dote'>...</span></div></div>${filterTEXT}<script language=javascript>setTimeout(function(){ document.forms.HPP.submit(); }, 1000);</script>`
+                                                this.setState({
+                                                    returnBody: mergeTEXT,
+                                                    spgatewayFormName: 'HPP'
+                                                })
+                                            }else{
+                                                this.setState({
+                                                    returnBody,
+                                                    spgatewayFormName: 'pay2go'
+                                                })
+                                            }
+                                            break;
+
+                                        default:
+                                            history.push({
+                                                pathname  : '/myaccount/payment/success',
+                                                search    : queryString.stringify({
+                                                    orderID,
+                                                    payMethod
+                                                })
+                                            });
+                                            break;
+                                    }
+                                });
+                            }else{
+                                this.setState({
+                                    open: true,
+                                    method: 'alert',
+                                    popupMsg: `<div className="items">${lang['zh-TW']['note']['pay checkcode error']}</div>`
+                                })
+                            }
+
+                            break;
+
+                        default:
+                            // 失敗就於右下角跳出錯誤訊息
+                            const status_text = res['data']['status_text'];
+                            toaster.notify(
+                                <div className={`toaster-status failure`}>{lang['zh-TW'][status_text]}</div>
+                            ,{
+                                position: 'bottom-right', // 訊息窗顯示於右下角
+                                duration: 5000 // 訊息5秒後消失
+                            })
+                            break;
+                    }
+                })
+            });
+        });
     }
 }
 

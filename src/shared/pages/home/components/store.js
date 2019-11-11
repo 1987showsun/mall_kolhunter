@@ -49,10 +49,6 @@ export default class Store extends React.Component{
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return this.state.data.some( (item,i) => String(item['id'])!= String(nextProps.data[i]['id']));
-  }
-
   render(){
     const { data } = this.state;
     return(

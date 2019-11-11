@@ -39,7 +39,7 @@ class Kv extends React.Component{
                   data.length!=0 &&
                     data.map( (item,i) => {
                       return(
-                        <KvSlider key={item['id']} data={item}/>
+                        <KvSlider key={i} data={item}/>
                       )
                     })
                 }

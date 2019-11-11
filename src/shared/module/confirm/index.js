@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 
 // Stylesheets
@@ -8,19 +13,19 @@ export default class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            method: props.method || 'confirm',
-            open: props.open || false,
-            header: props.header || null,
-            container: props.container || null
+            method         : props.method    || 'confirm',
+            open           : props.open      || false,
+            header         : props.header    || null,
+            container      : props.container || null
         }
     }
 
     static getDerivedStateFromProps(props, state) {
         return{
-            method: props.method || 'confirm',
-            open : props.open,
-            header: props.header,
-            container: props.container
+            method         : props.method    || 'confirm',
+            open           : props.open,
+            header         : props.header,
+            container      : props.container
         }
     }
 

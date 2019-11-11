@@ -54,7 +54,7 @@ class Home extends React.Component{
                     <meta name="description" content="網紅電商結合時下熱門網紅幫你推銷商品，讓消費者可透過網紅電商用最划算的價格買到所有需要、想要的商品，包含美妝保健、流行服飾配件、母嬰居家、美食旅遊票券、3C家電影音等千萬件熱銷好物等你來選購" />
                 </Helmet>
                 <Kv data={kv} />
-                <Store data={store}/>
+                {/* <Store data={store}/> */}
                 <Category data={categories}/>
                 <Product data={latest} />
             </React.Fragment>

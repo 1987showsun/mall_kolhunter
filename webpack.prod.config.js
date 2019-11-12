@@ -3,15 +3,16 @@
  *   All rights reserved.
  */
 
-const TerserPlugin         = require('terser-webpack-plugin');
-const path                 = require('path');
-const webpack              = require('webpack');
-const ExtractTextPlugin    = require('extract-text-webpack-plugin');
-const autoprefixer         = require('autoprefixer');
-const CopyWebpackPlugin    = require("copy-webpack-plugin");
-const { InjectManifest }   = require('workbox-webpack-plugin');
-const CompressionPlugin    = require("compression-webpack-plugin");
-const nodeExternals        = require('webpack-node-externals');
+const MiniCssExtractPlugin    = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin            = require('terser-webpack-plugin');
+const path                    = require('path');
+const webpack                 = require('webpack');
+const autoprefixer            = require('autoprefixer');
+const CopyWebpackPlugin       = require("copy-webpack-plugin");
+const { InjectManifest }      = require('workbox-webpack-plugin');
+const CompressionPlugin       = require("compression-webpack-plugin");
+const nodeExternals           = require('webpack-node-externals');
 
 const keyName= {};
 let SETUP= {
@@ -51,20 +52,19 @@ const browserConfig = {
       },
       {
         test: /\.(css|sass|scss)$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader'
-            },
-            {
-              loader: 'sass-loader',
-            },
-            {
-              loader: 'postcss-loader',
-              options: { plugins: [autoprefixer()] },
-            },
-          ],
-        }),
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'sass-loader',
+          },
+          {
+            loader: 'postcss-loader',
+            options: { plugins: [autoprefixer()] },
+          },
+        ]
       },
       {
         test: /js$/,
@@ -84,9 +84,6 @@ const browserConfig = {
     historyApiFallback: true,
   },
   plugins: [
-    new ExtractTextPlugin({
-      filename: "css/[name].css"
-    }),
     new webpack.DefinePlugin({
       "process.env": SETUP
     }),
@@ -106,7 +103,11 @@ const browserConfig = {
       }
     }),
     new CompressionPlugin(),
-  ]
+    new MiniCssExtractPlugin({
+      filename: "./css/[name].css"
+    }),
+    new OptimizeCSSAssetsPlugin({})
+  ],
 };
 
 const serverConfig = {

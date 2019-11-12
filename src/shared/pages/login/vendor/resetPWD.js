@@ -9,6 +9,7 @@ import { connect }           from 'react-redux';
 
 // Modules
 import Confirm               from '../../../module/confirm';
+import Loading               from '../../../module/loading/mallLoading';  
 
 // Actions
 import { resetPassword }     from '../../../actions/login';
@@ -25,6 +26,8 @@ class ResetPWD extends React.Component{
         super(props);
         this.state = {
             required      : ['email','code','newpwd','checkpwd'],
+            loading       : false,
+            success       : false,
             open          : false,
             method        : 'alert',
             popupMsg      : [],
@@ -41,11 +44,11 @@ class ResetPWD extends React.Component{
 
     render(){
 
-        const { location, history } = this.props;
-        const { open, method, popupMsg, msg, formObject } = this.state;
-        const query = { ...queryString.parse(location.search) };
-        const codeInputDisplay  = query.hasOwnProperty('code');
-        const emailInputDisplay = query.hasOwnProperty('email');
+        const { loading, open, method, popupMsg, msg, formObject } = this.state;
+        const { location, history }   = this.props;
+        const query                   = { ...queryString.parse(location.search) };
+        const codeInputDisplay        = query.hasOwnProperty('code');
+        const emailInputDisplay       = query.hasOwnProperty('email');
 
         return(
             <React.Fragment>
@@ -94,14 +97,14 @@ class ResetPWD extends React.Component{
                             <div className="form-row msg" data-content="center">{msg}</div>
                     }
                     <div className="form-row">
-                        <button type="submit">送出</button>
+                        <button type="submit">{lang['zh-TW']['button']['submit']}</button>
                     </div>
                     <div className="form-row" data-direction="column">
-                        <button type="button" className="goBack" onClick={()=> {
-                            const { location } = this.props;
-                            const { pathname, search } = location;
-                            const searchObject = queryString.parse(search);
-                            const backStatus = searchObject['goto'] || 'prev';
+                        <button type="button" className="goBack" onClick={() => {
+                            const { location }  = this.props;
+                            const { search }    = location;
+                            const searchObject  = queryString.parse(search);
+                            const backStatus    = searchObject['goto'] || 'prev';
                             switch( backStatus ){
                                 case 'home':
                                     history.push('/');
@@ -119,6 +122,8 @@ class ResetPWD extends React.Component{
                             {lang['zh-TW']['button']['go back']}
                         </button>
                     </div>
+
+                    <Loading loading={loading} />
                 </form>
 
                 <Confirm
@@ -156,17 +161,23 @@ class ResetPWD extends React.Component{
                 },()=>{
                     this.props.dispatch( resetPassword(pathname,{...queryString.parse(search)},formObject) ).then( res => {
                         this.setState({
-                            loading: false
+                            loading      : false,
+                            open         : true
                         },()=>{
                             switch( res['status'] ){
                                 case 200:
                                     this.setState({
-                                        open         : true,
-                                        popupMsg     : [<div key="success" className="items">修改完成</div>]
-                                    })
+                                        success      : true,
+                                        popupMsg     : [<div key="success" className="items">{lang['zh-TW']['note']['update Success, you will be taken to the login page.']}</div>]
+                                    });
                                     break;
 
                                 default:
+                                    const { status_text } = res['data'];
+                                    this.setState({
+                                        success      : false,
+                                        popupMsg     : [<div key="error" className="items">{lang['zh-TW']['note'][status_text]}</div>]
+                                    });
                                     break;
                             }
                         });
@@ -182,13 +193,21 @@ class ResetPWD extends React.Component{
                 msg: checkRequiredFilter
             });
         }
-        
     }
 
     onCancel = () => {
         const { history } = this.props;
+        const SELECT_PATH = () => {
+            const { success } = this.state;
+            if( success ){
+                return '/vendor';
+            }else{
+                return '/vendor/forget';
+            }
+        }
+
         history.push({
-            pathname: '/vendor'
+            pathname: SELECT_PATH()
         })
     }
 }

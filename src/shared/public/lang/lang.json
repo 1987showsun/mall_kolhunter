@@ -170,6 +170,9 @@
             "exp required": "信用卡有效日期不能為空",
             "ErrThisEmailHasBeenSignup": "該信箱已存在了",
             "invoice wrong format": "發票格式錯誤",
+            "Will send the update password URL to the registration email": "將寄送更新密碼網址至註冊信箱",
+            "update Success, you will be taken to the login page.": "修改成功，將前往登入頁",
+            "email and reset code can not found in system": "密碼重置驗證代碼已失效，請重新操作",
             "format": {
                 "name required": "型號 / 尺寸 / 顏色 必填",
                 "quantity required": "庫存數量必填"
@@ -182,14 +185,16 @@
             "Email needs verified.": "請至註冊信箱，驗證開啟此帳號",
             "add item into shopcart failure": "該商品已放存在於購物車",
             "Vendor's email not verified.": "該信箱尚未通過驗證",
-            "system error": "系統錯誤"
+            "system error": "系統錯誤",
+            "can&lsquo;t find this email": "查無此註冊信箱"
         },
         "button": {
-            "search": "搜尋",
+            "search"      : "搜尋",
             "watch the product introduction now": "立即觀看產品介紹",
-            "add to cart": "加入購物車",
-            "buy now": "直接購買",
-            "go back": "返回上一頁"
+            "add to cart" : "加入購物車",
+            "buy now"     : "直接購買",
+            "go back"     : "返回上一頁",
+            "submit"      : "送出"
         },
         "placeholder": {
             "store name": "店家名稱",
@@ -385,6 +390,9 @@
             "exp required": "",
             "ErrThisEmailHasBeenSignup": "This email has been signup",
             "invoice wrong format": "Invoice wrong format",
+            "Will send the update password URL to the registration email": "Will send the update password URL to the registration email",
+            "update Success, you will be taken to the login page.": "Update Success, you will be taken to the login page.",
+            "email and reset code can not found in system": "Email and reset code can not found in system",
             "format": {
                 "name required": "Model / Size / Color required",
                 "quantity required": "Stock quantity required"
@@ -397,14 +405,16 @@
             "Email needs verified.": "Email needs verified.",
             "add item into shopcart failure": "This item has been placed in the shopping cart",
             "Vendor's email not verified.": "Vendor's email not verified",
-            "system error": "System error"
+            "system error": "System error",
+            "can&lsquo;t find this email": "Can't find this email"
         },
         "button": {
-            "search": "Search",
+            "search"      : "Search",
             "watch the product introduction now": "Watch the product introduction now",
-            "add to cart": "Add to cart",
-            "buy now": "Buy now",
-            "go back": "Go back"
+            "add to cart" : "Add to cart",
+            "buy now"     : "Buy now",
+            "go back"     : "Go back",
+            "submit"      : "Submit"
         },
         "placeholder": {
             "store name": "Store name",

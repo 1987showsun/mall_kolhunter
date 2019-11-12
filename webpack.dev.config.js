@@ -3,10 +3,10 @@
  *   All rights reserved.
  */
 
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin         = require('terser-webpack-plugin');
 const path                 = require('path');
 const webpack              = require('webpack');
-const ExtractTextPlugin    = require('extract-text-webpack-plugin');
 const autoprefixer         = require('autoprefixer');
 const CopyWebpackPlugin    = require("copy-webpack-plugin");
 const { InjectManifest }   = require('workbox-webpack-plugin');
@@ -51,20 +51,19 @@ const browserConfig = {
       },
       {
         test: /\.(css|sass|scss)$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader'
-            },
-            {
-              loader: 'sass-loader',
-            },
-            {
-              loader: 'postcss-loader',
-              options: { plugins: [autoprefixer()] },
-            },
-          ],
-        }),
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'sass-loader',
+          },
+          {
+            loader: 'postcss-loader',
+            options: { plugins: [autoprefixer()] },
+          },
+        ]
       },
       {
         test: /js$/,
@@ -78,9 +77,6 @@ const browserConfig = {
     historyApiFallback: true,
   },
   plugins: [
-    new ExtractTextPlugin({
-      filename: "css/[name].css"
-    }),
     new webpack.DefinePlugin({
       "process.env": SETUP
     }),
@@ -90,7 +86,7 @@ const browserConfig = {
         to: "assets"
       }
     ]),
-    new CompressionPlugin()
+    new CompressionPlugin(),
     // new InjectManifest({
     //   swDest: './public/sw.js',
     //   swSrc: './src/sw-template.js',
@@ -99,6 +95,9 @@ const browserConfig = {
     //     '/app-shell': new Date().toString(),
     //   },
     // }),
+    new MiniCssExtractPlugin({
+      filename: "./css/[name].css"
+    })
   ]
 };
 

@@ -1,9 +1,15 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React                 from 'react';
 import queryString           from 'query-string';
 import { connect }           from 'react-redux';
 
 // Modules
 import Confirm               from '../../../module/confirm';
+import Loading               from '../../../module/loading/mallLoading';
 
 // Actions
 import { forget }            from '../../../actions/login';
@@ -19,21 +25,22 @@ class Forget extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            loading       : false,
             open          : false,
             method        : "alert",
             popupMsg      : [],
+            msg           : [],
             required      : ['email'],
             formObject    : {
                 type        : 'vendor',
                 email       : ""
-            },
-            msg           : []
+            }
         }
     }
 
     render(){
 
-        const { open, method, popupMsg, formObject, msg } = this.state;
+        const { loading, open, method, popupMsg, formObject, msg } = this.state;
 
         return(
             <React.Fragment>
@@ -59,10 +66,10 @@ class Forget extends React.Component{
                     </div>
                     <div className="form-row" data-direction="column">
                         <button type="button" className="goBack" onClick={()=> {
-                            const { location } = this.props;
-                            const { pathname, search } = location;
-                            const searchObject = queryString.parse(search);
-                            const backStatus = searchObject['goto'] || 'prev';
+                            const { location }  = this.props;
+                            const { search }    = location;
+                            const searchObject  = queryString.parse(search);
+                            const backStatus    = searchObject['goto'] || 'prev';
                             switch( backStatus ){
                                 case 'home':
                                     this.props.history.push('/');
@@ -75,7 +82,9 @@ class Forget extends React.Component{
                             {lang['zh-TW']['button']['go back']}
                         </button>
                     </div>
+                    <Loading loading={loading} />
                 </form>
+
                 <Confirm
                     open         = {open}
                     method       = {method}
@@ -117,13 +126,13 @@ class Forget extends React.Component{
                                 this.setState({
                                     open        : true,
                                     method      : 'alert',
-                                    popupMsg    : "需求請求成功，將寄送更新密碼網址至註冊信箱"
+                                    popupMsg    : [<div key="success" className="items">{lang['zh-TW']['note']['Will send the update password URL to the registration email']}</div>]
                                 })
                                 break;
 
                             default:
                                 this.setState({
-                                    msg         : [<div key="err" className="items">{lang['zh-TW']['err']['system error']}</div>]
+                                    msg         : [<div key="error" className="items">{lang['zh-TW']['err']['can&lsquo;t find this email']}</div>]
                                 })
                                 break;
                         }

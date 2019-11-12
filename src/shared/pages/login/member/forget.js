@@ -1,9 +1,15 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React                 from 'react';
 import queryString           from 'query-string';
 import { connect }           from 'react-redux';
 
 // Modules
 import Confirm               from '../../../module/confirm';
+import Loading               from '../../../module/loading/mallLoading';
 
 // Actions
 import { forget }            from '../../../actions/login';
@@ -11,26 +17,30 @@ import { forget }            from '../../../actions/login';
 // Lang
 import lang                  from '../../../public/lang/lang.json';
 
+// javascripts
+import { checkRequired }     from '../../../public/javascripts/checkFormat';
+
 class Forget extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
+            loading       : false,
             open          : false,
             method        : "alert",
-            popupMsg      : "",
+            popupMsg      : [],
+            msg           : [],
             required      : ['email'],
             formObject    : {
                 type        : 'account',
                 email       : ""
-            },
-            msg           : []
+            }
         }
     }
 
     render(){
 
-        const { open, method, popupMsg, formObject, msg } = this.state;
+        const { loading, open, method, popupMsg, formObject, msg } = this.state;
 
         return(
             <React.Fragment>
@@ -52,12 +62,29 @@ class Forget extends React.Component{
                             <div className="form-row msg" data-content="center">{msg}</div>
                     }
                     <div className="form-row">
-                        <button type="submit">送出</button>
+                        <button type="submit">{lang['zh-TW']['button']['submit']}</button>
                     </div>
                     <div className="form-row" data-direction="column">
-                        <button type="button" className="goBack" onClick={()=> this.props.history.goBack()}>{lang['zh-TW']['button']['go back']}</button>
+                        <button type="button" className="goBack" onClick={()=> {
+                            const { location }  = this.props;
+                            const { search }    = location;
+                            const searchObject  = queryString.parse(search);
+                            const backStatus    = searchObject['goto'] || 'prev';
+                            switch( backStatus ){
+                                case 'home':
+                                    this.props.history.push('/');
+                                    break;
+                                default:
+                                    this.props.history.goBack();
+                                    break;
+                            }                            
+                        }}>
+                            {lang['zh-TW']['button']['go back']}
+                        </button>
                     </div>
+                    <Loading loading={loading} />
                 </form>
+
                 <Confirm
                     open          = {open}
                     method        = {method}
@@ -79,33 +106,42 @@ class Forget extends React.Component{
     }
 
     handleSubmit = (e) => {
-
         e.preventDefault();
-        const { location, match } = this.props;
-        const { formObject, required } = this.state;
-        const { pathname, search } = location;
-        const checkQequired = required.filter( keys => formObject[keys]=="" ).map( keys => <div key={keys} className="items">{lang['zh-TW']['note'][`${keys} required`]}</div> );
-        if( checkQequired.length==0 ){
-            this.props.dispatch( forget( pathname, {...queryString.parse(search)}, formObject ) ).then( res => {
-                switch( res['status'] ){
-                    case 200:
-                        this.setState({
-                            open        : true,
-                            method      : 'alert',
-                            popupMsg    : "需求請求成功，將寄送更新密碼網址至註冊信箱"
-                        })
-                        break;
 
-                    default:
-                        this.setState({
-                            msg         : [<div className="items">{lang['zh-TW']['err']['system error']}</div>]
-                        })
-                        break;
-                }
-            });
+        const { location }             = this.props;
+        const { formObject, required } = this.state;
+        const { pathname, search }     = location;
+        const checkRequiredFilter      = checkRequired(required, formObject);
+
+        if( checkRequiredFilter.length==0 ){
+            this.setState({
+                loading: true
+            },()=>{
+                this.props.dispatch( forget( pathname, {...queryString.parse(search)}, formObject ) ).then( res => {
+                    this.setState({
+                        loading     : false
+                    },()=>{
+                        switch( res['status'] ){
+                            case 200:
+                                this.setState({
+                                    open        : true,
+                                    method      : 'alert',
+                                    popupMsg    : [<div key="success" className="items">{lang['zh-TW']['note']['Will send the update password URL to the registration email']}</div>]
+                                });
+                                break;
+
+                            default:
+                                this.setState({
+                                    msg         : [<div key="error" className="items">{lang['zh-TW']['err']['can&lsquo;t find this email']}</div>]
+                                })
+                                break;
+                        }
+                    })
+                });
+            })
         }else{
             this.setState({
-                msg: checkQequired
+                msg: checkRequiredFilter
             })
         }
     }

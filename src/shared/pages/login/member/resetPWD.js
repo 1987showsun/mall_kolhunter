@@ -25,6 +25,7 @@ class ResetPWD extends React.Component{
         super(props);
         this.state = {
             required      : ['email','code','newpwd','checkpwd'],
+            success       : false,
             open          : false,
             method        : 'alert',
             popupMsg      : [],
@@ -41,11 +42,11 @@ class ResetPWD extends React.Component{
 
     render(){
 
-        const { location, history } = this.props;
         const { open, method, popupMsg, msg, formObject } = this.state;
-        const query = { ...queryString.parse(location.search) };
-        const codeInputDisplay  = query.hasOwnProperty('code');
-        const emailInputDisplay = query.hasOwnProperty('email');
+        const { location, history }   = this.props;
+        const query                   = { ...queryString.parse(location.search) };
+        const codeInputDisplay        = query.hasOwnProperty('code');
+        const emailInputDisplay       = query.hasOwnProperty('email');
 
         return(
             <React.Fragment>
@@ -94,7 +95,7 @@ class ResetPWD extends React.Component{
                             <div className="form-row msg" data-content="center">{msg}</div>
                     }
                     <div className="form-row">
-                        <button type="submit">送出</button>
+                        <button type="submit">{lang['zh-TW']['button']['submit']}</button>
                     </div>
                     <div className="form-row" data-direction="column">
                         <button type="button" className="goBack" onClick={()=> {
@@ -144,8 +145,8 @@ class ResetPWD extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         const { location }             = this.props;
-        const { pathname, search }     = location;
         const { formObject, required } = this.state;
+        const { pathname, search }     = location;
         const checkRequiredFilter      = checkRequired(required, formObject);
         const checkPWDFormat           = PWD({ password: formObject['newpwd'] , confirm: formObject['checkpwd'] });
 
@@ -156,17 +157,23 @@ class ResetPWD extends React.Component{
                 },()=>{
                     this.props.dispatch( resetPassword(pathname,{...queryString.parse(search)},formObject) ).then( res => {
                         this.setState({
-                            loading: false
+                            loading      : false,
+                            open         : true
                         },()=>{
                             switch( res['status'] ){
                                 case 200:
                                     this.setState({
-                                        open         : true,
-                                        popupMsg     : [<div key="success" className="items">修改完成</div>]
-                                    })
+                                        success      : true,
+                                        popupMsg     : [<div key="success" className="items">{lang['zh-TW']['note']['update Success, you will be taken to the login page.']}</div>]
+                                    });
                                     break;
 
                                 default:
+                                    const { status_text } = res['data'];
+                                    this.setState({
+                                        success      : false,
+                                        popupMsg     : [<div key="error" className="items">{lang['zh-TW']['note'][status_text]}</div>]
+                                    });
                                     break;
                             }
                         });
@@ -182,13 +189,21 @@ class ResetPWD extends React.Component{
                 msg: checkRequiredFilter
             });
         }
-        
     }
 
     onCancel = () => {
         const { history } = this.props;
+        const SELECT_PATH = () => {
+            const { success } = this.state;
+            if( success ){
+                return '/account';
+            }else{
+                return '/account/forget';
+            }
+        }
+
         history.push({
-            pathname: '/account'
+            pathname: SELECT_PATH()
         })
     }
 }

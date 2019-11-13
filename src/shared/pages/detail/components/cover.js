@@ -106,9 +106,9 @@ class Cover extends React.Component{
                             <li>
                                 <div><span className="value"><CurrencyFormat value={data['celebrityNum']} displayType={'text'} thousandSeparator={true} /></span>店家販售</div>
                             </li>
-                            <li>
+                            {/* <li>
                                 <div><span className="value"><CurrencyFormat value={itemNumMax||0} displayType={'text'} thousandSeparator={true} /></span>剩餘庫存</div>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     <Price 

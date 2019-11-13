@@ -76,12 +76,12 @@ export default ( props ) => {
                         </div>
                         <div className="figcaption-row">
                             <ul className="figcaption-info-ul">
-                                <li>
+                                {/* <li>
                                     <div className="figcaption-ul-head">總成交商品數</div>
                                     <div className="figcaption-ul-content">
                                         <CurrencyFormat value={info['salesAmount']} displayType={'text'} thousandSeparator={true} />
                                     </div>
-                                </li>
+                                </li> */}
                                 <li>
                                     <div className="figcaption-ul-head">商品總數</div>
                                     <div className="figcaption-ul-content">

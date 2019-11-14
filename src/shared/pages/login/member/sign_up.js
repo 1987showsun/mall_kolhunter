@@ -31,9 +31,10 @@ class SignUp extends React.Component{
         this.state = {
             loading           : false,
             open              : false,
-            popupMSG          : "",
-            msg               : "",
             pwdDisplay        : false,
+            popupMSG          : [],
+            method            : 'alert',
+            msg               : [],
             required          : ['email','password','password_chk','nickname'],
             formObject        : {
                 type            : 'account',
@@ -49,11 +50,13 @@ class SignUp extends React.Component{
 
 
     render(){
-        const { pwdDisplay, loading, open, popupMSG, formObject, msg } = this.state;
+        const { history } = this.props;
+        const { loading, open, pwdDisplay, popupMSG, method, msg, formObject } = this.state;
+        const { email, password, password_chk, nickname, phone, company,  } = formObject;
 
         return(
             <React.Fragment>
-                <form onSubmit={this.handleSubmit.bind(this)} className="login-form">
+                <form className="login-form" onSubmit={this.handleSubmit.bind(this)}>
                     <div className="form-title">
                         <h4>會員註冊</h4>
                     </div>
@@ -61,14 +64,14 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="email">
                                 <div className="input-box">
-                                    <input type="email" name="email" id="email" value={ formObject['email'] } onChange={this.handleChange.bind(this)} placeholder="＊E-mail (註冊帳號)" autoComplete="off" />
+                                    <input type="email" name="email" id="email" value={email} onChange={this.handleChange.bind(this)} placeholder="＊E-mail (註冊帳號)" autoComplete="off" />
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="password">
                                 <div className="input-box">
-                                    <input type={!pwdDisplay? 'password':'text'} name="password" id="password" value={ formObject['password'] } onChange={this.handleChange.bind(this)} placeholder="＊密碼 (內含英文大小寫與數字，最少8位數)"/>
+                                    <input type={!pwdDisplay? 'password':'text'} name="password" id="password" value={password} onChange={this.handleChange.bind(this)} placeholder="＊密碼 (內含英文大小寫與數字，最少8位數)"/>
                                     <span className="pwd-display" onClick={()=>{ 
                                         this.setState({ pwdDisplay: pwdDisplay? false:true });
                                     }}>
@@ -86,28 +89,28 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="password_chk">
                                 <div className="input-box">
-                                    <input  type={!pwdDisplay? 'password':'text'} name="password_chk" id="password_chk" value={ formObject['password_chk'] } onChange={this.handleChange.bind(this)} placeholder="＊再次確認密碼 (內含英文大小寫與數字，最少8位數)"/>
+                                    <input  type={!pwdDisplay? 'password':'text'} name="password_chk" id="password_chk" value={password_chk} onChange={this.handleChange.bind(this)} placeholder="＊再次確認密碼 (內含英文大小寫與數字，最少8位數)"/>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="nickname">
                                 <div className="input-box">
-                                    <input type="text" name="nickname" id="nickname" value={ formObject['nickname'] } onChange={this.handleChange.bind(this)} placeholder="＊會員姓名" autoComplete="off" />
+                                    <input type="text" name="nickname" id="nickname" value={nickname} onChange={this.handleChange.bind(this)} placeholder="＊會員姓名" autoComplete="off" />
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="phone">
                                 <div className="input-box">
-                                    <input type="tel" name="phone" id="phone" value={ formObject['phone'] } onChange={this.handleChange.bind(this)} placeholder="聯絡電話" autoComplete="off"/>
+                                    <input type="tel" name="phone" id="phone" value={phone} onChange={this.handleChange.bind(this)} placeholder="聯絡電話" autoComplete="off"/>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="company">
                                 <div className="input-box">
-                                    <input type="text" name="company" id="company" value={ formObject['company'] } onChange={this.handleChange.bind(this)} placeholder="公司名稱" autoComplete="off"/>
+                                    <input type="text" name="company" id="company" value={company} onChange={this.handleChange.bind(this)} placeholder="公司名稱" autoComplete="off"/>
                                 </div>
                             </label>
                         </li>
@@ -120,19 +123,19 @@ class SignUp extends React.Component{
                             <div className="form-row form-msg" data-content="center">{msg}</div>
                     }
                     <div className="form-row form-p" data-content="center">
-                        <button type="submit">送出</button>
+                        <button type="submit">{lang['zh-TW']['button']['submit']}</button>
                     </div>
                     <div className="form-row form-p" data-content="center">
-                        <button type="button" className="goBack" onClick={()=> this.props.history.goBack()}>{lang['zh-TW']['button']['go back']}</button>
+                        <button type="button" className="goBack" onClick={()=> history.goBack()}>{lang['zh-TW']['button']['go back']}</button>
                     </div>
                     <Loading loading={loading} />
                 </form>
 
                 <Confirm
-                    open={open}
-                    method='alert'
-                    container={popupMSG}
-                    onCancel={this.handleConfirm.bind(this)}
+                    open        = {open}
+                    method      = {method}
+                    container   = {popupMSG}
+                    onCancel    = {this.handleConfirm.bind(this)}
                 />
             </React.Fragment>
         );
@@ -141,7 +144,7 @@ class SignUp extends React.Component{
     handleConfirm = () => {
         this.setState({
             open          : false,
-            popupMSG      : ""
+            popupMSG      : []
         },()=>{
             this.props.history.push('/account');
         })

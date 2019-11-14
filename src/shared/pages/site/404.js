@@ -1,6 +1,11 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 
-import './public/style.scss';
+import './public/stylesheets/style.scss';
 
 export default class Site404 extends React.Component{
     render(){

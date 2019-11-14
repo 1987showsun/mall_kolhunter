@@ -22,8 +22,8 @@ import { ssrStoreList, storeList }  from '../../../actions/store';
 
 class Index extends React.Component{
 
-    static initialAction( NODE_ENV,pathname,query ) {
-        return ssrStoreList( NODE_ENV,pathname,query );
+    static initialAction( pathname,query ) {
+        return ssrStoreList( pathname,query );
     }
 
     constructor(props){

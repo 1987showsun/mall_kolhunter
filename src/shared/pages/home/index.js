@@ -19,8 +19,8 @@ import { getHome }            from '../../actions/home';
 
 class Home extends React.Component{
 
-    static initialAction( NODE_ENV,pathname,query ) {
-        return getHome( NODE_ENV,pathname,query );
+    static initialAction( pathname,query ) {
+        return getHome( pathname,query );
     }
 
     constructor(props){
@@ -55,7 +55,7 @@ class Home extends React.Component{
                 </Helmet>
                 <Kv data={kv} />
                 <Store data={store}/>
-                {/* <Category data={categories}/> */}
+                <Category data={categories}/>
                 <Product data={latest} />
             </React.Fragment>
         );

@@ -20,16 +20,16 @@ import './public/stylesheets/style.scss';
 
 class Index extends React.Component{
 
-    static initialAction( NODE_ENV,pathname,query ){
+    static initialAction( pathname,query ){
         const pathnameArray = pathname.split('/').filter( item => item!="" );
-        return ssrApproachProduct(NODE_ENV,pathname,{ ...query, productToken: pathnameArray[1] });
+        return ssrApproachProduct(pathname,{ ...query, productToken: pathnameArray[1] });
     }
 
     constructor(props){
         super(props);
         this.state = {
-            imageData: [],
-            info: {
+            imageData            : [],
+            info                 : {
                 token              : "",
                 name               : "",
                 celebrityNum       : 0,

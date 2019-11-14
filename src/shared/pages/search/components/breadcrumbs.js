@@ -1,5 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                  from 'react';
+import { Link }               from 'react-router-dom';
 
 export default class Breadcrumbs extends React.Component{
 

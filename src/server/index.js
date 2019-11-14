@@ -24,13 +24,12 @@ app.use(cors());
 app.use(express.static("public"));
 
 app.all("*", (req, res, next) => {
-  const NODE_ENV = process.env['NODE_ENV'];
-  const store = configureStore();
+  const store    = configureStore();
   const promises = routes.reduce((acc, route) => {
     if (matchPath(req.path, route) && route.component && route.component.initialAction) {
       acc.push(
         Promise.resolve(
-          store.dispatch(route.component.initialAction(NODE_ENV,req.path,req.query)),
+          store.dispatch(route.component.initialAction(req.path,req.query)),
         )
       );
     }
@@ -51,6 +50,7 @@ app.all("*", (req, res, next) => {
       const initialData = store.getState();
       const helmet      = Helmet.renderStatic();
       const date        = new Date().valueOf();
+      
       res.send(`
         <!DOCTYPE html>
         <html>

@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React       from 'react';
 import queryString from 'query-string';
 import { Link }    from 'react-router-dom';
@@ -41,10 +46,9 @@ const demo = [
 
 class Index extends React.Component{
 
-    static initialAction( NODE_ENV,pathname,query ){
+    static initialAction( pathname,query ){
         const pathnameArray = pathname.split('/').filter( item => item!="" );
-        query = { ...query, productToken: pathnameArray[1] };
-        return ssrApproachProduct(NODE_ENV,pathname,{ ...query, productToken: pathnameArray[1] });
+        return ssrApproachProduct(pathname,{ ...query, productToken: pathnameArray[1] });
     }
 
     constructor(props){

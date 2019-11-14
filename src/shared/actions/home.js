@@ -12,12 +12,12 @@ import { mallCategories } from './common';
 
 // 首頁廣告輪播
 export function kv( pathname,query={},data={} ){
-    return( dispatch,NODE_ENV )=>{
+    return( dispatch )=>{
 
         const method    = 'get';
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...query });
-        const url       = `${API(NODE_ENV)['mall']['home']['kv']}${search!=""? `?${search}`:''}`;
+        const url       = `${API()['mall']['home']['kv']}${search!=""? `?${search}`:''}`;
         
         return Axios({method, url, data}).then( res => {
             if( !res.hasOwnProperty('response') ){
@@ -34,12 +34,12 @@ export function kv( pathname,query={},data={} ){
 
 // 推薦網紅
 export function recommendStore( pathname,query={},data={} ){
-    return( dispatch,NODE_ENV )=>{
+    return( dispatch )=>{
 
         const method    = 'get';
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...query });
-        const url       = `${API(NODE_ENV)['mall']['store']['recommend']}${search!=""? `?${search}`:''}`;
+        const url       = `${API()['mall']['store']['recommend']}${search!=""? `?${search}`:''}`;
 
         return Axios({method, url, data}).then( res => {
             if( !res.hasOwnProperty('response') ){
@@ -67,7 +67,8 @@ export function recommendStore( pathname,query={},data={} ){
 
 // 最新商品
 export function latest( pathname,query={},data={} ){
-    return( dispatch,NODE_ENV ) => {
+    return( dispatch ) => {
+
         const method    = 'get';
         const initQuery = { 
             page: 1,
@@ -76,8 +77,8 @@ export function latest( pathname,query={},data={} ){
             order: "time"
         };
         const search    = queryString.stringify({ ...initQuery, ...query });
-        const url       = `${API(NODE_ENV)['mall']['home']['latest']}${ search!=""? `?${search}`: "" }`;
-        console.log( url );
+        const url       = `${API()['mall']['home']['latest']}${ search!=""? `?${search}`: "" }`;
+
         return Axios({method, url, data}).then( res => {
             dispatch({
                 type: "HOME_LATEST",
@@ -89,12 +90,12 @@ export function latest( pathname,query={},data={} ){
 }
 
 // Server side render
-export function getHome(NODE_ENV,pathname,query){
+export function getHome(pathname,query){
     return(dispatch) => {
-        return kv(pathname,query)(dispatch,NODE_ENV).then( resKV => {
-            return latest(pathname,query)(dispatch,NODE_ENV).then( resLatest => {
-                return recommendStore(pathname,query)(dispatch,NODE_ENV).then( res => {
-                    return mallCategories(pathname,query)(dispatch,NODE_ENV);
+        return kv(pathname,query)(dispatch).then( resKV => {
+            return latest(pathname,query)(dispatch).then( resLatest => {
+                return recommendStore(pathname,query)(dispatch).then( res => {
+                    return mallCategories(pathname,query)(dispatch);
                 });
             })
         });

@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import axios from 'axios';
 import API from './apiurl';
 import dayjs from 'dayjs';
@@ -5,7 +10,7 @@ import queryString from 'query-string';
 
 // 網紅可販賣的商品列表
 export function mystoreProductList( pathname,query, data={} ) {
-    return (dispatch,NODE_ENV) => {
+    return (dispatch) => {
         
         const method    = 'get';
         const initQuery = {
@@ -15,7 +20,7 @@ export function mystoreProductList( pathname,query, data={} ) {
             sortBy        : "created"
         };
         const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url       = `${API(NODE_ENV)['mystore']['candidates']}${search!=''? `?${search}`: ''}`;
+        const url       = `${API()['mystore']['candidates']}${search!=''? `?${search}`: ''}`;
 
         dispatch({
             type          : 'MYSTORE_STOREPRODUCT_STATUS',
@@ -53,12 +58,12 @@ export function mystoreProductList( pathname,query, data={} ) {
 
 // 網紅商店店舖管理資訊
 export function mystoreStoreInfo( pathname, query={}, data={} ) {
-    return (dispatch,NODE_ENV) => {
+    return (dispatch) => {
     
         const method = 'get';
         const initQuery = {};
         const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API(NODE_ENV)['mystore']['getInfo']}${search!=''? `?${search}`: ''}`;
+        const url = `${API()['mystore']['getInfo']}${search!=''? `?${search}`: ''}`;
 
         return Axios({ method, url, data}).then( res =>{
             if( !res.hasOwnProperty('response') ){
@@ -75,7 +80,7 @@ export function mystoreStoreInfo( pathname, query={}, data={} ) {
 
 // 網紅店舖管理內已在販售的商品列表 
 export function mystoreStoreProductList( pathname,query,data={} ) {
-    return (dispatch,NODE_ENV) => {
+    return (dispatch) => {
         
         const method    = 'get';
         const initQuery = {
@@ -85,7 +90,7 @@ export function mystoreStoreProductList( pathname,query,data={} ) {
             sortBy   : "created"
         };
         const search    = queryString.stringify({ ...initQuery, ...query });
-        const url       = `${API(NODE_ENV)['mystore']['storeProductList']}${search!=''? `?${search}`: ''}`;
+        const url       = `${API()['mystore']['storeProductList']}${search!=''? `?${search}`: ''}`;
 
         dispatch({
             type     : 'MYSTORE_STOREPRODUCT_STATUS',
@@ -124,12 +129,12 @@ export function mystoreStoreProductList( pathname,query,data={} ) {
 }
 
 export function mystoreStoreProductAdd( pathname,query,data ) {
-    return (dispatch,NODE_ENV) => {
+    return (dispatch) => {
 
         const method    = 'post';
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url       = `${API(NODE_ENV)['mystore']['addProduct']}${search!=''? `?${search}`: ''}`;
+        const url       = `${API()['mystore']['addProduct']}${search!=''? `?${search}`: ''}`;
 
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
@@ -141,12 +146,12 @@ export function mystoreStoreProductAdd( pathname,query,data ) {
 }
 
 export function mystoreStoreProductRemove( pathname,query,data ) {
-    return (dispatch,NODE_ENV) => {
+    return (dispatch) => {
 
         const method    = 'delete';
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url       = `${API(NODE_ENV)['mystore']['deleteProduct']}${search!=''? `?${search}`: ''}`;
+        const url       = `${API()['mystore']['deleteProduct']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
@@ -159,12 +164,12 @@ export function mystoreStoreProductRemove( pathname,query,data ) {
 
 // 更新店舖資料
 export function mystoreStoreInfoUpdate( pathname, query={}, data={} ) {
-    return (dispatch,NODE_ENV) => {
+    return (dispatch) => {
 
         const method    = 'put';
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url       = `${API(NODE_ENV)['mystore']['updateInfo']}${search!=''? `?${search}`: ''}`;
+        const url       = `${API()['mystore']['updateInfo']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
@@ -178,12 +183,12 @@ export function mystoreStoreInfoUpdate( pathname, query={}, data={} ) {
 
 // 網紅銀行資訊
 export function mystoreBankInfo( pathname,query,data={} ) {
-    return (dispatch,NODE_ENV) => {
+    return (dispatch) => {
 
         const method    = 'get';
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url       = `${API(NODE_ENV)['mystore']['bank']}${search!=''? `?${search}`: ''}`;
+        const url       = `${API()['mystore']['bank']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
@@ -202,12 +207,12 @@ export function mystoreBankInfo( pathname,query,data={} ) {
 
 // 網紅銀行資訊更新
 export function mystoreBankInfoUpdate( pathname,query,data={} ) {
-    return (dispatch,NODE_ENV) => {
+    return (dispatch) => {
 
         const method    = 'put';
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...queryString.parse(query) });
-        const url       = `${API(NODE_ENV)['mystore']['bank']}${search!=''? `?${search}`: ''}`;
+        const url       = `${API()['mystore']['bank']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
@@ -227,7 +232,8 @@ export function mystoreBankInfoUpdate( pathname,query,data={} ) {
 
 // 銷售資訊列表
 export function mystoreSalesList( pathname,query={},data={} ) {
-    return (dispatch,NODE_ENV) => {
+    return (dispatch) => {
+
         const YYYY   = dayjs().format('YYYY');
         const MM     = dayjs().format('MM');
         const DD     = dayjs().format('DD');
@@ -236,12 +242,13 @@ export function mystoreSalesList( pathname,query={},data={} ) {
         const period = month==String(MM)? '1': '2';
         const method = 'get';
         const initQuery = {
-            year   : year,
-            month  : month,
-            period : period
+            year          : year,
+            month         : month,
+            period        : period
         };
         const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API()['mystore']['fansorders']}${search!=""? `?${search}`:''}`;
+        const url    = `${API()['mystore']['fansorders']}${search!=""? `?${search}`:''}`;
+
         return Axios({ method, url, data }).then(res=>{
             if( !res.hasOwnProperty('response') ){
                 return res;
@@ -250,8 +257,8 @@ export function mystoreSalesList( pathname,query={},data={} ) {
         }).catch( err => {
             return err['response'];
         });
-
     }
+    
 }
 
 const Axios = ( api ) => {

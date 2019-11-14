@@ -104,7 +104,7 @@ class SignIn extends React.Component{
                             <div className="form-row msg" data-content="center">{msg}</div>
                     }
                     <div className="form-row">
-                        <button type="submit">送出</button>
+                        <button type="submit">{lang['zh-TW']['button']['submit']}</button>
                     </div>
                     <div className="form-row" data-direction="column">
                         <div className="sub-title">

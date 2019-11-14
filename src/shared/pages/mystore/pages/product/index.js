@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import $                          from 'jquery';
 import React                      from 'react';
 import toaster                    from 'toasted-notes';

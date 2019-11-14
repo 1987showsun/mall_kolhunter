@@ -28,10 +28,9 @@ import './public/stylesheets/style.scss';
 
 class Index extends React.Component{
 
-    static initialAction( NODE_ENV,pathname,query ) {
+    static initialAction( pathname,query ) {
         const pathnameArray = pathname.split('/').filter( item => item!="" );
-        query = { ...query, store: pathnameArray[1] }
-        return ssrStoreDetail( NODE_ENV,pathname,query );
+        return ssrStoreDetail( pathname, {...query, store: pathnameArray[1]} );
     }
 
     constructor(props){

@@ -48,10 +48,11 @@ class SignUp extends React.Component{
 
     render(){
         const { pwdDisplay, formObject, msg, open, popupMsg } = this.state;
+        const { email, password, confirmPassword, company, contactor, phone, invoice } = formObject;
 
         return(
             <React.Fragment>
-                <form onSubmit={this.handleSubmit.bind(this)} className="login-form">
+                <form className="login-form" onSubmit={this.handleSubmit.bind(this)} >
                     <div className="form-title">
                         <h4>加入經銷商</h4>
                     </div>
@@ -59,14 +60,14 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="email">
                                 <div className="input-box">
-                                    <input type="email" name="email" id="email" value={ formObject['email'] } onChange={this.handleChange.bind(this)} placeholder="* Email (註冊帳號)" autoComplete="off" />
+                                    <input type="email" name="email" id="email" value={email} onChange={this.handleChange.bind(this)} placeholder="* Email (註冊帳號)" autoComplete="off" />
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="password">
                                 <div className="input-box">
-                                    <input type={!pwdDisplay? 'password':'text'} name="password" id="password" value={ formObject['password'] } onChange={this.handleChange.bind(this)} placeholder="* 密碼 (內含英文大小寫與數字，最少8位數)" autoComplete="off" />
+                                    <input type={!pwdDisplay? 'password':'text'} name="password" id="password" value={password} onChange={this.handleChange.bind(this)} placeholder="* 密碼 (內含英文大小寫與數字，最少8位數)" autoComplete="off" />
                                     <span className="pwd-display" onClick={()=>{ 
                                         this.setState({ pwdDisplay: pwdDisplay? false:true });
                                     }}>
@@ -84,28 +85,28 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="confirmPassword">
                                 <div className="input-box">
-                                    <input type={!pwdDisplay? 'password':'text'} name="confirmPassword" id="confirmPassword" value={ formObject['confirmPassword'] } onChange={this.handleChange.bind(this)} placeholder="* 再次確認密碼 (內含英文大小寫與數字，最少8位數)" autoComplete="off" />
+                                    <input type={!pwdDisplay? 'password':'text'} name="confirmPassword" id="confirmPassword" value={confirmPassword} onChange={this.handleChange.bind(this)} placeholder="* 再次確認密碼 (內含英文大小寫與數字，最少8位數)" autoComplete="off" />
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="company">
                                 <div className="input-box">
-                                    <input type="text" name="company" id="company" value={ formObject['company'] } onChange={this.handleChange.bind(this)} placeholder="* 公司名稱" autoComplete="off" />
+                                    <input type="text" name="company" id="company" value={company} onChange={this.handleChange.bind(this)} placeholder="* 公司名稱" autoComplete="off" />
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="contactor">
                                 <div className="input-box">
-                                    <input type="text" name="contactor" id="contactor" value={ formObject['contactor'] } onChange={this.handleChange.bind(this)} placeholder="* 聯絡人" autoComplete="off"/>
+                                    <input type="text" name="contactor" id="contactor" value={contactor} onChange={this.handleChange.bind(this)} placeholder="* 聯絡人" autoComplete="off"/>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="phone">
                                 <div className="input-box">
-                                    <CurrencyFormat value={formObject['phone']} format="##########" placeholder="* 聯絡電話" onValueChange={(values) => {
+                                    <CurrencyFormat value={phone} format="##########" placeholder="* 聯絡電話" onValueChange={(values) => {
                                         const {formattedValue, value} = values;
                                         this.setState({
                                             formObject: {
@@ -120,7 +121,7 @@ class SignUp extends React.Component{
                         <li>
                             <label htmlFor="invoice">
                                 <div className="input-box">
-                                    <CurrencyFormat value={formObject['invoice']} format="########" placeholder="統一編號" onValueChange={(values) => {
+                                    <CurrencyFormat value={invoice} format="########" placeholder="統一編號" onValueChange={(values) => {
                                         const {formattedValue, value} = values;
                                         this.setState({
                                             formObject: {
@@ -141,7 +142,7 @@ class SignUp extends React.Component{
                             <div className="form-row msg" data-content="center" data-flexwrap="wrap">{msg}</div>
                     }
                     <div className="form-row" data-content="center">
-                        <button type="submit">送出</button>
+                        <button type="submit">{lang['zh-TW']['button']['submit']}</button>
                     </div>
                     <div className="form-row" data-content="center">
                         <Link to="/vendor" className="signup_link">取消加入</Link>

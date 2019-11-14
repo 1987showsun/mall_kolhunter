@@ -25,8 +25,8 @@ import { productList, ssrProductList } from '../../actions/categories';
 
 class Index extends React.Component{
 
-    static initialAction( NODE_ENV,pathname,query ) {
-        return ssrProductList( NODE_ENV,pathname,query );
+    static initialAction( pathname,query ) {
+        return ssrProductList( pathname,query );
     }
 
     constructor(props){

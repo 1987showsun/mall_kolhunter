@@ -1,151 +1,180 @@
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
 
-// Components
-import Confirm from '../../../module/confirm';
+import React                            from 'react';
+import queryString                      from 'query-string';
+import { connect }                      from 'react-redux';
+import { Link }                         from 'react-router-dom';
 
-//Actions
-import { verify } from '../../../actions/login';
-import { getVerifyToke } from '../../../actions/myvendor';
+// Modules
+import Confirm                          from '../../../module/confirm';
+import Loading                          from '../../../module/loading/mallLoading';
 
-//Javascripts
-import { PWD } from '../../../public/javascripts/checkFormat';
+// Actions
+import { verify }                       from '../../../actions/login';
 
 // Lang
-import lang from '../../../public/lang/lang.json';
+import lang                             from '../../../public/lang/lang.json';
 
 class Verify extends React.Component{
 
     constructor(props){
         super(props);
-        const code = queryString.parse(props.location['search'])['code'] || null;
-        const email= queryString.parse(props.location['search'])['mail'] || null;
+
+        const { search } = props.location;
+        const { email }  = queryString.parse(search);
+
         this.state = {
-            open: false,
-            success: false,
-            request: {
-                code: code,
-                email: email
-            },
-            form : {
-                password: '',
-                confirm: ''
-            },
-            msg : ""
+            loading     : false,
+            open        : false,
+            popupMSG    : [],
+            success     : false,
+            formObject  : {
+                type            : 'vendor',
+                email           : decodeURI(email),
+                code            : ""
+            }
         }
     }
 
     render(){
-        const { form, msg, open } = this.state;
 
+        const { loading, open, popupMSG, formObject } = this.state;
+        const { type, code } = formObject;
+        
         return(
             <React.Fragment>
-                <form onSubmit={this.handleSubmit.bind(this)} className="login-form">
-                    <div className="form-title">
-                        <h4>供應商密碼修改</h4>
-                    </div>
-                    <ul>
-                        <li>
-                            <label htmlFor="password">
+                <div className="verify-wrap">
+                    <h2>註冊成功</h2>
+                    <p>感謝您成功註冊<Link to="/">網紅電商</Link>廠商帳號，我們將會將送驗證信件至您的註冊信箱，請至信箱開通會員帳號，謝謝。</p>
+                    <p>若未收到驗證信請點選<button onClick={this.resendMaillVerify.bind(this)}>重新寄送驗證信</button></p>
+                    <p>如果驗證信被判別為垃圾信件，也可複製驗證碼在此進行帳號驗證</p>
+                    <form onSubmit={this.handleSubmit.bind(this)}>
+                        <ul>
+                            <li>
                                 <div className="input-box">
-                                    <input type="password" name="password" id="password" value={ form['password'] } onChange={this.handleChange.bind(this)} placeholder="* 密碼設定" autoComplete="off" />
+                                    <input type="text" name="code" value={code} onChange={this.handleChange.bind(this)} placeholder={`${lang['zh-TW']['placeholder']['account activation verification code']}`}/>
+                                    <button type="submit">{lang['zh-TW']['button']['submit']}</button>
                                 </div>
-                            </label>
-                        </li>
-                        <li>
-                            <label htmlFor="confirm">
-                                <div className="input-box">
-                                    <input type="password" name="confirm" id="confirm" value={ form['confirm'] } onChange={this.handleChange.bind(this)} placeholder="* 再次確認密碼" autoComplete="off" />
-                                </div>
-                            </label>
-                        </li>
-                    </ul>
-                    {
-                        msg!='' &&
-                            <div className="form-row msg" data-content="center" dangerouslySetInnerHTML={{__html: msg}}></div>
-                    }
-                    <div className="form-row form-p" data-content="center">
-                        <button type="submit">送出</button>
-                    </div>
-                </form>
+                            </li>
+                        </ul>
+                    </form>
+                    <Link to={`/${type}?goto=home`}>{lang['zh-TW']['hyperlink']['go to the login page']}</Link>
+                    <Loading loading={loading} />
+                </div>
+
                 <Confirm
-                    open={open}
-                    method='alert'
-                    header='申請成功'
-                    container='感謝您的申請，我們將去儘速審核寄發認證信件'
-                    onConfirm={this.handleConfirm.bind(this)}
+                    open          = {open}
+                    method        = 'alert'
+                    container     = {popupMSG}
+                    onCancel      = {this.handleConfirm.bind(this)}
                 />
             </React.Fragment>
         );
     }
 
-    componentDidMount() {
-        const { request } = this.state;
-        this.props.dispatch( getVerifyToke(request) )
+    resendMaillVerify = () => {
+
+        const { formObject }        = this.state;
+        const { location }          = this.props;
+        const { pathname, search }  = location;
+        const { type, email }       = formObject;
+        
+        this.props.dispatch( verify(pathname,{...queryString.parse(search)},{ type, email }) ).then( res => {
+            switch( res['status'] ){
+                case 200:
+                    this.setState({
+                        open        : true,
+                        popupMSG    : [<div key='success' className="items">{lang['zh-TW']['note']['resend verification letter']}</div>]
+                    })
+                    break;
+
+                default:
+                    const { status_text } = res['data'];
+                    this.setState({
+                        open        : true,
+                        popupMSG    : [<div key='success' className="items">{lang['zh-TW']['note'][status_text]}</div>]
+                    })
+                    break;
+            }
+        });
     }
 
     handleChange = (e) => {
-        let form = { ...this.state.form };
-        let name = e.target.name;
-        let val = e.target.value;
-        form = { ...form, [name]: val }
-
+        const { name, value } = e.target;
         this.setState({
-            form
+            formObject: {
+                ...this.state.formObject,
+                [name]: value
+            }
         })
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let msg = '';
-        let { form } = this.state;
-        let checkRequired = Object.keys(form).filter( key => {
-            return form[key]=='';
-        })
-        
+
+        const { formObject }        = this.state;
+        const { location }          = this.props;
+        const { pathname, search }  = location;
+
         this.setState({
-            msg
+            loading     : true
         },()=>{
-
-            let returnCheck = PWD( form );
-
-            if( checkRequired.length==0 ){
-                if( returnCheck['status'] ){
-                    this.props.dispatch( verify(form) );
-                    this.setState({
-                        open: true
-                    })
-                }else{
-                    this.setState({
-                        msg: returnCheck['msg']
-                    })
-                }
-            }else{
-                checkRequired.map( key => {
-                    msg = `${lang['zh-TW']['note'][key+' required']}<br/>${msg}`;
-                })
+            this.props.dispatch( verify(pathname,{...queryString.parse(search)},formObject) ).then( res => {
                 this.setState({
-                    msg
+                    loading     : false,
+                    open        : true
+                },()=>{
+                    switch( res['status'] ){
+                        case 200:
+                            this.setState({
+                                success     : true,
+                                popupMSG    : [<div key='success' className="items">{lang['zh-TW']['note']['successful verification']}</div>]
+                            })
+                            break;
+
+                        default:
+                            this.setState({
+                                success     : false,
+                                popupMSG    : [<div key='error' className="items">{lang['zh-TW']['note']['email or verification code error']}</div>]
+                            })
+                            break;
+                    }
                 })
-            }
+            });
         })
     }
 
-    handleConfirm = ( val ) => {
-        this.setState({
-            open: false,
-            success: val
-        },()=>{
-            this.props.history.push('/vendor');
-        })
+    handleConfirm = () => {
+        const { history }             = this.props;
+        const { success, formObject } = this.state;
+        const { type }                = formObject;
+        switch( success ){
+            case true:
+                history.push({
+                    pathname: `/${type}?goto=home`,
+                    search  : `goto=home`
+                })
+                break;
+
+            default:
+                this.setState({
+                    open        : false,
+                    popupMSG    : []
+                })
+                break;
+        }
+
+        
     }
 }
 
-const mapStateToProps = ( state ) => {
+const mapStateToProps = state => {
     return{
 
     }
 }
 
-export default connect(mapStateToProps)(Verify);
+export default connect( mapStateToProps )( Verify );

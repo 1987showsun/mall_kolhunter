@@ -90,6 +90,9 @@
         "transport": {
             "init": "處理中"
         },
+        "hyperlink": {
+            "go to the login page": "前往登入頁"
+        },
         "note": {
             "file exceeds 300KB size limit": "檔案大小超過 300KB",
             "pay checkcode error": "付款失敗",
@@ -173,6 +176,11 @@
             "Will send the update password URL to the registration email": "將寄送更新密碼網址至註冊信箱",
             "update Success, you will be taken to the login page.": "修改成功，將前往登入頁",
             "email and reset code can not found in system": "密碼重置驗證代碼已失效，請重新操作",
+            "resend verification letter": "已重新寄送驗證信件",
+            "email or verification code error": "信箱或驗證碼錯誤",
+            "successful verification": "驗證成功",
+            "email does not exists": "所要寄發的信箱不存在",
+            "email has been verified": "該信箱已通過驗證",
             "format": {
                 "name required": "型號 / 尺寸 / 顏色 必填",
                 "quantity required": "庫存數量必填"
@@ -197,8 +205,13 @@
             "submit"      : "送出"
         },
         "placeholder": {
+            "userID": "會員帳號（email）",
+            "userPWD": "會員密碼",
+            "vendorID": "廠商帳號（email）",
+            "vendorPWD": "廠商登入密碼",
             "store name": "店家名稱",
-            "product name": "商品名稱"
+            "product name": "商品名稱",
+            "account activation verification code": "帳號開通驗證碼"
         },
         "label":{
             "number of stores": "店家數量",
@@ -311,6 +324,9 @@
         "transport": {
             "init": "Under processing"
         },
+        "hyperlink": {
+            "go to the login page": "Go to the login page"
+        },
         "note": {
             "file exceeds 300KB size limit": "File exceeds 300KB size limit",
             "pay checkcode error": "Pay checkcode error",
@@ -393,6 +409,11 @@
             "Will send the update password URL to the registration email": "Will send the update password URL to the registration email",
             "update Success, you will be taken to the login page.": "Update Success, you will be taken to the login page.",
             "email and reset code can not found in system": "Email and reset code can not found in system",
+            "resend verification letter": "Resend verification letter",
+            "email or verification code error": "Email or verification code error",
+            "successful verification": "Successful verification",
+            "email does not exists": "Email does not exists",
+            "email has been verified": "Email has been verified",
             "format": {
                 "name required": "Model / Size / Color required",
                 "quantity required": "Stock quantity required"
@@ -417,8 +438,13 @@
             "submit"      : "Submit"
         },
         "placeholder": {
+            "userID": "Username（email）",
+            "userPWD": "Password",
+            "vendorID": "Username（email）",
+            "vendorPWD": "Password",
             "store name": "Store name",
-            "product name": "Product name"
+            "product name": "Product name",
+            "account activation verification code": "Account activation verification code"
         },
         "label":{
             "number of stores": "Number of stores",

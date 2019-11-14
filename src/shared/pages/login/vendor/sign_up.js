@@ -1,21 +1,27 @@
-import React from 'react';
-import CurrencyFormat from 'react-currency-format';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faEyeSlash, faEye }from '@fortawesome/free-solid-svg-icons';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                         from 'react';
+import queryString                   from 'query-string';
+import CurrencyFormat                from 'react-currency-format';
+import { Link }                      from 'react-router-dom';
+import { connect }                   from 'react-redux';
+import { FontAwesomeIcon }           from '@fortawesome/react-fontawesome';
+import { faEyeSlash, faEye }         from '@fortawesome/free-solid-svg-icons';
 
 // Modules
-import Confirm from '../../../module/confirm';
+import Confirm                       from '../../../module/confirm';
 
 //Actions
-import { signup } from '../../../actions/login';
+import { signup }                    from '../../../actions/login';
 
 // Lang
-import lang from '../../../public/lang/lang.json';
+import lang                          from '../../../public/lang/lang.json';
 
 // Javascripts
-import { PWD, checkRequired } from '../../../public/javascripts/checkFormat';
+import { PWD, checkRequired }        from '../../../public/javascripts/checkFormat';
 
 class SignUp extends React.Component{
 
@@ -142,10 +148,10 @@ class SignUp extends React.Component{
                     </div>
                 </form>
                 <Confirm
-                    open={open}
-                    method='alert'
-                    container={popupMsg}
-                    onCancel={this.handleConfirm.bind(this)}
+                    open          = {open}
+                    method        = 'alert'
+                    container     = {popupMsg}
+                    onCancel      = {this.handleConfirm.bind(this)}
                 />
             </React.Fragment>
         );
@@ -160,25 +166,30 @@ class SignUp extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
+        
+        const { history }              = this.props;
         const { required, formObject } = this.state;
-        const checkRequiredFilter = checkRequired( required, formObject );
+        const checkRequiredFilter      = checkRequired( required, formObject );
+
         if( checkRequiredFilter.length==0 ){
             const checkPWDFormat = PWD({ password: formObject['password'], confirm: formObject['confirmPassword'] });
             if( checkPWDFormat['status'] ){
                 this.setState({
-                    loading: true,
-                    msg: []
+                    loading    : true,
+                    msg        : []
                 },()=>{
                     this.props.dispatch( signup(formObject) ).then( res => {
                         this.setState({
-                            loading: false
+                            loading    : false
                         },()=>{
                             switch( res['status'] ){
                                 case 200:
-                                    this.setState({
-                                        open: true,
-                                        popupMsg: [<div key="1" className="items">{lang['zh-TW']['Vendor siginup success']}</div>]
-                                    });
+                                    history.push({
+                                        pathname   : '/vendor/verify',
+                                        search     : queryString.stringify({
+                                            email    : formObject['email']
+                                        })
+                                    })
                                     break;
 
                                 default:

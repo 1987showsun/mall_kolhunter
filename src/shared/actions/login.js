@@ -114,6 +114,7 @@ export function resetPassword( pathname="", query={}, data={} ){
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...query });
         const url       = `${API()['reset_password'][type]}${search!=""? `?${search}`:''}`;
+        
         return Axios({ method, url, data }).then( res => {
             if( !res.hasOwnProperty('response') ){
                 return res;
@@ -123,21 +124,43 @@ export function resetPassword( pathname="", query={}, data={} ){
     }
 }
 
-// 驗證
-export function verify( form ) {
-    const { type } = form;
-    const uri      = API()['verify'][type];
-    delete form['type'];
-
-    Axios({ method: 'post', uri: uri, data: form }).then( res => {
-    })
-
+// 重新寄送驗證信件
+export function resendMaillVerify( pathname, query={}, data={} ) {
     return (dispatch) => {
-        dispatch({
-            type: 'VERFY_SUCCESS',
-            info: {},
-            token: '123123123'
-        })
+
+        const method    = 'post';
+        const { type }  = data;
+        const initQuery = {};
+        const search    = queryString.stringify({...initQuery, ...query});
+        const url       = `${API()['resend'][type]}${search!=''? `?${search}`:''}`;
+
+        return Axios({ method, url, data }).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                console.log( res );
+                return res;
+            }
+            return res['response'];
+        }).catch( err => err['response'] );
+    }
+}
+
+// 驗證
+export function verify( pathname="", query={}, data={} ) {
+    return (dispatch) => {
+
+        const method    = 'post';
+        const { type }  = data;
+        const initQuery = {};
+        const search    = queryString.stringify({...initQuery, ...query});
+        const url       = `${API()['verify'][type]}`;
+
+        return Axios({ method, url, data }).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                console.log( res );
+                return res;
+            }
+            return res['response'];
+        }).catch( err => err['response'] );
     }
 }
 

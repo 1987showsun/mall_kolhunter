@@ -1,20 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faEyeSlash, faEye }from '@fortawesome/free-solid-svg-icons';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                       from 'react';
+import queryString                 from 'query-string';
+import { Link }                    from 'react-router-dom';
+import { connect }                 from 'react-redux';
+import { FontAwesomeIcon }         from '@fortawesome/react-fontawesome';
+import { faEyeSlash, faEye }       from '@fortawesome/free-solid-svg-icons';
 
 // Modules
-import Confirm from '../../../module/confirm';
+import Confirm                     from '../../../module/confirm';
+import Loading                     from '../../../module/loading/blockLoading';
 
 // Actions 
-import { signup } from '../../../actions/login';
+import { signup }                  from '../../../actions/login';
 
 // Javascripts
-import { PWD, checkRequired } from '../../../public/javascripts/checkFormat';
+import { PWD, checkRequired }      from '../../../public/javascripts/checkFormat';
 
 // Lang
-import lang from '../../../public/lang/lang.json';
+import lang                        from '../../../public/lang/lang.json';
 
 
 class SignUp extends React.Component{
@@ -22,21 +29,21 @@ class SignUp extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            loading: false,
-            open: false,
-            popupMSG: "",
-            pwdDisplay: false,
-            required: ['email','password','password_chk','nickname'],
-            formObject : {
-                type: 'account',
-                email: '',
-                password: '',
-                password_chk: '',
-                nickname: '',
-                phone: '',
-                company: ''
+            loading           : false,
+            open              : false,
+            popupMSG          : "",
+            msg               : "",
+            pwdDisplay        : false,
+            required          : ['email','password','password_chk','nickname'],
+            formObject        : {
+                type            : 'account',
+                email           : '',
+                password        : '',
+                password_chk    : '',
+                nickname        : '',
+                phone           : '',
+                company         : ''
             },
-            msg : ""
         }
     }
 
@@ -118,6 +125,7 @@ class SignUp extends React.Component{
                     <div className="form-row form-p" data-content="center">
                         <button type="button" className="goBack" onClick={()=> this.props.history.goBack()}>{lang['zh-TW']['button']['go back']}</button>
                     </div>
+                    <Loading loading={loading} />
                 </form>
 
                 <Confirm
@@ -132,8 +140,8 @@ class SignUp extends React.Component{
 
     handleConfirm = () => {
         this.setState({
-            open: false,
-            popupMSG: ""
+            open          : false,
+            popupMSG      : ""
         },()=>{
             this.props.history.push('/account');
         })
@@ -148,14 +156,17 @@ class SignUp extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
+
+        const { history }              = this.props;
         const { required, formObject } = this.state;
-        const checkRequiredFilter = checkRequired( required, formObject );
+        const checkRequiredFilter      = checkRequired( required, formObject );
+
         if( checkRequiredFilter.length==0 ){
             const checkPWDFormat = PWD({ password: formObject['password'], confirm: formObject['password_chk'] });
             if( checkPWDFormat['status'] ){
                 this.setState({
-                    loading: true,
-                    msg: []
+                    loading         : true,
+                    msg             : []
                 },()=>{
                     this.props.dispatch( signup(formObject) ).then( res => {
                         this.setState({
@@ -163,16 +174,18 @@ class SignUp extends React.Component{
                         },()=>{
                             switch( res['status'] ){
                                 case 200:
-                                    this.setState({
-                                        open: true,
-                                        popupMSG: lang['zh-TW']['account siginup success']
-                                    });
+                                    history.push({
+                                        pathname   : '/account/verify',
+                                        search     : queryString.stringify({
+                                            email: formObject['email']
+                                        })
+                                    })
                                     break;
 
                                 default:
                                     const { status_text } = res['data'];
                                     this.setState({
-                                        msg: [<div key={res['data']['status_text']}>{ lang['zh-TW']['err'][status_text] }</div>]
+                                        msg             : [<div key={res['data']['status_text']}>{ lang['zh-TW']['err'][status_text] }</div>]
                                     });
                                     break;
                             }
@@ -181,12 +194,12 @@ class SignUp extends React.Component{
                 })
             }else{
                 this.setState({
-                    msg: [<div key="1" className="items">{lang['zh-TW']['note'][checkPWDFormat['msg']]}</div>]
+                    msg             : [<div key="1" className="items">{lang['zh-TW']['note'][checkPWDFormat['msg']]}</div>]
                 })
             }
         }else{
             this.setState({
-                msg: checkRequiredFilter
+                msg             : checkRequiredFilter
             })
         }
     };

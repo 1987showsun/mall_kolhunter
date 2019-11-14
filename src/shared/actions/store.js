@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import axios from 'axios';
 import API from './apiurl';
 import queryString from 'query-string';
@@ -54,7 +59,7 @@ export function storeList( pathname, query={}, data={} ) {
         };
         const search    = queryString.stringify({ ...initQuery, ...query });
         const url       = `${API(NODE_ENV)['mall']['store']['list']}${search!=''? `?${search}`: ''}`;
-        
+
         return Axios({method, url, data}).then(res=>{
             if( !res.hasOwnProperty('response') ){
                 dispatch({

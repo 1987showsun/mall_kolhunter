@@ -224,81 +224,68 @@ class Cover extends React.Component{
 
     callCarts = ( method ) => {
         const { location, history } = this.props;
-        const { pathname, search } = location;
-        const checkLoginStatus = sessionStorage.getItem('jwt_account')!=null? true : false;
+        const { pathname, search }  = location;
+        const checkLoginStatus      = sessionStorage.getItem('jwt_account')!=null? true : false;
         const formObject = {
             ...this.state.formObject,
-            cartToken: localStorage.getItem('cartID'),
-            storeID: queryString.parse( search )['store'] || "",
+            cartToken   : localStorage.getItem('cartID'),
+            storeID     : queryString.parse( search )['store'] || "",
         }
 
-        if( checkLoginStatus ){
-            // 登入
-            this.setState({
-                lock: true
-            },()=>{
-                this.props.dispatch( updateCartProductItem(pathname,queryString.parse(search),formObject) ).then( res => {
-                    this.setState({
-                        lock: false
-                    },()=>{
+        this.setState({
+            lock: true
+        },()=>{
+            this.props.dispatch( updateCartProductItem(pathname,queryString.parse(search),formObject) ).then( res => {
+                this.setState({
+                    lock: false
+                },()=>{
 
-                        let { status_text } = res['data'];
-                        let status = 'failure';
+                    let { status_text } = res['data'];
+                    let status          = 'failure';
 
-                        switch( res['status'] ){
-                            case 200:
-                                // 加入成功
-                                this.props.dispatch( cartsCount() );
-                                status_text = "新增成功";
-                                status      = "success";
-                                switch( method ){
-                                    case 'direct':
-                                        this.props.history.push({
-                                            pathname: '/myaccount/carts'
-                                        })
-                                        break;
-                        
-                                    default:
-                                        break;
-                                }
-                                break;
+                    switch( res['status'] ){
+                        case 200:
+                            // 加入成功
+                            this.props.dispatch( cartsCount() );
+                            status_text = "新增成功";
+                            status      = "success";
+                            switch( method ){
+                                case 'direct':
+                                    // 直接購買
+                                    if( checkLoginStatus ){
+                                        // 登入
+                                        history.push({
+                                            pathname   : '/myaccount/carts'
+                                        });
+                                    }else{
+                                        // 未登入
+                                        history.push({
+                                            pathname   : '/account',
+                                            search     : 'to=carts'
+                                        });
+                                    }
+                                    break;
+                    
+                                default:
+                                    break;
+                            }
+                            break;
 
-                            default:
-                                // 失敗
-                                switch( method ){
-                                    case 'direct':
-                                        status_text = "新增失敗";
-                                        if( res['data']['status_text']=='add item into shopcart failure' ){
-                                            status_text = lang['zh-TW']['toaster'][res['data']['status_text']];
-                                            history.push({
-                                                pathname: '/myaccount/carts'
-                                            })
-                                        }
-                                        break;
+                        default:
+                            // 失敗
+                            status_text = "新增失敗";
+                            break;
+                    }
 
-                                    default:
-                                        status_text = "新增失敗";
-                                        break;
-                                }
-                                break;
-                        }
-
-                        toaster.notify(
-                            <div className={`toaster-status ${status}`}>{status_text}</div>
-                        ,{
-                            position: 'bottom-right',
-                            duration: 3000
-                        })
-                    });
+                    toaster.notify(
+                        <div className={`toaster-status ${status}`}>{status_text}</div>
+                    ,{
+                        position: 'bottom-right',
+                        duration: 3000
+                    })
                 });
-            })
-        }else{
-            // 未登入
-            this.props.history.push({
-                pathname: '/account',
-                search: 'back=true'
-            })
-        }
+            });
+        })
     }
 }
 

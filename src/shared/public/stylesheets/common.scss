@@ -252,6 +252,11 @@ a{
         z-index: 2;
         color: #666;
     }
+    a{
+        color: #666;
+        display: inline-flex;
+        margin: 0px 5px;
+    }
 }
 
 nav{

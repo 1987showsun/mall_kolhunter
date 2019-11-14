@@ -13,10 +13,12 @@ import { mallCategories } from './common';
 // 首頁廣告輪播
 export function kv( pathname,query={},data={} ){
     return( dispatch,NODE_ENV )=>{
+
         const method    = 'get';
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...query });
         const url       = `${API(NODE_ENV)['mall']['home']['kv']}${search!=""? `?${search}`:''}`;
+        
         return Axios({method, url, data}).then( res => {
             if( !res.hasOwnProperty('response') ){
                 dispatch({
@@ -33,6 +35,7 @@ export function kv( pathname,query={},data={} ){
 // 推薦網紅
 export function recommendStore( pathname,query={},data={} ){
     return( dispatch,NODE_ENV )=>{
+
         const method    = 'get';
         const initQuery = {};
         const search    = queryString.stringify({ ...initQuery, ...query });
@@ -74,6 +77,7 @@ export function latest( pathname,query={},data={} ){
         };
         const search    = queryString.stringify({ ...initQuery, ...query });
         const url       = `${API(NODE_ENV)['mall']['home']['latest']}${ search!=""? `?${search}`: "" }`;
+        console.log( url );
         return Axios({method, url, data}).then( res => {
             dispatch({
                 type: "HOME_LATEST",

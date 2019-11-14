@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 // 優惠券 ＆ 折扣碼
 import React                    from 'react';
 import { connect }              from 'react-redux';

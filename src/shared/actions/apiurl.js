@@ -45,7 +45,7 @@ const API_ADDRESS = () => {
     const { NODE_ENV } = process.env;
     let API_PATH  = 'https://api.kolhunter.com';
     if( NODE_ENV=="development" ){
-        API_PATH  = "https://sapi.kolhunter.com";
+        API_PATH  = "https://sapi.kolhunter.com"; //'https://dapi.kolhunter.com';//
     }
     return API_PATH;
 }
@@ -69,8 +69,12 @@ export default function API(){
             'vendor'       : `${API_ADDRESS()}/v1/vendor/resetpassword`,
         },
         'verify'         : {
+            'account'      : `${API_ADDRESS()}/v1/member/verifyemail`,
+            'vendor'       : `${API_ADDRESS()}/v1/vendor/verifyemail`
+        },
+        'resend'         : {
             'account'      : `${API_ADDRESS()}/v1/member/verify`,
-            'vendor'       : `${API_ADDRESS()}/v1/vendor/verify`
+            'vendor'       : `${API_ADDRESS()}/v1/vendor/verifyemail`
         },
         'myvendor'       : {
             'refreshToken'            : `${API_ADDRESS()}/v1/vendor/renewtoken`,

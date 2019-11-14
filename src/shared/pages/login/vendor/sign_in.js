@@ -1,62 +1,62 @@
-import React from 'react';
-import queryString from 'query-string';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faCheck }from '@fortawesome/free-solid-svg-icons';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                            from 'react';
+import queryString                      from 'query-string';
+import { Link }                         from 'react-router-dom';
+import { connect }                      from 'react-redux';
+import { FontAwesomeIcon }              from '@fortawesome/react-fontawesome';
+import { faCheck }                      from '@fortawesome/free-solid-svg-icons';
 
 // Modules
-import Loading from '../../../module/loading/blockLoading';
+import Loading                          from '../../../module/loading/blockLoading';
 
 // Actions
-import { signin } from '../../../actions/login';
+import { signin }                       from '../../../actions/login';
 
 // Lang
-import lang from '../../../public/lang/lang.json';
+import lang                             from '../../../public/lang/lang.json';
 
 // Javascripts
-import { checkRequired } from '../../../public/javascripts/checkFormat';
+import { checkRequired }                from '../../../public/javascripts/checkFormat';
 
 class SignIn extends React.Component{
 
     constructor(props){
         super(props);
 
-        let vendorID="";
-        let vendorPWD="";
-        let record=false;
+        let vendorID   = "";
+        let vendorPWD  = "";
+        let record     = false;
         if (typeof window !== 'undefined') {
             const filterAfter = Object.entries(localStorage).filter( filterItem => {
                 return filterItem.includes(`vendorLoginRecord`);
             })
             if( filterAfter.length!=0 ){
-                vendorID = JSON.parse(filterAfter[0][1])['vendorID'];
+                vendorID  = JSON.parse(filterAfter[0][1])['vendorID'];
                 vendorPWD = JSON.parse(filterAfter[0][1])['vendorPWD'];
             }
             record = Boolean(localStorage.getItem('vendorRecordStatus')) || false;
         }
 
         this.state = {
-            loading: false,
-            required: ['vendorID','vendorPWD'],
-            form : {
-                type: 'vendor',
+            loading     : false,
+            msg         : [],
+            required    : ['vendorID','vendorPWD'],
+            form        : {
+                type    : 'vendor',
                 vendorID,
                 vendorPWD,
             },
-            msg : [],
             record
         }
     }
 
     render(){
 
-        const { 
-            loading,
-            form, 
-            msg, 
-            record 
-        } = this.state;
+        const { loading, msg, form, record } = this.state;
 
         return(
             <React.Fragment>
@@ -68,14 +68,14 @@ class SignIn extends React.Component{
                         <li>
                             <label htmlFor="vendorID">
                                 <div className="input-box">
-                                    <input type="email" name="vendorID" id="vendorID" value={ form['vendorID'] } onChange={this.handleChange.bind(this)} placeholder="廠商帳號（E-mail）"/>
+                                    <input type="email" name="vendorID" id="vendorID" value={ form['vendorID'] } onChange={this.handleChange.bind(this)} placeholder={`${lang['zh-TW']['placeholder']['vendorID']}`}/>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="vendorPWD">
                                 <div className="input-box">
-                                    <input type="password" name="vendorPWD" id="vendorPWD" value={ form['vendorPWD'] } onChange={this.handleChange.bind(this)} placeholder="密碼"/>
+                                    <input type="password" name="vendorPWD" id="vendorPWD" value={ form['vendorPWD'] } onChange={this.handleChange.bind(this)} placeholder={`${lang['zh-TW']['placeholder']['vendorPWD']}`}/>
                                 </div>
                             </label>
                         </li>
@@ -103,7 +103,7 @@ class SignIn extends React.Component{
                     </div>
                     <div className="form-row" data-direction="column">
                         <div className="sub-title">
-                            <span className="text">kolhunter 的新廠商？</span>
+                            <span className="text">成為<Link to="/">網紅電商</Link>的新廠商？</span>
                         </div>
                         <Link to="/vendor/leading" className="signup_link">立即申請</Link>
                     </div>
@@ -138,18 +138,17 @@ class SignIn extends React.Component{
 
     handleChangeRecord = (e) => {
         // 記住帳號密碼
-        const name = e.target.name;
-        const checked = e.target.checked;
+        const { name, checked } = e.target;
         this.setState({
             [name]: checked
         },()=>{
-            const {form} = this.state;
-            const type = form['type'];
+            const { form } = this.state;
+            const { type } = form;
             if( this.state[name] ){
-                localStorage.setItem( `${type}LoginRecord` , JSON.stringify(form) );
+                localStorage.setItem( `${type}LoginRecord`  , JSON.stringify(form) );
                 localStorage.setItem( `${type}RecordStatus` , checked );
             }else{
-                localStorage.removeItem( `${type}LoginRecord` );
+                localStorage.removeItem( `${type}LoginRecord`  );
                 localStorage.removeItem( `${type}RecordStatus` );
             }
         })
@@ -172,15 +171,17 @@ class SignIn extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let { required, form } = this.state;
-        let checkRequiredFilter = checkRequired(required, form);
+
+        const { required, form }  = this.state;
+        const checkRequiredFilter = checkRequired(required, form);
+
         if( checkRequiredFilter.length==0 ){
             this.setState({
-                loading: true
+                loading      : true
             },()=>{
                 this.props.dispatch( signin(form) ).then( res => {
                     this.setState({
-                        loading: false
+                        loading      : false
                     },()=>{
                         switch( res['status'] ){
                             case 200:

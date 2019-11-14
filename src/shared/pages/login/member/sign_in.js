@@ -1,50 +1,55 @@
-import React from 'react';
-import queryString from 'query-string';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faCheck }from '@fortawesome/free-solid-svg-icons';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                          from 'react';
+import queryString                    from 'query-string';
+import { Link }                       from 'react-router-dom';
+import { connect }                    from 'react-redux';
+import { FontAwesomeIcon }            from '@fortawesome/react-fontawesome';
+import { faCheck }                    from '@fortawesome/free-solid-svg-icons';
 
 // Modules
-import Loading from '../../../module/loading/blockLoading';
+import Loading                        from '../../../module/loading/blockLoading';
 
 // Actions
-import { signin } from '../../../actions/login';
+import { signin }                     from '../../../actions/login';
 
 // Lang
-import lang from '../../../public/lang/lang.json';
+import lang                           from '../../../public/lang/lang.json';
 
 // Javascripts
-import { checkRequired } from '../../../public/javascripts/checkFormat';
+import { checkRequired }              from '../../../public/javascripts/checkFormat';
 
 class SignIn extends React.Component{
 
     constructor(props){
         super(props);
 
-        let userID="";
-        let userPWD="";
-        let record=false;
+        let userID    = "";
+        let userPWD   = "";
+        let record    = false;
         if (typeof window !== 'undefined') {
             const filterAfter = Object.entries(localStorage).filter( filterItem => {
                 return filterItem.includes(`accountLoginRecord`);
             })
             if( filterAfter.length!=0 ){
-                userID = JSON.parse(filterAfter[0][1])['userID'];
+                userID  = JSON.parse(filterAfter[0][1])['userID'];
                 userPWD = JSON.parse(filterAfter[0][1])['userPWD'];
             }
             record = Boolean(localStorage.getItem('accountRecordStatus')) || false;
         }
 
         this.state = {
-            loading: false,
-            required: ['userID','userPWD'],
-            form : {
-                type: 'account',
+            loading          : false,
+            required         : ['userID','userPWD'],
+            form             : {
+                type           : 'account',
                 userID,
                 userPWD,
             },
-            msg : [],
+            msg              : [],
             record
         }
     }
@@ -68,14 +73,14 @@ class SignIn extends React.Component{
                         <li>
                             <label htmlFor="userID">
                                 <div className="input-box">
-                                    <input type="email" name="userID" id="userID" value={ form['userID'] } onChange={this.handleChange.bind(this)} placeholder="E-mail 會員帳號"/>
+                                    <input type="email" name="userID" id="userID" value={ form['userID'] } onChange={this.handleChange.bind(this)} placeholder={`${lang['zh-TW']['placeholder']['userID']}`}/>
                                 </div>
                             </label>
                         </li>
                         <li>
                             <label htmlFor="userPWD">
                                 <div className="input-box">
-                                    <input type="password" name="userPWD" id="userPWD" value={ form['userPWD'] } onChange={this.handleChange.bind(this)} placeholder="密碼"/>
+                                    <input type="password" name="userPWD" id="userPWD" value={ form['userPWD'] } onChange={this.handleChange.bind(this)} placeholder={`${lang['zh-TW']['placeholder']['userPWD']}`}/>
                                 </div>
                             </label>
                         </li>
@@ -103,7 +108,7 @@ class SignIn extends React.Component{
                     </div>
                     <div className="form-row" data-direction="column">
                         <div className="sub-title">
-                            <span className="text">kolhunter 的新客户？</span>
+                            <span className="text">成為<Link to="/">網紅電商</Link>的新用户？</span>
                         </div>
                         <Link to="/account/signup" className="signup_link">立即註冊</Link>
                     </div>

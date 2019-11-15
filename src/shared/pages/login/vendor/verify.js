@@ -13,7 +13,7 @@ import Confirm                          from '../../../module/confirm';
 import Loading                          from '../../../module/loading/mallLoading';
 
 // Actions
-import { verify }                       from '../../../actions/login';
+import { resendMaillVerify, verify }    from '../../../actions/login';
 
 // Lang
 import lang                             from '../../../public/lang/lang.json';
@@ -25,6 +25,9 @@ class Verify extends React.Component{
 
         const { search } = props.location;
         const { email }  = queryString.parse(search);
+        const protocol   = window.location.protocol;
+        const hostname   = window.location.hostname;
+        const port       = window.location.port;
 
         this.state = {
             loading     : false,
@@ -33,6 +36,7 @@ class Verify extends React.Component{
             success     : false,
             formObject  : {
                 type            : 'vendor',
+                returnUrl       : `${protocol}//${hostname}${port!=""? `:${port}`: ''}/vendor/verify`,
                 email           : decodeURI(email),
                 code            : ""
             }
@@ -77,12 +81,12 @@ class Verify extends React.Component{
 
     resendMaillVerify = () => {
 
-        const { formObject }        = this.state;
-        const { location }          = this.props;
-        const { pathname, search }  = location;
-        const { type, email }       = formObject;
+        const { formObject }              = this.state;
+        const { location }                = this.props;
+        const { pathname, search }        = location;
+        const { type, returnUrl, email }  = formObject;
         
-        this.props.dispatch( verify(pathname,{...queryString.parse(search)},{ type, email }) ).then( res => {
+        this.props.dispatch( resendMaillVerify(pathname, {...queryString.parse(search)}, {type, returnUrl, email}) ).then( res => {
             switch( res['status'] ){
                 case 200:
                     this.setState({
@@ -115,14 +119,15 @@ class Verify extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const { formObject }        = this.state;
-        const { location }          = this.props;
-        const { pathname, search }  = location;
+        const { formObject }              = this.state;
+        const { location }                = this.props;
+        const { pathname, search }        = location;
+        const { type, email, code }       = formObject;
 
         this.setState({
             loading     : true
         },()=>{
-            this.props.dispatch( verify(pathname,{...queryString.parse(search)},formObject) ).then( res => {
+            this.props.dispatch( verify(pathname, {...queryString.parse(search)}, {type, email, code}) ).then( res => {
                 this.setState({
                     loading     : false,
                     open        : true

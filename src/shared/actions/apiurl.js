@@ -73,8 +73,8 @@ export default function API(){
             'vendor'       : `${API_ADDRESS()}/v1/vendor/verifyemail`
         },
         'resend'         : {
-            'account'      : `${API_ADDRESS()}/v1/member/verify`,
-            'vendor'       : `${API_ADDRESS()}/v1/vendor/verifyemail`
+            'account'      : `${API_ADDRESS()}/v1/member/resendverifyemail`,
+            'vendor'       : `${API_ADDRESS()}/v1/vendor/resendverifyemail`
         },
         'myvendor'       : {
             'refreshToken'            : `${API_ADDRESS()}/v1/vendor/renewtoken`,

@@ -24,16 +24,25 @@ class Forget extends React.Component{
 
     constructor(props){
         super(props);
+
+        const getLocationURL   = () => {
+            const protocol   = window.location.protocol;
+            const hostname   = window.location.hostname;
+            const port       = window.location.port;
+            return `${protocol}//${hostname}${port!=""? `:${port}`: ''}`;
+        }
+
         this.state = {
-            loading       : false,
-            open          : false,
-            method        : "alert",
-            popupMsg      : [],
-            msg           : [],
-            required      : ['email'],
-            formObject    : {
-                type        : 'vendor',
-                email       : ""
+            loading           : false,
+            open              : false,
+            method            : "alert",
+            popupMsg          : [],
+            msg               : [],
+            required          : ['email'],
+            formObject        : {
+                type            : 'vendor',
+                returnUrl       : typeof window !== 'undefined'? `${getLocationURL()}/vendor/resetPWD`:null,
+                email           : ""
             }
         }
     }

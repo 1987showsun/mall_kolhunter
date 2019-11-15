@@ -28,6 +28,12 @@ class SignUp extends React.Component{
 
     constructor(props){
         super(props);
+        const getLocationURL   = () => {
+            const protocol   = window.location.protocol;
+            const hostname   = window.location.hostname;
+            const port       = window.location.port;
+            return `${protocol}//${hostname}${port!=""? `:${port}`: ''}`;
+        }
         this.state = {
             loading           : false,
             open              : false,
@@ -38,6 +44,7 @@ class SignUp extends React.Component{
             required          : ['email','password','password_chk','nickname'],
             formObject        : {
                 type            : 'account',
+                returnUrl       : typeof window !== 'undefined'? `${getLocationURL()}/vendor/verify`:null,
                 email           : '',
                 password        : '',
                 password_chk    : '',

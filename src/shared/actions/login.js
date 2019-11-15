@@ -136,7 +136,6 @@ export function resendMaillVerify( pathname, query={}, data={} ) {
 
         return Axios({ method, url, data }).then( res => {
             if( !res.hasOwnProperty('response') ){
-                console.log( res );
                 return res;
             }
             return res['response'];
@@ -156,7 +155,6 @@ export function verify( pathname="", query={}, data={} ) {
 
         return Axios({ method, url, data }).then( res => {
             if( !res.hasOwnProperty('response') ){
-                console.log( res );
                 return res;
             }
             return res['response'];

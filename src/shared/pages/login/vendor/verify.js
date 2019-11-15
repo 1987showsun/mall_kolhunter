@@ -23,11 +23,14 @@ class Verify extends React.Component{
     constructor(props){
         super(props);
 
-        const { search } = props.location;
-        const { email }  = queryString.parse(search);
-        const protocol   = window.location.protocol;
-        const hostname   = window.location.hostname;
-        const port       = window.location.port;
+        const { search }       = props.location;
+        const { email, code }  = queryString.parse(search);
+        const getLocationURL   = () => {
+            const protocol   = window.location.protocol;
+            const hostname   = window.location.hostname;
+            const port       = window.location.port;
+            return `${protocol}//${hostname}${port!=""? `:${port}`: ''}`;
+        }
 
         this.state = {
             loading     : false,
@@ -36,9 +39,9 @@ class Verify extends React.Component{
             success     : false,
             formObject  : {
                 type            : 'vendor',
-                returnUrl       : `${protocol}//${hostname}${port!=""? `:${port}`: ''}/vendor/verify`,
-                email           : decodeURI(email),
-                code            : ""
+                returnUrl       : typeof window !== 'undefined'? `${getLocationURL()}/vendor/verify`:null,
+                email           : decodeURI(email)!='undefined'? decodeURI(email):'',
+                code            : code || ''
             }
         }
     }
@@ -79,6 +82,16 @@ class Verify extends React.Component{
         );
     }
 
+    componentDidMount() {
+        const { location }     = this.props;
+        const { search }       = location;
+        const { email, code }  = queryString.parse(search);
+        
+        if( email!=undefined && code!=undefined && email.trim()!='' && code.trim()!='' ){
+            this.callAPI();
+        }
+    }
+    
     resendMaillVerify = () => {
 
         const { formObject }              = this.state;
@@ -118,7 +131,10 @@ class Verify extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
+        this.callAPI();
+    }
 
+    callAPI = () => {
         const { formObject }              = this.state;
         const { location }                = this.props;
         const { pathname, search }        = location;
@@ -159,7 +175,7 @@ class Verify extends React.Component{
         switch( success ){
             case true:
                 history.push({
-                    pathname: `/${type}?goto=home`,
+                    pathname: `${type}?goto=home`,
                     search  : `goto=home`
                 })
                 break;

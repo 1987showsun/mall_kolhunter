@@ -23,8 +23,14 @@ class Verify extends React.Component{
     constructor(props){
         super(props);
 
-        const { search } = props.location;
-        const { email }  = queryString.parse(search);
+        const { search }       = props.location;
+        const { email, code }  = queryString.parse(search);
+        const getLocationURL   = () => {
+            const protocol   = window.location.protocol;
+            const hostname   = window.location.hostname;
+            const port       = window.location.port;
+            return `${protocol}//${hostname}${port!=""? `:${port}`: ''}`;
+        }
 
         this.state = {
             loading     : false,
@@ -33,9 +39,9 @@ class Verify extends React.Component{
             success     : false,
             formObject  : {
                 type            : 'account',
-                returnUrl       : `${protocol}//${hostname}${port!=""? `:${port}`: ''}/vendor/verify`,
-                email           : decodeURI(email),
-                code            : ""
+                returnUrl       : typeof window !== 'undefined'? `${getLocationURL()}/account/verify`:null,
+                email           : decodeURI(email)!='undefined'? decodeURI(email):'',
+                code            : code || ''
             }
         }
     }
@@ -74,6 +80,16 @@ class Verify extends React.Component{
                 />
             </React.Fragment>
         );
+    }
+
+    componentDidMount() {
+        const { location }     = this.props;
+        const { search }       = location;
+        const { email, code }  = queryString.parse(search);
+        
+        if( email!=undefined && code!=undefined && email.trim()!='' && code.trim()!='' ){
+            this.callAPI();
+        }
     }
 
     resendMaillVerify = () => {
@@ -115,7 +131,10 @@ class Verify extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
+        this.callAPI();
+    }
 
+    callAPI = () => {
         const { formObject }              = this.state;
         const { location }                = this.props;
         const { pathname, search }        = location;

@@ -65,7 +65,7 @@ app.all("*", (req, res, next) => {
             <meta name="author" content="Sun Li">
             ${helmet.title.toString()}
             ${helmet.meta.toString()}
-            <link rel="stylesheet" href="/css/main.css?t=${date}">
+            <link rel="stylesheet" href="/css/main.css">
             <link rel="shortcut icon" href="/assets/images/favicon.ico">
             <link rel="apple-touch-icon" sizes="512x512" href="/assets/images/appIcon512.png" />
             <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/appIcon120.png" />

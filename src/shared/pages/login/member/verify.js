@@ -175,7 +175,7 @@ class Verify extends React.Component{
         switch( success ){
             case true:
                 history.push({
-                    pathname: `/${type}?goto=home`,
+                    pathname: `${type}?goto=home`,
                     search  : `goto=home`
                 })
                 break;

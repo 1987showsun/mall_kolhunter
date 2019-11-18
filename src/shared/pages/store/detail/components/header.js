@@ -74,14 +74,14 @@ export default ( props ) => {
                                 </li>
                             </ul>
                         </div>
-                        <div className="figcaption-row">
+                        {/* <div className="figcaption-row">
                             <ul className="figcaption-info-ul">
-                                {/* <li>
+                                <li>
                                     <div className="figcaption-ul-head">總成交商品數</div>
                                     <div className="figcaption-ul-content">
                                         <CurrencyFormat value={info['salesAmount']} displayType={'text'} thousandSeparator={true} />
                                     </div>
-                                </li> */}
+                                </li>
                                 <li>
                                     <div className="figcaption-ul-head">商品總數</div>
                                     <div className="figcaption-ul-content">
@@ -89,7 +89,7 @@ export default ( props ) => {
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> */}
                         <div className="figcaption-row">
                             <ul className="figcaption-action-ul">
                                 <li><a type="button" href={`https://www.kolhunter.com/celebrity/info/${info['celebName']}/${info['celebToken']}`} target="_blank">網紅介紹</a></li>

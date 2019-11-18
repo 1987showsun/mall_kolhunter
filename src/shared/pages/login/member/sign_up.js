@@ -44,7 +44,7 @@ class SignUp extends React.Component{
             required          : ['email','password','password_chk','nickname'],
             formObject        : {
                 type            : 'account',
-                returnUrl       : typeof window !== 'undefined'? `${getLocationURL()}/vendor/verify`:null,
+                returnUrl       : typeof window !== 'undefined'? `${getLocationURL()}/account/verify`:null,
                 email           : '',
                 password        : '',
                 password_chk    : '',

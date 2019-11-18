@@ -86,7 +86,6 @@ class Verify extends React.Component{
         const { location }     = this.props;
         const { search }       = location;
         const { email, code }  = queryString.parse(search);
-        
         if( email!=undefined && code!=undefined && email.trim()!='' && code.trim()!='' ){
             this.callAPI();
         }

@@ -70,7 +70,7 @@ class Index extends React.Component{
         return(
             <React.Fragment>
                 <Helmet encodeSpecialCharacters={false}>
-                    <title>{`網紅電商 KOL Mall | 你的商品網紅幫你賣 - ${mainTitle},${subTitle}`}</title>
+                    <title>{`網紅電商 KOL Mall | 網紅來幫你 - ${mainTitle},${subTitle}`}</title>
                     <meta name="keywords" content={`網紅電商 - 網紅電商,網紅獵人,找網紅就是快,幫你賣,電商,網購,網紅,${mainTitle},${subTitle} }`} />
                     <meta name="description" content={`網紅電商結合時下熱門網紅幫你推銷商品，讓消費者可透過網紅電商用最划算的價格買到所有需要、想要的商品，包含美妝保健、流行服飾配件、母嬰居家、美食旅遊票券、3C家電影音等千萬件熱銷好物等你來選購`} />
                 </Helmet>

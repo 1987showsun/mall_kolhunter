@@ -103,9 +103,9 @@ html,body{
         margin: auto;
         display: flex;
         &.main-content {
-            min-height: 500px;
-            padding: 20px 0px;
-            align-items: flex-start;
+            min-height      : 500px;
+            padding         : 20px 0px;
+            align-items     : flex-start;
             @media (max-width: 1080px) and (min-width: 769px) {
                 min-height: 300px;
                 padding: 10px;
@@ -140,6 +140,27 @@ html,body{
                 font-size: 1.4em;
                 font-weight: 500;
                 line-height: 1.6em;
+            }
+        }
+        .mall-page-alert-info{
+            width             : 100%;
+            min-height        : 40px;
+            padding           : 5px;
+            margin-bottom     : 10px;
+            display           : flex;
+            align-items       : center;
+            flex-wrap         : wrap;
+            border            : 1px solid #ffdfdf;
+            border-radius     : 4px;
+            background        : #ffefef;
+            font-size         : 0.9rem;
+            color             : #ff726b;
+            ul{
+                display            : flex;
+                flex-wrap          : wrap;
+                >li{
+                    display          : inline-flex;
+                }
             }
         }
         .container-row{

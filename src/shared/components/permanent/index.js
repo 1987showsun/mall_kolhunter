@@ -5,13 +5,14 @@
 
 import React                             from 'react';
 import { FontAwesomeIcon }               from '@fortawesome/react-fontawesome';
-import { faExclamationCircle, faExclamationTriangle }           from '@fortawesome/free-solid-svg-icons';
+import { faExclamationTriangle }         from '@fortawesome/free-solid-svg-icons';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
 
 // Images
 import service                           from '../../public/images/icon/service.png';
+import kol                               from '../../public/images/icon/kol.png';
 
 export default () => {
     return(
@@ -27,6 +28,12 @@ export default () => {
                     <a href="http://nav.cx/AalEgTs" target="_blank">
                         <img src={service} alt="Mall Kolhunter line" title="Mall Kolhunter line" />
                         <span className="permanent-tool-prompt">我要上架</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://line.me/R/ti/p/%40nmd6450l" target="_blank">
+                        <img src={kol} alt="Kolhunter line" title="Kolhunter line" />
+                        <span className="permanent-tool-prompt">我是網紅</span>
                     </a>
                 </li>
             </ul>

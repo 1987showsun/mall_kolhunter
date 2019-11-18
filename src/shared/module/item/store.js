@@ -40,13 +40,13 @@ export default class StoreItem extends React.Component{
                     </div>
                     <div className="figcaption-row" data-content="space-between">
                         <ul className="figcaption-row-list">
-                            <li data-content="space-between">
+                            {/* <li data-content="space-between">
                                 <div className="label">商品總數</div>
                                 <div className="value">
                                     <CurrencyFormat value={productCount} displayType={'text'} thousandSeparator={true} />
                                 </div>
                             </li>
-                            {/* <li data-content="space-between">
+                            <li data-content="space-between">
                                 <div className="label">累計銷量</div>
                                 <div className="value">
                                     <CurrencyFormat value={saleTotal} displayType={'text'} thousandSeparator={true} />

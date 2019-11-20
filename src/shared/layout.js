@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import $                                 from 'jquery';
 import React                             from 'react';
 import queryString                       from 'query-string';
@@ -64,7 +69,10 @@ class Layout extends React.Component{
                             location= {location}
                         />
                 }
-                <Permanent />
+                {
+                    !isNowPagesNoShow.includes( pathname[0] ) &&
+                        <Permanent />
+                }
             </React.Fragment>
         );
     }

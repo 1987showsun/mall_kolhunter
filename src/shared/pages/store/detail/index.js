@@ -18,7 +18,7 @@ import Breadcrumbs        from './components/breadcrumbs';
 import Item               from '../../../module/item/product';
 import BlockList          from '../../../module/blockList';
 import Loading            from '../../../module/loading/mallLoading';
-import Pagination         from '../../../module/pagination';
+import Pagination         from '../../../module/newPagination';
 
 // Actions
 import { ssrStoreDetail, storeProduct, storeInfo } from '../../../actions/store';
@@ -58,8 +58,9 @@ class Index extends React.Component{
 
     render(){
 
-        const { match, location } = this.props;
+        const { match, location, history } = this.props;
         const { coverLoading, productLoading, current, total, limit, info, list } = this.state;
+        const { search } = location;
         const url   = typeof window!="undefined"? window.location.href:'';
         const store = match['params']['id'];
 
@@ -112,11 +113,12 @@ class Index extends React.Component{
                                 <Loading loading={productLoading} />
                             </BlockList>
                             <Pagination
-                                query= {{...queryString.parse(location['search'])}}
-                                current= {current}
-                                limit= {limit}
-                                total= {total}
-                                location= {location}
+                                query    = {{...queryString.parse(search)}}
+                                current  = {current}
+                                limit    = {limit}
+                                total    = {total}
+                                history  = {history}
+                                location = {location}
                             />
                         </section>
                     </section>

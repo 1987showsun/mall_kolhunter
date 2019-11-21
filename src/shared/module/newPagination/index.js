@@ -51,8 +51,10 @@ export default class Index extends React.Component{
                 breakClassName         ={'break-me'}
                 pageCount              ={pageVal}
                 initialPage            ={current-1}
+                forcePage              ={current-1}
                 marginPagesDisplayed   ={1}
                 pageRangeDisplayed     ={4}
+                disableInitialCallback ={true}
                 onPageChange           ={this.handlePageClick.bind(this)}
                 containerClassName     ={'pagination'}
                 subContainerClassName  ={'pages pagination'}

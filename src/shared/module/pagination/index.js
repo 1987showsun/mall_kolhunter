@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
@@ -10,6 +15,7 @@ export default class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            max : 10,
             className: props.className || 'nromal',
             pageNumber: [],
             method: props.method || 'normal',
@@ -34,9 +40,9 @@ export default class Index extends React.Component{
         const { pathname, search } = location;
         const { className, total, method, query } = this.state;
         const searchObject = queryString.parse(search);
-        const limit = Number(searchObject['limit']) || this.state.limit;
-        const current = Number(searchObject['page']) || this.state.current;
-        const pageVal = Math.ceil(total/limit);
+        const limit        = Number(searchObject['limit']) || this.state.limit;
+        const current      = Number(searchObject['page']) || this.state.current;
+        const pageVal      = Math.ceil(total/limit);
 
         if( method=='normal' ){
             return(
@@ -64,31 +70,85 @@ export default class Index extends React.Component{
     }
 
     totalPage = () => {
-        const { location } = this.props;
-        const { pathname, search } = location;
-        const { total, query } = this.state;
-        const searchObject = queryString.parse(search);
-        const limit = Number(searchObject['limit']) || this.state.limit;
-        const current = Number(searchObject['page']) || this.state.current;
-        const pageVal = Math.ceil(total/limit)==0? 1 : Math.ceil(total/limit);
-        let pageNumber = [ ...this.state.pageNumber ];
+        const { location }          = this.props;
+        const { pathname, search }  = location;
+        const { max, total, query } = this.state;
+        const searchObject          = queryString.parse(search);
+        const limit                 = Number(searchObject['limit']) || this.state.limit;
+        const current               = Number(searchObject['page'])  || this.state.current;
+        const pageVal               = Math.ceil(total/limit)==0? 1 : Math.ceil(total/limit);
+        let pageNumber              = [ ...this.state.pageNumber ];
 
-        for( let i=0 ; i<pageVal ; i++ ){
-            let page = i+1;
-            pageNumber = [
-                ...pageNumber,
-                <li key={i} className={`${current==page}`}>
-                    <Link to={{
-                        pathname: pathname,
-                        search: `?${ queryString.stringify({ ...query, ...searchObject, page}) }`,
-                        hash: "",
-                    }}>
-                        {i+1}
-                    </Link>
-                </li>
-            ]
+        if( pageVal>max ){
+
+            for( let i=0 ; i<10 ; i++ ){
+                let page = i+1;
+                pageNumber = [
+                    ...pageNumber,
+                    <li key={i} className={`${current==page}`}>
+                        <Link to={{
+                            pathname   : pathname,
+                            search     : `?${ queryString.stringify({ ...query, ...searchObject, page}) }`,
+                            hash       : "",
+                        }}>
+                            {i+1}
+                        </Link>
+                    </li>
+                ]
+            }
+
+            // if( current<(pageVal-max) ){
+            //     let page = pageVal;
+            //     pageNumber = [
+            //         ...pageNumber,
+            //             <li>...</li>
+            //         ,
+            //         <li key={pageVal} className={`${current==(pageVal-1)}`}>
+            //             <Link to={{
+            //                 pathname   : pathname,
+            //                 search     : `?${ queryString.stringify({ ...query, ...searchObject, page}) }`,
+            //                 hash       : "",
+            //             }}>
+            //                 {pageVal}
+            //             </Link>
+            //         </li>
+            //     ]
+            // }else if( current>(pageVal-max) ){
+            //     for( let i=pageVal ; i>(pageVal-max) ; i-- ){
+            //         let page = pageVal - (pageVal-i);
+            //         pageNumber = [
+            //             ...pageNumber,
+            //                 <li>...</li>
+            //             ,
+            //             <li key={pageVal} className={`${current==(pageVal-1)}`}>
+            //                 <Link to={{
+            //                     pathname   : pathname,
+            //                     search     : `?${ queryString.stringify({ ...query, ...searchObject, page}) }`,
+            //                     hash       : "",
+            //                 }}>
+            //                     {pageVal}
+            //                 </Link>
+            //             </li>
+            //         ]
+            //     }
+            // }
+        }else{
+            for( let i=0 ; i<pageVal ; i++ ){
+                let page = i+1;
+                pageNumber = [
+                    ...pageNumber,
+                    <li key={i} className={`${current==page}`}>
+                        <Link to={{
+                            pathname: pathname,
+                            search: `?${ queryString.stringify({ ...query, ...searchObject, page}) }`,
+                            hash: "",
+                        }}>
+                            {i+1}
+                        </Link>
+                    </li>
+                ]
+            }
         }
-
         return pageNumber;
     }
 }

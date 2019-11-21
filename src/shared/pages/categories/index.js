@@ -17,7 +17,7 @@ import Breadcrumbs                     from './components/breadcrumbs';
 import Item                            from '../../module/item/product';
 import Loading                         from '../../module/loading/mallLoading';
 import BlockList                       from '../../module/blockList';
-import Pagination                      from '../../module/pagination';
+import Pagination                      from '../../module/newPagination';
 
 // Actions
 import { mallDelivery }                from '../../actions/common';
@@ -61,11 +61,12 @@ class Index extends React.Component{
         
         const { match, location, history } = this.props;
         const { loading, categories, current, limit, total, data } = this.state;
+        const { search }      = location;
         const { main, sub }   = match['params'];
         const mainTitleObject = categories.filter( filterItem => filterItem['id']==main );
         const subTitleObject  = mainTitleObject[0]['children'].filter( filterItem => filterItem['id']==sub);
-        const mainTitle = mainTitleObject.length>0? mainTitleObject[0]['title']:"";
-        const subTitle  = subTitleObject.length>0?  subTitleObject[0]['title'] :"";
+        const mainTitle       = mainTitleObject.length>0? mainTitleObject[0]['title']:"";
+        const subTitle        = subTitleObject.length>0?  subTitleObject[0]['title'] :"";
 
         return(
             <React.Fragment>
@@ -109,11 +110,12 @@ class Index extends React.Component{
                                 }
                             </BlockList>
                             <Pagination
-                                query= {{...queryString.parse(location['search'])}}
-                                current= {current}
-                                limit= {limit}
-                                total= {total}
-                                location= {location}
+                                query    = {{...queryString.parse(search)}}
+                                current  = {current}
+                                limit    = {limit}
+                                total    = {total}
+                                history  = {history}
+                                location = {location}
                             />
                             <Loading loading={loading}/>
                         </section>

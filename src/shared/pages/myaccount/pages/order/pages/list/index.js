@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React                   from 'react';
 import queryString             from 'query-string';
 import { connect }             from 'react-redux';
@@ -7,7 +12,7 @@ import Items                   from './items';
 
 // Modules
 import Loading                 from '../../../../../../module/loading/mallLoading';
-import Pagination              from '../../../../../../module/pagination';
+import Pagination              from '../../../../../../module/newPagination';
 
 // Actions
 import { ordersList }          from '../../../../../../actions/myaccount';
@@ -20,18 +25,19 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            loading: false,
-            page: 1,
-            pages: 1,
-            total: 0,
-            list: []
+            loading    : false,
+            page       : 1,
+            pages      : 1,
+            total      : 0,
+            list       : []
         }
     }
 
     render(){
 
-        const { location, match } = this.props;
-        const { total, loading, list } = this.state;
+        const { location, history } = this.props;
+        const { current, total, loading, list } = this.state;
+        const { search } = location;
 
 
         return(
@@ -46,10 +52,12 @@ class Index extends React.Component{
                     )
                 }
                 <Pagination
-                    total= {total}
-                    limit= {20}
-                    match= {match}
-                    location= {location}
+                    query    = {{...queryString.parse(search)}}
+                    current  = {current}
+                    limit    = {30}
+                    total    = {total}
+                    history  = {history}
+                    location = {location}
                 />
                 {/* 備註聲明 */}
                 <ul className="remarks-ul">
@@ -90,18 +98,17 @@ class Index extends React.Component{
     }
     
     callAPI = () => {
-        const { location } = this.props;
+        const { location }         = this.props;
         const { pathname, search } = location;
         this.setState({
             loading: true,
         },()=>{
             this.props.dispatch( ordersList(pathname,queryString.parse(search)) ).then( res => {
                 this.setState({
-                    loading: false,
-                    page: res['page'],
-                    pages: res['pages'],
-                    total: res['total'],
-                    list: res['list']
+                    loading    : false,
+                    current    : res['page'],
+                    total      : res['total'],
+                    list       : res['list']
                 })
             });
         })

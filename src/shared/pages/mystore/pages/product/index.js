@@ -16,7 +16,7 @@ import Search                     from './search';
 // Modules
 import Table                      from '../../../../module/table';
 import Loading                    from '../../../../module/loading/mallLoading';
-import Pagination                 from '../../../../module/pagination';
+import Pagination                 from '../../../../module/newPagination';
 
 // Actions
 import { mystoreProductList, mystoreStoreProductAdd } from '../../../../actions/mystore';
@@ -54,7 +54,7 @@ class Index extends React.Component{
 
         const { location, match, history } = this.props;
         const { loading, total, limit, current, tableHeadData, tableBodyData } = this.state;
-        const query = queryString.parse(location['search']);
+        const { search } = location;
 
         return(
             <React.Fragment>
@@ -80,11 +80,12 @@ class Index extends React.Component{
                     />
                 </section>
                 <Pagination
-                    query           = {query}
-                    current         = {current}
-                    limit           = {limit}
-                    total           = {total}
-                    location        = {location}
+                    query    = {{...queryString.parse(search)}}
+                    current  = {current}
+                    limit    = {limit}
+                    total    = {total}
+                    history  = {history}
+                    location = {location}
                 />
             </React.Fragment>
         );

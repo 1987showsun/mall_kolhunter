@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import $                     from 'jquery';
 import React                 from 'react';
 import toaster               from 'toasted-notes';
@@ -10,7 +15,7 @@ import Cover                 from './components/header';
 // Modules
 import Table                 from '../../../../module/table';
 import Loading               from '../../../../module/loading/mallLoading';
-import Pagination            from '../../../../module/pagination';
+import Pagination            from '../../../../module/newPagination';
 
 // Actions
 import { mystoreStoreInfo, mystoreStoreProductList, mystoreStoreProductRemove } from '../../../../actions/mystore';
@@ -45,19 +50,11 @@ class Index extends React.Component{
 
     render(){
 
-        const { 
-            loading,
-            storeInfo,
-            total,
-            limit,
-            current,
-            tableHeadData, 
-            tableBodyData
-        } = this.state;
-        const { location } = this.props;
-        const query = queryString.parse(location['search']);
-        const pathname = location['pathname'].split('/').filter( filterItem => filterItem!='' );
-        const productList = tableBodyData.map( item => {
+        const { location, history } = this.props;
+        const { loading, storeInfo, total, limit, current, tableHeadData, tableBodyData } = this.state;
+        const { search }    = location;
+        const pathname      = location['pathname'].split('/').filter( filterItem => filterItem!='' );
+        const productList   = tableBodyData.map( item => {
             return{
                 id          : item['id'],
                 status      : [<button key={`status-on_`} className="status-on" onClick={this.tableButtonAction.bind(this,item)}>販賣中</button>],
@@ -90,11 +87,12 @@ class Index extends React.Component{
                     />
                 </section>
                 <Pagination
-                    query= {query}
-                    current= {current}
-                    limit= {limit}
-                    total= {total}
-                    location= {location}
+                    query    = {{...queryString.parse(search)}}
+                    current  = {current}
+                    limit    = {limit}
+                    total    = {total}
+                    history  = {history}
+                    location = {location}
                 />
             </React.Fragment>
         );

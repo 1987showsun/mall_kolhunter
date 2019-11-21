@@ -5,6 +5,7 @@
 
 import React             from 'react';
 import queryString       from 'query-string';
+import ReactPaginate     from 'react-paginate';
 import { Helmet }        from "react-helmet";
 import { connect }       from 'react-redux';
 
@@ -14,7 +15,7 @@ import Breadcrumbs       from './components/breadcrumbs';
 // Modules
 import BlockList         from '../../../module/blockList';
 import Item              from '../../../module/item/store';
-import Pagination        from '../../../module/pagination';
+import Pagination        from '../../../module/newPagination';
 import Loading           from '../../../module/loading/mallLoading';
 
 // Actions
@@ -50,9 +51,9 @@ class Index extends React.Component{
 
     render(){
 
-        const { location } = this.props;
+        const { location, history } = this.props;
         const { search }   = location;
-        const { loading, data, total, current, limit, totalPages } = this.state;
+        const { loading, data, total, current, limit } = this.state;
 
         return(
             <React.Fragment>
@@ -86,6 +87,7 @@ class Index extends React.Component{
                                 current  = {current}
                                 limit    = {limit}
                                 total    = {total}
+                                history  = {history}
                                 location = {location}
                             />
                             <Loading loading={loading}/>

@@ -181,6 +181,7 @@
             "successful verification": "驗證成功",
             "email does not exists": "所要寄發的信箱不存在",
             "email has been verified": "該信箱已通過驗證",
+            "no orders found. please check query": "為查詢到任何可下載訂單",
             "format": {
                 "name required": "型號 / 尺寸 / 顏色 必填",
                 "quantity required": "庫存數量必填"
@@ -414,6 +415,7 @@
             "successful verification": "Successful verification",
             "email does not exists": "Email does not exists",
             "email has been verified": "Email has been verified",
+            "no orders found. please check query": "No orders found.",
             "format": {
                 "name required": "Model / Size / Color required",
                 "quantity required": "Stock quantity required"

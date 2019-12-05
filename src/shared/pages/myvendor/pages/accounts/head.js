@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import dayjs from 'dayjs';
 import queryString from 'query-string';
@@ -58,10 +63,12 @@ class HeadAccount extends React.Component{
                                     </select>
                                 </div>
                             </li>
+                        </ul>
+                        <ul>
                             <li>
-                                <a href="" className="download">
+                                <button onClick={this.actionYouWantToPerform.bind(this)} className="form-download">
                                     <i><FontAwesomeIcon icon={faFileDownload}/></i>下載報表
-                                </a>
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -126,8 +133,8 @@ class HeadAccount extends React.Component{
         })
     }
 
-    handleSearchSubmit = (e) => {
-        e.preventDefault();
+    actionYouWantToPerform = () => {
+
     }
 }
 

@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import axios              from 'axios';
 import queryString        from 'query-string';
 import dayjs              from 'dayjs';
@@ -228,10 +233,11 @@ export function orderInfo( pathname,query,data={} ) {
 export function orderInfoProductDeliveryStatus( pathname,query,data={} ) {
     return (dispatch) => {
         
-        const method = 'put';
-        const initQuery = {};
-        const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API()['myvendor']['order']['delivery']}${search!=""? `?${search}`:""}`;
+        const method     = 'put';
+        const initQuery  = {};
+        const search     = queryString.stringify({ ...initQuery, ...query });
+        const url        = `${API()['myvendor']['order']['delivery']}${search!=""? `?${search}`:""}`;
+        
         return Axios({method,url,data}).then( res => {
             if( !res.hasOwnProperty('response') ){
                 return res;
@@ -239,6 +245,24 @@ export function orderInfoProductDeliveryStatus( pathname,query,data={} ) {
             return res['response'];
         });
         
+    }
+}
+
+// 訂單下載
+export function orderDownload( pathname,query,data={} ) {
+    return (dispatch) => {
+
+        const method     = 'get';
+        const initQuery  = {};
+        const search     = queryString.stringify({ ...initQuery, ...query });
+        const url        = `${API()['myvendor']['order']['download']}${search!=""? `?${search}`:""}`;
+
+        return Axios({method,url,data}).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            return res['response'];
+        });
     }
 }
 
@@ -523,11 +547,30 @@ export function getCategories() {
 
 const Axios = ( api ) => {
     return axios({
-        method: api['method'],
-        url: api['url'],
-        data: { ...api['data'], jwt_type: 'vendor'},
-        headers:{
+        method    : api['method'],
+        url       : api['url'],
+        data      : { ...api['data'], jwt_type: 'vendor'},
+        headers   : {
             authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
+        }
+    }).catch( error => {
+        if( error['response']['data']['status_text']=="get user info error" ){
+            sessionStorage.removeItem('jwt_vendor');
+            window.location = '/vendor';
+        }
+        return error;
+    });
+}
+
+const CSVAxios = ( api ) => {
+    return axios({
+        method    : api['method'],
+        url       : api['url'],
+        data      : { ...api['data'], jwt_type: 'vendor'},
+        headers   : {
+           //"Content-Type"         : "application/csv",
+            //"Content-Disposition"  : 'attachment; filename=123.csv',
+            "authorization"        : typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
         }
     }).catch( error => {
         if( error['response']['data']['status_text']=="get user info error" ){

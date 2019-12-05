@@ -1,46 +1,55 @@
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React             from 'react';
+import queryString       from 'query-string';
+import { connect }       from 'react-redux';
 
 // Components
-import Head from './head';
+import Head              from './head';
 
 // Modules
-import Table from '../../../../../../module/table';
-import Pagination from '../../../../../../module/pagination';
-import Loading from '../../../../../../module/loading';
+import Table             from '../../../../../../module/table';
+import Pagination        from '../../../../../../module/pagination';
+import Loading           from '../../../../../../module/loading';
+import Confirm           from '../../../../../../module/confirm';
 
 // Actions
-import { orderList } from '../../../../../../actions/myvendor';
+import { orderList }     from '../../../../../../actions/myvendor';
 
 // Set
-import tableHeadData from '../../public/set/tableHeadData';
+import tableHeadData     from '../../public/set/tableHeadData';
 
 // Lang
-import lang from '../../../../../../public/lang/lang.json';
+import lang              from '../../../../../../public/lang/lang.json';
 
 class Order extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            loading: false,
-            tableHeadKey : tableHeadData,
-            tableBodyData: props.list
+            loading           : false,
+            tableHeadKey      : tableHeadData,
+            tableBodyData     : props.list,
+            open              : false,
+            method            : 'alert',
+            popupMSG          : [],
         }
     }
 
     static getDerivedStateFromProps ( props,state ){
         return{
-            total: props.total,
-            totalAmount: props.totalAmount,
-            tableBodyData: props.list
+            total             : props.total,
+            totalAmount       : props.totalAmount,
+            tableBodyData     : props.list
         }
     }
 
     render(){
 
-        const { loading, total, totalAmount, tableHeadKey, tableBodyData } = this.state;
+        const { open, method, popupMSG, loading, total, totalAmount, tableHeadKey, tableBodyData } = this.state;
         const { match, history, location } = this.props;
 
         return(
@@ -49,26 +58,41 @@ class Order extends React.Component{
                     <h3>{ lang['zh-TW']['Order management'] }</h3>
                 </section>
                 <Head 
-                    match= {match}
-                    history= {history}
-                    location= {location}
-                    total= {total}
-                    totalAmount= {totalAmount}
-
+                    match          = {match}
+                    history        = {history}
+                    location       = {location}
+                    total          = {total}
+                    totalAmount    = {totalAmount}
+                    returnDownload = {(val) => {
+                        this.setState({
+                            ...val
+                        })
+                    }}
                 />
                 <section className="admin-content-row">
                     <Table 
-                        tableHeadData={tableHeadKey}
-                        tableBodyData={tableBodyData}
+                        tableHeadData    ={tableHeadKey}
+                        tableBodyData    ={tableBodyData}
                     />
                     <Loading 
-                        loading= {loading}
+                        loading          = {loading}
                     />
                 </section>
                 <Pagination 
-                    total= {total}
-                    match= {match}
-                    location= {location}
+                    total           = {total}
+                    match           = {match}
+                    location        = {location}
+                />
+                <Confirm
+                    open            = {open}
+                    method          = {method}
+                    container       = {popupMSG}
+                    onCancel        = {() => {
+                        this.setState({
+                            open            : false,
+                            popupMSG        : []
+                        })
+                    }}
                 />
             </React.Fragment>
         );
@@ -118,13 +142,17 @@ class Order extends React.Component{
             });
         })
     }
+
+    handleCancel = () => {
+        th
+    }
 }
 
 const mapStateToProps = (state) => {
     return{
-        total: state.myvendor.orderStatus['total'],
-        totalAmount: state.myvendor.orderStatus['totalAmount'],
-        list: state.myvendor.orderList
+        total        : state.myvendor.orderStatus['total'],
+        totalAmount  : state.myvendor.orderStatus['totalAmount'],
+        list         : state.myvendor.orderList
     }
 }
 

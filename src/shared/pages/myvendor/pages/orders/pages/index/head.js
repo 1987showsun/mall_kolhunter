@@ -1,13 +1,23 @@
-import React from 'react';
-import dayjs from 'dayjs';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                  from 'react';
+import dayjs                  from 'dayjs';
+import queryString            from 'query-string';
+import { connect }            from 'react-redux';
+import { FontAwesomeIcon }    from '@fortawesome/react-fontawesome';
+import { faFileDownload }     from '@fortawesome/free-solid-svg-icons';
 
 // Modules
-import Datetime from '../../../../../../module/datetime';
+import Datetime         from '../../../../../../module/datetime';
+
+// Actions
+import { orderDownload }from '../../../../../../actions/myvendor';
 
 // Lang
-import lang from '../../../../../../public/lang/lang.json';
+import lang             from '../../../../../../public/lang/lang.json';
 
 class HeadProduct extends React.Component{
 
@@ -15,18 +25,18 @@ class HeadProduct extends React.Component{
         super(props);
         const { location } = props;
         const searchObject = queryString.parse(location['search']);
-        const startDate = searchObject['startDate'] || "";
-        const endDate = searchObject['endDate'] || "";
-        this.state = {
-            orderStatus: searchObject['orderStatus'] || "",
-            refundStatus: searchObject['refundStatus'] || "",
-            startDate: "",
-            endDate: "",
-            formSearchObject: {
-                keyword: "",
-                query_key: "orderID",
-                startDate: startDate || dayjs().format('YYYY-MM-DD'),
-                endDate: endDate ||dayjs().format('YYYY-MM-DD'),
+        const startDate    = searchObject['startDate'] || "";
+        const endDate      = searchObject['endDate']   || "";
+        this.state         = {
+            orderStatus      : searchObject['orderStatus']  || "",
+            refundStatus     : searchObject['refundStatus'] || "",
+            startDate        : "",
+            endDate          : "",
+            formSearchObject : {
+                startDate      : startDate || dayjs().format('YYYY-MM-DD'),
+                endDate        : endDate   || dayjs().format('YYYY-MM-DD'),
+                orderStatus    : searchObject['orderStatus']  || "",
+                refundStatus   : searchObject['refundStatus'] || "",
             }
         }
     }
@@ -43,28 +53,29 @@ class HeadProduct extends React.Component{
                         <ul>
                             <li>
                                 <form className="admin-search-form" onSubmit={this.handleSearchSubmit.bind(this)}>
-                                    {/* <div className="input-box admin-keyword">
-                                        <input type="text" name="keyword" value={formSearchObject['keyword']} placeholder={lang['zh-TW']['Product name']} onChange={this.handleSearchChange.bind(this)}/>
-                                    </div>
-                                    <div className="input-box select">
-                                        <select name="query_key" value={ formSearchObject['query_key'] } onChange={this.handleSearchChange.bind(this)}>
-                                            <option value="orderID">訂單編號</option>
-                                            <option value="orderName">訂購人</option>
-                                        </select>
-                                    </div> */}
                                     <Datetime
-                                        value= {formSearchObject['startDate']}
-                                        returnForm={ (val) => {
+                                        value       = {formSearchObject['startDate']}
+                                        returnForm  = {(val) => {
+                                            const { formSearchObject } = this.state;
                                             this.setState({
-                                                startDate: `${val['year']}-${val['month']}-${val['day']}`
+                                                startDate        : `${val['year']}-${val['month']}-${val['day']}`,
+                                                formSearchObject : {
+                                                    ...formSearchObject,
+                                                    startDate        : `${val['year']}-${val['month']}-${val['day']}`,
+                                                }
                                             })
                                         }}
                                     />
                                     <Datetime 
-                                        value= {formSearchObject['endDate']  }
-                                        returnForm={ (val) => {
+                                        value       = {formSearchObject['endDate']  }
+                                        returnForm  = {(val) => {
+                                            const { formSearchObject } = this.state;
                                             this.setState({
-                                                endDate: `${val['year']}-${val['month']}-${val['day']}`
+                                                endDate          : `${val['year']}-${val['month']}-${val['day']}`,
+                                                formSearchObject : {
+                                                    ...formSearchObject,
+                                                    endDate          : `${val['year']}-${val['month']}-${val['day']}`,
+                                                }
                                             })
                                         }}
                                     />
@@ -95,6 +106,13 @@ class HeadProduct extends React.Component{
                                 </div>
                             </li>
                         </ul>
+                        <ul>
+                            <li>
+                                <button onClick={this.actionYouWantToPerform.bind(this)} className="form-download">
+                                    <i><FontAwesomeIcon icon={faFileDownload} /></i>下載報表
+                                </button>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div className="page-alert-info">
@@ -112,59 +130,41 @@ class HeadProduct extends React.Component{
     }
 
     handleSearchChange = (e) => {
-        let { formSearchObject } = this.state;
-        let name = e.target.name;
-        let val = e.target.value;
-
-        if( name=="startDate" || name=="endDate" ){            
-            formSearchObject = { ...formSearchObject, [name]: val }
-        }else{
-            formSearchObject = { ...formSearchObject, [name]: val }
-        }
+        const { formSearchObject } = this.state;
+        const { name, value }      = e.target;
 
         this.setState({
-            formSearchObject
+            formSearchObject : {
+                ...formSearchObject, 
+                [name]         : value
+            }
         })
     }
 
     handleSearchSubmit = (e) => {
         e.preventDefault();
         const { location, history } = this.props;
-        const { formSearchObject } = this.state;
-        const { pathname, search } = location;
-        let searchObject = {
-            startDate: this.state.startDate,
-            endDate: this.state.endDate
-        };
-        if( formSearchObject['keyword']!="" ){
-            searchObject = { 
-                ...searchObject,
-                [formSearchObject['query_key']]: formSearchObject['keyword'],
-            }
-        }
-        this.setState({
-            formSearchObject: {
-                ...formSearchObject,
-                startDate: searchObject['startDate'],
-                endDate: searchObject['endDate']
-            }
-        })
-        
+        const { formSearchObject }  = this.state;
+        const { pathname, search }  = location;
         history.push({
-            pathname: pathname,
-            search: queryString.stringify({ ...queryString.parse(search), ...searchObject })
+            pathname  : pathname,
+            search    : queryString.stringify({ ...queryString.parse(search), ...formSearchObject })
         })
     }
 
     filterData = (e) => {
 
+        const { formSearchObject }  = this.state;
         const { history, location } = this.props;
-        const { pathname,search } = location;
-        const name = e.target.name;
-        const value = e.target.value;
+        const { pathname,search }   = location;
+        const { name, value }       = e.target;
 
         this.setState({
-            [name]: value
+            [name]           : value,
+            formSearchObject : {
+                ...formSearchObject,
+                [name] : value
+            }
         },()=>{
 
             const query = { ...queryString.parse(search),[name]: value };
@@ -173,10 +173,43 @@ class HeadProduct extends React.Component{
             }
 
             history.push({
-                pathname: pathname,
-                search: queryString.stringify(query)
+                pathname   : pathname,
+                search     : queryString.stringify(query)
             })
         })
+    }
+
+    actionYouWantToPerform = () => {
+
+        const { formSearchObject } = this.state;
+        const { location }         = this.props; 
+        const { pathname, search } = location;
+        const query                = () => {
+            let correctQuery = {};
+            Object.keys( formSearchObject ).map( keys => {
+                if( formSearchObject[keys].trim()!='' ){
+                    correctQuery = { ...correctQuery, [keys]: formSearchObject[keys] }
+                }
+            })
+            return correctQuery;
+        }
+
+        this.props.dispatch( orderDownload(pathname,{...queryString.parse(search), ...query()}) ).then( res => {
+            const { data } = res;
+            switch( res['status'] ){
+                case 200:
+                    window.location.href = data['url']
+                    break;
+
+                default:
+                    const { status_text } = data;
+                    this.props.returnDownload({
+                        popupMSG : [<div key={`error`} className="items">{lang['zh-TW']['note'][status_text]}</div>],
+                        open     : true
+                    });
+                    break;
+            }
+        });
     }
 }
 

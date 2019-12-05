@@ -11,13 +11,13 @@ import { FontAwesomeIcon }    from '@fortawesome/react-fontawesome';
 import { faFileDownload }     from '@fortawesome/free-solid-svg-icons';
 
 // Modules
-import Datetime         from '../../../../../../module/datetime';
+import Datetime               from '../../../../../../module/datetime';
 
 // Actions
-import { orderDownload }from '../../../../../../actions/myvendor';
+import { orderDownload }      from '../../../../../../actions/myvendor';
 
 // Lang
-import lang             from '../../../../../../public/lang/lang.json';
+import lang                   from '../../../../../../public/lang/lang.json';
 
 class HeadProduct extends React.Component{
 

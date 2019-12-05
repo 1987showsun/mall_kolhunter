@@ -3,27 +3,28 @@
  *   All rights reserved.
  */
 
-import React             from 'react';
-import queryString       from 'query-string';
-import { connect }       from 'react-redux';
+import React                  from 'react';
+import dayjs                  from 'dayjs';
+import queryString            from 'query-string';
+import { connect }            from 'react-redux';
 
 // Components
-import Head              from './head';
+import Head                   from './head';
 
 // Modules
-import Table             from '../../../../../../module/table';
-import Pagination        from '../../../../../../module/pagination';
-import Loading           from '../../../../../../module/loading';
-import Confirm           from '../../../../../../module/confirm';
+import Table                  from '../../../../../../module/table';
+import Pagination             from '../../../../../../module/pagination';
+import Loading                from '../../../../../../module/loading';
+import Confirm                from '../../../../../../module/confirm';
 
 // Actions
-import { orderList }     from '../../../../../../actions/myvendor';
+import { orderList }          from '../../../../../../actions/myvendor';
 
 // Set
-import tableHeadData     from '../../public/set/tableHeadData';
+import tableHeadData          from '../../public/set/tableHeadData';
 
 // Lang
-import lang              from '../../../../../../public/lang/lang.json';
+import lang                   from '../../../../../../public/lang/lang.json';
 
 class Order extends React.Component{
 
@@ -122,12 +123,18 @@ class Order extends React.Component{
     }
     
     callAPI = () => {
-        const { location, match } = this.props;
+        const { location }         = this.props;
         const { pathname, search } = location;
+        const searchObject         = queryString.parse(search);
+        const initQuery            = {
+            startDate      : searchObject['startDate'] || dayjs().format('YYYY-MM-DD'),
+            endDate        : searchObject['endDate']   || dayjs().format('YYYY-MM-DD')
+        }
+
         this.setState({
             loading: true,
         },()=> {
-            this.props.dispatch( orderList(pathname,{...queryString.parse(search)}) ).then( res => {
+            this.props.dispatch( orderList(pathname,{...initQuery, ...queryString.parse(search)}) ).then( res => {
                 this.setState({
                     loading: false,
                 },()=>{
@@ -141,10 +148,6 @@ class Order extends React.Component{
                 });
             });
         })
-    }
-
-    handleCancel = () => {
-        th
     }
 }
 

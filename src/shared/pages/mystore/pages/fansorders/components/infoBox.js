@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
-import CurrencyFormat from 'react-currency-format';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React, { useState }      from 'react';
+import CurrencyFormat           from 'react-currency-format';
 
 export default (props) => {
 
@@ -11,23 +16,23 @@ export default (props) => {
                 <li>
                     <div className="info-box-head">總銷售金額</div>
                     <div className="info-box-content">
-                        <CurrencyFormat value={saleAmount} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                        <CurrencyFormat value={Math.ceil(saleAmount)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                     </div>
                 </li>
                 <li>
                     <div className="info-box-head">總分得利潤</div>
                     <div className="info-box-content">
-                        <CurrencyFormat value={feeAmount} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                        <CurrencyFormat value={Math.ceil(feeAmount)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                     </div>
                 </li>
                 <li>
                     <div className="info-box-head">整體分潤比</div>
                     <div className="info-box-content">
                         { 
-                            isNaN(((feeAmount/saleAmount)*100).toFixed(2))? (
+                            isNaN(((Math.ceil(feeAmount)/Math.ceil(saleAmount))*100).toFixed(2))? (
                                 '0％'
                             ):(
-                                `${((feeAmount/saleAmount)*100).toFixed(2)}％`
+                                `${((Math.ceil(feeAmount)/Math.ceil(saleAmount))*100).toFixed(2)}％`
                             )
                         }
                     </div>

@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import dayjs from 'dayjs';
 import queryString from 'query-string';
@@ -56,15 +61,16 @@ export default class Tool extends React.Component{
     }
 
     setYMSelect = () => {
-        const { max, nowDate } = this.state;
-        const { year, month, days } = nowDate;
-        const quotient = parseInt((max-month)/12);
-        const remainder = (max-month)%12;
-        let option = [];
+        const { max, nowDate }      = this.state;
+        const { year, month       } = nowDate;
+        const quotient              = parseInt((max-month)/12);
+        const remainder             = (max-month)%12;
+        let option                  = [];
+        
         for( let i=0 ; i<quotient ; i++ ){
             for( let m=12 ; m>=1 ; m-- ){
                 const setMM = String(m).length<2? `0${m}`: m;
-                option = [ ...option, <option key={`${(year-i)-1} / ${setMM}`} value={`${(year-i)-1}-${m}`}>{`${(year-i)-1} / ${setMM}`}</option> ];
+                option = [ ...option, <option key={`${(year-i)-1} / ${setMM}`} value={`${(year-i)}-${m}`}>{`${(year-i)} / ${setMM}`}</option> ];
             }
         }
 
@@ -78,6 +84,7 @@ export default class Tool extends React.Component{
                 option = [ ...option, <option key={`${year-quotient-1} / ${setMM}`} value={`${year-quotient-1}-${12-m}`}>{`${year-quotient-1} / ${setMM}`}</option> ];
             }
         }
+
         return option;
     }
 

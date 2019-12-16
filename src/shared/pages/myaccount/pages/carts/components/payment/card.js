@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React          from 'react';
 import CurrencyFormat from 'react-currency-format';
 
@@ -14,7 +19,8 @@ export default class Card extends React.Component{
                 returnURL: `${mergeURL}`,
                 cardno: "",
                 cvc: "",
-                exp: ""
+                exp: "",
+                reExp: ""
             }
         }
     }
@@ -53,9 +59,12 @@ export default class Card extends React.Component{
                     <li>
                         <label>到期時間</label>
                         <div className="input-box">
-                            <CurrencyFormat value={ formObject['exp'] } format={this.cardExpiry} placeholder="YY/MM (年/月)" onValueChange={ value => {
+                            <CurrencyFormat value={ formObject['exp'] } format={this.cardExpiry} placeholder="MM/YY" onValueChange={ value => {
+                                const valueArray = value['formattedValue'].split('/');
+                                const YY = valueArray[1]!=undefined? (valueArray[1].length<2? `0${valueArray[1]}`:valueArray[1]):'01';
+                                const MM = valueArray[0]!=undefined? (valueArray[0].length<2? `0${valueArray[0]}`:valueArray[0]):'01';
                                 this.setState({
-                                    formObject: { ...formObject, exp: value['value'] }
+                                    formObject: { ...formObject, exp: value['value'], reExp: `${YY}${MM}`}
                                 },()=>{
                                     this.returnHandleChange();
                                 })
@@ -73,28 +82,35 @@ export default class Card extends React.Component{
 
     cardExpiry = (val) => {
         const limit = (val, max) => {
-            if (val.length === 1 && val[0] > max[0]) {
-              val = '0' + val;
+            if(val.length === 1 && val[0] > max[0]) {
+                val = '0' + val;
             }
-            if (val.length === 2) {
-              if (Number(val) === 0) {
-                val = '01';
-            } else if (val > max) {
-                val = max;
-              }
+             
+            if(val.length === 2) {
+                if (Number(val) === 0) {
+                  val = '01';
+             
+            }else if(val > max) {
+                  val = max;
+                }
             }
+             
             return val;
         }
-
-        let month = limit(val.substring(2, 4), '12');
-        let year = val.substring(0, 2);
-        return (year.length ? year+'/' : '') + month;
+        let month = limit(val.substring(0, 2), '12');
+        let year = val.substring(2, 4);
+        return month + (year.length ? '/' + year : '');
     }
 
     returnHandleChange = () => {
         if( this.props.returnHandleChange!=undefined ){
             const { formObject } = this.state;
-            this.props.returnHandleChange(formObject);
+            this.props.returnHandleChange({
+                returnURL: formObject['returnURL'],
+                cardno   : formObject['cardno'],
+                cvc      : formObject['cvc'],
+                exp      : formObject['reExp']
+            });
         }
     } 
 }

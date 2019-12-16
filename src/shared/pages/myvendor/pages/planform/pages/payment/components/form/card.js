@@ -65,7 +65,7 @@ export default class Card extends React.Component{
                         <label>到期時間</label>
                         <div>
                             <div className="input-box">
-                                <CurrencyFormat name="exp" value={ formObject['exp'] } format={this.cardExpiry} placeholder="YY/MM (年/月)" onValueChange={ value => {
+                                <CurrencyFormat name="exp" value={ formObject['exp'] } format={this.cardExpiry} placeholder="MM/YY" onValueChange={ value => {
                                     const valueArray = value['formattedValue'].split('/');
                                     const YY = valueArray[1]!=undefined? (valueArray[1].length<2? `0${valueArray[1]}`:valueArray[1]):'01';
                                     const MM = valueArray[0]!=undefined? (valueArray[0].length<2? `0${valueArray[0]}`:valueArray[0]):'01';

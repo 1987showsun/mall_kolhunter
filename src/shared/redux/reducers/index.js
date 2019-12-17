@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import { combineReducers }             from "redux";
 
 //Reducers
@@ -11,6 +16,7 @@ import myvendor from './myvendor';
 import myaccount from './myaccount';
 import mystore from './mystore';
 import categories from './categories';
+import collections from './collections';
 
 export default combineReducers({
     home,
@@ -22,5 +28,6 @@ export default combineReducers({
     myvendor,
     myaccount,
     mystore,
-    categories
+    categories,
+    collections
 });

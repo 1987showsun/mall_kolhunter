@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 export default function home(
     state = {
         kv: [],
@@ -15,8 +20,9 @@ export default function home(
 
         case 'HOME_LATEST':
             state = { 
-                ...state, 
-                latest: action.list
+                ...state,
+                latest         : action.list,
+                latestTotal    : action.total
             };
             break;
 

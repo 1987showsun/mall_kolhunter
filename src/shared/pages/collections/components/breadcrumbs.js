@@ -26,7 +26,7 @@ export default class Breadcrumbs extends React.Component{
                         <Link to="/">首頁</Link>
                     </li>
                     <li>
-                        網紅店家
+                        精選商品
                     </li>
                 </ul>
             </div>

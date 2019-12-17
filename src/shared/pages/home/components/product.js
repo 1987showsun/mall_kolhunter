@@ -1,28 +1,41 @@
-import React from 'react';
-import { connect } from 'react-redux';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React          from 'react';
+import queryString    from 'query-string';
+import { Link }       from 'react-router-dom'
+import { connect }    from 'react-redux';
 
 // Modules
-import BlockList from '../../../module/blockList';
-import Item from '../../../module/item/product';
+import BlockList      from '../../../module/blockList';
+import Item           from '../../../module/item/product';
+import InfiniteScroll from '../../../module/InfiniteScroll';
 
 class Latest extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            data: props.data || []
+            data   : props.data  || [],
+            total  : props.total || 0
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return{
-            data: props.data || []
+            data   : props.data  || [],
+            total  : props.total || 0
         }
     }
 
     render(){
 
-        const { data } = this.state;
+        const { location }        = this.props;
+        const { data, total }     = this.state;
+        const { search }          = location;
+        const { latestCurrent=1 } = queryString.parse( search );
 
         return(
             <div className="row">
@@ -42,6 +55,9 @@ class Latest extends React.Component{
                                 })
                             }
                         </BlockList>
+                        <div className="loadMore-wrap">
+                            <Link to="/collections">更多精選商品</Link>
+                        </div>
                     </div>
                 </section>
             </div>

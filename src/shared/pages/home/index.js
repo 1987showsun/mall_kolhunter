@@ -15,12 +15,12 @@ import Category               from './components/category';
 import Product                from './components/product';
 
 // Actions
-import { getHome }            from '../../actions/home';
+import { getHome, latest }    from '../../actions/home';
 
 class Home extends React.Component{
 
     static initialAction( pathname,query ) {
-        return getHome( pathname,query );
+        return getHome( pathname,{page: query['latestCurrent']||1} );
     }
 
     constructor(props){
@@ -29,6 +29,9 @@ class Home extends React.Component{
             kv               : props.kv,
             store            : props.store,
             latest           : props.latest,
+            latestTotal      : props.latestTotal,
+            latestHasMore    : false,
+            latestSsLock     : false,
             categories       : props.categories
         }
     }
@@ -38,13 +41,15 @@ class Home extends React.Component{
             kv               : props.kv,
             store            : props.store,
             latest           : props.latest,
+            latestTotal      : props.latestTotal,
             categories       : props.categories
         }
     }
 
     render(){
 
-        const { kv, store, latest, categories } = this.state;
+        const { location } = this.props;
+        const { kv, store, categories, latest, latestTotal, latestHasMore } = this.state;
 
         return(
             <React.Fragment>
@@ -56,24 +61,61 @@ class Home extends React.Component{
                 <Kv data={kv} />
                 <Store data={store}/>
                 {/* <Category data={categories}/> */}
-                <Product data={latest} />
+                <Product
+                    location  = {location}
+                    data      = {latest}
+                    total     = {latestTotal}
+                    hasMore   = {latestHasMore}
+                    loadMore  = {this.loadMore.bind(this)}
+                />
             </React.Fragment>
         );
     }
 
     componentDidMount() {
+        const { latest }           = this.state;
         const { location }         = this.props;
         const { pathname, search } = location;
-        this.props.dispatch( getHome(pathname,{...queryString.parse(search)}) );
+        if( latest.length==0 ){
+            this.props.dispatch( getHome(pathname,{page: queryString.parse(search)['latestCurrent'] || 1}) );
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { location }       = this.props;
+        const latestCurrent      = queryString.parse(location.search)['latestCurrent']           || 1;
+        const prevLatestCurrent  = queryString.parse(prevProps.location.search)['latestCurrent'] || 1;
+        if( Number(latestCurrent)!=Number(prevLatestCurrent) ){
+            const { pathname }   = location;
+            this.props.dispatch( latest(pathname, {page: latestCurrent }) );
+        }
+    }
+
+    loadMore = () => {
+        const { latest, latestTotal } = this.state;
+        const { location, history }   = this.props;
+        const { search }              = location;
+        const { latestCurrent=1 }     = queryString.parse( search );
+
+        if( latest.length<=latestTotal ){
+            history.push({
+                search  : queryString.stringify({
+                    ...queryString.parse(search),
+                    latestCurrent : Number(latestCurrent)+1
+                })
+            });
+
+        }
     }
 }
 
 const mapStateToProps = state => {
     return{
-        kv: state.home.kv,
-        store: state.home.recommendStoreList,
-        latest: state.home.latest,
-        categories: state.common.categoriesList,
+        kv           : state.home.kv,
+        store        : state.home.recommendStoreList,
+        latest       : state.home.latest,
+        latestTotal  : state.home.latestTotal,
+        categories   : state.common.categoriesList,
     }
 }
 

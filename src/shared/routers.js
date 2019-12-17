@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import Home from "./pages/home";
 import Terms from './pages/terms';
 import Categories from './pages/categories';
@@ -11,6 +16,7 @@ import ontSignIn from './pages/login';
 import MyVendor from './pages/myvendor';
 import MyAccount from './pages/myaccount';
 import MyStore from './pages/mystore';
+import Collections from './pages/collections';
 
 const common = [
   {
@@ -61,6 +67,11 @@ const common = [
     path: "/store",
     exact: true,
     component: Store
+  },
+  {
+    path: "/collections",
+    exact: true,
+    component: Collections
   },
   {
     path: "/categories/:main/:sub",

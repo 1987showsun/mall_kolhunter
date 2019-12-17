@@ -71,20 +71,25 @@ export function latest( pathname,query={},data={} ){
 
         const method    = 'get';
         const initQuery = { 
-            page: 1,
-            limit: 30,
-            sort: "desc",
-            order: "time"
+            page     : 1,
+            limit    : 30,
+            sort     : "desc",
+            order    : "time"
         };
         const search    = queryString.stringify({ ...initQuery, ...query });
         const url       = `${API()['mall']['home']['latest']}${ search!=""? `?${search}`: "" }`;
 
         return Axios({method, url, data}).then( res => {
+            const { products, total } = res['data'];
             dispatch({
-                type: "HOME_LATEST",
-                list: res['data']['products'] || []
+                type  : "HOME_LATEST",
+                list  : products || [],
+                total : total    || 0
             })
-            return res;
+            return {
+                ...res,
+                
+            };
         })
     }
 }

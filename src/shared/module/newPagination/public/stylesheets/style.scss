@@ -25,6 +25,11 @@
                 color           : #fff;
             }
         }
+        &.previous, &.next{
+            &.disabled{
+                visibility: hidden;
+            }
+        }
     }
     @media (max-width: 767px) {
         >li{

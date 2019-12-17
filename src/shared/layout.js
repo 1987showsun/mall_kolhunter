@@ -87,20 +87,22 @@ class Layout extends React.Component{
         let pathnameComparison  = false;
         let searchComparison    = false;
 
-        if( pathname.length>prevPathname.length ){
-            pathnameComparison = pathname.some( (keys,i) => keys!=prevPathname[i] );
-        }else{
-            pathnameComparison = prevPathname.some( (keys,i) => keys!=pathname[i] );
-        }
+        if( pathname.length!=0 ){
+            if( pathname.length>prevPathname.length ){
+                pathnameComparison = pathname.some( (keys,i) => keys!=prevPathname[i] );
+            }else{
+                pathnameComparison = prevPathname.some( (keys,i) => keys!=pathname[i] );
+            }
 
-        if( Object.keys(search).length>Object.keys(prevSearch) ){
-            searchComparison = Object.keys(search).some( keys => search[keys]!=prevSearch[keys] );
-        }else{
-            searchComparison = Object.keys(prevSearch).some( keys => prevSearch[keys]!=search[keys] );
-        }
-        
-        if( pathnameComparison || searchComparison ){
-            $('#root').scrollTop(0);
+            if( Object.keys(search).length>Object.keys(prevSearch) ){
+                searchComparison = Object.keys(search).some( keys => search[keys]!=prevSearch[keys] );
+            }else{
+                searchComparison = Object.keys(prevSearch).some( keys => prevSearch[keys]!=search[keys] );
+            }
+            
+            if( pathnameComparison || searchComparison ){
+                $('#root').scrollTop(0);
+            }
         }
     }
 }

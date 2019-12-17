@@ -24,7 +24,7 @@ export function collections( pathname,query={},data={} ){
             const { products, limit, total } = res['data'];
             dispatch({
                 type  : "COLLECTIONS_LIST",
-                limit : limit    || 0,
+                limit : limit    || 30,
                 total : total    || 0,
                 list  : products || [],
             })

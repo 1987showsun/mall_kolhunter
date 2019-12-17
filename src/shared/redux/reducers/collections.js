@@ -14,7 +14,9 @@ export default function home(
         case 'COLLECTIONS_LIST':
             state = { 
                 ...state, 
-                list: action.list
+                limit  : action.limit,
+                total  : action.total,
+                list   : action.list
             };
             break;
     }

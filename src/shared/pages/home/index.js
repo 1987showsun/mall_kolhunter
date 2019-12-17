@@ -55,7 +55,7 @@ class Home extends React.Component{
                 </Helmet>
                 <Kv data={kv} />
                 <Store data={store}/>
-                {/* <Category data={categories}/> */}
+                <Category data={categories}/>
                 <Product data={latest} />
             </React.Fragment>
         );

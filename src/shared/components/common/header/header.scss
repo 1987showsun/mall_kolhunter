@@ -1,34 +1,34 @@
 header{
-    width: 100%;
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    position: sticky;
-    z-index: 10;
-    top: 0px;
-    background: #FF416C;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #FF4B2B, #FF416C);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #FF4B2B, #FF416C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    width             : 100%;
+    min-height        : 100px;
+    display           : flex;
+    align-items       : center;
+    position          : sticky;
+    z-index           : 10;
+    top               : 0px;
+    background        : #FF416C;  /* fallback for old browsers */
+    background        : -webkit-linear-gradient(to bottom, #FF4B2B, #FF416C);  /* Chrome 10-25, Safari 5.1-6 */
+    background        : linear-gradient(to bottom, #FF4B2B, #FF416C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     .container{
-        padding-bottom: 15px !important;
-        display: flex;
-        flex-direction: column;
+        padding-bottom      : 10px !important;
+        display             : flex;
+        flex-direction      : column;
         .top, .bottom{
-            width  : 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            width                     : 100%;
+            display                   : flex;
+            align-items               : center;
+            justify-content           : space-between;
         }
         .top{
-            height: 30px;
-            font-size: 0.8rem;
-            color: #fff;
+            height                    : 30px;
+            font-size                 : 0.8rem;
+            color                     : #fff;
             a{
-                color           : #fff;
-                display         : flex;
-                align-items     : center;
-                justify-content : center;
-                cursor          : pointer;
+                color                    : #fff;
+                display                  : flex;
+                align-items              : center;
+                justify-content          : center;
+                cursor                   : pointer;
             }
             >ul{
                 display: flex;
@@ -66,19 +66,18 @@ header{
             }
         }
         .bottom{
-            height: 70px;
             @media (max-width: 768px) {
                 height: auto;
             }
         }
     }
     .logo-block{
-        max-width: 180px;
-        display: inline-flex;
-        align-items: center;
+        max-width          : 170px;
+        display            : inline-flex;
+        align-items        : center;
         a{
-            display: flex;
-            align-items: flex-start;
+            display             : flex;
+            align-items         : flex-start;
         }
         img{
             width: 100%;
@@ -118,54 +117,54 @@ header{
         }
     }
     .search-block{
-        width: 100%;
-        max-width: 670px;
-        display: inline-flex;
-        flex-wrap: wrap;
-        padding: 0px 5px;
+        width                : 100%;
+        max-width            : 740px;
+        display              : inline-flex;
+        flex-wrap            : wrap;
+        padding              : 0px 5px;
         form{
-            width: 100%;
-            position: relative;
+            width                  : 100%;
+            position               : relative;
             .input-box{
-                height: 40px;
-                background: #fff;
-                border-radius: 2px;
-                align-items: center;
-                padding-right: 70px;
-                border: none;
+                height                : 40px;
+                background            : #fff;
+                border-radius         : 2px;
+                align-items           : center;
+                padding-right         : 65px;
+                border                : none;
                 &.select{
-                    width: 120px;
-                    border-left: 1px solid #ccc;
-                    color: #5A6268;
-                    font-size: 0.9em;
+                    width                 : 150px;
+                    border-left           : 1px solid #ccc;
+                    font-size             : 0.9em;
+                }
+                select{
+                    font-weight           : bold;
+                    color                 : #666;
                 }
             }
             [type=submit]{
-                width: 60px;
-                height: 35px;
-                position: absolute;
-                z-index: 10;
-                right: 5px;
-                background: #FF416C;  /* fallback for old browsers */
-                background: -webkit-linear-gradient(to bottom, #FF4B2B, rgb(255, 57, 103));
-                background: linear-gradient(to bottom, #FF4B2B, rgb(255, 57, 103));
-                svg{
-                    display: none;
-                }
+                width                 : 55px;
+                height                : 35px;
+                position              : absolute;
+                z-index               : 10;
+                right                 : 5px;
+                background            : #FF416C;  /* fallback for old browsers */
+                background            : -webkit-linear-gradient(to bottom, #FF4B2B, rgb(255, 57, 103));
+                background            : linear-gradient(to bottom, #FF4B2B, rgb(255, 57, 103));
             }
             @media (max-width: 768px) and (min-width: 421px) {
                 .input-box{
-                    height          : 45px;
-                    border          : none;
-                    padding-right   : 45px;
+                    height            : 45px;
+                    border            : none;
+                    padding-right     : 45px;
                     &.select{
-                        max-width     : 100px;
-                        min-width     : 100px;
+                        max-width        : 100px;
+                        min-width        : 100px;
                     }
                 }
                 [type=submit]{
-                    width: 35px;
-                    border-radius: 3px;
+                    width             : 35px;
+                    border-radius     : 3px;
                     span{
                         display: none;
                     }
@@ -237,11 +236,12 @@ header{
         }
     }
     .header-nav-block{
-        display: inline-flex;
+        display             : inline-flex;
+        user-select         : none;
         ul{
-            display: flex;
-            margin-right: -5px;
-            overflow: hidden;
+            display                : flex;
+            margin-right           : -5px;
+            overflow               : hidden;
             >li{
                 width: 65px;
                 padding-right: 5px;

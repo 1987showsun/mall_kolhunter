@@ -1,11 +1,16 @@
-import React from 'react';
-import queryString from 'query-string';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faSearch }from '@fortawesome/free-solid-svg-icons';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                           from 'react';
+import queryString                     from 'query-string';
+import { Link }                        from 'react-router-dom';
+import { FontAwesomeIcon }             from '@fortawesome/react-fontawesome';
+import { faSearch }                    from '@fortawesome/free-solid-svg-icons';
 
 // Lang
-import lang from '../../../../public/lang/lang.json';
+import lang                            from '../../../../public/lang/lang.json';
 
 export default class Search extends React.Component{
 
@@ -37,7 +42,6 @@ export default class Search extends React.Component{
                             </select>
                         </div>
                         <button type="submit">
-                            <span>搜尋</span>
                             <FontAwesomeIcon icon={faSearch} />
                         </button>
                     </div>

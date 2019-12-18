@@ -86,7 +86,7 @@ class HeadAccount extends React.Component{
         for( let i=0 ; i<quotient ; i++ ){
             for( let m=12 ; m>=1 ; m-- ){
                 const setMM = String(m).length<2? `0${m}`: m;
-                option = [ ...option, <option key={`${(year-i)-1} / ${setMM}`} value={`${(year-i)-1}-${m}`}>{`${(year-i)-1} / ${setMM}`}</option> ];
+                option = [ ...option, <option key={`${(year-i)-1} / ${setMM}`} value={`${(year-i)}-${m}`}>{`${(year-i)} / ${setMM}`}</option> ];
             }
         }
 

@@ -35,7 +35,6 @@ const Index = ({ location, history, dispatch, limit, total, list }) => {
         });
 
     },[search]);
-    console.log(limit, total);
 
     return(
         <>

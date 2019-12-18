@@ -8,8 +8,6 @@ import React                             from 'react';
 import queryString                       from 'query-string';
 import { connect }                       from 'react-redux';
 import { Route, Switch, Redirect, Link } from "react-router-dom";
-import { FontAwesomeIcon }               from '@fortawesome/react-fontawesome';
-import { faQuestion }                    from '@fortawesome/free-solid-svg-icons';
 
 //Routes
 import routers                           from './routers';
@@ -18,6 +16,7 @@ import routers                           from './routers';
 import Header                            from './components/common/header/header';
 import Footer                            from './components/common/footer/footer';
 import Permanent                         from './components/permanent';
+import Sticky                            from './components/sticky';
 
 //Stylesheets
 import './public/stylesheets/common.scss';
@@ -71,7 +70,10 @@ class Layout extends React.Component{
                 }
                 {
                     !isNowPagesNoShow.includes( pathname[0] ) &&
-                        <Permanent />
+                        <>
+                            <Permanent />
+                            <Sticky />
+                        </>
                 }
             </React.Fragment>
         );

@@ -857,5 +857,9 @@ figure{
         border              : 1px solid #e1e1e1;
         color               : #333;
         font-size           : 0.8rem;
+        transition          : background .2s;
+        &:hover{
+            background          : #f7f7f7;
+        }
     }
 }

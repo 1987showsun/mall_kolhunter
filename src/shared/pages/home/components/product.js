@@ -19,23 +19,23 @@ class Latest extends React.Component{
         super(props);
         this.state = {
             data   : props.data  || [],
-            total  : props.total || 0
+            total  : props.total || 0,
+            limit  : props.limit || 30
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return{
             data   : props.data  || [],
-            total  : props.total || 0
+            total  : props.total || 0,
+            limit  : props.limit || 30
         }
     }
 
     render(){
 
-        const { location }        = this.props;
-        const { data, total }     = this.state;
-        const { search }          = location;
-        const { latestCurrent=1 } = queryString.parse( search );
+        const { location }            = this.props;
+        const { data, total, limit }  = this.state;
 
         return(
             <div className="row">
@@ -55,9 +55,12 @@ class Latest extends React.Component{
                                 })
                             }
                         </BlockList>
-                        <div className="loadMore-wrap">
-                            <Link to="/collections">更多精選商品</Link>
-                        </div>
+                        {
+                            total>limit &&
+                                <div className="loadMore-wrap">
+                                    <Link to={`/collections?page=2`}>更多精選商品</Link>
+                                </div>
+                        }
                     </div>
                 </section>
             </div>

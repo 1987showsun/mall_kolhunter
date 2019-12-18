@@ -30,6 +30,7 @@ class Home extends React.Component{
             store            : props.store,
             latest           : props.latest,
             latestTotal      : props.latestTotal,
+            latestLimit      : props.latestLimit,
             latestHasMore    : false,
             latestSsLock     : false,
             categories       : props.categories
@@ -42,6 +43,7 @@ class Home extends React.Component{
             store            : props.store,
             latest           : props.latest,
             latestTotal      : props.latestTotal,
+            latestLimit      : props.latestLimit,
             categories       : props.categories
         }
     }
@@ -49,7 +51,7 @@ class Home extends React.Component{
     render(){
 
         const { location } = this.props;
-        const { kv, store, categories, latest, latestTotal, latestHasMore } = this.state;
+        const { kv, store, categories, latest, latestTotal, latestLimit, latestHasMore } = this.state;
 
         return(
             <React.Fragment>
@@ -65,6 +67,7 @@ class Home extends React.Component{
                     location  = {location}
                     data      = {latest}
                     total     = {latestTotal}
+                    limit     = {latestLimit}
                     hasMore   = {latestHasMore}
                     loadMore  = {this.loadMore.bind(this)}
                 />
@@ -115,6 +118,7 @@ const mapStateToProps = state => {
         store        : state.home.recommendStoreList,
         latest       : state.home.latest,
         latestTotal  : state.home.latestTotal,
+        latestLimit  : state.home.latestLimit,
         categories   : state.common.categoriesList,
     }
 }

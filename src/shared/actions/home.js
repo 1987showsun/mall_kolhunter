@@ -80,16 +80,14 @@ export function latest( pathname,query={},data={} ){
         const url       = `${API()['mall']['home']['latest']}${ search!=""? `?${search}`: "" }`;
 
         return Axios({method, url, data}).then( res => {
-            const { products, total } = res['data'];
+            const { products, total, limit } = res['data'];
             dispatch({
                 type  : "HOME_LATEST",
                 list  : products || [],
-                total : total    || 0
+                total : total    || 0,
+                limit : limit    || 30
             })
-            return {
-                ...res,
-                
-            };
+            return res;
         })
     }
 }

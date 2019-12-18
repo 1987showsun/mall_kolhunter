@@ -5,9 +5,11 @@
 
 export default function home(
     state = {
-        kv: [],
-        latest: [],
-        recommendStoreList: []
+        kv                    : [],
+        latest                : [],
+        latestTotal           : 0,
+        latestLimit           : 30,
+        recommendStoreList    : []
     },action
 ){
     switch(action.type){
@@ -22,7 +24,8 @@ export default function home(
             state = { 
                 ...state,
                 latest         : action.list,
-                latestTotal    : action.total
+                latestTotal    : action.total,
+                latestLimit    : action.limit
             };
             break;
 

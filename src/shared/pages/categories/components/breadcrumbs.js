@@ -3,10 +3,12 @@
  *   All rights reserved.
  */
 
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React                  from 'react';
+import queryString            from 'query-string';
+import { connect }            from 'react-redux';
+import { Link }               from 'react-router-dom';
+import { FontAwesomeIcon }    from '@fortawesome/react-fontawesome';
+import { faHome }             from '@fortawesome/free-solid-svg-icons';
 
 class Breadcrumbs extends React.Component{
 
@@ -38,7 +40,7 @@ class Breadcrumbs extends React.Component{
             <div className="path-breadcrumbs">
                 <ul>
                     <li>
-                        <Link to="/">首頁</Link>
+                        <Link to="/"><i><FontAwesomeIcon icon={faHome}/></i>首頁</Link>
                     </li>
                     {
                         categories.length!=0 &&

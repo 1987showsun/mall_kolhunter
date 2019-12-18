@@ -162,6 +162,9 @@ html,body{
                     display          : inline-flex;
                 }
             }
+            @media (max-width: 420px) {
+                margin-top     : 10px;
+            }
         }
         .container-row{
             width: 100%;
@@ -448,8 +451,9 @@ nav{
                     margin-right: 0px;
                 }
                 a{
-                    display: flex;
-                    color: #666666;
+                    display      : flex;
+                    align-items  : center;
+                    color        : #666666;
                     &:after{
                         content: ">";
                         display: inline-flex;

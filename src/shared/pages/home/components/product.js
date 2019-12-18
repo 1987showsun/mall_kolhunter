@@ -42,7 +42,7 @@ class Latest extends React.Component{
                 <section className="container" data-direction="column" >
                     <div className="unit">
                         <div className="block-title">
-                            <h2>熱門商品</h2>
+                            <h2>精選商品</h2>
                         </div>
                         <BlockList className="product-card">
                             {

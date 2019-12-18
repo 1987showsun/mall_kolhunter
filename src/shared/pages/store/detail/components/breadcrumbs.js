@@ -1,5 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                  from 'react';
+import { Link }               from 'react-router-dom';
+import { FontAwesomeIcon }    from '@fortawesome/react-fontawesome';
+import { faHome }             from '@fortawesome/free-solid-svg-icons';
 
 export default class Breadcrumbs extends React.Component{
 
@@ -18,7 +25,7 @@ export default class Breadcrumbs extends React.Component{
         return(
             <div className="path-breadcrumbs">
                 <ul>
-                    <li><Link to="/">首頁</Link></li>
+                    <li><Link to="/"><i><FontAwesomeIcon icon={faHome}/></i>首頁</Link></li>
                     <li><Link to="/store">網紅店舖</Link></li>
                     <li>{name}</li>
                 </ul>

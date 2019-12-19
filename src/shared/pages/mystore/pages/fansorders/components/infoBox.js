@@ -16,23 +16,23 @@ export default (props) => {
                 <li>
                     <div className="info-box-head">總銷售金額</div>
                     <div className="info-box-content">
-                        <CurrencyFormat value={Math.ceil(saleAmount)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                        <CurrencyFormat value={Math.round(saleAmount)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                     </div>
                 </li>
                 <li>
                     <div className="info-box-head">總分得利潤</div>
                     <div className="info-box-content">
-                        <CurrencyFormat value={Math.ceil(feeAmount)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                        <CurrencyFormat value={Math.round(feeAmount)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                     </div>
                 </li>
                 <li>
                     <div className="info-box-head">整體分潤比</div>
                     <div className="info-box-content">
                         { 
-                            isNaN(((Math.ceil(feeAmount)/Math.ceil(saleAmount))*100).toFixed(2))? (
+                            isNaN(((Math.round(feeAmount)/Math.round(saleAmount))*100).toFixed(2))? (
                                 '0％'
                             ):(
-                                `${((Math.ceil(feeAmount)/Math.ceil(saleAmount))*100).toFixed(2)}％`
+                                `${((Math.round(feeAmount)/Math.round(saleAmount))*100).toFixed(2)}％`
                             )
                         }
                     </div>

@@ -123,6 +123,9 @@
                     top: 0px;
                     right: 10px;
                 }
+                &.true{
+                    display: block;
+                }
                 ul{
                     width: 100%;
                     border-radius: 5px;
@@ -143,9 +146,6 @@
                         }
                     }
                 }
-            }
-            #cover-user-select-switch:checked ~ .cover-user-option-wrap{
-                display: block;
             }
         }
         @media (max-width: 600px){

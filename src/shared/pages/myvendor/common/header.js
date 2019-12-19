@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -10,9 +15,11 @@ import { signout } from '../../../actions/login';
 class Header extends React.Component{
 
     constructor(props){
-        super(props)
-        this.state = {
-            clearSessionStorageKey : ['jwt_vendor'],
+        super(props);
+        this.selectNav = React.createRef(null);
+        this.state     = {
+            clearSessionStorageKey    : ['jwt_vendor'],
+            isCoverUserOptionWrapOpen : false
         }
     }
 
@@ -24,7 +31,7 @@ class Header extends React.Component{
 
     render(){
 
-        const { profile } = this.state;
+        const { profile, isCoverUserOptionWrapOpen } = this.state;
 
         return(
             <section className="admin-header">
@@ -34,9 +41,15 @@ class Header extends React.Component{
                     </label>
                 </div>
                 <div className="right">
-                    <div className="member-select-block">
+                    <div
+                        className ="member-select-block"
+                        onClick   = {this.openMenu.bind(this)}
+                    >
                         <input type="checkbox" id="cover-user-select-switch" className="hide"/>
-                        <label className="member-option-set" htmlFor="cover-user-select-switch">
+                        <div 
+                            ref       = {this.selectNav}
+                            className = "member-option-set" 
+                        >
                             <div className="cover">
                                 {
                                     profile['photo']!=undefined && profile['photo']!="" ? (
@@ -53,8 +66,8 @@ class Header extends React.Component{
                             <i>
                                 <FontAwesomeIcon icon={faAngleDown} />
                             </i>
-                        </label>
-                        <div className="cover-user-option-wrap">
+                        </div>
+                        <div className={`cover-user-option-wrap ${isCoverUserOptionWrapOpen}`}>
                             <ul>
                                 <li><Link to="/myvendor/profile">基本資料設定</Link></li>
                                 <li><Link to="/myvendor/profile/password">帳戶密碼設定</Link></li>
@@ -67,6 +80,24 @@ class Header extends React.Component{
         );
     }
 
+    handleOutsideClick = () => {
+        this.closeMenu();
+    }
+
+    openMenu = () => {
+        document.addEventListener('click', this.handleOutsideClick, false);
+        this.setState({
+            isCoverUserOptionWrapOpen: true
+        });
+    }
+
+    closeMenu() {
+        document.removeEventListener('click', this.handleOutsideClick, false);
+        this.setState({
+            isCoverUserOptionWrapOpen: false
+        });
+    }
+    
     signOut = () => {
         const { clearSessionStorageKey } = this.state;
         this.props.dispatch( signout( clearSessionStorageKey ) );

@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import toaster from 'toasted-notes';
 import queryString from 'query-string';
@@ -58,7 +63,15 @@ class DeliveryUpdate extends React.Component{
                                     </div>
                                 </div>
                             </li>
-                            {
+                            <li>
+                                <label>運送編號</label>
+                                <div>
+                                    <div className="input-box">
+                                        <input type="text" name="deliveryCode" value={selectUpdateFormObject['deliveryCode'] || ""} onChange={this.handleChange.bind(this)} />
+                                    </div>
+                                </div>
+                            </li>
+                            {/* {
                                 selectUpdateFormObject['deliveryStatus']=='prepare' &&
                                     <li>
                                         <label>運送編號</label>
@@ -78,7 +91,7 @@ class DeliveryUpdate extends React.Component{
                                 ):(
                                     null
                                 )
-                            }
+                            } */}
                         </ul>
                         {
                             msg.length!=0 &&

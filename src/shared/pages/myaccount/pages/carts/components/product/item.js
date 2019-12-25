@@ -9,8 +9,7 @@ import CurrencyFormat                        from 'react-currency-format';
 import { Link }                              from 'react-router-dom';
 import { connect }                           from 'react-redux';
 import { FontAwesomeIcon }                   from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus }                   from '@fortawesome/free-solid-svg-icons';
-
+import { faPlus, faMinus, faArrowCircleRight }                   from '@fortawesome/free-solid-svg-icons';
 
 // Modules
 import Quantity                              from '../../../../../../module/quantity';
@@ -19,14 +18,30 @@ class Item extends React.Component{
 
     constructor(props){
         super(props);
+
+        const { spec, productToken, productDeliveryID, storeToken, itemNum }  = props.data;
+
         this.state = {
             itemNumMax           : 10,
             formObject           : {
-                specToken          : props.data['specToken'],
-                productToken       : props.data['productToken'],
-                productDeliveryID  : props.data['productDeliveryID'],
-                storeID            : props.data['storeToken'],
-                itemNum            : props.data['itemNum']
+                specToken          : spec.map(item => item['specToken']),
+                productToken       : productToken,
+                productDeliveryID  : productDeliveryID,
+                storeID            : storeToken,
+                itemNum            : itemNum
+            }
+        }
+    }
+
+    static getDerivedStateFromProps( props,state ){
+
+        const { formObject } = state;
+        const { itemNum }    = props.data;
+
+        return{
+            formObject       : {
+                ...formObject,
+                itemNum        : itemNum
             }
         }
     }
@@ -35,127 +50,119 @@ class Item extends React.Component{
 
         const { data }           = this.props;
         const { formObject }     = this.state;
-        const itemNumMax         = data['storage'];
-        console.log( itemNumMax );
-        
+        const { spec }           = data;
+        const itemNumMax         = Math.min.apply(Math, spec.map(item => item['storage']));
+
         return(
-            <figure className="product-item-figure">
-                <div className="img">
-                    <img src={data['image']} alt={data['productName']} title=""/>
-                </div>
-                <figcaption>
-                    <h3>
-                        <Link to={`/detail/${formObject['productToken']}`} target="_blank">
-                            {data['productName']}
-                        </Link>
-                    </h3>
-                    <ul className="product-item-doc-list">
-                        <li>
-                            <label>尺寸 / 型號</label>
-                            <div>{data['specName']}</div>
-                        </li>
-                        <li>
-                            <label>消費網紅店家</label>
-                            {
-                                data['storeToken']==undefined?(
-                                    <div>Kolhunter</div>
-                                ):(
-                                    <div><Link to={`/store/${data['storeToken']}`} target="_blank">{data['storeName']}</Link></div>
-                                )
-                            }
-                        </li>
-                        <li>
-                            <label>數量</label>
-                            <Quantity 
-                                initVal   = { formObject['itemNum'] }
-                                itemNumMax= { itemNumMax||0 }
-                                returnForm= { val => {
-                                    this.setState({
-                                        formObject: { 
-                                            ...this.state.formObject, itemNum: val['itemNum'] 
-                                        }
-                                    },()=>{
-                                        this.updateData();
-                                    })
-                                }}
-                            />
-                        </li>
-                        <li>
-                            <label>運送方式</label>
-                            <div>
-                                <div className="input-box select">
-                                    <select name="productDeliveryID" value={formObject['productDeliveryID']} onChange={this.handleChange.bind(this)}>
-                                        {
-                                            data['deliveryMethods'].map( item => {
-                                                return( <option key={item['productDeliveryID']} value={item['productDeliveryID']}>{`${item['deliveryName']} ＄${item['cost']}`}</option> );
-                                            })
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <label>小計</label>
-                            <div>
-                                <CurrencyFormat value={data['amount']} displayType={'text'} thousandSeparator={true}/>
-                            </div>
-                        </li>
-                    </ul>
-                    <div className="action">
-                        <button className="remove" onClick={this.actionBtn.bind(this,'remove',data)}>刪除</button>
+            <div className="cart-product-items">
+                <figure className="product-item-figure">
+                    <div className="img">
+                        <img src={data['image']} alt={data['productName']} title=""/>
                     </div>
-                </figcaption>
-            </figure>
+                    <figcaption>
+                        <h3>
+                            <Link to={`/detail/${formObject['productToken']}`} target="_blank">
+                                {data['productName']}
+                            </Link>
+                        </h3>
+                        <ul className="product-item-doc-list">
+                            <li>
+                                <label>數量</label>
+                                <Quantity 
+                                    initVal     = { formObject['itemNum'] }
+                                    itemNumMax  = { itemNumMax || 0 }
+                                    returnForm  = { this.updateData.bind(this) }
+                                />
+                            </li>
+                            <li>
+                                <label>消費網紅店家</label>
+                                {
+                                    data['storeToken']==""?(
+                                        <div>Kolhunter</div>
+                                    ):(
+                                        <div><Link to={`/store/${data['storeToken']}`} target="_blank">{data['storeName']}</Link></div>
+                                    )
+                                }
+                            </li>
+                            <li>
+                                <label>尺寸 / 型號</label>
+                                <div>
+                                    {
+                                        spec.length>=2? (
+                                            "組合商品"
+                                        ):(
+                                            spec[0]['specName']
+                                        )
+                                    }
+                                </div>
+                            </li>
+                            {/* <li>
+                                <label>運送方式</label>
+                                <div>
+                                    <div className="input-box select">
+                                        <select name="productDeliveryID" value={formObject['productDeliveryID']} onChange={this.handleChange.bind(this)}>
+                                            {
+                                                data['deliveryMethods'].map( item => {
+                                                    return(<option key={item['productDeliveryID']} value={item['productDeliveryID']}>{`${item['deliveryName']} ＄${item['cost']}`}</option>);
+                                                })
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </li> */}
+                            <li>
+                                <label>小計</label>
+                                <div>
+                                    <CurrencyFormat value={data['amount']} displayType={'text'} thousandSeparator={true}/>
+                                </div>
+                            </li>
+                        </ul>
+                        <div className="action">
+                            <button className="remove" onClick={this.actionBtn.bind(this,'remove',data)}>刪除</button>
+                        </div>
+                    </figcaption>
+                </figure>
+                {
+                    spec.length>=2? (
+                        <div className="subproject-wrap">
+                            <div className="subproject-head">
+                                <i><FontAwesomeIcon icon={faArrowCircleRight}/></i>
+                                <h3>組合商品明細</h3>
+                            </div>
+                            {
+                                spec.map((item,i) => {
+                                    return(
+                                        <div key={item['specToken']} className="subproject-items">
+                                            <div className="sort">
+                                                {String(i+1).length<2? (`0${i+1}`):(i+1)}
+                                            </div>
+                                            <div className="name">
+                                                <p>{item['productName']}</p>
+                                            </div>
+                                            <div className="spec">
+                                                <p>{item['specName']}</p>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+                    ):(
+                        null
+                    )
+                }
+            </div>
         )
     }
 
-    // handleQuantity = (values) => {
-    //     const formObject = { ...this.state.formObject, itemNum: values['value'] }
-    //     this.setState({
-    //         formObject
-    //     })
-    // }
-
-    // quantityChange = ( method ) => {
-    //     const { itemNumMax, formObject } = this.state;
-    //     let itemNum = formObject['itemNum'];
-    //     switch( method ){
-    //         case 'minus':
-    //             // 減
-    //             itemNum<=1? 1 : itemNum--;
-    //             break;
-
-    //         default:
-    //             // 加
-    //             itemNum>=itemNumMax? itemNumMax : itemNum++;
-    //             break;
-    //     }
-
-    //     this.setState({
-    //         formObject : { ...formObject, itemNum } 
-    //     },()=>{
-    //         this.updateData();
-    //     })
-    // }
-
-    // cardExpiry = ( val ) =>{
-    //     const { itemNumMax } = this.state;
-    //     val = Number( val );
-    //     if( val<=0 ){
-    //         val = 1;
-    //     }else if( val>=itemNumMax ){
-    //         val = itemNumMax;
-    //     } 
-
-    //     return String(val);
-    // }
-
     handleChange = ( e ) => {
-        const { formObject } = this.state;
-        const name = e.target.name;
-        const value = e.target.value;
+        const { formObject }  = this.state;
+        const { name, value } = e.target;
         this.setState({
-            formObject : { ...formObject, [name]: value } 
+            formObject: { 
+                ...formObject,
+                [name]: value 
+            }
         },()=>{
             this.updateData();
         })
@@ -167,10 +174,10 @@ class Item extends React.Component{
         }
     }
 
-    updateData = () => {
+    updateData = (val) => {
         if( this.props.updateData!=undefined ){
             const { formObject } = this.state;
-            this.props.updateData( formObject );
+            this.props.updateData({...formObject, itemNum: val['itemNum']});
         }
     }
 }

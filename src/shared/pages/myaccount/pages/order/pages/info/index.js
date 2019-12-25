@@ -24,14 +24,23 @@ const Index = props => {
     const [ info        , setPayInfo]       = useState({});
     
     useEffect(()=>{
+
         const { location, match } = props;
         const { pathname }        = location;
         const orderID = match['params']['id'] || "";
+
         props.dispatch( ordersInfo(pathname,{orderID: orderID}) ).then( res => {
-            setPayInfo( res );
-            setPageLoading(false);
+            setPageLoading( false );
+            switch( res['status'] ){
+                case 200:
+                    setPayInfo(res['data']);
+                    break;
+
+                default:
+                    break;
+            }
         });
-    },[loading]);
+    },[]);
 
     const action = ( method ) => {
         const { match, history } = props;
@@ -56,16 +65,13 @@ const Index = props => {
                 tableBodyData= { info['orderDetail'] || [] }
                 createTimeMs = { createTimeMs }
             />
-
             <Receiving 
                 data         = { info }
             />
-
             <Product 
                 list         = { info['orderDetail'] || [] }
-                amount       = { info['amount'] || 0 }
+                amount       = { info['amount']      || 0 }
             />
-
             <section className="container-unit">
                 <div className="container-unit-action">
                     <ul>

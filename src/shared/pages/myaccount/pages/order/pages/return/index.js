@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 // 訂單-退貨
 import React             from 'react';
 import toaster           from 'toasted-notes';
@@ -5,40 +10,42 @@ import queryString       from 'query-string';
 import { Link }          from 'react-router-dom';
 import { connect }       from 'react-redux';
 
+// Components
+import Items                        from './components/items';
+
 // Modules
-import Table                        from '../../../../../../module/table';
+import Table                        from '../../../../../../module/table-new';
 import Confirm                      from '../../../../../../module/confirm';
 import Loading                      from '../../../../../../module/loading/mallLoading';
 
 // Actions
 import { ordersInfo, ordersRefund } from '../../../../../../actions/myaccount';
 
-// Set
-import tableHeadData                from './public/set/tableHeadData';
-
 // Lang
 import lang                         from '../../../../../../public/lang/lang.json';
+
+// Styelsheets
+import './public/stylesheets/style.scss';
 
 class Index extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            loading: false,
-            open: false,
-            method: 'confirm',
-            header: "",
-            pupopMSG: "",
-            selected: [],
-            info: {},
-            tableHeadData : tableHeadData,
-            tableBodyData : []
+            loading       : false,
+            open          : false,
+            method        : 'confirm',
+            header        : "",
+            pupopMSG      : "",
+            selected      : [],
+            info          : {},
+            list          : []
         }
     }
 
     render(){
 
-        const { loading, open, method, header, pupopMSG,  tableHeadData, tableBodyData } = this.state;
+        const { loading, open, selected, method, header, pupopMSG, list } = this.state;
 
         return(
             <React.Fragment>
@@ -47,16 +54,20 @@ class Index extends React.Component{
                         <h3>該筆訂單商品</h3>
                     </div>
                     <section className="container-unit-row">
-                        <Table
-                            className="member-order-info-table"
-                            tableHeadData= {tableHeadData}
-                            tableBodyData= {tableBodyData}
-                            returnCheckbox= { (val) => {
-                                this.setState({ 
-                                    selected: val 
-                                });
-                            }}
-                        />
+                        <Table>
+                            {
+                                list.map((item,i) => {
+                                    return(
+                                        <Items 
+                                            {...item}
+                                            key          = {i} 
+                                            selected     = {selected}
+                                            handleChange = {this.handleChange.bind(this)}
+                                        />
+                                    )
+                                })
+                            }
+                        </Table>
                         <Loading loading={loading}/>
                     </section>
                 </section>
@@ -71,12 +82,12 @@ class Index extends React.Component{
                 </section>
 
                 <Confirm 
-                    open={open}
-                    method= {method}
-                    header= {header}
-                    container={pupopMSG}
-                    onCancel={this.onCancel.bind(this)}
-                    onConfirm={this.handleConfirm.bind(this)}
+                    open          = {open}
+                    method        = {method}
+                    header        = {header}
+                    container     = {pupopMSG}
+                    onCancel      = {this.onCancel.bind(this)}
+                    onConfirm     = {this.handleConfirm.bind(this)}
                 />
             </React.Fragment>
         );
@@ -84,57 +95,70 @@ class Index extends React.Component{
 
     componentDidMount() {
         const { location, history, match } = this.props;
-        const { pathname, search } = location;
-        const orderID = match['params']['id'] || "";
+        const { pathname, search }         = location;
+        const orderID                      = match['params']['id'] || "";
         this.setState({
             loading: true
         },()=>{
             this.props.dispatch( ordersInfo(pathname,{orderID: orderID}) ).then( res => {
-                if( !res['refundAble'] ){
-                    history.goBack();
-                }else{
-                    const tableBodyData = res['orderDetail'].filter( item => item['refundStatus']=='none' ).map( item => {
-                        return{
-                            id: item['id'],
-                            cover: item['image'],
-                            name: [<Link key={`name_${item['id']}`} to={`/detail/${item['productToken']}`} target="_blank">{item['productName']}</Link>],
-                            count: item['count'],
-                            storeName: item['storeToken']!=""? [<Link key={'123'} to={`/store/${item['storeToken']}`} target="_blank">{item['storeName']}</Link>] : 'Kolhunter',
-                            storeToken: item['storeToken'],
-                            total: item['amount'],
-                            status: lang['zh-TW']['refundStatusEnum'][item['refundStatus']]
-                        }
-                    })
-                    this.setState({
-                        loading: false,
-                        info: res,
-                        tableBodyData
-                    })
-                }
+                this.setState({
+                    loading: false
+                },()=>{
+                    const { status, data } = res;
+                    switch( status ){
+                        case 200:
+                            const { orderDetail } = data;
+                            this.setState({
+                                list: orderDetail.filter( item => item['refundStatus']=='none')
+                            })
+                            break;
+
+                        default:
+                            break;
+                    }
+                })
+
             });
+        })
+    }
+
+    handleChange = ( val ) => {
+        const { itemCode }  = val;
+        const { selected }  = this.state;
+        const someItem      = selected.includes(itemCode);
+        this.setState({
+            selected: !someItem? ([
+                ...selected,
+                itemCode
+            ]) : selected.filter( item => item!=itemCode )
         })
     }
     
     action = ( method ) => {
         const { history } = this.props;
+        const { list }    = this.state;
         switch( method ){
             case 'submit':
                 const { selected } = this.state;
                 if( selected.length!=0 ){
                     this.setState({
-                        open: true,
-                        method: 'confirm',
-                        header: "您確定要退貨以下商品嗎？",
-                        pupopMSG: selected.map( (item,i) => {
-                            return <div key={i} className="items">{i+1}. {item['name'][0]['props']['children']}</div>;
+                        open         : true,
+                        method       : 'confirm',
+                        header       : "您確定要退貨以下商品嗎？",
+                        pupopMSG     : selected.map( (items,i) => {
+                            return(
+                                <div key={i} className="items">
+                                    {i+1}. {list.filter(item => item['itemCode']==items )[0]['productName']}
+                                </div>
+                            );
                         })
                     })
                 }else{
                     this.setState({
-                        open: true,
-                        method: 'alert',
-                        header: "",
-                        pupopMSG: '請選擇一個以上要退貨之商品'
+                        open         : true,
+                        method       : 'alert',
+                        header       : "",
+                        pupopMSG     : '請選擇一個以上要退貨之商品'
                     });
                 }
                 break;
@@ -147,26 +171,28 @@ class Index extends React.Component{
 
     onCancel = () => {
         this.setState({
-            open: false,
-            method: 'confirm',
-            header: '',
-            pupopMSG: ''
+            open         : false,
+            method       : 'confirm',
+            header       : '',
+            pupopMSG     : []
         })
     }
 
     handleConfirm = () => {
-        const { selected } = this.state;
+
+        const { selected }                 = this.state;
         const { location, history, match } = this.props;
-        const { pathname, search } = location;
+        const { pathname, search }         = location;
+
         if( this.state.method=='alert' ){
             this.onCancel();
         }else{
+
             const data = {
-                orderID: match['params']['id'],
-                detail: selected.map( item =>{
-                    return item['id']
-                })
+                orderID   : match['params']['id'],
+                detail    : selected
             }
+
             this.props.dispatch( ordersRefund(pathname,{...queryString.parse(search)},data) ).then( res => {
                 switch( res['status'] ){
                     case 200:

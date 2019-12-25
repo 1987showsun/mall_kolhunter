@@ -3,27 +3,34 @@
  *   All rights reserved.
  */
 
-import React from 'react';
-import CurrencyFormat from 'react-currency-format';
-import { FontAwesomeIcon }from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus }from '@fortawesome/free-solid-svg-icons';
+import React                 from 'react';
+import CurrencyFormat        from 'react-currency-format';
+import { FontAwesomeIcon }   from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus }   from '@fortawesome/free-solid-svg-icons';
 
 export default class Index extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            itemNumMax: props.itemNumMax || 1,
-            formObject: {
-                itemNum: props.initVal || 1
+            initVal     : props.initVal    || 1,
+            itemNumMax  : props.itemNumMax || 1,
+            formObject  : {
+                itemNum   : props.initVal     || 1
             }
         }
     }
 
     static getDerivedStateFromProps( props,state ){
 
-        let { itemNum }    = state.formObject;
-        let { itemNumMax } = state.itemNumMax;
+        let { formObject, initVal, itemNumMax }  = state;
+        let { itemNum }    = formObject;
+        let propsInitVal   = props.initVal;
+
+        if( initVal!=propsInitVal ){
+            initVal = propsInitVal;
+            itemNum = propsInitVal;
+        }
 
         if( itemNumMax!=props.itemNumMax ){
             itemNumMax = props.itemNumMax;
@@ -31,12 +38,14 @@ export default class Index extends React.Component{
                 itemNum = props.itemNumMax;
             }
         }
+
         return {
             formObject: {
                 ...state.formObject,
                 itemNum
             },
-            itemNumMax
+            itemNumMax,
+            initVal
         };
     }
 
@@ -59,9 +68,9 @@ export default class Index extends React.Component{
         );
     }
 
-    componentDidMount() {
-        this.updateFormObject();
-    }
+    // componentDidMount() {
+    //     this.updateFormObject();
+    // }
 
     quantityChange = ( method ) => {
 

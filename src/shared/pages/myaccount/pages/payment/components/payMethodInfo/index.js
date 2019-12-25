@@ -28,7 +28,7 @@ const PayMethodInfo = props => {
                 </li>
                 <li>
                     <label>付款方式</label>
-                    <div>{lang['zh-TW']['payment'][data['payMethod']]}</div>
+                    <div>{ lang['zh-TW']['payment'][data['payMethod']] }</div>
                 </li>
                 <OtherInfo 
                     data= {data}

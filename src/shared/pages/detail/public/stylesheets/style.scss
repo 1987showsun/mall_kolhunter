@@ -191,28 +191,29 @@
         &.cover-money{
             align-items      : center;
             background       : #fafafa;
-            >div{
-                margin-right: 15px;
+            >div,>span{
+                margin-right     : 15px;
                 &:last-child{
-                    margin-right: 0px;
+                    margin-right     : 0px;
                 }
             }
             .cover-money-price{
-                font-size: 1rem;
-                text-decoration: line-through;
-                color: #999;
+                display           : inline-flex;
+                font-size         : 1rem;
+                text-decoration   : line-through;
+                color             : #999;
             }
             .cover-money-sellPrice{
-                font-size: 1.9rem;
-                font-weight: bolder;
-                color: var(--main);
+                font-size         : 1.9rem;
+                font-weight       : bolder;
+                color             : var(--main);
             }
             .cover-money-discount{
-                padding       : 2px 5px;
-                border-radius : 3px;
-                background    : var(--main);
-                color         : #fff;
-                font-size     : 0.7rem;
+                padding           : 2px 5px;
+                border-radius     : 3px;
+                background        : var(--main);
+                color             : #fff;
+                font-size         : 0.6rem;
             }
             @media (max-width: 1000px) and (min-width: 860px) {
                 .cover-money-price{
@@ -254,30 +255,31 @@
                 align-items: center;
             }
             .select-list{
-                width: 100%;
-                margin-bottom: -10px;
-                display: inline-flex;
-                flex-wrap: wrap;
+                width           : 100%;
+                margin-bottom   : -10px;
+                display         : inline-flex;
+                flex-wrap       : wrap;
                 >li{
-                    display: inline-flex;
-                    margin: 0px 10px 10px 0px;
+                    display      : inline-flex;
+                    margin       : 0px 10px 10px 0px;
                     label{
-                        color: rgba(0,0,0,.8);
-                        cursor: pointer;
+                        color        : rgba(0,0,0,.8);
+                        cursor       : pointer;
                         input{
-                            display: none;
+                            display          : none;
                         }
                         span{
-                            min-height: 35px;
-                            display: flex;
-                            align-items: center;
-                            padding: 5px 15px;
-                            border-radius: 2px;
-                            border: 1px solid #aaa;
+                            min-height       : 35px;
+                            display          : flex;
+                            align-items      : center;
+                            padding          : 5px 15px;
+                            border-radius    : 2px;
+                            border           : 1px solid #aaa;
+                            user-select      : none;
                             @media ( max-width: 420px ) {
-                                min-height: 30px;
-                                padding: 5px 20px;
-                                font-size: 0.9em;
+                                min-height       : 30px;
+                                padding          : 5px 20px;
+                                font-size        : 0.9em;
                             }
                         }
                     }

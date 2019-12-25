@@ -46,10 +46,10 @@ export function paymentResult( pathname, query, data ) {
 // 訂單明細
 export function ordersInfo( pathname,query,data ){
     return(dispatch) => {
-        const initQuery= {};
-        const method= 'get';
-        const search= queryString.stringify({ ...initQuery, ...query });
-        const url= `${API()['myaccount']['orders']['info']}${search!=''? `?${search}`: ''}`;
+        const initQuery    = {};
+        const method       = 'get';
+        const search       = queryString.stringify({ ...initQuery, ...query });
+        const url          = `${API()['myaccount']['orders']['info']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res => {
             // 檢查 Response Object 有沒有 response key name;
@@ -70,6 +70,7 @@ export function ordersInfo( pathname,query,data ){
                 });
 
                 //return mergeData;
+
                 return {
                     ...res,
                     data: {

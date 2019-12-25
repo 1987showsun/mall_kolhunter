@@ -216,17 +216,12 @@ $userCoverMobile_W: 200px;
 }
 
 .product-item-figure{
-    width: 100%;
-    display: flex;
-    padding: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #f1f1f1;
-    $imgWPC : 140px;
-    $imgWMin: 150px;
-    $imgWMobile: 85px;
-    &:last-child{
-        margin-bottom: 0px;
-    }
+    width            : 100%;
+    display          : flex;
+    padding          : 5px;
+    $imgWPC          : 140px;
+    $imgWMin         : 150px;
+    $imgWMobile      : 85px;
     .img{
         width: $imgWPC;
         min-width: $imgWPC;
@@ -262,17 +257,17 @@ $userCoverMobile_W: 200px;
             }
         }
         .action{
-            width: 100px;
-            height: 100%;
-            display: flex;
-            padding: 10px 5px;
-            border-left: 1px solid #f1f1f1;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            z-index: 2;
-            top: 0px;
-            right: 0px;
+            width              : 70px;
+            height             : 100%;
+            display            : flex;
+            padding            : 10px 5px;
+            border-left        : 1px solid #f1f1f1;
+            align-items        : center;
+            justify-content    : center;
+            position           : absolute;
+            z-index            : 2;
+            top                : 0px;
+            right              : 0px;
             button{
                 &.remove{
                     background: #666;

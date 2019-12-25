@@ -7,6 +7,7 @@ import axios from 'axios';
 import API from './apiurl';
 import queryString from 'query-string';
 
+// 店舖資訊
 export function storeInfo( pathname,query={},data={} ) {
     return (dispatch) => {
 
@@ -18,18 +19,36 @@ export function storeInfo( pathname,query={},data={} ) {
         dispatch({
             type: "STORE_INFO",
             info: {
-                cover          : "",
-                photo          : "",
-                name           : "",
-                description    : ""
+                verified     : false,
+                celebName    : "",
+                celebToken   : "",
+                cover        : "", 
+                description  : "",
+                name         : "",
+                photo        : "",
+                modified     : 0,
+                salesAmount  : 0
             }
         });
 
         return Axios({method,url,data}).then(res=>{
             if( !res.hasOwnProperty('response') ){
+
+                const { verified, celebName, celebToken, cover, description, modified, name, photo, salesAmount } = res['data'];
+
                 dispatch({
                     type: "STORE_INFO",
-                    info: { ...res['data'] }
+                    info: {
+                        verified     : verified     || false,
+                        celebName    : celebName    || "",
+                        celebToken   : celebToken   || "",
+                        cover        : cover        || "", 
+                        description  : description  || "",
+                        name         : name         || "",
+                        photo        : photo        || "",
+                        modified     : modified     || 0,
+                        salesAmount  : salesAmount  || 0
+                    }
                 });
                 return res;
             }

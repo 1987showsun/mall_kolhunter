@@ -1,34 +1,40 @@
 .order-table-wrap{
-    width: 100%;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    position: relative;
+    width                          : 100%;
+    overflow                       : auto;
+    -webkit-overflow-scrolling     : touch;
+    position                       : relative;
     .order-table{
-        width: 100%;
-        display: table;
+        width                           : 100%;
+        display                         : table;
         >li{
-            min-height: 50px;
-            display: table-row;
-            >div{
-                min-height: 50px;
-                display: table-cell;
-                padding: 15px 10px;
-                align-items: center;
-                border-bottom: 1px solid #f0f2f5;
-                background: #fff;
-                word-wrap:break-word;
-                vertical-align: middle;
-                color: #5A6268;
-                font-weight: 400;
-                font-size: 0.8rem;
+            width: 100%;
+            min-height                      : 50px;
+            display                         : flex;
+            flex-direction: column;
+            figure{
+                width                            : 100%;
+                display                          : table-row;
+            }
+            div{
+                min-height                       : 50px;
+                display                          : table-cell;
+                padding                          : 15px 10px;
+                align-items                      : center;
+                border-bottom                    : 1px solid #f0f2f5;
+                background                       : #fff;
+                word-wrap                        : break-word;
+                vertical-align                   : middle;
+                color                            : #5A6268;
+                font-weight                      : 400;
+                font-size                        : 0.8rem;
                 &:last-child{
-                    width: 110px;
-                    min-width: 110px;
-                    max-width: 110px;
-                    background: #fff;
-                    position: sticky;
-                    z-index: 2;
-                    right: 0px;
+                    width                             : 110px;
+                    min-width                         : 110px;
+                    max-width                         : 110px;
+                    background                        : #fff;
+                    position                          : sticky;
+                    z-index                           : 2;
+                    right                             : 0px;
                 }
                 >img{
                     width: 100%;
@@ -74,12 +80,13 @@
                 }
             }
             &.order-head{
-                background: #FAFAFA;
-                white-space:nowrap;
-                font-weight: bold;
-                font-size: 1em;
-                position: sticky;
-                top: 0px;
+                display                 : table-row;
+                background              : #FAFAFA;
+                white-space             : nowrap;
+                font-weight             : bold;
+                font-size               : 1em;
+                position                : sticky;
+                top                     : 0px;
                 >div{
                     white-space:nowrap;
                     &.order-name{ width: 450px; }

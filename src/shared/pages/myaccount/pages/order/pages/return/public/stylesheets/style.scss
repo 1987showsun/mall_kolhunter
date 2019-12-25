@@ -1,0 +1,31 @@
+.cell-checkbox{
+    width    : 70px;
+    text-align: center;
+}
+.cell-image{
+    min-width: 50px;
+    max-width: 50px;
+    img{
+        width: 100%;
+    }
+}
+.cell-dosc{
+    min-width: 300px;
+    h3{
+        font-size    : 0.9rem;
+        margin-bottom: 5px;
+        a{
+            color                  : var(--blue);
+        }
+    }
+    ul{
+        display                : flex;
+        flex-wrap              : wrap;
+        font-size              : 0.8rem;
+        >li{
+            width                  : 50%;
+            padding                : 5px 0px;
+            display                : inline-flex;
+        }
+    }
+}

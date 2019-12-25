@@ -24,27 +24,35 @@ const Index = props => {
     const [ info   , setPayInfo]      = useState({});
 
     useEffect(()=>{
+
         const { location } = props;
         const { pathname, search } = location;
+        
+        
         props.dispatch( ordersInfo(pathname,queryString.parse(search)) ).then( res => {
             setPageLoading( false );
-            setPayInfo(res);
+            switch( res['status'] ){
+                case 200:
+                    setPayInfo(res['data']);
+                    break;
+
+                default:
+                    break;
+            }
         });
-    },[loading])
+    },[])
 
     return(
         <>
             <PayMethodInfo 
-                data= {info}
+                data    = {info}
             />
-
             <Receiving 
                 data    = {info}
             />
-
             <Product 
                 list    = {info['orderDetail'] || []}
-                amount  = {info['amount'] || 0}
+                amount  = {info['amount']      || 0}
             />
 
             <Loading loading={loading} />

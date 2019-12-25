@@ -16,7 +16,7 @@ import Item                  from './item';
 import Loading               from '../../../../../../module/loading/mallLoading';
 
 // Actions
-import { removeCartItem, updateCartProductItem, cartsCount } from '../../../../../../actions/myaccount';
+import { removeCartItem, cartsProductList, updateCartProductItem, cartsCount } from '../../../../../../actions/myaccount';
 
 // Lang
 import lang                  from '../../../../../../public/lang/lang.json';
@@ -26,18 +26,18 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            loading: false,
-            cartToken: props.cartToken,
-            cartTotalAmount: 0,
-            list : []
+            loading            : false,
+            cartToken          : props.cartToken,
+            cartTotalAmount    : 0,
+            list               : []
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return{
-            cartToken: props.cartToken,
-            cartTotalAmount: props.cartTotalAmount,
-            list: props.list
+            cartToken          : props.cartToken,
+            cartTotalAmount    : props.cartTotalAmount,
+            list               : props.list
         }
     }
 
@@ -53,11 +53,11 @@ class Index extends React.Component{
                         list.map( item => {
                             return(
                                 <Item 
-                                    key= {item['addTimeMs']} 
-                                    data= {item}
-                                    location= {location}
-                                    updateData= {this.updateData.bind(this)}
-                                    actionBtn= {this.removeItems.bind(this)}
+                                    key           = {item['addTimeMs']} 
+                                    data          = {item}
+                                    location      = {location}
+                                    updateData    = {this.updateData.bind(this)}
+                                    actionBtn     = {this.removeItems.bind(this)}
                                 />
                             )
                         })
@@ -74,16 +74,31 @@ class Index extends React.Component{
         );
     }
 
+    componentDidMount() {
+        this.setState({
+            loading: true
+        },()=>{
+            this.props.dispatch( cartsProductList() ).then( res => {
+                this.setState({
+                    loading: false
+                },()=>{
+                    switch( res['status'] ){
+                        case 200:
+                            break;
+                    }
+                })
+            });
+        });
+    }
+
     updateData = ( val ) => {
-        
-        const cartToken = localStorage.getItem('cartID');
         const data = {
-            cartToken: cartToken,
-            productToken: val['productToken'],
-            specToken: val['specToken'],
-            itemNumber: val['itemNum'],
-            storeID   : val['storeID'] || "",
-            productDeliveryID: val['productDeliveryID']
+            cartToken           : localStorage.getItem('cartID'),
+            productToken        : val['productToken'],
+            specToken           : val['specToken'],
+            itemNumber          : val['itemNum'],
+            storeID             : val['storeID'] || "",
+            productDeliveryID   : val['productDeliveryID']
         }
 
         this.setState({
@@ -94,28 +109,33 @@ class Index extends React.Component{
                     loading: false
                 })
             });
-        })
+        });
+
     }
 
     removeItems = ( method,selectedTtem ) => {
-        const cartToken                 = localStorage.getItem('cartID');
-        const { location }              = this.props;
-        const { pathname, search }      = location;
-        const { specToken, storeToken } = selectedTtem;
+        const cartToken            = localStorage.getItem('cartID');
+        const { location }         = this.props;
+        const { pathname, search } = location;
+        const { spec, storeToken } = selectedTtem;
 
         this.setState({
             loading: true
         },()=>{
             switch( method ){
                 case 'remove':
-                    const data = { cartToken, specToken, storeToken };
+                    const data = { 
+                        cartToken, 
+                        specToken : spec.map( item => item['specToken'] ),
+                        storeToken 
+                    };
                     this.props.dispatch( removeCartItem( pathname, queryString.parse(search), data ) ).then( res => {
                         this.setState({
                             loading: false
                         },()=>{
                             switch( res['status'] ){
                                 case 200:
-                                    this.props.dispatch( cartsCount() );
+                                    //this.props.dispatch( cartsCount() );
                                     break;
 
                                 default:
@@ -131,9 +151,9 @@ class Index extends React.Component{
 
 const mapStateToProps = state => {
     return{
-        cartToken: state.myaccount.cartToken,
-        cartTotalAmount: state.myaccount.cartTotalAmount,
-        list: state.myaccount.cartItems
+        cartToken          : state.myaccount.cartToken,
+        cartTotalAmount    : state.myaccount.cartTotalAmount,
+        list               : state.myaccount.cartItems
     }
 }
 

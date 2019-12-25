@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -77,7 +82,7 @@ class Nav extends React.Component{
         this.props.dispatch( getCartID() ).then( res => {
             switch( res['status'] ){
                 case 200:
-                    this.props.dispatch(cartsCount());
+                    //this.props.dispatch(cartsCount());
                     break;
             }
         });

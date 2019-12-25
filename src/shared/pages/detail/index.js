@@ -9,14 +9,20 @@ import { connect }                                 from 'react-redux';
 import { Helmet }                                  from "react-helmet";
 
 // Components
-import Cover                                       from './components/cover';
-import Description                                 from './components/description';
+import Cover                                       from './components/cover/';
+import Description                                 from './components/description/';
+
+// Modules
+import Popup                                       from '../../module/popup';
 
 // Actions
 import { ssrApproachProduct, mallApproachProduct } from '../../actions/categories';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
+
+// Images
+import up18 from '../../public/images/18up.png';
 
 class Index extends React.Component{
 
@@ -29,37 +35,14 @@ class Index extends React.Component{
         super(props);
         this.state = {
             imageData            : [],
-            info                 : {
-                token              : "",
-                name               : "",
-                celebrityNum       : 0,
-                images             : [],
-                description        : [],
-                delivery           : [],
-                spec               : [],
-                onSale             : false,
-                price              : 0,
-                sellPrice          : 0
-            }
+            info                 : {}
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return {
             imageData: props.images,
-            info: {
-                ...state.info,
-                token              : props.token,
-                name               : props.name,
-                celebrityNum       : props.celebrityNum,
-                images             : props.images,
-                description        : props.description,
-                delivery           : props.delivery,
-                spec               : props.spec,
-                onSale             : props.onSale,
-                price              : props.price,
-                sellPrice          : props.sellPrice
-            }
+            info     : props.info
         }
     }
 
@@ -67,10 +50,11 @@ class Index extends React.Component{
 
         const { location, match, history } = this.props;
         const { imageData, info }          = this.state;
-        const { description }              = info;
+        const { description, adult }       = info;
 
         return(
-            <React.Fragment>
+            <>
+
                 <Helmet encodeSpecialCharacters={false}>
                     <title>{`網紅電商 KOL Mall | 網紅來幫你賣 - ${info['name']}`}</title>
                     <meta name="keywords"                  content={`網紅電商,網紅獵人,找網紅就是快,幫你賣,電商,網購,網紅`} />
@@ -85,16 +69,17 @@ class Index extends React.Component{
                     <meta name="twitter:creator"           content="sun li" /> 
                     <meta name="twitter:image:src"         content={`${imageData.length>0? imageData[0]['path']:''}`} />
                 </Helmet>
+
                 <div className="row">
                     <section className="container detail-content" >
                         <div className="container-row">
                             {
                                 info['token']!=""? (
                                     <Cover 
-                                        match= {match}
-                                        history= {history}
-                                        location= {location}
-                                        data= {info}
+                                        match        = {match}
+                                        history      = {history}
+                                        location     = {location}
+                                        data         = {info}
                                     />
                                 ):(
                                     <div className="detail-cover-loading"> Loading... </div>
@@ -107,39 +92,53 @@ class Index extends React.Component{
                         />
                     </section>
                 </div>
-            </React.Fragment>
+                <Popup 
+                    className         = "adultsOnly18"
+                    popupStatus       = {typeof window !== 'undefined'? (sessionStorage.getItem('adultsOnly')||adult):(false) }
+                    returnPopupStatus = {()=> this.judgeOlder.bind(this,'no')}
+                >
+                    <div className="popup-head">
+                        <img src={up18} alt="" title="" />
+                    </div>
+                    <div className="popup-content">
+                        本區為限制級專區，如未滿18歲請儘速離開謝謝！！
+                    </div>
+                    <ul className="popup-action">
+                        <li><button className="on-the-shelf" onClick={this.judgeOlder.bind(this,'yes')}>我已滿18歲</button></li>
+                        <li><button className="in-the-shelf" onClick={this.judgeOlder.bind(this,'no')}>我未滿18歲</button></li>
+                    </ul>
+                </Popup>
+            </>
         );
     }
 
     componentDidMount() {
-        const { location, match } = this.props;
+        const { location, match }  = this.props;
         const { pathname, search } = location;
-        const query = {
-            ...queryString.parse( search ),
-            productToken: match['params']['id'] || ""
+        this.props.dispatch( ssrApproachProduct(pathname,{ ...queryString.parse(search), productToken: match['params']['id'] || "" }) );
+    }
+
+    judgeOlder = ( actionType ) => {
+        const { history } = this.props;
+        const { info }    = this.state;
+        switch(actionType){
+            case 'yes':
+                sessionStorage.setItem('adultsOnly',false);
+                this.setState({
+                    info : { ...info, adult : false }
+                });
+                break;
+
+            default:
+                history.goBack();
+                break;
         }
-        this.props.dispatch( mallApproachProduct( pathname, query ) ).then( res => {
-            this.setState({
-                info: {
-                    ...this.state.info,
-                    token: res['data']['token'],
-                    name: res['data']['name'],
-                    celebrityNum: res['data']['celebrityNum'],
-                    images: res['data']['images'],
-                    description: res['data']['description'],
-                    delivery: res['data']['delivery'],
-                    spec: res['data']['spec'],
-                    onSale: res['data']['onSale'],
-                    price: res['data']['price'],
-                    sellPrice: res['data']['sellPrice']
-                }
-            })
-        });
     }
 }
 
 const mapStateToProps = state => {
     return{
+        info : state.approach,
         ...state.approach
     }
 }

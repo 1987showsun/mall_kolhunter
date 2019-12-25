@@ -1,0 +1,75 @@
+.popup-wrap{
+    width           : 100%;
+    height          : 100%;
+    align-items     : center;
+    justify-content : center;
+    position        : fixed;
+    z-index         : 100;
+    top             : 0px;
+    left            : 0px;
+    &.false{
+        display: none;
+    }
+    &.true{
+        display: flex;
+    }
+    .popup-mask{
+        width              : 100%;
+        height             : 100%;
+        background         : rgba(0,0,0,.6);
+        position           : absolute;
+        z-index            : 1;
+        top                : 0px;
+        left               : 0px;
+    }
+    .popup-container{
+        width              : 100%;
+        max-width          : 680px;
+        min-height         : 50px;
+        display            : flex;
+        flex-direction     : column;
+        position           : relative;
+        z-index            : 2;
+        .popup-head,.popup-content,.popup-action{
+            width              : 100%;
+            display            : flex;
+            margin-bottom      : 15px;
+            &:last-child{
+                margin-bottom: 0px;
+            }
+        }
+        .popup-action{
+            justify-content: center;
+            >li{
+                display: inline-flex;
+                margin-right: 10px;
+                button{
+                    width: 120px;
+                    height: 35px;
+                }
+                &:last-child{
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+
+
+    &.adultsOnly18{
+        .popup-container{
+            .popup-head{
+                justify-content    : center;
+                img{
+                    width             : 35%;
+                    min-width         : 180px;
+                    display           : block;
+                }
+            }
+            .popup-content{
+                justify-content    : center;
+                font-size          : 1.1rem;
+                color              : #fff;
+            }
+        }
+    }
+}

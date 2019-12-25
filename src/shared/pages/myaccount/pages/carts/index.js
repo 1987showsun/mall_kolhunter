@@ -76,9 +76,9 @@ class Index extends React.Component{
                         <h3>購買清單</h3>
                     </div>
                     <ProductWrap 
-                        match= {match}
-                        history= {history}
-                        location= {location}
+                        match               = {match}
+                        history             = {history}
+                        location            = {location}
                     />
                 </section>
                 {/* <section className="container-unit">
@@ -93,10 +93,10 @@ class Index extends React.Component{
                     <div className="unit-head">
                         <h3>付款方式</h3>
                     </div>
-                    <Payment 
-                        match = {match}
-                        location = {location}
-                        returnHandleChange= {(val)=>{
+                    <Payment
+                        match               = {match}
+                        location            = {location}
+                        returnHandleChange  = {val => {
                             this.setState({
                                 paymentFormObject: val
                             });
@@ -154,8 +154,6 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
-        // 取得購物車商品
-        this.props.dispatch( cartsProductList() );
         // 取得使用者 IP
         axios({
             method: 'post',
@@ -244,8 +242,8 @@ class Index extends React.Component{
         const { location, history } = this.props;
         const { pathname, search }  = location;
         const { formObject, paymentFormObject, invoiceFormObject } = this.state;
-        const mergeFormObject     = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
-
+        const mergeFormObject       = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
+        console.log( mergeFormObject );
         this.setState({
             loading    : true,
             open       : false,

@@ -219,7 +219,8 @@
             "delivery": "運送方式",
             "size": "型號 / 尺寸 / 顏色",
             "buy quantity": "購買數量",
-            "by store": "購買店家"
+            "by store": "購買店家",
+            "combo": "組合"
         },
         "required": {
             "zipcode": "郵遞區號欄位不得為空",
@@ -453,7 +454,8 @@
             "delivery": "Delivery",
             "size": "Size / model / color",
             "buy quantity": "Quantity",
-            "by store": "By store"
+            "by store": "By store",
+            "combo": "Combo"
         },
         "required": {
             "zipcode": "Zipcode required",

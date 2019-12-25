@@ -7,6 +7,9 @@ import axios        from 'axios';
 import queryString  from 'query-string';
 import API          from './apiurl';
 
+// Actions
+import { cartsCount } from './myaccount';
+
 export function deliveries(pathname,query={},data={}){
     return (dispatch) => {
         const method   = 'get';
@@ -43,10 +46,11 @@ export function getCartID(){
                     if( !res.hasOwnProperty('response') ){
                         const cartID = res['data']['cart'];
                         localStorage.setItem('cartID',cartID);
+                        cartsCount()(dispatch);
                         return res;
                     }
                     return res['response'];
-                }).catch( err => err['response'] );
+                });
             }
         }
     }
@@ -98,12 +102,13 @@ export function mallDelivery(pathname,query={},data={}){
 }
 
 const Axios = ( api ) => {
+    const { method, url, data } = api;
     return axios({
-        method     : api['method'],
-        url        : api['url'],
-        data       : api['data'],
+        method,
+        url,
+        data,
         headers    : {
-            authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : '',
+            authorization: typeof window !== 'undefined'? (sessionStorage.getItem('jwt_account')||'') : ('')
         }
     });
 }

@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import Profile        from './pages/profile';
 import Carts          from './pages/carts';
 import Order          from './pages/order';

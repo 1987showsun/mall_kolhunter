@@ -23,12 +23,12 @@ const Index = props => {
             </div>
             <div className="cart-product-wrap">
                 {
-                    list.map( item => {
+                    list.map((item,i) => {
                         return(
                             <Item 
-                                key= {item['id']} 
-                                data= {item}
-                                location= {location}
+                                key         = {i} 
+                                data        = {item}
+                                location    = {location}
                             />
                         )
                     })

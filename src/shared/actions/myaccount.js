@@ -53,9 +53,9 @@ export function ainfoUpdate( pathname,query={},data={} ){
 export function updatePWD( data ){
     return(dispatch) => {
 
-        const method = 'put';
-        const url = API()['myaccount']['updatePWD'];
-        const token = sessionStorage.getItem('jwt_account');
+        const method   = 'put';
+        const url      = API()['myaccount']['updatePWD'];
+        const token    = sessionStorage.getItem('jwt_account');
 
         if( token!=null && token!=undefined && token!="" ){
             return Axios({ method,url,data:{...data} }).then(res => {
@@ -73,19 +73,22 @@ export function cartsProductList( pathname,query ){
     return(dispatch) => {
         if( typeof window !== 'undefined' ){
 
-            const cartToken = localStorage.getItem('cartID');
-            const initQuery= {};
-            const method= 'get';
-            const search= queryString.stringify({ ...initQuery, ...query, cartToken });
-            const url= `${API()['myaccount']['carts']}${search!=''? `?${search}`: ''}`;
+            const cartToken   = localStorage.getItem('cartID');
+            const initQuery   = {};
+            const method      = 'get';
+            const search      = queryString.stringify({ ...initQuery, ...query, cartToken });
+            const url         = `${API()['myaccount']['carts']}${search!=''? `?${search}`: ''}`;
             
             return Axios({ method,url,data:{} }).then(res => {
                 if( !res.hasOwnProperty('response') ){
+
+                    const { cartToken, totalAmount, items } = res['data'];
+
                     dispatch({
-                        type: "ACCOUNT_CART_ITEMS",
-                        cartToken: res['data']['cartToken'],
-                        cartTotalAmount: res['data']['totalAmount'],
-                        list: res['data']['items']
+                        type               : "ACCOUNT_CART_ITEMS",
+                        cartToken          : cartToken,
+                        cartTotalAmount    : totalAmount,
+                        list               : items
                     });
                     return res;
                 }
@@ -100,11 +103,12 @@ export function cartsProductList( pathname,query ){
 export function cartsCount( pathname,query ){
     return(dispatch) => {
         if( typeof window !== 'undefined' ){
+
             const cartToken = localStorage.getItem('cartID');
-            const initQuery= {};
-            const method= 'get';
-            const search= queryString.stringify({ ...initQuery, ...query, cartToken });
-            const url= `${API()['myaccount']['carts']}${search!=''? `?${search}`: ''}`;
+            const initQuery = {};
+            const method    = 'get';
+            const search    = queryString.stringify({ ...initQuery, ...query, cartToken });
+            const url       = `${API()['myaccount']['carts']}${search!=''? `?${search}`: ''}`;
             
             return Axios({ method,url,data:{} }).then(res => {
                 if( !res.hasOwnProperty('response') ){
@@ -131,11 +135,12 @@ export function removeCartItem( pathname,query,data ){
         
         return Axios({ method, url, data }).then(res => {
             if( !res.hasOwnProperty('response') ){
+                const { cartToken, totalAmount, items } = res['data'];
                 dispatch({
-                    type: "ACCOUNT_CART_ITEMS",
-                    cartToken: res['data']['cartToken'],
-                    cartTotalAmount: res['data']['totalAmount'],
-                    list: res['data']['items']
+                    type              : "ACCOUNT_CART_ITEMS",
+                    cartToken         : cartToken,
+                    cartTotalAmount   : totalAmount,
+                    list              : items
                 });
                 return res;
             }
@@ -156,11 +161,13 @@ export function updateCartProductItem( pathname,query,data ){
         return Axios({ method, url, data }).then(res => {
             if( !res.hasOwnProperty('response') ){
                 // 檢查 Response Object 有沒有 response key name
+                const { cartToken, totalAmount, items } = res['data'];
+
                 dispatch({
-                    type: "ACCOUNT_CART_ITEMS",
-                    cartToken: res['data']['cartToken'],
-                    cartTotalAmount: res['data']['totalAmount'],
-                    list: res['data']['items']
+                    type               : "ACCOUNT_CART_ITEMS",
+                    cartToken          : cartToken,
+                    cartTotalAmount    : totalAmount,
+                    list               : items
                 });
                 return res;
             }
@@ -174,41 +181,44 @@ export function updateCartProductItem( pathname,query,data ){
 export function ordersList( pathname,query,data ){
     return(dispatch) => {
 
-        const initQuery= {};
-        const method= 'get';
-        const search= queryString.stringify({ ...initQuery, ...query });
-        const url= `${API()['myaccount']['orders']['list']}${search!=''? `?${search}`: ''}`;
+        const initQuery   = {};
+        const method      = 'get';
+        const search      = queryString.stringify({ ...initQuery, ...query });
+        const url         = `${API()['myaccount']['orders']['list']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res => {
             if( !res.hasOwnProperty('response') ){
                 // 檢查 Response Object 有沒有 response key name
+                const { page, pages, total, list } = res['data'];
+                
 
-                const listSort = res['data']['list'].sort( (a, b) => {
-                    return Number(b['createTimeMs']) - Number(a['createTimeMs']);
-                }).map( item => {
-                    const orderDetail = item['orderDetail'].map( p_item => {
-                        return{ ...p_item, image: p_item['productImgs'][0]['path'] };
-                    })
-                    return {...item, orderDetail };
-                });
+                // const listSort = res['data']['list'].sort( (a, b) => {
+                //     return Number(b['createTimeMs']) - Number(a['createTimeMs']);
+                // }).map( item => {
+                //     const orderDetail = item['orderDetail'].map( p_item => {
+                //         return{ ...p_item, image: p_item['productImgs'][0]['path'] };
+                //     })
+                //     return {...item, orderDetail };
+                // });
 
-                dispatch({
-                    type: "ACCOUNT_ORDERS_STATUS",
-                    page: res['data']['page'],
-                    pages: res['data']['pages'],
-                    total: res['data']['total']
-                });
+                // dispatch({
+                //     type: "ACCOUNT_ORDERS_STATUS",
+                //     page: res['data']['page'],
+                //     pages: res['data']['pages'],
+                //     total: res['data']['total']
+                // });
 
-                dispatch({
-                    type: "ACCOUNT_ORDERS_LIST",
-                    list: listSort
-                });
-                return {
-                    page: res['data']['page'],
-                    pages: res['data']['pages'],
-                    total: res['data']['total'],
-                    list: listSort
-                };
+                // dispatch({
+                //     type: "ACCOUNT_ORDERS_LIST",
+                //     list: listSort
+                // });
+                // return {
+                //     page: res['data']['page'],
+                //     pages: res['data']['pages'],
+                //     total: res['data']['total'],
+                //     list: listSort
+                // };
+                return res;
             }
             return res['response'];
         });
@@ -219,27 +229,33 @@ export function ordersList( pathname,query,data ){
 // 訂單明細
 export function ordersInfo( pathname,query,data ){
     return(dispatch) => {
-        const initQuery= {};
-        const method= 'get';
-        const search= queryString.stringify({ ...initQuery, ...query });
-        const url= `${API()['myaccount']['orders']['info']}${search!=''? `?${search}`: ''}`;
+
+        const initQuery   = {};
+        const method      = 'get';
+        const search      = queryString.stringify({ ...initQuery, ...query });
+        const url         = `${API()['myaccount']['orders']['info']}${search!=''? `?${search}`: ''}`;
         
         return Axios({ method, url, data }).then(res => {
             // 檢查 Response Object 有沒有 response key name;
             if( !res.hasOwnProperty('response') ){
+                // // 商品圖片篩選第一張作為主圖
+                // const infoData  = res['data']['orderDetail'].map( p_item => {
+                //     return{ ...p_item, image: p_item['productImgs'][0]['path'] };
+                // })
+                // const mergeData = { ...res['data'], orderDetail: infoData };
 
-                // 商品圖片篩選第一張作為主圖
-                const infoData  = res['data']['orderDetail'].map( p_item => {
-                    return{ ...p_item, image: p_item['productImgs'][0]['path'] };
-                })
-                const mergeData = { ...res['data'], orderDetail: infoData };
+                // dispatch({
+                //     type: "ACCOUNT_ORDERS_INFO",
+                //     info: mergeData
+                // });
 
-                dispatch({
-                    type: "ACCOUNT_ORDERS_INFO",
-                    info: mergeData
-                });
+                // return mergeData;
 
-                return mergeData;
+                // dispatch({
+                //     type: "ACCOUNT_ORDERS_INFO",
+                //     info: mergeData
+                // });
+                return res;
             }
             return res['response'];
         }).catch( err => err['response']);
@@ -264,12 +280,15 @@ export function ordersRefund( pathname="",query={},data={} ){
 }
 
 const Axios = ( api ) => {
+
+    const { method, url, data } = api;
+
     return axios({
-        method: api['method'],
-        url: api['url'],
-        data: { ...api['data'], jwt_type: 'account'},
-        headers:{
-            authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : '',
+        method     : method,
+        url        : url,
+        data       : { ...data, jwt_type: 'account'},
+        headers    : {
+            authorization: typeof window !== 'undefined'? (sessionStorage.getItem('jwt_account')||'') : ('')
         }
     }).catch( error => {
         return error;

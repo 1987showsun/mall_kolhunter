@@ -14,60 +14,118 @@ import { faShoppingCart }                    from '@fortawesome/free-solid-svg-i
 // Components
 import Share                                 from './share';
 import Price                                 from './price';
+import Spec                                  from './spec';
 
 // Modules
-import CoverSlider                           from '../../../module/coverSlider';
-import Quantity                              from '../../../module/quantity';
-import OpenSelect                            from '../../../module/openSelect';
-import Loading                               from '../../../module/loading';
+import CoverSlider                           from '../../../../module/coverSlider';
+import Quantity                              from '../../../../module/quantity';
+import OpenSelect                            from '../../../../module/openSelect';
+import Loading                               from '../../../../module/loading';
 
 // Actions
-import { updateCartProductItem, cartsCount } from '../../../actions/myaccount';
-import { storeInfo }                         from '../../../actions/store';
+import { updateCartProductItem, cartsCount } from '../../../../actions/myaccount';
+import { storeInfo }                         from '../../../../actions/store';
 
 // Set
-import { main, sub }                         from '../public/set/slider';
+import { main, sub }                         from '../../public/set/slider';
 
 // Lang
-import lang                                  from '../../../public/lang/lang.json';
+import lang                                  from '../../../../public/lang/lang.json';
 
 // images
-import kolhunterlogo                         from '../../../public/images/kolhunter_logo.jpg';
+import kolhunterlogo                         from '../../../../public/images/kolhunter_logo.jpg';
 
 class Cover extends React.Component{
 
     constructor(props){
         super(props);
 
-        const { delivery, spec } = props['data'];
+        const { data } = props;
+        const { delivery, spec, images } = data;
         const productDeliveryID  = delivery.length!=0?   delivery[0]['productDeliveryID'] : "";
-        const specToken          = spec.length!=0?       spec[spec.findIndex( item => item['storage']!=0 )]['token'] : '';
 
         this.state = {
             lock                   : false,
-            data                   : props.data,
             storeLoading           : false,
             storeInfo              : {},
+            data                   : data,
+            imageData              : images.map( item => item['path'] ),
             formObject             : {
                 cartToken            : "",
-                productToken         : props.data['token'],
+                productToken         : data['token'],
                 productDeliveryID    : productDeliveryID,
-                specToken            : specToken,
+                specToken            : Object.keys(spec).map(keys => {
+                    const returnFindIndex = spec[keys].findIndex((item,i) => {
+                        if( item['storage']==0 ){
+                            return i+1;
+                        }
+                    });
+                    return spec[keys][returnFindIndex+1]['token'];
+                }),
                 itemNumber           : 1,
                 storeID              : ""
             },
-            imageData              : props.data['images'].map( item => item['path'] )
         }
+    }
+
+    static getDerivedStateFromProps( props,state ){
+        const stateData = state['data'];
+        const propsData = props['data'];
+        if( String(stateData['token'])!=String(propsData['token']) ){
+            const { delivery, spec, images } = propsData;
+            const productDeliveryID  = delivery.length!=0?   delivery[0]['productDeliveryID'] : "";
+            return{
+                data                   : propsData,
+                imageData              : images.map( item => item['path'] ),
+                formObject             : {
+                    cartToken            : "",
+                    productToken         : propsData['token'],
+                    productDeliveryID    : productDeliveryID,
+                    specToken            : Object.keys(spec).map(keys => {
+                        const returnFindIndex = spec[keys].findIndex((item,i,array) => {
+                            if( item['storage']==0 ){
+                                return i+1;
+                            }
+                        });
+                        return spec[keys][returnFindIndex+1]['token'];
+                    }),
+                    itemNumber           : 1,
+                    storeID              : ""
+                }
+            }
+        }
+        return null;
+    }
+
+    shouldComponentUpdate(nextProps, nextState){
+        const { data, formObject } = this.state;
+        const nextData             = nextState.data;
+        const nextFormObject       = nextState.formObject;
+        if( String(data['token'])!=String(nextData['token']) ){
+            return true;
+        }
+
+        if( formObject['specToken'].some( (item,i) => item==nextFormObject['specToken'][i] ) ){
+            return true;
+        }
+
+        return false;
     }
 
     render(){
 
         const { lock, data, imageData, storeLoading, storeInfo, formObject } = this.state;
+        const { spec }       = data;
         const { specToken }  = formObject;
-        const itemNumMax     = data['spec'].filter( item => item['token']==formObject['specToken'])[0]['storage'];
+
+        const itemNumMax     =  spec[0].find( item => {
+            if( item['token'] == specToken[0] ){
+                return item;
+            }
+        })['storage'];
 
         // 運送方式
-        const delivery = data['delivery'].map( item => {
+        const deliveryArray = data['delivery'].map( item => {
             return{
                 id         : item['productDeliveryID'],
                 value      : item['productDeliveryID'],
@@ -75,16 +133,6 @@ class Cover extends React.Component{
                 cost       : item['cost']
             }
         })
-
-        // 型號 / 尺寸
-        const spec = data['spec'].map( item => {
-            return{
-                id         : item['token'],
-                value      : item['token'],
-                name       : item['name'],
-                quantity   : item['storage']
-            }
-        });
 
         return(
             <section className="detail-cover-wrap">
@@ -117,7 +165,7 @@ class Cover extends React.Component{
                     <div className="detail-cover-row cover-select">
                         <label>{lang['zh-TW']['label']['delivery']}</label>                            
                         <OpenSelect 
-                            data         = {delivery}
+                            data         = {deliveryArray}
                             name         = "productDeliveryID"
                             initSelected = {formObject['productDeliveryID']}
                             returnForm   = { val => {
@@ -127,22 +175,22 @@ class Cover extends React.Component{
                             }}
                         />
                     </div>
-                    <div className="detail-cover-row cover-select">
-                        <label>{lang['zh-TW']['label']['size']}</label>
-                        <OpenSelect 
-                            data         = {spec}
-                            name         = "specToken"
-                            initSelected = {formObject['specToken']}
-                            returnForm   = { val => {
-                                this.setState({
-                                    formObject: { ...this.state.formObject, ...val }
-                                })
-                            }}
-                        />
-                    </div>
+                    <Spec
+                        data            = {data}
+                        formObject      = {formObject}
+                        returnSpecToken = {val => {
+                            this.setState({
+                                formObject: {
+                                    ...formObject,
+                                    val
+                                }
+                            })
+                        }}
+                    />
                     <div className="detail-cover-row cover-quantity">
                         <label>{lang['zh-TW']['label']['buy quantity']}</label>
-                        <Quantity 
+                        <Quantity
+                            initVal   = {1}
                             itemNumMax= { itemNumMax||0 }
                             returnForm= { val => {
                                 this.setState({
@@ -165,11 +213,17 @@ class Cover extends React.Component{
                     </div>
                     <div className="detail-cover-row cover-action">
                         <ul>
-                            <li className="add-cart-li"><button type="button" className="add-cart" disabled={lock} onClick={this.callCarts.bind(this,"add")}>
-                                <i><FontAwesomeIcon icon={faShoppingCart}/></i>
-                                {lang['zh-TW']['button']['add to cart']}</button>
+                            <li className="add-cart-li">
+                                <button type="button" className="add-cart" disabled={lock} onClick={this.callCarts.bind(this,"add")}>
+                                    <i><FontAwesomeIcon icon={faShoppingCart}/></i>
+                                    {lang['zh-TW']['button']['add to cart']}
+                                </button>
                             </li>
-                            <li className="direct-purchase-li"><button type="button" className="direct-purchase" disabled={lock} onClick={this.callCarts.bind(this,"direct")}>{lang['zh-TW']['button']['buy now']}</button></li>
+                            <li className="direct-purchase-li">
+                                <button type="button" className="direct-purchase" disabled={lock} onClick={this.callCarts.bind(this,"direct")}>
+                                    {lang['zh-TW']['button']['buy now']}
+                                </button>
+                            </li>
                         </ul>
                     </div>
                 </section>
@@ -182,22 +236,22 @@ class Cover extends React.Component{
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { search } = this.props.location;
-        const prevSearch = prevProps.location.search;
-        const searchObject = queryString.parse(search);
-        const prevSearchObject = queryString.parse(prevSearch);
-        const store = searchObject['store'] || null;
-        const prevStore = prevSearchObject['store'] || null;
+        const { search }          = this.props.location;
+        const prevSearch          = prevProps.location.search;
+        const searchObject        = queryString.parse(search);
+        const prevSearchObject    = queryString.parse(prevSearch);
+        const store               = searchObject['store'] || null;
+        const prevStore           = prevSearchObject['store'] || null;
         if( store!=prevStore ){
             this.callStoreInfoAPI();
         }
     }
 
     callStoreInfoAPI = () => {
-        const { location } = this.props;
+        const { location }         = this.props;
         const { pathname, search } = location;
-        const searchObject = queryString.parse(search);
-        const store = searchObject['store'] || null;
+        const searchObject         = queryString.parse(search);
+        const store                = searchObject['store'] || null;
         if( store ){
             this.setState({
                 storeLoading: true,
@@ -285,7 +339,7 @@ class Cover extends React.Component{
                     })
                 });
             });
-        })
+        });
     }
 }
 

@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React           from 'react';
 import { connect }     from 'react-redux';
 import CurrencyFormat  from 'react-currency-format';
@@ -161,7 +166,9 @@ class Order extends React.Component{
 }
 
 const mapStateToProps = state => {
-
+    return{
+        
+    }
 }
 
 export default connect(mapStateToProps)(Order);

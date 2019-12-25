@@ -14,7 +14,7 @@ export default class Index extends React.Component{
             name: name,
             data: props.data || [],
             formObject: {
-                [name]: props.initSelected
+                [name]: props.initSelected || ''
             }
         }
     }

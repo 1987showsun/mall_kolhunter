@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React                       from 'react';
 import dayjs                       from 'dayjs'
 import { Link }                    from 'react-router-dom';

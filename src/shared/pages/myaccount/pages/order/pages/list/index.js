@@ -37,14 +37,14 @@ class Index extends React.Component{
 
         const { location, history } = this.props;
         const { current, total, loading, list } = this.state;
-        const { search } = location;
-
+        const { search }            = location;
 
         return(
             <React.Fragment>
                 {
                     list.length!=0? (
                         list.map( item => {
+                            console.log('item',item);
                             return <Items key={item['orderID']} {...item}/>
                         })
                     ):(
@@ -106,10 +106,27 @@ class Index extends React.Component{
             this.props.dispatch( ordersList(pathname,queryString.parse(search)) ).then( res => {
                 this.setState({
                     loading    : false,
-                    current    : res['page'],
-                    total      : res['total'],
-                    list       : res['list']
+                },()=>{
+                    switch( res['status'] ){
+                        case 200:
+                            const { page, pages, total, list } = res['data'];
+                            this.setState({
+                                current    : page,
+                                total      : total,
+                                list       : list
+                            })
+                            break;
+
+                        default:
+                            break;
+                    }
                 })
+                // this.setState({
+                //     loading    : false,
+                //     current    : res['page'],
+                //     total      : res['total'],
+                //     list       : res['list']
+                // })
             });
         })
     }

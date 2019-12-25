@@ -60,9 +60,9 @@ class Index extends React.Component{
 
         const { match, location, history } = this.props;
         const { coverLoading, productLoading, current, total, limit, info, list } = this.state;
-        const { search } = location;
-        const url   = typeof window!="undefined"? window.location.href:'';
-        const store = match['params']['id'];
+        const { search }                   = location;
+        const url                          = typeof window!="undefined"? window.location.href:'';
+        const store                        = match['params']['id'];
 
         return(
             <React.Fragment>

@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 // 訂購 ＆ 收件 人
 import React from 'react';
 import { connect } from 'react-redux';
@@ -88,10 +93,10 @@ class Index extends React.Component{
     }
 }
 
-const mapStateToprops = state => {
+const mapStateToProps = state => {
     return{
         accountInfo: state.myaccount.info
     }
 }
 
-export default connect( mapStateToprops )( Index );
+export default connect( mapStateToProps )( Index );

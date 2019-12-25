@@ -23,7 +23,8 @@ class Index extends React.Component{
 
     render(){
 
-        const { formObject } = this.state;
+        const { match, location, cartTotalAmount } = this.props;
+        const { formObject }      = this.state;
 
         return(
             <React.Fragment>
@@ -44,8 +45,9 @@ class Index extends React.Component{
                                 {
                                     formObject['payMethod'] == 'cc' &&
                                         <Card 
-                                            match = {this.props.match}
-                                            location = {this.props.location}
+                                            match              = {match}
+                                            location           = {location}
+                                            cartTotalAmount    = {cartTotalAmount}
                                             returnHandleChange = {this.returnCardInfo.bind(this)}
                                         />
                                 }
@@ -88,11 +90,12 @@ class Index extends React.Component{
     returnHandleChange = () => {
         if( this.props.returnHandleChange!=undefined ){
             const { formObject } = this.state;
-            const { payMethod } = formObject;
+            const { payMethod }  = formObject;
             if( payMethod!='cc' ){
                 delete formObject['cardno'];
                 delete formObject['cvc'];
                 delete formObject['exp'];
+                delete formObject['Inst'];
             }
             this.props.returnHandleChange(formObject);
         }
@@ -101,7 +104,7 @@ class Index extends React.Component{
 
 const mapStateToProps = state => {
     return{
-
+        cartTotalAmount : state.myaccount.cartTotalAmount
     }
 }
 

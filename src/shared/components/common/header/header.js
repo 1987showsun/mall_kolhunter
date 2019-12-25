@@ -209,8 +209,11 @@ class Header extends React.Component{
                 });
             }
             this.props.dispatch( getCartID() );
+            const cartID = localStorage.getItem('cartID')!=null? localStorage.getItem('cartID'):null;
+            if( cartID!=null ){
+                this.props.dispatch( cartsCount() );
+            }
         }
-        this.props.dispatch(cartsCount());
     }
 }
 

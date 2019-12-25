@@ -9,6 +9,7 @@ import { Link }                          from 'react-router-dom';
 
 // Images
 import nullImages                        from '../../public/images/init/420x420initBlockImages.jpg';
+import up18                              from '../../public/images/18up.png';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -58,14 +59,20 @@ export default class ProductItem extends React.Component{
     render(){
 
         const { path, data }       = this.state;
-        const { name, image, price, sellPrice } = data;
+        const { name, image, price, sellPrice, adult } = data;
         const discount             = ((Number(sellPrice)/Number(price))*10).toFixed(1);
 
         return(
             <figure className="card">
                 <div className="img">
                     <Link to={path || ""}></Link>
-                    <img src={image} alt={name} title="" />
+                    {
+                        adult &&
+                            <div className="adult-mask">
+                                <img src={up18} alt={name} title="" />
+                            </div>
+                    }
+                    <img className={`blur ${adult}`} src={image} alt={name} title="" />
                     {
                         Math.floor(price)!=Math.floor(sellPrice) &&
                             <div className="discount"><span>{discount}折</span></div>

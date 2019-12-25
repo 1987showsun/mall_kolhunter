@@ -950,3 +950,9 @@ figure{
         color       : var(--orange);
     }
 }
+
+.blur{
+    &.true{
+        filter: blur(5px);
+    }
+}

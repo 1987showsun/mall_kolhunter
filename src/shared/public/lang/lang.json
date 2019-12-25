@@ -1,5 +1,6 @@
 {
     "zh-TW": {
+        "combined goods": "組合性商品",
         "delete": "刪除",
         "product": "商品",
         "Commodity management": "商品管理",
@@ -94,6 +95,8 @@
             "go to the login page": "前往登入頁"
         },
         "note": {
+            "successfully deleted": "刪除成功",
+            "failed to delete" : "刪除失敗",
             "file exceeds 300KB size limit": "檔案大小超過 300KB",
             "pay checkcode error": "付款失敗",
             "nickname required": "暱稱必填",
@@ -236,6 +239,7 @@
         }
     },
     "en": {
+        "combined goods": "組合性商品",
         "delete": "Delete",
         "product": "product",
         "Commodity management": "Commodity management",
@@ -330,6 +334,8 @@
             "go to the login page": "Go to the login page"
         },
         "note": {
+            "successfully deleted": "Successfully deleted",
+            "failed to delete" : "Failed to delete",
             "file exceeds 300KB size limit": "File exceeds 300KB size limit",
             "pay checkcode error": "Pay checkcode error",
             "nickname required": "Nickname required",

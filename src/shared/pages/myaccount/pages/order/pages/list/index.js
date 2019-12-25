@@ -44,7 +44,6 @@ class Index extends React.Component{
                 {
                     list.length!=0? (
                         list.map( item => {
-                            console.log('item',item);
                             return <Items key={item['orderID']} {...item}/>
                         })
                     ):(

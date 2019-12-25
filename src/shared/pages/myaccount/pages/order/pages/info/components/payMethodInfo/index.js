@@ -13,9 +13,9 @@ import OtherInfo                     from './otherInfo';
 // Lang
 import lang                          from '../../../../../../../../public/lang/lang.json';
 
-const PayMethodInfo = props => {
+const PayMethodInfo = ({data, tableBodyData}) => {
 
-    const { data, tableBodyData, createTimeMs } = props;
+    const { orderID, orderStatus, createTimeMs, payMethod } = data;
 
     return(
         <section className="container-unit">
@@ -25,11 +25,11 @@ const PayMethodInfo = props => {
             <ul className="card-form-list">
                 <li>
                     <label>訂單編號</label>
-                    <div>{data['orderID']}</div>
+                    <div>{orderID}</div>
                 </li>
                 <li>
                     <label>訂單狀態</label>
-                    <div>{lang['zh-TW']['orderStatus'][data['orderStatus']]}</div>
+                    <div><span className={`orderStatus ${orderStatus}`}>{lang['zh-TW']['orderStatus'][orderStatus]}</span></div>
                 </li>
                 <li>
                     <label>訂購數量</label>
@@ -41,7 +41,7 @@ const PayMethodInfo = props => {
                 </li>
                 <li>
                     <label>付款方式</label>
-                    <div>{lang['zh-TW']['payment'][data['payMethod']]}</div>
+                    <div>{lang['zh-TW']['payment'][payMethod]}</div>
                 </li>
                 <OtherInfo 
                     data= {data}

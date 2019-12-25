@@ -4,22 +4,23 @@
  */
 
 // 產品列表
-import React                 from 'react';
-import queryString           from 'query-string';
-import { connect }           from 'react-redux';
-import CurrencyFormat        from 'react-currency-format';
+import React                                 from 'react';
+import toaster                               from 'toasted-notes';
+import queryString                           from 'query-string';
+import { connect }                           from 'react-redux';
+import CurrencyFormat                        from 'react-currency-format';
 
 // Components
-import Item                  from './item';
+import Item                                  from './item';
 
 // Modules
-import Loading               from '../../../../../../module/loading/mallLoading';
+import Loading                               from '../../../../../../module/loading/mallLoading';
 
 // Actions
 import { removeCartItem, cartsProductList, updateCartProductItem, cartsCount } from '../../../../../../actions/myaccount';
 
 // Lang
-import lang                  from '../../../../../../public/lang/lang.json';
+import lang                                  from '../../../../../../public/lang/lang.json';
 
 class Index extends React.Component{
 
@@ -53,7 +54,7 @@ class Index extends React.Component{
                         list.map( item => {
                             return(
                                 <Item 
-                                    key           = {item['addTimeMs']} 
+                                    key           = {item['itemCode']} 
                                     data          = {item}
                                     location      = {location}
                                     updateData    = {this.updateData.bind(this)}
@@ -81,24 +82,22 @@ class Index extends React.Component{
             this.props.dispatch( cartsProductList() ).then( res => {
                 this.setState({
                     loading: false
-                },()=>{
-                    switch( res['status'] ){
-                        case 200:
-                            break;
-                    }
-                })
+                });
             });
         });
     }
 
     updateData = ( val ) => {
+
+        const { productToken, specToken, itemCode, itemNum, storeID="", productDeliveryID } = val;
         const data = {
             cartToken           : localStorage.getItem('cartID'),
-            productToken        : val['productToken'],
-            specToken           : val['specToken'],
+            productToken,
+            specToken,
+            itemCode            : itemCode,
+            storeID,
+            productDeliveryID,
             itemNumber          : val['itemNum'],
-            storeID             : val['storeID'] || "",
-            productDeliveryID   : val['productDeliveryID']
         }
 
         this.setState({
@@ -114,20 +113,22 @@ class Index extends React.Component{
     }
 
     removeItems = ( method,selectedTtem ) => {
-        const cartToken            = localStorage.getItem('cartID');
-        const { location }         = this.props;
-        const { pathname, search } = location;
-        const { spec, storeToken } = selectedTtem;
+        const cartToken                       = localStorage.getItem('cartID');
+        const { location }                    = this.props;
+        const { pathname, search }            = location;
+        const { itemCode=null, storeToken }   = selectedTtem;
+        let   status                          = 'failure';
+        let   status_text                     = lang['zh-TW']['note']['failed to delete'];
 
         this.setState({
             loading: true
         },()=>{
             switch( method ){
                 case 'remove':
-                    const data = { 
+                    const data     = { 
                         cartToken, 
-                        specToken : spec.map( item => item['specToken'] ),
-                        storeToken 
+                        storeToken,
+                        itemCode     : itemCode!=null? [itemCode] : itemCode
                     };
                     this.props.dispatch( removeCartItem( pathname, queryString.parse(search), data ) ).then( res => {
                         this.setState({
@@ -135,12 +136,17 @@ class Index extends React.Component{
                         },()=>{
                             switch( res['status'] ){
                                 case 200:
-                                    //this.props.dispatch( cartsCount() );
-                                    break;
-
-                                default:
+                                    status      = "success";
+                                    status_text = lang['zh-TW']['note']['successfully deleted'];
+                                    this.props.dispatch( cartsCount() );
                                     break;
                             }
+                            toaster.notify(
+                                <div className={`toaster-status ${status}`}>{status_text}</div>
+                            ,{
+                                position: 'bottom-right',
+                                duration: 3000
+                            })
                         })
                     });
                     break;

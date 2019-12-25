@@ -19,7 +19,6 @@ import { ordersInfo }                       from '../../../../../../actions/myac
 
 const Index = props => {
 
-    const [ createTimeMs, setCreateTimeMs ] = useState('');
     const [ loading     , setPageLoading ]  = useState(true);
     const [ info        , setPayInfo]       = useState({});
     
@@ -63,7 +62,6 @@ const Index = props => {
             <PayMethodInfo 
                 data         = { info }
                 tableBodyData= { info['orderDetail'] || [] }
-                createTimeMs = { createTimeMs }
             />
             <Receiving 
                 data         = { info }

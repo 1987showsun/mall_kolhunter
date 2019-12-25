@@ -19,13 +19,14 @@ class Item extends React.Component{
     constructor(props){
         super(props);
 
-        const { spec, productToken, productDeliveryID, storeToken, itemNum }  = props.data;
+        const { spec, productToken, productDeliveryID, storeToken, itemCode, itemNum }  = props.data;
 
         this.state = {
             itemNumMax           : 10,
             formObject           : {
                 specToken          : spec.map(item => item['specToken']),
                 productToken       : productToken,
+                itemCode           : itemCode,
                 productDeliveryID  : productDeliveryID,
                 storeID            : storeToken,
                 itemNum            : itemNum

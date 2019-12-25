@@ -3,32 +3,32 @@
 @import './popup.scss';
 
 :root {
-    --bg: #F0F2F5;
-    --blue: #007bff;
-    --indigo: #6610f2;
-    --purple: #6f42c1;
-    --pink: #e83e8c;
-    --red: #dc3545;
-    --orange: #fd7e14;
-    --yellow: #ffc107;
-    --green: #28a745;
-    --teal: #20c997;
-    --cyan: #17a2b8;
-    --white: #fff;
-    --gray: #6c757d;
-    --gray-dark: #343a40;
-    --primary: #007bff;
-    --secondary: #6c757d;
-    --success: #28a745;
-    --info: #17a2b8;
-    --warning: #ffc107;
-    --danger: #dc3545;
-    --light: #f8f9fa;
-    --dark: #343a40;
-    --main: #F6102D;
-    --cancel: #e0e1e2;
-    --blockTitle: #F6102D;
-    --content: #979BA7;
+    --bg                  : #F0F2F5;
+    --blue                : #007bff;
+    --indigo              : #6610f2;
+    --purple              : #6f42c1;
+    --pink                : #e83e8c;
+    --red                 : #dc3545;
+    --orange              : #fd7e14;
+    --yellow              : #ffc107;
+    --green               : #28a745;
+    --teal                : #20c997;
+    --cyan                : #17a2b8;
+    --white               : #fff;
+    --gray                : #6c757d;
+    --gray-dark           : #343a40;
+    --primary             : #007bff;
+    --secondary           : #6c757d;
+    --success             : #28a745;
+    --info                : #17a2b8;
+    --warning             : #ffc107;
+    --danger              : #dc3545;
+    --light               : #f8f9fa;
+    --dark                : #343a40;
+    --main                : #F6102D;
+    --cancel              : #e0e1e2;
+    --blockTitle          : #F6102D;
+    --content             : #979BA7;
 }
 
 ul{
@@ -884,5 +884,69 @@ figure{
     }
     &.false{
         background: var(--content);
+    }
+}
+
+.orderStatus{
+    height           : 30px;
+    display          : flex;
+    align-items      : center;
+    padding          : 5px 10px;
+    font-size        : 0.8rem;
+    font-weight      : bold;
+    color            : #fff;
+    border-radius    : 4px;
+    user-select      : none;
+    &.init{
+        background       : var(--red);
+    }
+    &.paid{
+        background       : var(--green);
+    }
+    &.payfailure{
+        background       : var(--orange);
+    }
+}
+
+.deliveryStatus{
+    height           : 30px;
+    display          : flex;
+    align-items      : center;
+    justify-content  : center;
+    padding          : 5px 10px;
+    font-weight      : bold;
+    border-radius    : 4px;
+    user-select      : none;
+    &.init{
+        color       : var(--main);
+    }
+    &.prepare{
+        color       : var(--orange);
+    }
+    &.ontheway{
+        color       : var(--orange);
+    }
+    &.arrived{
+        color       : var(--green);
+    }
+}
+
+.refundStatus{
+    height           : 30px;
+    display          : flex;
+    align-items      : center;
+    justify-content  : center;
+    padding          : 5px 10px;
+    font-weight      : bold;
+    border-radius    : 4px;
+    user-select      : none;
+    &.none {
+        color       : var(--green);
+    }
+    &.request, &.delivery, &.approve, &.recived, &.reject, &.waitting {
+        color       : var(--main);
+    }
+    &.done{
+        color       : var(--orange);
     }
 }

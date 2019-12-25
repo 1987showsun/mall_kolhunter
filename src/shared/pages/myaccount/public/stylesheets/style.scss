@@ -241,14 +241,15 @@ $userCoverMobile_W: 200px;
         flex-direction: column;
         position: relative;
         h3{
-            font-size: 1rem;
-            display: -webkit-box;
-            max-height: 45px;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: normal;
-            -webkit-line-clamp: 2;
+            max-height              : 45px;
+            margin-bottom           : 10px;
+            font-size               : 1rem;
+            display                 : -webkit-box;
+            -webkit-box-orient      : vertical;
+            overflow                : hidden;
+            text-overflow           : ellipsis;
+            white-space             : normal;
+            -webkit-line-clamp      : 2;
             a { 
                 color: var(--primary);
                 &:hover{
@@ -441,6 +442,17 @@ $userCoverMobile_W: 200px;
             position: absolute;
             right: 10px;
         }
+        .orderStatus{
+            &.init{
+                background       : var(--red);
+            }
+            &.paid{
+                background       : var(--green);
+            }
+            &.payfailure{
+
+            }
+        }
     }
     .order-info-switch{
         display: none;
@@ -472,8 +484,7 @@ $userCoverMobile_W: 200px;
 }
 
 .order-action-wrap{
-    width: 100%;
-    margin-top: 10px;
+    width                : 100%;
     ul{
         display: flex;
         justify-content: flex-end;
@@ -496,6 +507,10 @@ $userCoverMobile_W: 200px;
             color: #fff;
             cursor: pointer;
         }
+    }
+    @media ( min-width: 421px ) {
+        border-top     : 1px solid #f2f2f2;
+        padding-top    : 10px;
     }
     @media ( max-width: 420px ) {
         margin: 15px 0px 5px 0px;

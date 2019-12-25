@@ -10,7 +10,10 @@ import { FontAwesomeIcon }         from '@fortawesome/react-fontawesome';
 import { faPlus, faInfoCircle, faUndoAlt, faCommentDots }from '@fortawesome/free-solid-svg-icons';
 
 // Components
-import TableOrder                  from '../../../../../../components/orderProductTable';
+import ProductItems                from './product';
+
+// Modules
+import Table                       from '../../../../../../module/table-new';
 
 // Lang
 import lang                        from '../../../../../../public/lang/lang.json';
@@ -26,7 +29,7 @@ export default class Items extends React.Component{
 
     render(){
 
-        const { refundAble } = this.state;
+        const { refundAble, orderDetail, orderStatus } = this.state;
 
         return(
             <section className="container-unit">
@@ -35,10 +38,10 @@ export default class Items extends React.Component{
                     <label htmlFor={this.state.orderID} className="order-info-label">
                         <ul>
                             <li>
-                                <span className="lable">訂單編號</span>{this.state.orderID}
+                                <span className={`orderStatus ${orderStatus}`}>{lang['zh-TW']['orderStatus'][orderStatus]}</span>
                             </li>
                             <li>
-                                <span className="lable">付款狀態</span>{lang['zh-TW']['orderStatus'][this.state.orderStatus]}
+                                <span className="lable">訂單編號</span>{this.state.orderID}
                             </li>
                         </ul>
                         <i className="icon">
@@ -60,9 +63,14 @@ export default class Items extends React.Component{
                         </li>
                     </ul>
                 </div>
-                <TableOrder 
-                    tableBodyData= {this.state.orderDetail}
-                />
+                <Table>
+                    {
+                        orderDetail.map((item,i) => {
+                            const { itemCode=i } = item;
+                            return <ProductItems key={itemCode} {...item} />
+                        })
+                    }
+                </Table>
                 <div className="order-action-wrap">
                     <ul>
                         <li><Link to={`/myaccount/orders/info/${this.state.orderID}`}><i><FontAwesomeIcon icon={faInfoCircle}/></i>購買明細</Link></li>

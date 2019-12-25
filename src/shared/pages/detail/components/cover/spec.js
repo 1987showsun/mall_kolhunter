@@ -11,7 +11,7 @@ import lang                                  from '../../../../public/lang/lang.
 export default (props) => {
 
     const { formObject, data } = props;
-    const { delivery, spec, adult, combo, onSale } = data;
+    const { spec, combo }      = data;
 
     return(
         <>

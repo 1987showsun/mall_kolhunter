@@ -72,16 +72,18 @@ export default class Card extends React.Component{
                     <li>
                         <label>到期時間</label>
                         <div>
-                            <CurrencyFormat value={ formObject['exp'] } format={this.cardExpiry} placeholder="MM/YY" onValueChange={ value => {
-                                const valueArray = value['formattedValue'].split('/');
-                                const YY = valueArray[1]!=undefined? (valueArray[1].length<2? `0${valueArray[1]}`:valueArray[1]):'01';
-                                const MM = valueArray[0]!=undefined? (valueArray[0].length<2? `0${valueArray[0]}`:valueArray[0]):'01';
-                                this.setState({
-                                    formObject: { ...formObject, exp: value['value'], reExp: `${YY}${MM}`}
-                                },()=>{
-                                    this.returnHandleChange();
-                                })
-                            }}/>
+                            <div className="input-box">
+                                <CurrencyFormat value={ formObject['exp'] } format={this.cardExpiry} placeholder="MM/YY" onValueChange={ value => {
+                                    const valueArray = value['formattedValue'].split('/');
+                                    const YY = valueArray[1]!=undefined? (valueArray[1].length<2? `0${valueArray[1]}`:valueArray[1]):'01';
+                                    const MM = valueArray[0]!=undefined? (valueArray[0].length<2? `0${valueArray[0]}`:valueArray[0]):'01';
+                                    this.setState({
+                                        formObject: { ...formObject, exp: value['value'], reExp: `${YY}${MM}`}
+                                    },()=>{
+                                        this.returnHandleChange();
+                                    })
+                                }}/>
+                            </div>
                         </div>
                     </li>
                     <li>

@@ -1,8 +1,17 @@
 .table-new{
     width                      : 100%;
     display                    : flex;
+    flex-direction             : column;
     overflow                   : auto;
+    .table-new-null{
+        width                      : 100%;
+        padding                    : 20px 0px;
+        text-align                 : center;
+        font-size                  : 0.8rem;
+        color                      : #ccc;
+    }
 }
+
 .table-new-wrap{
     width                      : 100%;
     display                    : table;
@@ -11,20 +20,36 @@
     position                   : relative;
     border-collapse            : collapse;
     .table-new-row{
-        height: 100%;
+        height                     : 100%;
         display                    : table-row;
         border-bottom              : 1px solid #f2f2f2;
+        font-size                  : 0.8rem;
         >div{
             height                     : 100%;
-            padding                    : 5px 15px;
+            padding                    : 15px 15px;
             display                    : table-cell;
             vertical-align             : middle;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space                : nowrap;
+            overflow                   : hidden;
+            text-overflow              : ellipsis;
         }
         &:last-child{
             border-bottom              : none;
+        }
+        &.table-new-thead{
+            font-size                  : 0.9rem;
+            font-weight                : bold;
+            background                 : #FAFAFA;
+            color                      : #5A6268;
+            border-bottom              : 1px solid #f0f2f5;
+        }
+        .table-new-cell{
+            &.text-right{
+                text-align: right;
+            }
+            &.text-center{
+                text-align: center;
+            }
         }
     }
 

@@ -170,35 +170,40 @@ export function vinfo( method, formObject ){
 export function orderList( pathname,query,data={} ) {
     return (dispatch) => {
 
-        const initQuery = {
+        const initQuery      = {
             page: 1
         };
-        const method = 'get';
-        const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API()['myvendor']['order']['list']}${search!=""? `?${search}`:""}`;
+        const method         = 'get';
+        const search         = queryString.stringify({ ...initQuery, ...query });
+        const url            = `${API()['myvendor']['order']['list']}${search!=""? `?${search}`:""}`;
 
         return Axios({method,url,data}).then( res => {
             if( !res.hasOwnProperty('response') ){
 
-                const list = res['data']['list'].map( item => {
-                    return {
-                        id: item['orderID'],
-                        orderer: item['orderName'],
-                        deliveryName: item['deliveryName'],
-                        quantity: item['orderDetail'].length,
-                        status: lang['zh-TW']['orderStatus'][item['orderStatus']],
-                        createdate: dayjs(item['orderTimeMs']).format('YYYY/MM/DD')
-                    }
-                })
+                const { total, list, TotalAmount } = res['data'];
 
                 dispatch({
-                    type: "VENDOR_ORDERS_STATUS",
-                    total: res['data']['total'],
-                    totalAmount: res['data']['TotalAmount']
-                })
+                    type          : "VENDOR_ORDERS_STATUS",
+                    total         : total,
+                    totalAmount   : TotalAmount
+                });
+
                 dispatch({
-                    type: "VENDOR_ORDERS_LIST",
-                    list: list
+                    type          : "VENDOR_ORDERS_LIST",
+                    list          : list.map( item => {
+                        const { orderStatus, orderDetail } = item;
+                        let   amount = 0;
+                        orderDetail.map(orderItem => {
+                            amount = amount + orderItem['amount'];
+                        })
+
+                        return {
+                            ...item,
+                            amount       : amount,
+                            statusText   : lang['zh-TW']['orderStatus'][orderStatus],
+                            createdate   : dayjs(item['orderTimeMs']).format('YYYY / MM / DD')
+                        }
+                    })
                 })
                 return res;
             }
@@ -269,20 +274,22 @@ export function orderDownload( pathname,query,data={} ) {
 // 帳務列表
 export function incListAccount( pathname="", query={}, data={} ) {
     return (dispatch) => {
-        const YYYY   = dayjs().format('YYYY');
-        const MM     = dayjs().format('MM');
-        const DD     = dayjs().format('DD');
-        const year   = String(YYYY);
-        const month  = String(DD<=15? MM-1 : MM);
-        const period = month==String(MM)? '1': '2';
-        const method = 'get';
-        const initQuery = {
-            year   : year,
-            month  : month,
-            period : period
+
+        const YYYY        = dayjs().format('YYYY');
+        const MM          = dayjs().format('MM');
+        const DD          = dayjs().format('DD');
+        const year        = String(YYYY);
+        const month       = String(DD<=15? MM-1 : MM);
+        const period      = month==String(MM)? '1': '2';
+        const method      = 'get';
+        const initQuery   = {
+            year            : year,
+            month           : month,
+            period          : period
         };
-        const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API()['myvendor']['account']['list']}${search!=""? `?${search}`:""}`;
+        const search      = queryString.stringify({ ...initQuery, ...query });
+        const url         = `${API()['myvendor']['account']['list']}${search!=""? `?${search}`:""}`;
+
         dispatch({
             type: 'VENDOR_ACCOUNTS_LIST',
             list: []
@@ -290,19 +297,25 @@ export function incListAccount( pathname="", query={}, data={} ) {
         return Axios({method,url,data}).then( res => {
             if( !res.hasOwnProperty('response') ){
 
-                const list = (res['data']['income'] || []).map( item => {
-                    let total = 0;
-                    item['orderDetail'].forEach( orderDetailItem => {
-                        total = total + orderDetailItem['amount'];
+
+                const { income=[] } = res['data'];
+                const list          = income.map( item => {
+
+                    const { orderStatus, orderDetail, orderTimeMs } = item;
+                    let   amount    = 0;
+                    let   vendorFee = 0;
+
+                    orderDetail.forEach( orderDetailItem => {
+                        vendorFee = vendorFee + orderDetailItem['vendorFee'];
+                        amount    = amount    + orderDetailItem['amount'];
                     })
 
-                    return {
-                        id: item['orderID'],
-                        orderer: item['orderName'],
-                        orderStatus: lang['zh-TW']['orderStatus'][item['orderStatus']],
-                        quantity: item['orderDetail'].length,
-                        total: total,
-                        date: dayjs(item['orderTimeMs']).format('YYYY / MM / DD')
+                    return{
+                        ...item,
+                        amount      : amount,
+                        vendorFee   : vendorFee,
+                        orderStatus : lang['zh-TW']['orderStatus'][orderStatus],
+                        orderTimeMs : dayjs(orderTimeMs).format('YYYY / MM / DD')
                     }
                 })
 
@@ -419,41 +432,36 @@ export function buyCaseBillList( pathname,query,data={} ) {
     return (dispatch) => {
         
         const initQuery = {
-            page: 1,
-            limit: 30,
-            sort: "desc",
-            sortBy: "created"
+            page          : 1,
+            limit         : 30,
+            sort          : "desc",
+            sortBy        : "created"
         };
-        const method = 'get';
-        const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API()['myvendor']['bill']['list']}${search!=""? `?${search}`:""}`;
+        const method    = 'get';
+        const search    = queryString.stringify({ ...initQuery, ...query });
+        const url       = `${API()['myvendor']['bill']['list']}${search!=""? `?${search}`:""}`;
 
         return Axios({method,url,data}).then(res => {
             if( !res.hasOwnProperty('response') ){
                 // 重組給 table 用的列表
-                const changeData = res['data']['list'].map( item => {
-                    return{
-                        id: item['orderID'],
-                        orderer: item['orderName'],
-                        payMethod: lang['zh-TW']['payment'][item['payMethod']], // 付款方式轉換文字
-                        status: lang['zh-TW']['orderStatus'][item['orderStatus']], //item['orderStatus'],
-                        total: item['amount'],
-                        date: item['createTimeMs']
-                    }
-                })
+                const { page, pages, total, list } = res['data'];
 
                 dispatch({
-                    type: "VENDOR_BILL_STATUS",
-                    status: {
-                        page: res['data']['page'],
-                        pages: res['data']['pages'],
-                        total: res['data']['total']
-                    }
+                    type       : "VENDOR_BILL_STATUS",
+                    status     : { page, pages, total }
                 })
             
                 dispatch({
-                    type: "VENDOR_BILL_LIST",
-                    list: changeData
+                    type       : "VENDOR_BILL_LIST",
+                    list       : list.map( item => {
+                        const { payMethod, orderStatus, createTimeMs } = item;
+                        return{
+                            ...item,
+                            methodText   : lang['zh-TW']['payment'][payMethod],
+                            statusText   : lang['zh-TW']['orderStatus'][orderStatus],
+                            createTimeMs : dayjs(createTimeMs).format('YYYY / MM / DD')
+                        }
+                    })
                 })
                 return res;
             }
@@ -466,19 +474,29 @@ export function buyCaseBillList( pathname,query,data={} ) {
 // 購買的方案帳單詳細
 export function buyCaseBillInfo( pathname,query,data={} ) {
     return (dispatch) => {
-        const initQuery = {};
-        const method = 'get';
-        const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API()['myvendor']['bill']['info']}${search!=""? `?${search}`:""}`;
+
+        const initQuery    = {};
+        const method       = 'get';
+        const search       = queryString.stringify({ ...initQuery, ...query });
+        const url          = `${API()['myvendor']['bill']['info']}${search!=""? `?${search}`:""}`;
+
         dispatch({
-            type: "VENDOR_BILL_INFO",
-            info: []
-        })
+            type         : "VENDOR_BILL_INFO",
+            info         : []
+        });
+
         return Axios({method,url,data}).then(res => {
             if( !res.hasOwnProperty('response') ){
+                const { payMethod, orderStatus, createTimeMs, verifyTimeMs } = res['data'];
                 dispatch({
-                    type: "VENDOR_BILL_INFO",
-                    info: [res['data']]
+                    type       : "VENDOR_BILL_INFO",
+                    info       : { 
+                        ...res['data'],
+                        methodText   : lang['zh-TW']['payment'][payMethod],
+                        statusText   : lang['zh-TW']['orderStatus'][orderStatus],
+                        createTimeMs : dayjs(createTimeMs).format('YYYY / MM / DD'),
+                        verifyTimeMs : dayjs(verifyTimeMs).format('YYYY / MM / DD'),
+                    }
                 })
                 return res;
             }

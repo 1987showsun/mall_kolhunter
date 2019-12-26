@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 export default function vendor(
     state = {
         "total": 0,
@@ -36,9 +41,9 @@ export default function vendor(
             pages: 1,
             total: 0
         },
-        "billList": [],
-        "billInfo": [],
-        "planformList": []
+        "billList"        : [],
+        "billInfo"        : {},
+        "planformList"    : []
     },action
 ){
     switch(action.type){

@@ -1,36 +1,55 @@
-import React from 'react';
-import dayjs from 'dayjs';
-import queryString from 'query-string';
-import CurrencyFormat from 'react-currency-format';
-import { connect } from 'react-redux';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React               from 'react';
+import queryString         from 'query-string';
+import CurrencyFormat      from 'react-currency-format';
+import { connect }         from 'react-redux';
 
 // Modules
-import Loading from '../../../../../../module/loading';
+import Loading             from '../../../../../../module/loading';
 
 // Actions
 import { buyCaseBillInfo } from '../../../../../../actions/myvendor';
-
-// Lang
-import lang from '../../../../../../public/lang/lang.json';
 
 class Info extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            loading: false,
-            info: []
+            loading       : false,
+            info          : []
         }
     }
 
     static getDerivedStateFromProps(props,state){
         return{
-            info: props.info
+            info          : props.info
         }
     }
 
     render(){
+
         const { loading, info } = this.state;
+        const {
+            orderID           = 'N/A',
+            orderName         = 'N/A',
+            orderEmail        = 'N/A',
+            orderPhone        = 'N/A',
+            payMethod         = 'N/A',
+            payAdditionalInfo = {},
+            methodText        = 'N/A',
+            orderStatus       = '',
+            statusText        = 'N/A',
+            orderDetail       = [],
+            amount            = 0,
+            discountAmount    = 0,
+            createTimeMs      = 'N/A',
+            verifyTimeMs      = '尚未付款'
+        } = info;
+
         return(
             <React.Fragment>
                 <section className="admin-content-row">
@@ -42,19 +61,19 @@ class Info extends React.Component{
                             <ul className="table-row-list">
                                 <li>
                                     <label>帳單編號</label>
-                                    <div>{info[0]['orderID']}</div>
+                                    <div>{orderID}</div>
                                 </li>
                                 <li>
                                     <label>購買人</label>
-                                    <div>{info[0]['orderName']}</div>
+                                    <div>{orderName}</div>
                                 </li>
                                 <li>
                                     <label>聯絡信箱</label>
-                                    <div>{info[0]['orderEmail']}</div>
+                                    <div>{orderEmail}</div>
                                 </li>
                                 <li>
                                     <label>聯絡電話</label>
-                                    <div>{info[0]['orderPhone']}</div>
+                                    <div>{orderPhone}</div>
                                 </li>
                             </ul>
                         ):(
@@ -71,29 +90,21 @@ class Info extends React.Component{
                             <ul className="table-row-list">
                                 <li>
                                     <label>購買時間</label>
-                                    <div>{dayjs(info[0]['createTimeMs']).format('YYYY/MM/DD hh:mm:ss')}</div>
+                                    <div>{createTimeMs}</div>
                                 </li>
                                 <li>
                                     <label>付款時間</label>
-                                    <div>
-                                        { 
-                                            info[0]['verifyTimeMs']!=null? (
-                                                dayjs(info[0]['verifyTimeMs']).format('YYYY/MM/DD hh:mm:ss')
-                                            ):(
-                                                '尚未付款'
-                                            )
-                                        }
-                                    </div>
+                                    <div>{verifyTimeMs}</div>
                                 </li>
                                 <li>
                                     <label>付款方式</label>
-                                    <div>{lang['zh-TW']['payment'][info[0]['payMethod']]}</div>
+                                    <div>{methodText}</div>
                                 </li>
                                 <li>
                                     <label>折價券</label>
                                     <div>
                                         {
-                                            info[0]['orderDetail'][0]['couponCode']!=null? (
+                                            orderDetail.length!=0 && orderDetail[0]['couponCode']!=null? (
                                                 "已使用"
                                             ):(
                                                 "未使用"
@@ -103,28 +114,35 @@ class Info extends React.Component{
                                 </li>
                                 <li>
                                     <label>折價金額</label>
-                                    <div><CurrencyFormat value={info[0]['discountAmount']} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+                                    <div><CurrencyFormat value={discountAmount} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
                                 </li>
                                 <li>
                                     <label>帳單狀態</label>
-                                    <div>{lang['zh-TW']['orderStatus'][info[0]['orderStatus']]}</div>
+                                    <div>
+                                        <span className={`orderStatus ${orderStatus}`}>{statusText}</span>
+                                    </div>
                                 </li>
                                 <li>
                                     <label>實際金額</label>
-                                    <div><CurrencyFormat value={info[0]['amount']-info[0]['discountAmount']} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+                                    <div>
+                                        <CurrencyFormat value={amount-discountAmount} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                    </div>
                                 </li>
                                 {
-                                    info[0]['payMethod']=='atm' &&
-                                        <React.Fragment>
+                                    payMethod=='atm' && payAdditionalInfo!=null?(
+                                        <>
                                             <li>
                                                 <label>銀行代號</label>
-                                                <div>{info[0]['payAdditionalInfo']['BankCode']}</div>
+                                                <div>{payAdditionalInfo['BankCode']}</div>
                                             </li>
                                             <li>
                                                 <label>虛擬帳號</label>
-                                                <div>{info[0]['payAdditionalInfo']['VaccNo']}</div>
+                                                <div>{payAdditionalInfo['VaccNo']}</div>
                                             </li>
-                                        </React.Fragment>
+                                        </>
+                                    ):(
+                                        null
+                                    )
                                 }
                             </ul>
                         ):(
@@ -141,27 +159,31 @@ class Info extends React.Component{
                             <ul className="table-row-list">
                                 <li>
                                     <label>方案名稱</label>
-                                    <div>{ info[0]['orderDetail'][0]['program']['programTitle'] }</div>
+                                    <div>{ orderDetail.length!=0? orderDetail[0]['program']['programTitle']:null }</div>
                                 </li>
                                 <li>
                                     <label>方案上架數</label>
-                                    <div>{info[0]['orderDetail'][0]['program']['itemNum']} / 1組</div>
+                                    <div>{ orderDetail.length!=0? orderDetail[0]['program']['itemNum']:null } / 1組</div>
                                 </li>
                                 <li>
                                     <label>方案金額</label>
-                                    <div><CurrencyFormat value={info[0]['orderDetail'][0]['program']['price']} displayType={'text'} thousandSeparator={true} prefix={'$'} /> / 1組</div>
+                                    <div>
+                                        <CurrencyFormat value={orderDetail.length!=0? orderDetail[0]['program']['price'] : 0} displayType={'text'} thousandSeparator={true} prefix={'$'} /> / 1組
+                                    </div>
                                 </li>
                                 <li>
                                     <label>購買上架組數</label>
-                                    <div>{ info[0]['orderDetail'][0]['programNum'] }</div>
+                                    <div>{ orderDetail.length!=0? orderDetail[0]['programNum']:null }</div>
                                 </li>
                                 <li>
                                     <label>總購買上架數</label>
-                                    <div>{ info[0]['orderDetail'][0]['totalItemNum'] }</div>
+                                    <div>{ orderDetail.length!=0? orderDetail[0]['totalItemNum']:null }</div>
                                 </li>
                                 <li>
                                     <label>總付款金額</label>
-                                    <div><CurrencyFormat value={info[0]['amount']} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+                                    <div>
+                                        <CurrencyFormat value={ amount } displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                    </div>
                                 </li>
                             </ul>
                         ):(
@@ -174,9 +196,9 @@ class Info extends React.Component{
     }
 
     componentDidMount() {
-        const { location, match } = this.props;
+        const { location, match }  = this.props;
         const { pathname, search } = location;
-        const orderID = match['params']['id'];
+        const orderID              = match['params']['id'];
         this.setState({
             loading: true,
         },()=>{

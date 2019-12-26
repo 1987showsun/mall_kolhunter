@@ -10,18 +10,17 @@ import { connect }            from 'react-redux';
 
 // Components
 import Head                   from './head';
+import Thead                  from './table/thead';
+import Tbody                  from './table/tbody';
 
 // Modules
-import Table                  from '../../../../../../module/table';
+import Table                  from '../../../../../../module/table-new';
 import Pagination             from '../../../../../../module/pagination';
 import Loading                from '../../../../../../module/loading';
 import Confirm                from '../../../../../../module/confirm';
 
 // Actions
 import { orderList }          from '../../../../../../actions/myvendor';
-
-// Set
-import tableHeadData          from '../../public/set/tableHeadData';
 
 // Lang
 import lang                   from '../../../../../../public/lang/lang.json';
@@ -32,8 +31,7 @@ class Order extends React.Component{
         super(props);
         this.state = {
             loading           : false,
-            tableHeadKey      : tableHeadData,
-            tableBodyData     : props.list,
+            list              : props.list,
             open              : false,
             method            : 'alert',
             popupMSG          : [],
@@ -44,13 +42,13 @@ class Order extends React.Component{
         return{
             total             : props.total,
             totalAmount       : props.totalAmount,
-            tableBodyData     : props.list
+            list              : props.list
         }
     }
 
     render(){
 
-        const { open, method, popupMSG, loading, total, totalAmount, tableHeadKey, tableBodyData } = this.state;
+        const { open, method, popupMSG, loading, total, totalAmount, list } = this.state;
         const { match, history, location } = this.props;
 
         return(
@@ -71,10 +69,15 @@ class Order extends React.Component{
                     }}
                 />
                 <section className="admin-content-row">
-                    <Table 
-                        tableHeadData    ={tableHeadKey}
-                        tableBodyData    ={tableBodyData}
-                    />
+                    <Table
+                        thead = {<Thead />}
+                    >
+                        {
+                            list.map( item => {
+                                return <Tbody key={item['orderID']} {...item}/>
+                            })
+                        }
+                    </Table>
                     <Loading 
                         loading          = {loading}
                     />
@@ -137,14 +140,6 @@ class Order extends React.Component{
             this.props.dispatch( orderList(pathname,{...initQuery, ...queryString.parse(search)}) ).then( res => {
                 this.setState({
                     loading: false,
-                },()=>{
-                    switch( res['status'] ){
-                        case 200:
-                            break;
-
-                        default:
-                            break;
-                    }
                 });
             });
         })

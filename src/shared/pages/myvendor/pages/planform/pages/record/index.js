@@ -1,73 +1,87 @@
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                from 'react';
+import queryString          from 'query-string';
+import { connect }          from 'react-redux';
 
 // Components
-import Head from './head';
+import Head                 from './head';
+import Thead                from './table/thead';
+import Tbody                from './table/tbody';
 
 // Modules
-import Table from '../../../../../../module/table';
-import Pagination from '../../../../../../module/pagination';
-import Loading from '../../../../../../module/loading';
+import Table                from '../../../../../../module/table-new';
+import Pagination           from '../../../../../../module/pagination';
+import Loading              from '../../../../../../module/loading';
 
 // Actions
-import { buyCaseBillList } from '../../../../../../actions/myvendor';
+import { buyCaseBillList }  from '../../../../../../actions/myvendor';
 
 // Set
-import tableHeadData from '../../public/set/tableHeadData';
+import tableHeadData        from '../../public/set/tableHeadData';
 
 // Lang
-import lang from '../../../../../../public/lang/lang.json';
+import lang                 from '../../../../../../public/lang/lang.json';
 
 class Index extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            loading: false,
-            page: props.page,
-            pages: props.pages,
-            total: props.total,
-            tableHeadData: tableHeadData,
-            tableBodyData: props.list
+            loading   : false,
+            page      : props.page,
+            pages     : props.pages,
+            total     : props.total,
+            list      : props.list
         }
     }
 
     static getDerivedStateFromProps( props,state ){
         return{
-            page: props.page,
-            pages: props.pages,
-            total: props.total,
-            tableBodyData: props.list
+            page      : props.page,
+            pages     : props.pages,
+            total     : props.total,
+            list      : props.list
         }
     }
 
     render(){
 
-        const { page, total, loading, tableHeadData,tableBodyData } = this.state;
+        const { page, total, loading, list } = this.state;
         const { match, location } = this.props;
 
         return(
             <React.Fragment>
                 <section className="page-title">
-                    <h3>{ lang['zh-TW']['Bill management'] }</h3>
+                    <h3>{lang['zh-TW']['Bill management']}</h3>
                 </section>
+
                 <Head 
-                    total= {total}
+                    total    = {total}
                 />
+
                 <section className="admin-content-row">
-                    <Table 
-                        tableHeadData={tableHeadData}
-                        tableBodyData={tableBodyData}
-                    />
+                    <Table
+                        thead = {<Thead />}
+                    >
+                        {
+                            list.map(item => {
+                                return(<Tbody key={item['orderID']} {...item} />);
+                            })
+                        }
+                    </Table>
                     <Loading 
                         loading = {loading}
                     />
                 </section>
+
                 <Pagination 
-                    total= {total}
-                    match= {match}
-                    location= {location}
+                    total    = {total}
+                    match    = {match}
+                    location = {location}
                 />
             </React.Fragment>
         );
@@ -98,7 +112,7 @@ class Index extends React.Component{
     }
     
     callAPI = () => {
-        const { location, match } = this.props;
+        const { location }         = this.props;
         const { pathname, search } = location;
         this.setState({
             loading: true,
@@ -114,10 +128,10 @@ class Index extends React.Component{
 
 const mapStateToProps = state => {
     return{
-        page: state.myvendor.billStatus.page,
-        pages: state.myvendor.billStatus.pages,
-        total: state.myvendor.billStatus.total,
-        list: state.myvendor.billList
+        page      : state.myvendor.billStatus.page,
+        pages     : state.myvendor.billStatus.pages,
+        total     : state.myvendor.billStatus.total,
+        list      : state.myvendor.billList
     }
 }
 

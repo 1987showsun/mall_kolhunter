@@ -126,18 +126,19 @@ class Order extends React.Component{
     }
     
     callAPI = () => {
-        const { location }         = this.props;
-        const { pathname, search } = location;
-        const searchObject         = queryString.parse(search);
-        const initQuery            = {
-            startDate      : searchObject['startDate'] || dayjs().format('YYYY-MM-DD'),
-            endDate        : searchObject['endDate']   || dayjs().format('YYYY-MM-DD')
+        const { location }           = this.props;
+        const { pathname, search }   = location;
+        const searchObject           = queryString.parse(search);
+        const { startDate, endDate } = searchObject;
+        const initQuery              = {
+            startTimeMs    : startDate!=undefined ? dayjs(startDate).valueOf()             : dayjs(dayjs().format('YYYY-MM-DD')).valueOf(),
+            endTimeMs      : endDate!=undefined   ? dayjs(endDate).add(1, 'day').valueOf() : dayjs(dayjs().add(1,'day').format('YYYY-MM-DD')).valueOf(),
         }
 
         this.setState({
             loading: true,
         },()=> {
-            this.props.dispatch( orderList(pathname,{...initQuery, ...queryString.parse(search)}) ).then( res => {
+            this.props.dispatch( orderList(pathname,{...initQuery}) ).then( res => {
                 this.setState({
                     loading: false,
                 });

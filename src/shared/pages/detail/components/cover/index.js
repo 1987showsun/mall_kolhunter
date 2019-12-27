@@ -15,6 +15,7 @@ import { faShoppingCart }                    from '@fortawesome/free-solid-svg-i
 import Share                                 from './share';
 import Price                                 from './price';
 import Spec                                  from './spec';
+import Action                                from './action';
 
 // Modules
 import CoverSlider                           from '../../../../module/coverSlider';
@@ -56,11 +57,14 @@ class Cover extends React.Component{
                 productDeliveryID    : productDeliveryID,
                 specToken            : Object.keys(spec).map(keys => {
                     const returnFindIndex = spec[keys].findIndex((item,i) => {
-                        if( item['storage']==0 ){
-                            return i+1;
+                        if( item['storage']!=0 ){
+                            return true;
                         }
                     });
-                    return spec[keys][returnFindIndex+1]['token'];
+                    if( spec[keys][returnFindIndex]!=undefined ){
+                        return spec[keys][returnFindIndex]['token'];
+                    }
+                    return "";
                 }),
                 itemNumber           : 1,
                 storeID              : ""
@@ -82,12 +86,15 @@ class Cover extends React.Component{
                     productToken         : propsData['token'],
                     productDeliveryID    : productDeliveryID,
                     specToken            : Object.keys(spec).map(keys => {
-                        const returnFindIndex = spec[keys].findIndex((item,i,array) => {
-                            if( item['storage']==0 ){
-                                return i+1;
+                        const returnFindIndex = spec[keys].findIndex((item,i) => {
+                            if( item['storage']!=0 ){
+                                return true;
                             }
                         });
-                        return spec[keys][returnFindIndex+1]['token'];
+                        if( spec[keys][returnFindIndex]!=undefined ){
+                            return spec[keys][returnFindIndex]['token'];
+                        }
+                        return "";
                     }),
                     itemNumber           : 1,
                     storeID              : ""
@@ -115,14 +122,14 @@ class Cover extends React.Component{
     render(){
 
         const { lock, data, imageData, storeLoading, storeInfo, formObject } = this.state;
-        const { spec }       = data;
-        const { specToken }  = formObject;
-
-        const itemNumMax     =  spec[0].find( item => {
-            if( item['token'] == specToken[0] ){
-                return item;
-            }
-        })['storage'];
+        const { spec }      = data;
+        const { specToken } = formObject;
+        const itemNumMax    = Math.min(
+            ...spec.map(item => {
+                const findSelectedItem = item.find( findItem => specToken.includes(findItem['token']));
+                return findSelectedItem!=undefined? findSelectedItem['storage']:0;
+            })
+        );
 
         // 運送方式
         const deliveryArray = data['delivery'].map( item => {
@@ -190,9 +197,9 @@ class Cover extends React.Component{
                     <div className="detail-cover-row cover-quantity">
                         <label>{lang['zh-TW']['label']['buy quantity']}</label>
                         <Quantity
-                            initVal   = {1}
-                            itemNumMax= { itemNumMax||0 }
-                            returnForm= { val => {
+                            initVal     = {1}
+                            itemNumMax  = { itemNumMax||0 }
+                            returnForm  = { val => {
                                 this.setState({
                                     formObject: { ...this.state.formObject, itemNumber: val['itemNum'] }
                                 })
@@ -211,21 +218,11 @@ class Cover extends React.Component{
                             <Loading loading={storeLoading}/>
                         </div>
                     </div>
-                    <div className="detail-cover-row cover-action">
-                        <ul>
-                            <li className="add-cart-li">
-                                <button type="button" className="add-cart" disabled={lock} onClick={this.callCarts.bind(this,"add")}>
-                                    <i><FontAwesomeIcon icon={faShoppingCart}/></i>
-                                    {lang['zh-TW']['button']['add to cart']}
-                                </button>
-                            </li>
-                            <li className="direct-purchase-li">
-                                <button type="button" className="direct-purchase" disabled={lock} onClick={this.callCarts.bind(this,"direct")}>
-                                    {lang['zh-TW']['button']['buy now']}
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
+                    <Action 
+                        lock       = {lock}
+                        itemNumMax = {itemNumMax}
+                        callCarts  = {this.callCarts.bind(this)}
+                    />
                 </section>
             </section>
         );
@@ -277,69 +274,74 @@ class Cover extends React.Component{
     }
 
     callCarts = ( method ) => {
-        const { location, history } = this.props;
-        const { pathname, search }  = location;
-        const checkLoginStatus      = sessionStorage.getItem('jwt_account')!=null? true : false;
-        const formObject = {
-            ...this.state.formObject,
-            cartToken   : localStorage.getItem('cartID'),
-            storeID     : queryString.parse( search )['store'] || "",
-        }
+        if( method!='soldOut' ){
 
-        this.setState({
-            lock: true
-        },()=>{
-            this.props.dispatch( updateCartProductItem(pathname,queryString.parse(search),formObject) ).then( res => {
-                this.setState({
-                    lock: false
-                },()=>{
+            const { location, history } = this.props;
+            const { pathname, search }  = location;
+            const checkLoginStatus      = sessionStorage.getItem('jwt_account')!=null? true : false;
+            const formObject            = {
+                ...this.state.formObject,
+                cartToken   : localStorage.getItem('cartID'),
+                storeID     : queryString.parse( search )['store'] || "",
+            }
 
-                    let { status_text } = res['data'];
-                    let status          = 'failure';
+            this.setState({
+                lock: true
+            },()=>{
+                this.props.dispatch( updateCartProductItem(pathname,queryString.parse(search),formObject) ).then( res => {
+                    this.setState({
+                        lock: false
+                    },()=>{
 
-                    switch( res['status'] ){
-                        case 200:
-                            // 加入成功
-                            this.props.dispatch( cartsCount() );
-                            status_text = "新增成功";
-                            status      = "success";
-                            switch( method ){
-                                case 'direct':
-                                    // 直接購買
-                                    if( checkLoginStatus ){
-                                        // 登入
-                                        history.push({
-                                            pathname   : '/myaccount/carts'
-                                        });
-                                    }else{
-                                        // 未登入
-                                        history.push({
-                                            pathname   : '/account',
-                                            search     : 'to=carts'
-                                        });
-                                    }
-                                    break;
-                    
-                                default:
-                                    break;
-                            }
-                            break;
+                        let { status_text } = res['data'];
+                        let status          = 'failure';
 
-                        default:
-                            // 失敗
-                            status_text = "新增失敗";
-                            break;
-                    }
+                        switch( res['status'] ){
+                            case 200:
+                                // 加入成功
+                                this.props.dispatch( cartsCount() );
+                                status_text = "新增成功";
+                                status      = "success";
+                                switch( method ){
+                                    case 'direct':
+                                        // 直接購買
+                                        if( checkLoginStatus ){
+                                            // 登入
+                                            history.push({
+                                                pathname   : '/myaccount/carts'
+                                            });
+                                        }else{
+                                            // 未登入
+                                            history.push({
+                                                pathname   : '/account',
+                                                search     : 'to=carts'
+                                            });
+                                        }
+                                        break;
+                        
+                                    default:
+                                        break;
+                                }
+                                break;
 
-                    toaster.notify(
-                        <div className={`toaster-status ${status}`}>{status_text}</div>
-                    ,{
-                        position: 'bottom-right',
-                        duration: 3000
-                    })
+                            default:
+                                // 失敗
+                                status_text = "新增失敗";
+                                break;
+                        }
+
+                        toaster.notify(
+                            <div className={`toaster-status ${status}`}>{status_text}</div>
+                        ,{
+                            position: 'bottom-right',
+                            duration: 3000
+                        })
+                    });
                 });
             });
-        });
+        }else{
+            alert();
+        }
     }
 }
 

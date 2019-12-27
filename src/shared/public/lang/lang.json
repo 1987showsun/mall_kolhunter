@@ -44,6 +44,11 @@
                 "5": "運送方式"
             }
         },
+        "productStatus": {
+            "none-auth":"審查中",
+            "auth":"上架中",
+            "non-display":"下架中"
+        },
         "gender": {
             "male": "男",
             "female": "女"
@@ -206,7 +211,8 @@
             "add to cart" : "加入購物車",
             "buy now"     : "直接購買",
             "go back"     : "返回上一頁",
-            "submit"      : "送出"
+            "submit"      : "送出",
+            "sold out"    : "完售，請參考其他商品"
         },
         "placeholder": {
             "userID": "會員帳號（email）",
@@ -282,6 +288,11 @@
                 "4": "Desc",
                 "5": "Delivery"
             }
+        },
+        "productStatus": {
+            "none-auth":"None auth",
+            "auth":"auth",
+            "non-display":"Non display"
         },
         "gender": {
             "male": "Male",
@@ -444,7 +455,8 @@
             "add to cart" : "Add to cart",
             "buy now"     : "Buy now",
             "go back"     : "Go back",
-            "submit"      : "Submit"
+            "submit"      : "Submit",
+            "sold out"    : "Sold out"
         },
         "placeholder": {
             "userID": "Username（email）",

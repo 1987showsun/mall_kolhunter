@@ -45,71 +45,71 @@ export function listProduct( pathname,query={}, data={} ) {
     return (dispatch) => {
 
         const initQuery = {
-            page:1,
-            limit:30,
-            sort:'desc',
-            sortBy:'created'
+            page          :1,
+            limit         :30,
+            sort          :'desc',
+            sortBy        :'created'
         };
-        const method = 'get';
-        const search = queryString.stringify({ ...initQuery, ...query });
-        const url = `${API()['myvendor']['product']['categories']}${ search!=''? `?${search}`:'' }`;
+        const method    = 'get';
+        const search    = queryString.stringify({ ...initQuery, ...query });
+        const url       = `${API()['myvendor']['product']['categories']}${ search!=''? `?${search}`:'' }`;
 
         dispatch({
-            type: "VENDOR_PRODUCT_HEAD",
-            noneDisplay: 0,
-            display: 0,
-            review: 0,
-            total: 0
+            type        : "VENDOR_PRODUCT_HEAD",
+            noneDisplay : 0,
+            display     : 0,
+            review      : 0,
+            total       : 0
         })
         dispatch({
-            type: 'VENDOR_PRODUCT_LIST',
-            list: []
+            type        : 'VENDOR_PRODUCT_LIST',
+            list        : []
         });
         
         return Axios({method,url,data}).then( res => {
-            // 商品類別 陣列 -> 字串
-
             if( !res.hasOwnProperty('response') ){
 
-                const { list } = res['data'];
-                const categoryToText = ( arr ) => {
-                    let text = "";
-                    arr.forEach(( item,i ) => {
-                        if( i==0 ){
-                            text = item['title'];
-                        }else if( i>=arr.length-1 ){
-                            text = `${text}/${item['title']}`;
-                        }else{
-                            text = `${item['title']}/${text}`;
-                        }
-                    });
-                    return text;
-                }
+                const { status, list } = res['data'];
 
                 dispatch({
                     type                  : "VENDOR_PRODUCT_HEAD",
-                    noneDisplay           : res['data']['status']['none-display'] || 0,
-                    display               : res['data']['status']['display'] || 0,
-                    review                : res['data']['status']['review'] || 0,
-                    total                 : res['data']['status']['total'] || 0
+                    noneDisplay           : status['none-display'] || 0,
+                    display               : status['display']      || 0,
+                    review                : status['review']       || 0,
+                    total                 : status['total']        || 0
                 })
                 
                 dispatch({
                     type                  : 'VENDOR_PRODUCT_LIST',
                     list                  : list.map( item => {
-                        return {
-                            id              : item['id'],
-                            status          : item['status']=="none-auth"? (item['status']): ( item['display']==true? 'auth':'non-display' ),
-                            cover           : item['images'].length!=0? item['images'][0]['path'] : "",
-                            name            : item['name'],
-                            brand           : item['brand']!=undefined? item['brand'] : "N/A",
-                            category        : item['category']!=undefined? ( categoryToText(item['category']) ) :( "N/A"),
-                            store           : item['store']!=undefined? item['store'] : 0,
-                            price           : item['price']!=undefined? item['price'] : 0,
-                            sellPrice       : item['sellPrice']!=undefined? item['sellPrice'] : item['price'],
-                            divided         : item['profitMargin']!=undefined? item['profitMargin'] : 0,
-                            display         : item['display'],
-                            vendorFee       : `${(item['vendorFee'] || 0)*100} ％`
+
+                        const { id, status, images, name, brand, category, store, price, sellPrice, profitMargin, display, vendorFee, created, modified } = item;
+                        const categoryToText = ( arr ) => {
+                            let text = "";
+                            arr.forEach(( item,i ) => {
+                                if( i==0 ){
+                                    text = item['title'];
+                                }else if( i>=arr.length-1 ){
+                                    text = `${text} / ${item['title']}`;
+                                }else{
+                                    text = `${item['title']} / ${text}`;
+                                }
+                            });
+                            return text;
+                        }
+                        const productStatus = () => {
+                            return status=="none-auth"? (status):(display==true? 'auth':'non-display');
+                        }
+
+                        return{
+                            ...item,
+                            image              : images.find((item,i) => i==0 )['path'],
+                            productStatus      : productStatus(),
+                            productStatusText  : lang['zh-TW']['productStatus'][productStatus()],
+                            categoryString     : category!=undefined? (categoryToText(item['category'])):("N/A"),
+                            vendorFee          : (vendorFee*100),
+                            createdDate        : dayjs(created).format('YYYY / MM / DD'),
+                            modifiedData       : dayjs(modified).format('YYYY / MM / DD'),
                         }
                     })
                 });
@@ -343,42 +343,40 @@ export function createProduct( formObject, step, method ) {
 export function productPutsaleAndDiscontinue( pathname="", query={}, data={}, prevData=[] ) {
     return (dispatch) => {
 
-        const initQuery = {};
-        const method = 'put';
-        const search = queryString.stringify({...initQuery, ...query});
-        const url = `${API()['myvendor']['product']['updateProductStatus']}${search!=""? `?${search}`:''}`;
+        const initQuery      = {};
+        const method         = 'put';
+        const search         = queryString.stringify({...initQuery, ...query});
+        const url            = `${API()['myvendor']['product']['updateProductStatus']}${search!=""? `?${search}`:''}`;
 
         return Axios({method,url,data}).then(res => {
             if( !res.hasOwnProperty('response') ){
 
-                const list = prevData['tableBodyData'].map( item => {
-                    if(item['id'] == data['productToken']){
-                        item['display'] = item['display']==true? false:true;
-                        item['status']  = item['display']==true? 'auth':'non-display';
+                let   { noneDisplay, display, review, total, tableBodyData } = prevData;
+                const { productToken }  = data;
+                const list = tableBodyData.map(item => {
+                    const { id } = item;
+                    if( id==productToken ){
+                        item['display']           = item['display']==true? false:true;
+                        item['status']            = item['display']==true? 'auth':'non-display';
+                        item['productStatus']     = item['display']==true? 'auth':'non-display';
+                        item['productStatusText'] = lang['zh-TW']['productStatus'][item['status']];
+                        display       = item['display']==true? display+1     : display-1;
+                        noneDisplay   = item['display']==true? noneDisplay-1 : noneDisplay+1;
                     }
                     return item;
                 });
 
-                if( data['productDisplay'] ){
-                    prevData['display'] = prevData['display']+1;
-                    prevData['noneDisplay'] = prevData['noneDisplay']-1;
-                }else{
-                    prevData['display'] = prevData['display']-1;
-                    prevData['noneDisplay'] = prevData['noneDisplay']+1;
-                }
-                
                 dispatch({
-                    type: "VENDOR_PRODUCT_HEAD",
-                    noneDisplay: prevData['noneDisplay'],
-                    display: prevData['display'],
-                    review: prevData['review'],
-                    total: prevData['total']
-                })
+                    type           : "VENDOR_PRODUCT_HEAD",
+                    noneDisplay    : noneDisplay,
+                    display        : display,
+                    review         : review,
+                    total          : total
+                });
                 dispatch({
-                    type: "VENDOR_ORDERS_LIST",
+                    type           : "VENDOR_ORDERS_LIST",
                     list
-                })
-
+                });
                 return res;
             }
             return res['response'];

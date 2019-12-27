@@ -25,7 +25,9 @@ export default ({orderID, productImgs, productToken, productName, specName, spec
                                 <li><label>產品編號：</label>{specToken || 'N/A'}</li>
                             </>
                         ):(
-                            null
+                            <>
+                                <li><label>尺寸 / 型號 / 顏色：</label>{lang['zh-TW']['combined goods']}</li>
+                            </>
                         )
                     }
                 </ul>

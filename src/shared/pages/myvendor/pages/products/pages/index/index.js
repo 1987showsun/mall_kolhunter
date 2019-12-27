@@ -1,24 +1,28 @@
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
-import { Helmet } from "react-helmet";
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                                         from 'react';
+import queryString                                   from 'query-string';
+import { connect }                                   from 'react-redux';
+import { Helmet }                                    from "react-helmet";
 
 //Components
-import Head from './head';
+import Head                                          from './head';
+import Thead                                         from './table/thead';
+import Tbody                                         from './table/tbody';
 
 // Modules
-import Table from '../../../../../../module/table';
-import Pagination from '../../../../../../module/pagination';
-import Loading from '../../../../../../module/loading';
+import Table                                         from '../../../../../../module/table-new';
+import Pagination                                    from '../../../../../../module/pagination';
+import Loading                                       from '../../../../../../module/loading';
 
 // Actions
 import { listProduct, productPutsaleAndDiscontinue } from '../../../../../../actions/myvendor';
 
 // Lang
-import lang from '../../../../../../public/lang/lang.json';
-
-// Set
-import { tableHeadKey } from './public/set/tableHeaderData';
+import lang                                          from '../../../../../../public/lang/lang.json';
 
 class Product extends React.Component{
 
@@ -26,7 +30,6 @@ class Product extends React.Component{
         super(props);
         this.state = {
             loading       : false,
-            tableHeadKey  : tableHeadKey,
             tableBodyData : props.list,
             noneDisplay   : props.noneDisplay,
             display       : props.display,
@@ -47,8 +50,8 @@ class Product extends React.Component{
 
     render(){
 
-        const { loading, total, tableHeadKey, tableBodyData } = this.state;
-        const { match, location, history } = this.props;
+        const { loading, total, tableBodyData } = this.state;
+        const { match, location, history }      = this.props;
         const { search } = location;
 
         return(
@@ -56,32 +59,45 @@ class Product extends React.Component{
                 <Helmet encodeSpecialCharacters={false}>
                     <title>{`網紅電商廠商管理介面 - 商品列表`}</title>
                 </Helmet>
+
                 <section className="page-title">
                     <h3>{ lang['zh-TW']['Commodity management'] }</h3>
                 </section>
+
                 <Head
-                    match= {match} 
-                    history= {history}
-                    location= {location}
+                    match              = {match} 
+                    history            = {history}
+                    location           = {location}
                 />
+
                 <section className="admin-content-row">
-                    <Table 
-                        loading={loading}
-                        tableHeadData={tableHeadKey}
-                        tableBodyData={tableBodyData}
-                        tableButtonAction={this.tableButtonAction.bind(this)}
-                    />
+                    <Table
+                        className = "v-product-table"
+                        thead     = {<Thead />}
+                    >
+                        {
+                            tableBodyData.map(item => {
+                                return(
+                                    <Tbody 
+                                        {...item}
+                                        key={item['id']} 
+                                        tableButtonAction = {this.tableButtonAction.bind(this)}
+                                    />
+                                );
+                            })
+                        }
+                    </Table>
+
                     <Loading 
-                        loading= {loading}
+                        loading             = {loading}
                     />
                 </section>
+
                 <Pagination
-                    query= {{
-                         ...queryString.parse( search )
-                    }}
-                    total= {total}
-                    match= {match}
-                    location= {location}
+                    query              = {{...queryString.parse( search )}}
+                    total              = {total}
+                    match              = {match}
+                    location           = {location}
                 />
             </React.Fragment>
         );
@@ -97,10 +113,6 @@ class Product extends React.Component{
         if( prevlocationSearch!=locationSearch ){
             this.getProductList();
         }
-        return null;
-    }
-
-    componentDidUpdate(){
         return null;
     }
 
@@ -122,10 +134,11 @@ class Product extends React.Component{
     }
 
     tableButtonAction = ( val ) => {
+        
         const { noneDisplay, display, review, total, tableBodyData } = this.state;
         const { location }           = this.props;
         const { pathname, search }   = location;
-        const mergeData = {
+        const mergeData              = {
             noneDisplay, 
             display, 
             review,
@@ -139,15 +152,7 @@ class Product extends React.Component{
             this.props.dispatch( productPutsaleAndDiscontinue(pathname, {...queryString.parse(search)}, {productToken: val['id'], productDisplay: val['display']? false:true}, mergeData) ).then( res => {
                 this.setState({
                     loading: false
-                },()=>{
-                    switch( res['status'] ){
-                        case 200:
-                            break;
-
-                        default:
-                            break;
-                    }
-                })
+                });
             });
         });
     }
@@ -155,11 +160,11 @@ class Product extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
-        noneDisplay: state.myvendor.productStatus.noneDisplay,
-        display: state.myvendor.productStatus.display,
-        review: state.myvendor.productStatus.review,
-        total: state.myvendor.productStatus.total,
-        list: state.myvendor.productList
+        noneDisplay    : state.myvendor.productStatus.noneDisplay,
+        display        : state.myvendor.productStatus.display,
+        review         : state.myvendor.productStatus.review,
+        total          : state.myvendor.productStatus.total,
+        list           : state.myvendor.productList
     }
 }
 

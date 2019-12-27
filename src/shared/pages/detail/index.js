@@ -3,26 +3,26 @@
  *   All rights reserved.
  */
 
-import React                                       from 'react';
-import queryString                                 from 'query-string';
-import { connect }                                 from 'react-redux';
-import { Helmet }                                  from "react-helmet";
+import React                  from 'react';
+import queryString            from 'query-string';
+import { connect }            from 'react-redux';
+import { Helmet }             from "react-helmet";
 
 // Components
-import Cover                                       from './components/cover/';
-import Description                                 from './components/description/';
+import Cover                  from './components/cover/';
+import Description            from './components/description/';
 
 // Modules
-import Popup                                       from '../../module/popup';
+import Popup                  from '../../module/popup';
 
 // Actions
-import { ssrApproachProduct, mallApproachProduct } from '../../actions/categories';
+import { ssrApproachProduct } from '../../actions/categories';
+
+// Images
+import up18                   from '../../public/images/18up.png';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
-
-// Images
-import up18 from '../../public/images/18up.png';
 
 class Index extends React.Component{
 
@@ -139,7 +139,97 @@ class Index extends React.Component{
 const mapStateToProps = state => {
     return{
         info : state.approach,
-        ...state.approach
+        ...state.approach,
+        // info: {
+        //     "token": "TESTCOmboDD",
+        //     "name": "【茉愛多】時間軸 - SWELL不鏽鋼保溫水瓶 (兩入任選)",
+        //     "price": 4600,
+        //     "sellPrice": 4600,
+        //     "createTimeMs": 1572608047008,
+        //     "modifyTimeMs": 1572608047008,
+        //     "onSale": "n",
+        //     "adult": true,
+        //     "combo": true,
+        //     "celebrityNum": 0,
+        //     "description": [],
+        //     "images": [
+        //         {
+        //             "path": "https://static.kolhunter.com/vendor/product/2019/11/01/a50e8a46794e94ea9016/70a1c10e1a10353dc321957c74807a44.png",
+        //             "sort": 0
+        //         },
+        //         {
+        //             "path": "https://static.kolhunter.com/vendor/product/2019/11/01/a50e8a46794e94ea9016/c5277ec5228c2904b1f0b4989624f8c1.png",
+        //             "sort": 1
+        //         },
+        //         {
+        //             "path": "https://static.kolhunter.com/vendor/product/2019/11/01/a50e8a46794e94ea9016/132a3bb8d553d40f7ac90cac58711c6f.png",
+        //             "sort": 2
+        //         },
+        //         {
+        //             "path": "https://static.kolhunter.com/vendor/product/2019/11/01/a50e8a46794e94ea9016/30c5abb45e5501234227ccf6367cc4da.png",
+        //             "sort": 3
+        //         },
+        //         {
+        //             "path": "https://static.kolhunter.com/vendor/product/2019/11/01/a50e8a46794e94ea9016/44c80eb58172012a4110fdb5740b20e1.png",
+        //             "sort": 4
+        //         },
+        //         {
+        //             "path": "https://static.kolhunter.com/vendor/product/2019/11/01/a50e8a46794e94ea9016/775d33fcb0ccacb34976e38c282708a3.png",
+        //             "sort": 5
+        //         },
+        //         {
+        //             "path": "https://static.kolhunter.com/vendor/product/2019/11/01/a50e8a46794e94ea9016/e241fbb4c8808ef13017ceea143bab19.png",
+        //             "sort": 6
+        //         },
+        //         {
+        //             "path": "https://static.kolhunter.com/vendor/product/2019/11/01/a50e8a46794e94ea9016/6193bbafb14edc4199842334513b18e6.png",
+        //             "sort": 7
+        //         },
+        //         {
+        //             "path": "https://static.kolhunter.com/vendor/product/2019/11/01/a50e8a46794e94ea9016/42cb12a94f2cecc675468385cd5de607.png",
+        //             "sort": 8
+        //         },
+        //         {
+        //             "path": "https://static.kolhunter.com/vendor/product/2019/11/01/a50e8a46794e94ea9016/61505a3ce481ca2500f837f8fc8a2aa3.png",
+        //             "sort": 9
+        //         }
+        //     ],
+        //     "delivery": [],
+        //     "spec": [
+        //         [
+        //             {
+        //                 "productName": "【茉愛多】時間軸 - SWELL不鏽鋼保溫水瓶 (白線)",
+        //                 "prodoctToken": "e3b4300e9a539b760242",
+        //                 "token": "92eea8fc5f2ad2806d28",
+        //                 "name": "Peridot  (橄欖石綠色)",
+        //                 "storage": 0
+        //             },
+        //             {
+        //                 "productName": "【茉愛多】時間軸 - SWELL不鏽鋼保溫水瓶 (白線)",
+        //                 "prodoctToken": "e3b4300e9a539b760242",
+        //                 "token": "355145c5aadaf81d9107",
+        //                 "name": "Rose quartz (玫瑰粉色)",
+        //                 "storage": 0
+        //             }
+        //         ],
+        //         [
+        //             {
+        //                 "productName": "【茉愛多】時間軸 - SWELL不鏽鋼保溫水瓶 (黑線)",
+        //                 "prodoctToken": "f23d11008ee378f42147",
+        //                 "token": "20bc36a5df86ba933706",
+        //                 "name": "Blaze  (火焰橘紅色)",
+        //                 "storage": 1
+        //             },
+        //             {
+        //                 "productName": "【茉愛多】時間軸 - SWELL不鏽鋼保溫水瓶 (黑線)",
+        //                 "prodoctToken": "f23d11008ee378f42147",
+        //                 "token": "f50061d24c67b8aaff4a",
+        //                 "name": "Smokey Eye (煙燻灰色)",
+        //                 "storage": 0
+        //             }
+        //         ]
+        //     ]
+        // }
     }
 }
 

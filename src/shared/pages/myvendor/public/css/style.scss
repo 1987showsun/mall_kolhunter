@@ -1018,3 +1018,20 @@
     top: 0px;
     left: 0px;
 }
+
+.v-product-table{
+    .table-new-cell{
+        &.sticky{
+            position       : sticky;
+            z-index        : 2;
+            left           : 0px;
+        }
+        &.head-action{
+            width          : 110px;
+        }
+        &.image{
+            width: 100px;
+            min-width: 80px;
+        }
+    }
+}

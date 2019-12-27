@@ -3,15 +3,15 @@
  *   All rights reserved.
  */
 
-import React from 'react';
-import { connect } from 'react-redux';
+import React                       from 'react';
+import { connect }                 from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 // Components
-import Nav from './common/nav';
+import Nav                         from './common/nav';
 
 // Routes
-import Routes from './routes';
+import Routes                      from './routes';
 
 // Stylesheets
 import './public/stylesheets/style.scss';
@@ -21,12 +21,12 @@ class Index extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            token: typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : "",
-            mainTitle: {
-                profile : "會員設定",
-                carts   : "我的購物車",
-                orders  : "訂單查詢 / 退換貨",
-                payment : "付款資訊"
+            token         : typeof window !== 'undefined'? sessionStorage.getItem('jwt_account') : "",
+            mainTitle     : {
+                profile     : "會員設定",
+                carts       : "我的購物車",
+                orders      : "訂單查詢 / 退換貨",
+                payment     : "付款資訊"
             }
         }
     }

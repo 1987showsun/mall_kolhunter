@@ -4,11 +4,10 @@
  */
 
 // 訂單-退貨
-import React             from 'react';
-import toaster           from 'toasted-notes';
-import queryString       from 'query-string';
-import { Link }          from 'react-router-dom';
-import { connect }       from 'react-redux';
+import React                        from 'react';
+import toaster                      from 'toasted-notes';
+import queryString                  from 'query-string';
+import { connect }                  from 'react-redux';
 
 // Components
 import Items                        from './components/items';
@@ -94,9 +93,11 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
-        const { location, history, match } = this.props;
-        const { pathname, search }         = location;
-        const orderID                      = match['params']['id'] || "";
+
+        const { location, match } = this.props;
+        const { pathname }        = location;
+        const orderID             = match['params']['id'] || "";
+
         this.setState({
             loading: true
         },()=>{
@@ -119,7 +120,7 @@ class Index extends React.Component{
                 })
 
             });
-        })
+        });
     }
 
     handleChange = ( val ) => {
@@ -180,36 +181,43 @@ class Index extends React.Component{
 
     handleConfirm = () => {
 
-        const { selected }                 = this.state;
+        const { selected, method }         = this.state;
         const { location, history, match } = this.props;
         const { pathname, search }         = location;
 
-        if( this.state.method=='alert' ){
+        if( method=='alert' ){
             this.onCancel();
         }else{
 
             const data = {
                 orderID   : match['params']['id'],
-                detail    : selected
+                itemCode  : selected
             }
 
             this.props.dispatch( ordersRefund(pathname,{...queryString.parse(search)},data) ).then( res => {
+
+                let   status      = 'failure';
+                let   status_text = lang['zh-TW']['toaster']['refundFailure'];
+
                 switch( res['status'] ){
                     case 200:
-                        toaster.notify( <div className={`toaster-status success`}>{lang['zh-TW']['toaster']['refundSuccess']}</div> ,{
-                            position: 'bottom-right',
-                            duration: 3000
-                        })
+                        status      = 'success';
+                        status_text = lang['zh-TW']['toaster']['refundSuccess'];
                         history.goBack();
                         break;
 
                     default:
-                        toaster.notify( <div className={`toaster-status failure`}>{lang['zh-TW']['toaster']['refundFailure']}</div> ,{
-                            position: 'bottom-right',
-                            duration: 3000
-                        })
+                        status      = 'failure';
+                        status_text = lang['zh-TW']['toaster']['refundFailure'];
                         break;
                 }
+
+                this.onCancel();
+                // 提示視窗
+                toaster.notify( <div className={`toaster-status ${status}`}>{status_text}</div> ,{
+                    position: 'bottom-right',
+                    duration: 3000
+                })
             });
         }
 

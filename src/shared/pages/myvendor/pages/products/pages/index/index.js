@@ -107,6 +107,10 @@ class Product extends React.Component{
         this.getProductList();
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        return null;
+    }
+    
     getSnapshotBeforeUpdate(prevProps, prevState){
         const prevlocationSearch = prevProps.location['search'];
         const locationSearch     = this.props.location['search'];

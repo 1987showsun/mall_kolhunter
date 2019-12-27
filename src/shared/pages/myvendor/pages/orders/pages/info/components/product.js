@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -25,11 +30,6 @@ class Products extends React.Component{
                     type: 'text',
                     title: '商品名稱',
                     className: 'table-min-width'
-                },
-                {
-                    key: 'quantity',
-                    type: 'number',
-                    title: '數量'
                 },
                 {
                     key: 'specName',

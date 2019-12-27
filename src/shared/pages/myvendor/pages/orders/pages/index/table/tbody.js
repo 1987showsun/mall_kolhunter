@@ -16,9 +16,6 @@ export default ({orderID, orderName, deliveryName, orderDetail, amount, orderSta
             <div className="table-new-cell">{orderName}</div>
             <div className="table-new-cell">{deliveryName}</div>
             <div className="table-new-cell text-right">
-                <CurrencyFormat value={orderDetail.length} displayType={'text'} thousandSeparator={true} />
-            </div>
-            <div className="table-new-cell text-right">
                 <CurrencyFormat value={amount} displayType={'text'} thousandSeparator={true} prefix={'$'}/>
             </div>
             <div className="table-new-cell"><span className={`orderStatus ${orderStatus}`}>{statusText}</span></div>

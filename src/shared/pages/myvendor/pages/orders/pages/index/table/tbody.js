@@ -15,11 +15,11 @@ export default ({orderID, orderName, deliveryName, orderDetail, amount, orderSta
             </div>
             <div className="table-new-cell">{orderName}</div>
             <div className="table-new-cell">{deliveryName}</div>
-            <div className="table-new-cell text-right">
+            <div className="table-new-cell text-right money">
                 <CurrencyFormat value={amount} displayType={'text'} thousandSeparator={true} prefix={'$'}/>
             </div>
-            <div className="table-new-cell"><span className={`orderStatus ${orderStatus}`}>{statusText}</span></div>
-            <div className="table-new-cell">{createdate}</div>
+            <div className="table-new-cell status"><span className={`orderStatus ${orderStatus}`}>{statusText}</span></div>
+            <div className="table-new-cell date">{createdate}</div>
         </>
     );
 }

@@ -3,65 +3,33 @@
  *   All rights reserved.
  */
 
-import React from 'react';
-import { connect } from 'react-redux';
+import React               from 'react';
+import { connect }         from 'react-redux';
 
 // Components
-import DeliveryUpdate from './deliveryUpdate';
+import Thead               from './table/thead';
+import Tbody               from './table/tbody';
+import PopupWarp           from './popup';
 
 // Modules
-import Table from '../../../../../../../module/table';
-import Loading from '../../../../../../../module/loading';
-
-// Lang
-import lang from '../../../../../../../public/lang/lang.json';
+import Table               from '../../../../../../../module/table-new';
+import Loading             from '../../../../../../../module/loading';
+import Popup               from '../../../../../../../module/popup';
 
 class Products extends React.Component{
 
     constructor(props){
         super(props);
-        this.state = {
-            loading: false,
-            info: props.info,
-            data: props.data,
-            tableHeadKey : [
-                {
-                    key: 'name',
-                    type: 'text',
-                    title: '商品名稱',
-                    className: 'table-min-width'
-                },
-                {
-                    key: 'specName',
-                    type: 'text',
-                    title: '顏色 / 尺寸'
-                },
-                {
-                    key: 'deliveryStatus',
-                    type: 'button',
-                    title: '運送狀態',
-                    text: '變更狀態'
-                },
-                {
-                    key: 'refundStatus',
-                    type: 'text',
-                    title: '退貨狀態'
-                },
-                {
-                    key: 'refundAction',
-                    type: 'text',
-                    title: '退貨狀態變更'
-                },
-                {
-                    key: 'total',
-                    type: 'number',
-                    title: '總額'
-                }
-            ],
-            update: false,
-            selectUpdateFormObject: {
-                deliveryCode     : "",
-                deliveryStatus   : "init"
+        this.state     = {
+            loading                 : false,
+            info                    : props.info,
+            update                  : false,
+            popupStatus             : false,
+            changeStatusActionType  : null,
+            wantChangeItem          : null,
+            selectUpdateFormObject  : {
+                deliveryCode           : "",
+                deliveryStatus         : "init"
             }
         }
     }
@@ -70,65 +38,68 @@ class Products extends React.Component{
         return{
             loading  : props.loading,
             info     : props.info,
-            data     : props.data
         }
     }
 
     render(){
 
-        const { info, location, match } = this.props;
-        const { update, selectUpdateFormObject, loading, tableHeadKey, data } = this.state;
+        const { info, location } = this.props;
+        const { loading, changeStatusActionType, wantChangeItem, popupStatus } = this.state;
+        const { orderDetail=[] } = info;
 
         return(
-            <React.Fragment>
+            <>
                 <section className="admin-content-row">
                     <article className="admin-content-title">
                         <h4>商品清單</h4>
                     </article>
-                    {
-                        info['orderDetail']!=undefined &&
-                            <Table 
-                                tableHeadData={tableHeadKey}
-                                tableBodyData={data}
-                                tableButtonAction= {this.tableButtonAction.bind(this)}
-                            />
-                    }
+                    <Table
+                        thead = {<Thead />}
+                    >
+                        {
+                            orderDetail.map(item => {
+                                return(
+                                    <Tbody 
+                                        {...item}
+                                        key         = {item['id']} 
+                                        handleClick = {( actionType, val ) => {
+                                            this.setState({
+                                                popupStatus            : true,
+                                                changeStatusActionType : actionType,
+                                                wantChangeItem         : {...val}
+                                            });
+                                        }}
+                                    />
+                                );
+                            })
+                        }
+                    </Table>
                     <Loading loading={loading} />
                 </section>
-                {
-                    update &&
-                        <DeliveryUpdate 
-                            match= {match}
-                            location= {location}
-                            handleCancel= {()=>{ this.setState({ update: false }) }}
-                            selectUpdateFormObject= {selectUpdateFormObject}
-                            returnOpen= { (val=false)=> {
-                                this.setState({ 
-                                    update: val 
-                                })
-                            }} 
-                        />
-                }
-            </React.Fragment>
-        );
-    }
 
-    tableButtonAction = ( selectedItem ) => {
-        if( selectedItem['t_method']=="deliveryStatus" ){
-            const { selectUpdateFormObject, info, data } = this.state;
-            this.setState({
-                update: true,
-                selectUpdateFormObject: {
-                    ...selectUpdateFormObject,
-                    orderID: info['orderID'],
-                    productID: selectedItem['id'],
-                    specID: selectedItem['specToken'],
-                    specSku: selectedItem['specSku'],
-                    deliveryCode: selectedItem['deliveryCode'],
-                    deliveryStatus: selectedItem['deliveryStatus']
-                }
-            });
-        }
+                <Popup
+                    className           = {`${changeStatusActionType}-popup-wrap`}
+                    popupStatus         = {popupStatus}
+                    returnPopupStatus   = {() => {
+                        this.setState({
+                            popupStatus: false
+                        })
+                    }}
+                >
+                    <PopupWarp
+                        location        = {location}
+                        actionType      = {changeStatusActionType}
+                        oederData       = {info}
+                        itemData        = {wantChangeItem}
+                        handleCancel    = {() => {
+                            this.setState({
+                                popupStatus: false
+                            })
+                        }}
+                    />
+                </Popup>
+            </>
+        );
     }
 }
 

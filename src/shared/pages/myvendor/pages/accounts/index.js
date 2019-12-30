@@ -12,10 +12,12 @@ import { connect }        from 'react-redux';
 import Head               from './head';
 import Thead              from './table/thead';
 import Tbody              from './table/tbody';
+import PopupOrderDetail   from './popup';
 
 // Modules
 import Table              from '../../../../module/table-new';
 import Loading            from '../../../../module/loading';
+import Popup              from '../../../../module/popup';
 
 // Actions
 import { incListAccount } from '../../../../actions/myvendor';
@@ -28,8 +30,10 @@ class Account extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            loading          : false,
-            list             : []
+            popupStatus             : false,
+            loading                 : false,
+            list                    : [],
+            selectedShowOrderDetail : []
         }
     }
 
@@ -41,11 +45,11 @@ class Account extends React.Component{
 
     render(){
 
-        const { match, history, location } = this.props;
-        const { loading, list }            = this.state;
+        const { match, history, location }   = this.props;
+        const { popupStatus, loading, list, selectedShowOrderDetail } = this.state;
 
         return(
-            <React.Fragment>
+            <>
                 <section className="page-title">
                     <h3>{ lang['zh-TW']['account details'] }</h3>
                 </section>
@@ -60,13 +64,38 @@ class Account extends React.Component{
                     >
                         {
                             list.map(item => {
-                                return (<Tbody key={item['orderID']} {...item}/>);
+                                return (
+                                    <Tbody 
+                                        {...item}
+                                        key                   = {item['orderID']}
+                                        handleShowOrderDetail = {()=>{
+                                            this.setState({
+                                                popupStatus             : true,
+                                                selectedShowOrderDetail : item['orderDetail']
+                                            })
+                                        }}
+                                    />
+                                );
                             })
                         }
                     </Table>
                     <Loading loading={loading} />
                 </section>
-            </React.Fragment>
+
+                <Popup
+                    className         = "orderDetail-popup-wrap"
+                    popupStatus       = {popupStatus}
+                    returnPopupStatus = {()=>{
+                        this.setState({
+                            popupStatus: false,
+                        })
+                    }}
+                >
+                    <PopupOrderDetail 
+                        list = {selectedShowOrderDetail}
+                    />
+                </Popup>
+            </>
         );
     }
 
@@ -89,7 +118,7 @@ class Account extends React.Component{
             this.callAPI();
         }
     }
-    
+
     callAPI = () => {
         const { location }         = this.props;
         const { pathname, search } = location;

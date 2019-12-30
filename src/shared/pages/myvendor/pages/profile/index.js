@@ -1,8 +1,13 @@
-import React from 'react';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React              from 'react';
 
 // Components
-import Profile from './basic';
-import Password from './password'
+import Profile            from './basic';
+import Password           from './password'
 
 export default class Index extends React.Component{
 
@@ -25,8 +30,8 @@ export default class Index extends React.Component{
     render(){
 
         const { match, location } = this.props;
-        const { components } = this.state;
-        const _type = match['params']['type'] || 'basic';
+        const { components }      = this.state;
+        const _type     = match['params']['type'] || 'basic';
         const Component = components[_type]['component'];
         const mainTitle = components[_type]['mainTitle'];
 

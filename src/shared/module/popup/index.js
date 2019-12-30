@@ -14,7 +14,7 @@ export default props => {
 
     return(
         <div className={`popup-wrap ${className||''} ${popupStatus||false}`}>
-            <div className="popup-mask" onClick={props.returnPopupStatus()}/>
+            <div className="popup-mask" onClick={props.returnPopupStatus.bind(this)}/>
             <div className="popup-container">
                 {children}
             </div>

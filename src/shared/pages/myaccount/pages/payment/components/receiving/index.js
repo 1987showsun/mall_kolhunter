@@ -13,7 +13,6 @@ import Receiving          from './receiving';
 const Index = props => {
 
     const { data } = props;
-    console.log( data );
     
     return(
         <section className="container-unit">

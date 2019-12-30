@@ -20,9 +20,6 @@ import Loading              from '../../../../../../module/loading';
 // Actions
 import { buyCaseBillList }  from '../../../../../../actions/myvendor';
 
-// Set
-import tableHeadData        from '../../public/set/tableHeadData';
-
 // Lang
 import lang                 from '../../../../../../public/lang/lang.json';
 

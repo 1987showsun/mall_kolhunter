@@ -25,7 +25,11 @@ export default (props) => {
                             {productStatusText}
                         </button>
                     ):(
-                        <span>{productStatusText}</span>
+                        <span
+                            className = {`productStatus ${productStatus}`}
+                        >
+                            {productStatusText}
+                        </span>
                     )
                 }
             </div>
@@ -36,13 +40,13 @@ export default (props) => {
                 <Link to={`/myvendor/products/info/${id}`}>{name}</Link>
             </div>
             <div className="table-new-cell">{categoryString}</div>
-            <div className="table-new-cell text-right">
-                <CurrencyFormat value={celebrityNum} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+            <div className="table-new-cell text-right money">
+                <CurrencyFormat value={celebrityNum} displayType={'text'} thousandSeparator={true} />
             </div>
-            <div className="table-new-cell text-right">
+            <div className="table-new-cell text-right money">
                 <CurrencyFormat value={price} displayType={'text'} thousandSeparator={true} prefix={'$'} />
             </div>
-            <div className="table-new-cell text-right">
+            <div className="table-new-cell text-right money">
                 <CurrencyFormat value={sellPrice} displayType={'text'} thousandSeparator={true} prefix={'$'} />
             </div>
             <div className="table-new-cell text-right">{vendorFee} ％</div>

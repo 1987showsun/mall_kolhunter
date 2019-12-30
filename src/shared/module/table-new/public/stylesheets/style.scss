@@ -31,13 +31,16 @@
             overflow                   : hidden;
             text-overflow              : ellipsis;
         }
+        &:hover{
+            background                 : #FAFAFA;
+        }
         &:last-child{
             border-bottom              : none;
         }
         &.table-new-thead{
             font-size                  : 0.9rem;
             font-weight                : bold;
-            background                 : #FAFAFA;
+            background                 : #f3f3f3;
             color                      : #5A6268;
             border-bottom              : 1px solid #f0f2f5;
         }
@@ -54,6 +57,19 @@
                     border           : 1px solid #e1e1e1;
                     border-radius    : 4px;
                 }
+            }
+            &.date{
+                width     : 180px;
+            }
+            &.status{
+                width     : 140px;
+            }
+            &.link{
+                color     : var(--blue);
+                cursor    : pointer;
+            }
+            &.money{
+                width     : 150px;
             }
         }
     }

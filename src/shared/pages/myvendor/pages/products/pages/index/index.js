@@ -4,6 +4,7 @@
  */
 
 import React                                         from 'react';
+import toaster                                       from 'toasted-notes';
 import queryString                                   from 'query-string';
 import { connect }                                   from 'react-redux';
 import { Helmet }                                    from "react-helmet";
@@ -156,6 +157,21 @@ class Product extends React.Component{
             this.props.dispatch( productPutsaleAndDiscontinue(pathname, {...queryString.parse(search)}, {productToken: val['id'], productDisplay: val['display']? false:true}, mergeData) ).then( res => {
                 this.setState({
                     loading: false
+                },()=>{
+                    let status      = "failure";
+                    let status_text = "變更失敗";
+
+                    if( res['status']==200 ){
+                        status      = 'success';
+                        status_text = '變更成功';
+                    }
+
+                    toaster.notify(
+                        <div className={`toaster-status ${status}`}>{status_text}</div>
+                    ,{
+                        position: 'bottom-right',
+                        duration: 3000
+                    });
                 });
             });
         });

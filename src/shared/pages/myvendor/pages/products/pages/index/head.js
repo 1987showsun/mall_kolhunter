@@ -1,9 +1,14 @@
-import React from 'react';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                from 'react';
+import queryString          from 'query-string';
+import { connect }          from 'react-redux';
 
 // Lang
-import lang from '../../../../../../public/lang/lang.json';
+import lang                 from '../../../../../../public/lang/lang.json';
 
 class HeadProduct extends React.Component{
 

@@ -38,22 +38,30 @@ class Index extends React.Component{
         const { loading, list } = this.state;
 
         return(
-            <React.Fragment>
+            <>
                 <section className="page-title">
                     <h3>{lang['zh-TW']['planform management']}</h3>
                 </section>
                 <div className="planform-list">
                     {
-                        list.map( items => <Items key={items['token']} data={items} returnBuyPlanform={this.returnBuyPlanform.bind(this)} />)
+                        list.map( items => {
+                            return(
+                                <Items 
+                                    key               = {items['token']} 
+                                    data              = {items} 
+                                    returnBuyPlanform = {this.returnBuyPlanform.bind(this)} 
+                                />
+                            );
+                        })
                     }
                 </div>
                 <Loading loading={loading} />
-            </React.Fragment>
+            </>
         );
     }
 
     componentDidMount() {
-        const { location, match } = this.props;
+        const { location }         = this.props;
         const { pathname, search } = location;
         this.setState({
             loading: true,
@@ -80,7 +88,7 @@ class Index extends React.Component{
     returnBuyPlanform = ( val, selectedItem ) => {
         const { location, history, match } = this.props;
         const { search } = location;
-        const query = queryString.stringify( {...queryString.parse(search) ,...val} );
+        const query      = queryString.stringify( {...queryString.parse(search) ,...val} );
         sessionStorage.setItem(`vendorBuyPlanform`,JSON.stringify({...selectedItem,...val}));
         history.push({
             pathname: '/myvendor/planform/payment/step1',

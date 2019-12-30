@@ -86,8 +86,8 @@ class HeadProduct extends React.Component{
                                 <div className="input-box select">
                                     <select name="orderStatus" value={ orderStatus } onChange={this.filterData.bind(this)}>
                                         <option value="">顯示全部</option>
-                                        <option value="init">待付款</option>
-                                        <option value="paid">已付款</option>
+                                        <option value="init">尚未付款</option>
+                                        <option value="paid">付款成功</option>
                                         <option value="payfailure">付款失敗</option>
                                     </select>
                                 </div>

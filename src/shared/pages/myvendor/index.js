@@ -3,39 +3,41 @@
  *   All rights reserved.
  */
 
-import React from 'react';
+import React                       from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect }                 from 'react-redux';
 
 //Components
-import Nav from './common/nav';
-import Header from './common/header';
+import Nav                         from './common/nav';
+import Header                      from './common/header';
 
 // Actions
-import { vinfo } from '../../actions/myvendor';
-import { clearToken } from '../../actions/login';
+import { vinfo }                   from '../../actions/myvendor';
+
+//Routers
+import routers                     from './routers';
 
 //Stylesheets
 import './public/css/style.scss';
-
-//Routers
-import routers from './routers';
 
 class Index extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            token        : typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : "",
-            navOpenStatus: 'close'
+            token            : typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : "",
+            navOpenStatus    : 'close'
         }
     }
 
     static getDerivedStateFromProps( props, state ){
-        const { token } = state;
-        if( props.jwt_vendor!=token ){
+
+        const { token }      = state;
+        const { jwt_vendor } = props;
+
+        if( jwt_vendor!=token ){
             return {
-                token: props.jwt_vendor
+                token: jwt_vendor
             }
         }
         return null;
@@ -45,9 +47,9 @@ class Index extends React.Component{
 
         const { navOpenStatus, token } = this.state;
         
-        if( token=='' || token==null || token==undefined ){
+        if( token=='' || token==undefined ){
             return null;
-        }else if( token!='' || token!=null || token!=undefined ){
+        }else if( token!='' || token!=undefined ){
             return(
                 <React.Fragment>
                     <Nav 
@@ -60,9 +62,9 @@ class Index extends React.Component{
                     />
                     <main className={`admin-main ${navOpenStatus}`}>
                         <Header 
-                            history= {this.props.history} 
-                            match= {this.props.match}
-                            location= {this.props.location}
+                            match        = {this.props.match}
+                            history      = {this.props.history} 
+                            location     = {this.props.location}
                         />
                         <div className="admin-content">
                             <Switch>
@@ -84,7 +86,7 @@ class Index extends React.Component{
     componentDidMount() {
         const { history } = this.props;
         const { token }   = this.state;
-        if( token=='' || token==null || token==undefined ){
+        if( token=='' || token==undefined ){
             history.push({
                 pathname: '/vendor'
             })
@@ -96,7 +98,7 @@ class Index extends React.Component{
     getSnapshotBeforeUpdate(prevProps, prevState){
         const token = this.state.token;
         const prevStateToken = prevState.token;
-        if( token=='' || token==null || token==undefined || token!=prevStateToken ){
+        if( token=='' || token==undefined || token!=prevStateToken ){
             this.props.history.goBack();
         }
         return null;
@@ -109,8 +111,8 @@ class Index extends React.Component{
 
 const mapStateToProps = (state) => {
     return{
-        token: state.login.token,
-        jwt_vendor: state.login.jwt_vendor
+        token         : state.login.token,
+        jwt_vendor    : state.login.jwt_vendor
     }
 }
 

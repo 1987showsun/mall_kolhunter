@@ -100,6 +100,7 @@
             "go to the login page": "前往登入頁"
         },
         "note": {
+            "update delivery status failure": "更新傳送狀態失敗",
             "successfully deleted": "刪除成功",
             "failed to delete" : "刪除失敗",
             "file exceeds 300KB size limit": "檔案大小超過 300KB",

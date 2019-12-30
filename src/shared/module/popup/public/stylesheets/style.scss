@@ -38,6 +38,14 @@
                 margin-bottom: 0px;
             }
         }
+        >.popup-head{
+            padding-bottom   : 10px;
+            margin-bottom    : 5px;
+            border-bottom    : 1px solid #e1e1e1;
+            h3{
+                font-size         : 1.1rem;
+            }
+        }
         .popup-action{
             justify-content: center;
             >li{

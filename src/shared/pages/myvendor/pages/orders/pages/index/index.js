@@ -138,7 +138,7 @@ class Order extends React.Component{
         this.setState({
             loading: true,
         },()=> {
-            this.props.dispatch( orderList(pathname,{...initQuery}) ).then( res => {
+            this.props.dispatch( orderList(pathname,{...searchObject, ...initQuery}) ).then( res => {
                 this.setState({
                     loading: false,
                 });

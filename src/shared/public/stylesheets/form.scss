@@ -169,6 +169,14 @@ input, select, button, textarea{
         color                 : #aaa;
         font-size             : 0.8rem;
     }
+    &.change-status{
+        width            : 65px;
+        height           : 30px;
+        margin-left      : 10px;
+        display          : inline-flex;
+        background       : var(--blue);
+        font-size        : 0.8rem;
+    }
 }
 
 select{
@@ -217,6 +225,10 @@ button{
         color              : #fff !important;
         background         : var(--blue);
         border             : none;
+    }
+    &:disabled{
+        background         : #333;
+        cursor             : not-allowed;
     }
 }
 

@@ -6,17 +6,16 @@
 import React          from 'react';
 import CurrencyFormat from 'react-currency-format';
 
-export default ({orderID, orderName, orderDetail, orderStatus, orderTimeMs, amount, vendorFee}) => {
+export default ({handleShowOrderDetail ,orderID, orderName, orderDetail, orderStatus, orderStatusText, orderTimeMs, amount, totalVendorFeeSplit, vendorFee ,transactionFee}) => {
     return(
         <>
-            <div className="table-new-cell">{orderID}</div>
+            <div className="table-new-cell link" onClick={handleShowOrderDetail.bind(this)}>{orderID}</div>
             <div className="table-new-cell">{orderName}</div>
-            <div className="table-new-cell text-right money">{orderDetail.length}</div>
-            <div className="table-new-cell">{orderStatus}</div>
-            <div className="table-new-cell text-right money"><CurrencyFormat value={0} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+            <div className="table-new-cell status"><span className={`orderStatus ${orderStatus}`}>{orderStatusText}</span></div>
+            <div className="table-new-cell text-right money"><CurrencyFormat value={transactionFee} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+            <div className="table-new-cell text-right money"><CurrencyFormat value={totalVendorFeeSplit} displayType={'text'} thousandSeparator={true} /> ％</div>
             <div className="table-new-cell text-right money"><CurrencyFormat value={vendorFee} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
-            <div className="table-new-cell text-right money"><CurrencyFormat value={0} displayType={'text'} thousandSeparator={true} /></div>
-            <div className="table-new-cell">{orderTimeMs}</div>
+            <div className="table-new-cell date">{orderTimeMs}</div>
         </>
     );
 }

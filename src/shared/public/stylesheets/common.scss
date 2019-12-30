@@ -962,6 +962,7 @@ figure{
     font-size        : 0.8rem;
     border-radius    : 4px;
     user-select      : none;
+    color            : #fff;
     &.none-auth{
         background: var(--gray-dark);
     }

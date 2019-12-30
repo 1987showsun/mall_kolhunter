@@ -340,7 +340,7 @@ class Cover extends React.Component{
                 });
             });
         }else{
-            alert();
+            alert('限量是殘酷的，就跟變了心的女友回不來了！');
         }
     }
 }

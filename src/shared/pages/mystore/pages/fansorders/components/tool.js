@@ -3,9 +3,11 @@
  *   All rights reserved.
  */
 
-import React from 'react';
-import dayjs from 'dayjs';
-import queryString from 'query-string';
+import React                   from 'react';
+import dayjs                   from 'dayjs';
+import queryString             from 'query-string';
+import { FontAwesomeIcon }     from '@fortawesome/react-fontawesome';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default class Tool extends React.Component{
 
@@ -56,6 +58,10 @@ export default class Tool extends React.Component{
                         </div>
                     </li>
                 </ul>
+                <span className="warn">
+                    <i><FontAwesomeIcon icon={faExclamationCircle} /></i>
+                    非即時性訂單呈現，1-15號訂單分潤金額16號起顯示，16-月底訂單分潤金額 次月1號起顯示
+                </span>
             </section>
         );
     }

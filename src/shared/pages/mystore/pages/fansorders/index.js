@@ -3,37 +3,39 @@
  *   All rights reserved.
  */
 
-import React from 'react';
-import dayjs from 'dayjs';
-import queryString from 'query-string';
-import { connect } from 'react-redux';
+import React                from 'react';
+import dayjs                from 'dayjs';
+import queryString          from 'query-string';
+import { connect }          from 'react-redux';
 
 // Components
-import Tools from './components/tool';
-import InfoBox from './components/infoBox';
+import Tools                from './components/tool';
+import InfoBox              from './components/infoBox';
+import Thead                from './components/table/thead';
+import Tbody                from './components/table/tbody';
 
 // Modules
-import Table from '../../../../module/table';
-import Loading from '../../../../module/loading/mallLoading';
+import Table                from '../../../../module/table-new';
+import Loading              from '../../../../module/loading/mallLoading';
 
 // Actions
 import { mystoreSalesList } from '../../../../actions/mystore';
 
 // Setup
-import tableHeadData from '../../public/setup/tableHeadData';
+import tableHeadData        from '../../public/setup/tableHeadData';
 
 class Index extends React.Component{
 
     constructor( props ){
         super(props);
         this.state = {
-            loading: false,
-            feeAmount: 0,
-            saleAmount: 0,
-            endTimeMs: dayjs().format('YYYY/MM/DD'),
-            startTimeMs: dayjs().format('YYYY/MM/DD'),
-            tableHeadData: tableHeadData['fansorders'],
-            tableBodyData: []
+            loading         : false,
+            feeAmount       : 0,
+            saleAmount      : 0,
+            endTimeMs       : dayjs().format('YYYY/MM/DD'),
+            startTimeMs     : dayjs().format('YYYY/MM/DD'),
+            tableHeadData   : tableHeadData['fansorders'],
+            tableBodyData   : []
         }
     }
 
@@ -68,10 +70,15 @@ class Index extends React.Component{
                     saleAmount= {saleAmount}
                 />
                 <section className="container-unit">
-                    <Table 
-                        tableHeadData= {tableHeadData}
-                        tableBodyData= {ordersList}
-                    />
+                    <Table
+                        thead = {<Thead />}
+                    >
+                        {
+                            ordersList.map((item,i) => {
+                                return <Tbody key={i} {...item} />
+                            })
+                        }
+                    </Table>
                     <Loading loading={loading} />
                 </section>
             </React.Fragment>

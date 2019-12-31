@@ -33,10 +33,10 @@ import './public/stylesheets/style.scss';
 import { checkRequired, isCertificated, isInvoice } from '../../../../public/javascripts/checkFormat';
 
 // Set
-import required from './public/set/required';
+import required                                     from './public/set/required';
 
 // Lang
-import lang from '../../../../public/lang/lang.json';
+import lang                                         from '../../../../public/lang/lang.json';
 
 class Index extends React.Component{
 
@@ -59,7 +59,14 @@ class Index extends React.Component{
                 url               : "",
                 val               : ""
             },
-            returnBody          : ""
+            returnBody          : "",
+            cartProductList     : props.cartProductList,
+        }
+    }
+
+    static getDerivedStateFromPRops( props,state ){
+        return{
+            cartProductList     : props.cartProductList 
         }
     }
 
@@ -177,8 +184,6 @@ class Index extends React.Component{
         
     handleSubmit = ( e ) => {
         
-        const { location, history } = this.props;
-        const { pathname, search }  = location;
         const { formObject, paymentFormObject, invoiceFormObject, required } = this.state;
         const mergeFormObject     = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
         const filterRequired      = Object.keys(mergeFormObject).filter( keys => required.includes( keys ) );
@@ -241,7 +246,7 @@ class Index extends React.Component{
 
         const { location, history } = this.props;
         const { pathname, search }  = location;
-        const { formObject, paymentFormObject, invoiceFormObject } = this.state;
+        const { formObject, paymentFormObject, invoiceFormObject, cartProductList } = this.state;
         const mergeFormObject       = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
 
         this.setState({
@@ -319,14 +324,39 @@ class Index extends React.Component{
 
                         default:
                             // 失敗就於右下角跳出錯誤訊息
-                            const status_text = res['data']['status_text'];
+                            const status_text      = res['data']['status_text'];
+
+                            const msg = status_text.map((item,i) => {
+                                if( item.hasOwnProperty('parentProductToken') ){
+                                    // 組合商品
+                                    const filterItemArray = cartProductList.filter( filterItem => item['parentProductToken']==filterItem['productToken'] );
+                                    return filterItemArray.map( filterItem => {
+                                        const  findItemArray =  filterItem['spec'].find((findItem, fi) => findItem['specToken'] == item['specToken'] );
+                                        return [<div key={fi} className={`toaster-status failure`}>{`${findItemArray[0]['productName']}-${findItemArray[0]['specName']} ${lang['zh-TW'][item['msg']]}`}</div>];
+                                    })
+                                }else{
+                                    // 非組合商品
+                                    const filterItemArray = cartProductList.filter( filterItem => item['parentProductToken']==filterItem['productToken'] );
+                                    return filterItemArray.map( filterItem => {
+                                        const  findItemArray =  filterItem['spec'].find((findItem, fi) => findItem['specToken'] == item['specToken'] );
+                                        return [<div key={fi} className={`toaster-status failure`}>{`${findItemArray[0]['productName']}-${findItemArray[0]['specName']} ${lang['zh-TW'][item['msg']]}`}</div>];
+                                    });
+                                }
+                            })
+
                             toaster.notify(
-                                <div className={`toaster-status failure`}>{lang['zh-TW'][status_text]}</div>
+                                msg
                             ,{
                                 position : 'bottom-right', // 訊息窗顯示於右下角
                                 duration : 3000            // 訊息5秒後消失
                             })
-                            break;
+
+                            // toaster.notify(
+                            //     <div className={`toaster-status failure`}>{lang['zh-TW'][status_text]}</div>
+                            // ,{
+                            //     position : 'bottom-right', // 訊息窗顯示於右下角
+                            //     duration : 3000            // 訊息5秒後消失
+                            // })
                     }
                 })
             });
@@ -336,7 +366,7 @@ class Index extends React.Component{
 
 const mapStateToProps = state => {
     return{
-        
+        cartProductList  : state.myaccount.cartItems
     }
 }
 

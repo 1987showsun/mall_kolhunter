@@ -155,7 +155,8 @@ export default class Card extends React.Component{
                 returnURL: formObject['returnURL'],
                 cardno   : formObject['cardno'],
                 cvc      : formObject['cvc'],
-                exp      : formObject['reExp']
+                exp      : formObject['reExp'],
+                Inst     : Number(formObject['Inst'])
             });
         }
     } 

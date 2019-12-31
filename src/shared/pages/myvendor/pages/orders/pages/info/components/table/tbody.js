@@ -11,13 +11,14 @@ import lang           from '../../../../../../../../public/lang/lang.json';
 
 export default (props) => {
 
-    const { productName, specName, deliveryStatus, refundStatus, deliveryCode, amount } = props;
+    const { productName, specName, storeName, deliveryStatus, refundStatus, deliveryCode, amount } = props;
     const refundButtonDisabled = ['none','reject','approve'];
 
     return(
         <>
             <div className="table-new-cell table-new-head">{productName}</div>
             <div className="table-new-cell table-new-head">{specName}</div>
+            <div className="table-new-cell">{storeName || 'Mall Kolhunter'}</div>
             <div className="table-new-cell table-new-head">
                 {lang['zh-TW']['deliveryStatus'][deliveryStatus]}
                 {

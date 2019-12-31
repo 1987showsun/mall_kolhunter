@@ -243,7 +243,7 @@ class Index extends React.Component{
         const { pathname, search }  = location;
         const { formObject, paymentFormObject, invoiceFormObject } = this.state;
         const mergeFormObject       = { ...formObject, ...paymentFormObject, ...invoiceFormObject };
-        console.log( mergeFormObject );
+
         this.setState({
             loading    : true,
             open       : false,
@@ -309,9 +309,9 @@ class Index extends React.Component{
                                 });
                             }else{
                                 this.setState({
-                                    open: true,
-                                    method: 'alert',
-                                    popupMsg: `<div className="items">${lang['zh-TW']['note']['pay checkcode error']}</div>`
+                                    open         : true,
+                                    method       : 'alert',
+                                    popupMsg     : `<div className="items">${lang['zh-TW']['note']['pay checkcode error']}</div>`
                                 })
                             }
 
@@ -323,8 +323,8 @@ class Index extends React.Component{
                             toaster.notify(
                                 <div className={`toaster-status failure`}>{lang['zh-TW'][status_text]}</div>
                             ,{
-                                position: 'bottom-right', // 訊息窗顯示於右下角
-                                duration: 5000 // 訊息5秒後消失
+                                position : 'bottom-right', // 訊息窗顯示於右下角
+                                duration : 3000            // 訊息5秒後消失
                             })
                             break;
                     }

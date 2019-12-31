@@ -1,47 +1,55 @@
-import React from 'react';
-import CurrencyFormat from 'react-currency-format';
-import { connect } from 'react-redux';
+/*
+ *   Copyright (c) 2019 
+ *   All rights reserved.
+ */
+
+import React                              from 'react';
+import toaster                            from 'toasted-notes';
+import CurrencyFormat                     from 'react-currency-format';
+import { connect }                        from 'react-redux';
 
 // Modules
-import Confirm from '../../../../../../module/confirm';
+import Confirm                            from '../../../../../../module/confirm';
 
 // Actions
-import { vinfo } from '../../../../../../actions/myvendor';
+import { vinfo }                          from '../../../../../../actions/myvendor';
 
 // Javascripts
-import { checkRequired } from '../../../../../../public/javascripts/checkFormat';
+import { checkRequired }                  from '../../../../../../public/javascripts/checkFormat';
 
 // Json
-import county_area from '../../../../../../public/json/TWzipcode.json';
-import lang from '../../../../../../public/lang/lang.json';
+import county_area                        from '../../../../../../public/json/TWzipcode.json';
+import lang                               from '../../../../../../public/lang/lang.json';
+
+
 
 class Basic extends React.Component{
 
     constructor(props){
-        const city = Object.keys(county_area)[0];
-        const district = Object.keys(county_area[city])[0];
         super(props);
-        this.state = {
-            open: false,
-            popupMsg: "",
-            data: props.data,
-            formObject: {
-                company : props.data['company'],
-                email: props.data['email'],
-                phone: props.data['phone'] || "",
-                invoice: props.data['invoice'] || "",
-                contactor: props.data['contactor'] || "",
-                zipcode: props.data['zipcode'] || "",
-                city: props.data['city']==""? city : props.data['city'] || "",
-                district: props.data['district']==""? district : props.data['district'],
-                address: props.data['address'] || "",
-                bankName: props.data['bankName'] || "",
-                bankCode: props.data['bankCode'] || "",
-                bankBranchName: props.data['bankBranchName'] || "",
-                bankAccountName: props.data['bankAccountName'] || "",
-                bankAccount: props.data['bankAccount'] || "",
+        const city            = Object.keys(county_area)[0];
+        const district        = Object.keys(county_area[city])[0];
+        this.state            = {
+            open                : false,
+            popupMsg            : "",
+            data                : props.data,
+            formObject          : {
+                company           : props.data['company'],
+                email             : props.data['email'],
+                phone             : props.data['phone']           || "",
+                invoice           : props.data['invoice']         || "",
+                contactor         : props.data['contactor']       || "",
+                zipcode           : props.data['zipcode']         || "",
+                city              : props.data['city']     ==""? city     : props.data['city'] || "",
+                district          : props.data['district'] ==""? district : props.data['district'],
+                address           : props.data['address']         || "",
+                bankName          : props.data['bankName']        || "",
+                bankCode          : props.data['bankCode']        || "",
+                bankBranchName    : props.data['bankBranchName']  || "",
+                bankAccountName   : props.data['bankAccountName'] || "",
+                bankAccount       : props.data['bankAccount']     || "",
             },
-            required: ['email','phone','contactor','bankName','bankBranchName','bankCode','bankAccountName','bankAccount'],
+            required: ['email','phone','contactor','bankName','bankCode','bankBranchName','bankAccountName','bankAccount'],
             msg:[]
         }
     }
@@ -206,10 +214,10 @@ class Basic extends React.Component{
                 </ul>
 
                 <Confirm 
-                    open={open}
-                    container={popupMsg}
-                    onCancel={this.handleCancel.bind(this)}
-                    onConfirm={this.handleConfirm.bind(this)}
+                    open        ={open}
+                    container   ={popupMsg}
+                    onCancel    ={this.handleCancel.bind(this)}
+                    onConfirm   ={this.handleConfirm.bind(this)}
                 />
             </form>
         );
@@ -231,22 +239,22 @@ class Basic extends React.Component{
                 break;
             
             case 'city':
-                const districtArr = county_area[val];
-                const district = Object.keys(districtArr)[0];
-                const zipcode = districtArr[district];
-                formObject = { 
+                const districtArr    = county_area[val];
+                const district       = Object.keys(districtArr)[0];
+                const zipcode        = districtArr[district];
+                formObject           = { 
                     ...formObject,
-                    [name]: val,
-                    zipcode: zipcode,
-                    district: district
+                    [name]             : val,
+                    zipcode            : zipcode,
+                    district           : district
                 };
                 break;
             
             case 'district':
-                formObject = { 
+                formObject           = { 
                     ...formObject,
-                    [name]: val,
-                    zipcode: e.target.options[e.target.selectedIndex].dataset.zipcode 
+                    [name]             : val,
+                    zipcode            : e.target.options[e.target.selectedIndex].dataset.zipcode 
                 };
                 break;
 
@@ -296,29 +304,33 @@ class Basic extends React.Component{
 
     handleConfirm = () => {
 
+        const { data } = this.props;
         const { formObject,required } = this.state;
-        const checkRequiredFilter = checkRequired( required,formObject );
+        const checkRequiredFilter     = checkRequired( required,formObject );
 
         if( checkRequiredFilter.length==0 ){
-            this.props.dispatch( vinfo('put',formObject) ).then( res => {
+            this.props.dispatch( vinfo('put',{},formObject,data) ).then( res => {
 
-                switch( res['status'] ){
+                const { status, data } = res;
+
+                switch( status ){
                     case 200:
                         this.props.returnSuccess( formObject );
+                        toaster.notify(
+                            <div className={`toaster-status success`}>變更成功</div>
+                        ,{
+                            position: 'bottom-right',
+                            duration: 3000
+                        });
                         break;
 
                     default:
+                        this.setState({
+                            msg: [<div key="note">{lang['zh-TW']['note'][data['status_text']]}</div>]
+                        },()=>{
+                            this.handleCancel();
+                        })
                         break;
-                }
-
-                if( res['status']==200 ){
-                    this.props.returnSuccess( formObject );
-                }else{
-                    this.setState({
-                        msg: [<div key="note">{lang['zh-TW']['note'][res['response']['data']['status_text']]}</div>]
-                    },()=>{
-                        this.handleCancel();
-                    })
                 }
             });
         }else{

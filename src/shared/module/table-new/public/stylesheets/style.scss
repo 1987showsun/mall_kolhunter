@@ -69,7 +69,9 @@
                 cursor    : pointer;
             }
             &.money{
-                width     : 150px;
+                width       : 150px;
+                color       : var(--main);
+                font-weight : bold;
             }
         }
     }

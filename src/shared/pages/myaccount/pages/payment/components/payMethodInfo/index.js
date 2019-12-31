@@ -24,7 +24,7 @@ const PayMethodInfo = props => {
             <ul className="card-form-list">
                 <li>
                     <label>付款狀態</label>
-                    <div>{ lang['zh-TW']['orderStatus'][data['orderStatus']] }</div>
+                    <div><span className={`orderStatus ${data['orderStatus']}`}>{ lang['zh-TW']['orderStatus'][data['orderStatus']] }</span></div>
                 </li>
                 <li>
                     <label>付款方式</label>

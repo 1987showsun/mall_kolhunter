@@ -210,19 +210,30 @@ export function deleteProduct( id ){
 }
 
 // 廠商資料
-export function vinfo( method="get", data={} ){
+export function vinfo( method="get", query={}, data={},source ){
     return (dispatch)=>{
 
         const initQuery    = {};
-        const search       = queryString.stringify({ ...initQuery });
+        const search       = queryString.stringify({ ...initQuery, ...query });
         const url          = `${API()['myvendor']['vinfo']}`;
 
         return Axios({method,url,data}).then( res => {
             if( !res.hasOwnProperty('response') ){
-                dispatch({
-                    type: "VENDOR_INFO",
-                    payload: res['data']
-                })
+                switch( method ){
+                    case 'get':
+                        dispatch({
+                            type        : "VENDOR_INFO",
+                            payload     : res['data']
+                        })
+                        break;
+
+                    case 'put':
+                        dispatch({
+                            type        : "VENDOR_INFO",
+                            payload     : {...source, ...data}
+                        })
+                        break;
+                }
                 return res;
             }
             catchError(res['response'])(dispatch);

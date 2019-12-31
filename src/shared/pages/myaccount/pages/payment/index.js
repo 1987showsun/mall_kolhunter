@@ -28,19 +28,26 @@ const Index = props => {
         const { location } = props;
         const { pathname, search } = location;
         
-        
-        props.dispatch( ordersInfo(pathname,queryString.parse(search)) ).then( res => {
-            setPageLoading( false );
-            switch( res['status'] ){
-                case 200:
-                    setPayInfo(res['data']);
-                    break;
+        const delay = setTimeout(()=>{
+            props.dispatch( ordersInfo(pathname,queryString.parse(search)) ).then( res => {
+                setPageLoading( false );
+                switch( res['status'] ){
+                    case 200:
+                        setPayInfo(res['data']);
+                        break;
 
-                default:
-                    break;
-            }
-        });
-    },[])
+                    default:
+                        break;
+                }
+            });
+        },3000);
+
+        return () => {
+            clearTimeout(delay)
+        };
+    },[]);
+
+    console.log(info);
 
     return(
         <>
@@ -52,7 +59,7 @@ const Index = props => {
             />
             <Product 
                 list    = {info['orderDetail'] || []}
-                amount  = {info['amount']      || 0}
+                amount  = {info['amount']      || 0 }
             />
 
             <Loading loading={loading} />

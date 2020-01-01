@@ -1,9 +1,27 @@
 .cover-img-wrap{
     width: 100%;
+    position: relative;
     .container{
         padding: 0px !important;
     }
     img{
         width: 100%;
+    }
+
+    &.cover-img-skeleton-wrap{
+        margin-top: 10px;
+        ul{
+            width              : 100%;
+            display            : flex;
+            >li{
+                width            : 20%;
+                display          : inline-flex;
+                position         : relative;
+                margin-right     : 10px;
+                &:last-child{
+                    margin-right     : 0px;
+                }
+            }
+        }
     }
 }

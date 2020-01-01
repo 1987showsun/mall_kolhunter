@@ -95,13 +95,13 @@ export default class Card extends React.Component{
                                     <span className="main-text">一次付清</span>
                                 </div>
                             </label>
-                            <label htmlFor="Inst3" className="radio block-radio">
+                            {/* <label htmlFor="Inst3" className="radio block-radio">
                                 <input id="Inst3" type="radio" name="Inst" value={3} checked={Inst==3} onChange={this.handleChange.bind(this)}/>
                                 <div className="block-rodio-text">
                                     <span className="main-text">3 期</span>
                                     <span className="sub-text">每期約：{Math.ceil(cartTotalAmount/3)}<br/>(餘額將併入第一期帳單)</span>
                                 </div>
-                            </label>
+                            </label> */}
                         </div>
                     </li>
                 </ul>

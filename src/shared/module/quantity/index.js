@@ -34,7 +34,7 @@ export default class Index extends React.Component{
 
         if( itemNumMax!=props.itemNumMax ){
             itemNumMax = props.itemNumMax;
-            if( itemNum>props.itemNumMax ){
+            if( props.itemNumMax!=0 && itemNum>props.itemNumMax ){
                 itemNum = props.itemNumMax;
             }
         }

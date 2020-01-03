@@ -181,7 +181,7 @@ class Cover extends React.Component{
                             this.setState({
                                 formObject: {
                                     ...formObject,
-                                    val
+                                    ...val
                                 }
                             })
                         }}

@@ -4,6 +4,7 @@
  */
 
 import express                            from "express";
+import path                               from 'path';
 import cors                               from "cors";
 import React                              from "react";
 import logger                             from "morgan";
@@ -18,10 +19,11 @@ import App                                from "../shared/layout";
 import "source-map-support/register";
 
 const app = express();
-
 app.use(logger('dev'));
 app.use(cors());
 app.use(express.static("public"));
+app.set('/views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.all("*", (req, res, next) => {
   const store    = configureStore();
@@ -121,7 +123,8 @@ app.use('/site/502', (req, res, next) =>{
 
 app.use((err, req, res, next) => {
   res.status(500);
-  res.send('Something broke!');
+  //res.send('Something broke!');
+  res.render('err500',{aaa:'123'});
 });
 
 // http

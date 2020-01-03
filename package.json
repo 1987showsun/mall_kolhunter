@@ -24,9 +24,9 @@
     "babel-preset-react-app": "^9.0.1",
     "body-parser": "^1.19.0",
     "chart.js": "^2.8.0",
-    "compression-webpack-plugin": "^3.0.0",
+    "compression-webpack-plugin": "^3.0.1",
     "cookie-parser": "^1.4.4",
-    "copy-webpack-plugin": "^5.0.4",
+    "copy-webpack-plugin": "^5.1.1",
     "cors": "^2.8.5",
     "css-loader": "^3.2.0",
     "dayjs": "^1.8.15",
@@ -79,7 +79,7 @@
     "redux-thunk": "^2.3.0",
     "request": "^2.88.0",
     "sass-loader": "^7.2.0",
-    "serialize-javascript": "^1.7.0",
+    "serialize-javascript": "^2.1.2",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "source-map-support": "^0.5.13",
@@ -91,6 +91,6 @@
     "workbox-webpack-plugin": "^4.3.1"
   },
   "devDependencies": {
-    "terser-webpack-plugin": "^2.2.1"
+    "terser-webpack-plugin": "^2.3.1"
   }
 }

@@ -3,7 +3,7 @@
  *   All rights reserved.
  */
 
-import React                                 from "React";
+import React                                 from "react";
 
 // Components
 import OpenSelect                            from '../../../../../module/openSelect';

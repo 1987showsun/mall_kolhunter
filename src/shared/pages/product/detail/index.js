@@ -76,7 +76,7 @@ class Index extends React.Component{
                 <div className="row">
                     <section className="container detail-content" >
                         <div className="container-row">
-                            {
+                            {/* {
                                 info['token']!=""? (
                                     <Cover 
                                         match        = {match}
@@ -84,10 +84,10 @@ class Index extends React.Component{
                                         location     = {location}
                                         data         = {info}
                                     />
-                                ):(
+                                ):( */}
                                     <SCover />
-                                )
-                            }
+                                {/* )
+                            } */}
                         </div>                    
                         <Description 
                             name={ info['name'] }

@@ -8,20 +8,18 @@ import toaster                               from 'toasted-notes';
 import queryString                           from 'query-string';
 import CurrencyFormat                        from 'react-currency-format';
 import { connect }                           from 'react-redux';
-import { FontAwesomeIcon }                   from '@fortawesome/react-fontawesome';
-import { faShoppingCart }                    from '@fortawesome/free-solid-svg-icons';
 
 // Components
 import Share                                 from './share';
 import Price                                 from './price';
+import Delivery                              from './delivery';
 import Spec                                  from './spec';
+import ItemNumber                            from './itemNumber';
+import Store                                 from './store';
 import Action                                from './action';
 
 // Modules
 import CoverSlider                           from '../../../../../module/coverSlider';
-import Quantity                              from '../../../../../module/quantity';
-import OpenSelect                            from '../../../../../module/openSelect';
-import Loading                               from '../../../../../module/loading';
 
 // Actions
 import { updateCartProductItem, cartsCount } from '../../../../../actions/myaccount';
@@ -29,12 +27,6 @@ import { storeInfo }                         from '../../../../../actions/store'
 
 // Set
 import { main, sub }                         from '../../public/set/slider';
-
-// Lang
-import lang                                  from '../../../../../public/lang/lang.json';
-
-// images
-import kolhunterlogo                         from '../../../../../public/images/kolhunter_logo.jpg';
 
 class Cover extends React.Component{
 
@@ -122,7 +114,7 @@ class Cover extends React.Component{
     render(){
 
         const { lock, data, imageData, storeLoading, storeInfo, formObject } = this.state;
-        const { spec }      = data;
+        const { price=0, sellPrice=0, spec }      = data;
         const { specToken } = formObject;
         const itemNumMax    = Math.min(
             ...spec.map(item => {
@@ -144,19 +136,19 @@ class Cover extends React.Component{
         return(
             <section className="detail-cover-wrap">
                 <section className="detail-cover-wrap-col left">
-                    <CoverSlider 
-                        name         = {data['name']}
-                        data         = {imageData}
-                        mainSettings = {main}
-                        navSettings  = {sub}
-                    />
-                    <Share />
+                    <div className="cover-img-wrap">
+                        <CoverSlider 
+                            name         = {data['name']}
+                            data         = {imageData}
+                            mainSettings = {main}
+                            navSettings  = {sub}
+                        />
+                        <Share />
+                    </div>
                 </section>
                 <section className="detail-cover-wrap-col right">
                     <div className="detail-cover-row cover-title">
                         <h1>{data['name'] || ""}</h1>
-                    </div>
-                    <div className="detail-cover-row cover-other">
                         <ul className="cover-other-ul">
                             <li>
                                 <div><span className="value"><CurrencyFormat value={data['celebrityNum']} displayType={'text'} thousandSeparator={true} /></span>店家販售</div>
@@ -165,23 +157,23 @@ class Cover extends React.Component{
                                 <div><span className="value"><CurrencyFormat value={itemNumMax||0} displayType={'text'} thousandSeparator={true} /></span>剩餘庫存</div>
                             </li> */}
                         </ul>
-                    </div>
-                    <Price 
-                        data= { data }
-                    />
-                    <div className="detail-cover-row cover-select">
-                        <label>{lang['zh-TW']['label']['delivery']}</label>                            
-                        <OpenSelect 
-                            data         = {deliveryArray}
-                            name         = "productDeliveryID"
-                            initSelected = {formObject['productDeliveryID']}
-                            returnForm   = { val => {
-                                this.setState({
-                                    formObject: { ...this.state.formObject, ...val }
-                                })
-                            }}
+                        <Price 
+                            price           = {price}
+                            sellPrice       = {sellPrice}
                         />
                     </div>
+                    <Delivery 
+                        data            = {deliveryArray}
+                        formObject      = {formObject}
+                        returnSpecToken = {val => {
+                            this.setState({
+                                formObject: { 
+                                    ...formObject, 
+                                    ...val 
+                                }
+                            })
+                        }}
+                    />
                     <Spec
                         data            = {data}
                         formObject      = {formObject}
@@ -194,34 +186,27 @@ class Cover extends React.Component{
                             })
                         }}
                     />
-                    <div className="detail-cover-row cover-quantity">
-                        <label>{lang['zh-TW']['label']['buy quantity']}</label>
-                        <Quantity
-                            initVal     = {1}
-                            itemNumMax  = { itemNumMax||0 }
-                            returnForm  = { val => {
-                                this.setState({
-                                    formObject: { ...this.state.formObject, itemNumber: val['itemNum'] }
-                                })
-                            }}
-                        />
-                    </div>
-                    <div className="detail-cover-row cover-select">
-                        <label>{lang['zh-TW']['label']['by store']}</label>
-                        <div className="detail-store-wrap">
-                            <div className="img">
-                                <img src={ storeInfo['photo']!=undefined? storeInfo['photo']: kolhunterlogo } alt={ storeInfo['name']!=undefined? storeInfo['name']: "網紅電商" } title="" />
-                            </div>
-                            <div className="name">
-                                <h3 dangerouslySetInnerHTML={{__html:storeInfo['name']!=undefined? storeInfo['name']: "網紅電商"}} />
-                            </div>
-                            <Loading loading={storeLoading}/>
-                        </div>
-                    </div>
+                    <ItemNumber
+                        initVal         = {1}
+                        itemNumMax      = {itemNumMax || 0}
+                        returnForm      = {val => {
+                            console.log(val);
+                            this.setState({
+                                formObject: { 
+                                    ...formObject,
+                                    itemNumber: val['itemNum']
+                                }
+                            })
+                        }}
+                    />
+                    <Store 
+                        data            = {storeInfo}
+                        loading         = {storeLoading}
+                    />
                     <Action 
-                        lock       = {lock}
-                        itemNumMax = {itemNumMax}
-                        callCarts  = {this.callCarts.bind(this)}
+                        lock            = {lock}
+                        itemNumMax      = {itemNumMax}
+                        callCarts       = {this.callCarts.bind(this)}
                     />
                 </section>
             </section>

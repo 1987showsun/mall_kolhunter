@@ -1,27 +1,32 @@
 .cover-img-wrap{
-    width: 100%;
-    position: relative;
+    width               : 100%;
+    position            : relative;
+    background          : #fff;
     .container{
-        padding: 0px !important;
+        padding               : 0px !important;
     }
     img{
-        width: 100%;
+        width                 : 100%;
     }
 
     &.cover-img-skeleton-wrap{
-        margin-top: 10px;
+        margin-top            : 10px;
         ul{
-            width              : 100%;
-            display            : flex;
+            width                 : 100%;
+            display               : flex;
             >li{
-                width            : 20%;
-                display          : inline-flex;
-                position         : relative;
-                margin-right     : 10px;
+                width                   : 20%;
+                display                 : inline-flex;
+                align-items             : center;
+                position                : relative;
+                margin-right            : 10px;
                 &:last-child{
-                    margin-right     : 0px;
+                    margin-right           : 0px;
                 }
             }
+        }
+        @media (max-width: 768px) {
+            display: none !important;
         }
     }
 }

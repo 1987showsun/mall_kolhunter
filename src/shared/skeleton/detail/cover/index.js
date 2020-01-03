@@ -31,15 +31,14 @@ export default () => {
                         </li>
                     </ul>
                 </div>
+                <div className="detail-cover-share-wrap">
+                    <span className="skeleton-null skeleton-share-wrap"/>
+                </div>
             </section>
             <section className="detail-cover-wrap-col right">
                 <div className="detail-cover-row cover-title">
                     <span className="skeleton-null main-title" />
-                </div>
-                <div className="detail-cover-row cover-other">
                     <span className="skeleton-null sub-info-block" />
-                </div>
-                <div className="detail-cover-row cover-money">
                     <span className="skeleton-null money" />
                 </div>
                 <div className="detail-cover-row cover-select">

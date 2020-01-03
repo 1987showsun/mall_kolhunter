@@ -15,7 +15,9 @@
 }
 
 .detail-cover-share-wrap{
-    align-items: center;
+    margin-top        : 10px;
+    display           : flex;
+    align-items       : center;
     .detail-cover-share-wrap-label{
         margin-right: 10px;
         display: inline-flex;
@@ -32,6 +34,16 @@
                 margin-right: 0px;
             }
         }
+    }
+    @media (max-width: 768px) and (min-width: 421px) {
+        padding           : 0px 5px;
+        margin-top        : 20px;
+        margin-bottom     : 15px;
+    }
+    @media (max-width: 420px) {
+        padding           : 0px 5px;
+        margin-top        : 20px;
+        margin-bottom     : 15px;
     }
 }
 
@@ -51,107 +63,81 @@
     background    : #fff;
     padding       : 15px;
     .detail-cover-wrap-col{
-        display: inline-flex;
-        flex-wrap: wrap;
-        align-content: flex-start;
+        display                  : inline-flex;
+        flex-wrap                : wrap;
+        align-content            : flex-start;
         &.left{
-            width    : 460px;
-            min-width: 460px;
+            width                    : 460px;
+            min-width                : 460px;
+            background               : #fff;
             @media (max-width: 1000px) and (min-width: 861px) {
-                width     : 380px;
-                min-width : 380px;
+                width                    : 380px;
+                min-width                : 380px;
             }
             @media (max-width: 860px) and (min-width: 721px) {
-                width    : 320px;
-                min-width: 320px;
+                width                    : 320px;
+                min-width                : 320px;
             }
             @media (max-width: 768px) {
-                width    : 100%;
-                min-width: 100%;
+                width                    : 100%;
+                min-width                : 100%;
             }
         }
         &.right{
-            width           : 100%;
-            height          : 100%;
-            padding-left    : 30px;
-            padding-bottom  : 60px;
-            position        : relative;
-            @media (max-width: 860px) and (min-width: 721px) {
-                padding-left    : 15px;
+            width                : 100%;
+            height               : 100%;
+            padding-left         : 30px;
+            padding-bottom       : 60px;
+            position             : relative;
+            @media (max-width: 1024px) and (min-width: 769px) {
+                padding-left             : 15px;
             }
             @media (max-width: 768px) {
-                height          : auto;
-                padding-left    : 0px;
-                padding-bottom  : 0px;
+                height                   : auto;
+                padding-left             : 0px;
+                padding-bottom           : 0px;
+            }
+        }
+
+        .detail-cover-row{
+            &:last-child{
+                margin-bottom                : 0px;
             }
         }
     }
 
     .detail-cover-row{
-        width: 100%;
-        display: flex;
-        padding: 10px;
-        font-size: 0.9em;
+        width                    : 100%;
+        display                  : flex;
+        margin-bottom            : 15px;
+        font-size                : 0.9em;
         >label{
-            width: 140px;
-            min-width: 140px;
-            min-height: 35px;
-            display: inline-flex;
-            align-items: center;
+            width                        : 140px;
+            min-width                    : 140px;
+            min-height                   : 35px;
+            display                      : inline-flex;
+            align-items                  : center;
             &:after{
-                content: "：";
+                content                         : "：";
             }
-        }
-        &:last-child{
-            margin-bottom: 0px;
         }
         &.cover-title{
-            max-height: 95px;
-            align-items: center;
+            justify-content              : center;
+            flex-direction               : column;
             h1{
-                font-size: 1.4rem;
-                font-weight: 500;
-                line-height: 1.6em;
-                display: -webkit-box;
-                max-height: 80px;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: normal;
-                -webkit-line-clamp: 2;
+                font-size                       : 1.4rem;
+                font-weight                     : 500;
+                line-height                     : 1.6em;
+                display                         : -webkit-box;
+                max-height                      : 80px;
+                -webkit-box-orient              : vertical;
+                overflow                        : hidden;
+                text-overflow                   : ellipsis;
+                white-space                     : normal;
+                -webkit-line-clamp              : 2;
             }
-            @media (max-width: 1024px) and (min-width: 861px) {
-                max-height: 80px;
-                h1{
-                    max-height: 65px;
-                    font-size: 1.2rem;
-                }
-            }
-            @media (max-width: 860px) and (min-width: 769px) {
-                max-height: 80px;
-                h1{
-                    max-height: 65px;
-                    font-size: 1.1rem;
-                }
-            }
-            @media (max-width: 768px) and (min-width: 421px) {
-                max-height: 80px;
-                h1{
-                    max-height: 60px;
-                    font-size: 1.1rem;
-                }
-            }
-            @media (max-width: 420px) {
-                max-height: 80px;
-                h1{
-                    max-height: 60px;
-                    font-size: 1rem;
-                }
-            }
-        }
-        &.cover-other{
-            align-items  : center;
             .cover-other-ul{
+                margin-top : 10px;
                 display    : flex;
                 font-size  : 0.8rem;
                 color      : #767676;
@@ -176,59 +162,110 @@
                     }
                 }
             }
-            @media (max-width: 420px) {
-                min-height: 40px;
-                .cover-other-ul{
-                    font-size: 0.6rem;
-                    >li{
-                        .value{
-                            font-size    : 0.9rem;
-                        }
+            .cover-money{
+                padding          : 10px;
+                margin-top       : 10px;
+                display          : flex;
+                align-items      : center;
+                background       : #fafafa;
+                >div,>span{
+                    margin-right     : 15px;
+                    &:last-child{
+                        margin-right     : 0px;
+                    }
+                }
+                .cover-money-price{
+                    display           : inline-flex;
+                    font-size         : 1rem;
+                    text-decoration   : line-through;
+                    color             : #999;
+                }
+                .cover-money-sellPrice{
+                    font-size         : 1.9rem;
+                    font-weight       : bolder;
+                    color             : var(--main);
+                }
+                .cover-money-discount{
+                    padding           : 2px 5px;
+                    border-radius     : 3px;
+                    background        : var(--main);
+                    color             : #fff;
+                    font-size         : 0.6rem;
+                }
+            }
+            @media (max-width: 1024px) and (min-width: 861px) {
+                h1{
+                    max-height: 65px;
+                    font-size: 1.2rem;
+                }
+                .cover-money{
+                    .cover-money-price{
+                        font-size: 1rem;
+                    }
+                    .cover-money-sellPrice{
+                        font-size: 1.8rem;
                     }
                 }
             }
-        }
-        &.cover-money{
-            align-items      : center;
-            background       : #fafafa;
-            >div,>span{
-                margin-right     : 15px;
-                &:last-child{
-                    margin-right     : 0px;
-                }
-            }
-            .cover-money-price{
-                display           : inline-flex;
-                font-size         : 1rem;
-                text-decoration   : line-through;
-                color             : #999;
-            }
-            .cover-money-sellPrice{
-                font-size         : 1.9rem;
-                font-weight       : bolder;
-                color             : var(--main);
-            }
-            .cover-money-discount{
-                padding           : 2px 5px;
-                border-radius     : 3px;
-                background        : var(--main);
-                color             : #fff;
-                font-size         : 0.6rem;
-            }
-            @media (max-width: 1000px) and (min-width: 860px) {
-                .cover-money-price{
-                    font-size: 1rem;
-                }
-                .cover-money-sellPrice{
-                    font-size: 1.8rem;
-                }
-            }
-            @media (max-width: 768px) {
-                .cover-money-price{
+            @media (max-width: 860px) and (min-width: 769px) {
+                h1{
+                    max-height: 65px;
                     font-size: 1.1rem;
                 }
-                .cover-money-sellPrice{
-                    font-size: 1.4rem;
+                .cover-money{
+                    .cover-money-price{
+                        font-size: 1rem;
+                    }
+                    .cover-money-sellPrice{
+                        font-size: 1.8rem;
+                    }
+                }
+            }
+            @media (max-width: 768px) and (min-width: 421px) {
+                h1{
+                    max-height: 60px;
+                    font-size: 1.1rem;
+                }
+                .cover-money{
+                    width            : calc(100% + 10px);
+                    background       : #e9e9e9;
+                    margin-bottom    : -10px;
+                    margin-left      : -5px;
+                    margin-left      : -5px;
+                    .cover-money-price{
+                        font-size: 1.1rem;
+                    }
+                    .cover-money-sellPrice{
+                        font-size: 2.2rem;
+                    }
+                }
+            }
+            @media (max-width: 420px) {
+                h1{
+                    max-height         : 60px;
+                    font-size          : 1rem;
+                }
+                .cover-other-ul{
+                    margin       : 15px 0px 10px 0px;
+                    font-size    : 0.8rem;
+                    >li{
+                        .value{
+                            font-size    : 1rem;
+                        }
+                    }
+                }
+                .cover-money{
+                    width            : calc(100% + 10px);
+                    background       : #e9e9e9;
+                    margin-bottom    : -10px;
+                    margin-left      : -5px;
+                    margin-left      : -5px;
+                    .cover-money-price{
+                        font-size: 1rem;
+                    }
+                    .cover-money-sellPrice{
+                        font-size: 1.8rem;
+                    }
                 }
             }
         }
@@ -376,8 +413,10 @@
             font-size         : 0.9rem;
         }
         @media (max-width: 768px) {
-            padding           : 10px 0px;
+            padding           : 10px 5px;
+            margin-bottom     : 15px;
             font-size         : 0.9rem;
+            background        : #fff;
             >label{
                 width                : 100%;
                 min-width            : none;
@@ -386,6 +425,9 @@
                 &:after{
                     content             : "：";
                 }
+            }
+            &:last-child{
+                margin-bottom : 0px;
             }
         }
     }
@@ -475,12 +517,14 @@
     }
 
     @media (max-width: 768px) and (min-width: 421px) {
-        padding: 10px;
-        flex-wrap: wrap;
+        background          : transparent;
+        padding             : 0px;
+        flex-wrap           : wrap;
     }
     @media (max-width: 420px) {
-        padding: 0px;
-        flex-wrap: wrap;
+        background          : transparent;
+        padding             : 0px;
+        flex-wrap           : wrap;
     }
 }
 
@@ -506,13 +550,39 @@
     }
     &.cover-slick-main{
         .slick-arrow{
-            width: 35px;
-            height: 60px;
+            border-radius     : 100%;
+            width             : 30px;
+            height            : 30px;
+            background-size   : 35%;
+            &.slick-prev{
+                left             : 10px;
+            }
+            &.slick-next{
+                right            : 10px;
+            }
+        }
+        @media (max-width: 768px) and (min-width: 421px) {
+            .slick-arrow{
+                width             : 40px;
+                height            : 40px;
+                &.slick-prev{
+                    left             : 10px;
+                }
+                &.slick-next{
+                    right            : 10px;
+                }
+            }
         }
         @media (max-width: 420px) {
             .slick-arrow{
-                width: 30px;
-                height: 70px;
+                width             : 30px;
+                height            : 30px;
+                &.slick-prev{
+                    left             : 10px;
+                }
+                &.slick-next{
+                    right            : 10px;
+                }
             }
         }
     }

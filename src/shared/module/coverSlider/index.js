@@ -26,7 +26,7 @@ const CoverSlider = ( props ) => {
     })
 
     return(
-        <div className="cover-img-wrap">
+        <>
             {
                 Object.keys( mainSettings ).length!=0 &&
                     <MDBContainer className="mt-5">
@@ -83,7 +83,7 @@ const CoverSlider = ( props ) => {
                         }
                     </Slider>
             }
-        </div>   
+        </>
     );
 }
 

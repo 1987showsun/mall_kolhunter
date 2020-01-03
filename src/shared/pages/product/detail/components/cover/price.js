@@ -6,14 +6,12 @@
 import React               from 'react';
 import CurrencyFormat      from 'react-currency-format';
 
-const Price = props => {
+const Price = ({price=0, sellPrice=0}) => {
 
-    const { data }             = props;
-    const { price, sellPrice } = data;
-    const discount             = ((Number(sellPrice)/Number(price))*10).toFixed(1);
+    const discount = ((Number(sellPrice)/Number(price))*10).toFixed(1);
 
     return(
-        <div className="detail-cover-row cover-money">
+        <div className="cover-money">
             {
                 price!=sellPrice &&
                     <CurrencyFormat className="cover-money-price" value={price} displayType={'text'} thousandSeparator={true} prefix={'$'} />

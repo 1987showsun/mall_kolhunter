@@ -7,7 +7,7 @@ import React          from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { Link }       from 'react-router-dom';
 
-export default ({orderID, orderName, deliveryName, orderDetail, amount, orderStatus, statusText, createdate }) => {
+export default ({orderID, orderName, deliveryName, orderDetail, amount, orderStatus, statusText, refundStatus, refundText, createdate }) => {
     return(
         <>
             <div className="table-new-cell">
@@ -19,6 +19,7 @@ export default ({orderID, orderName, deliveryName, orderDetail, amount, orderSta
                 <CurrencyFormat value={amount} displayType={'text'} thousandSeparator={true} prefix={'$'}/>
             </div>
             <div className="table-new-cell status"><span className={`orderStatus ${orderStatus}`}>{statusText}</span></div>
+            <div className="table-new-cell status"><span className={`refundStatus ${refundStatus}`}>{refundText}</span></div>
             <div className="table-new-cell date">{createdate}</div>
         </>
     );

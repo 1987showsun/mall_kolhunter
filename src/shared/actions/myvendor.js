@@ -267,7 +267,7 @@ export function orderList( pathname,query,data={} ) {
                 dispatch({
                     type          : "VENDOR_ORDERS_LIST",
                     list          : list.map( item => {
-                        const { orderStatus, orderDetail } = item;
+                        const { orderStatus, refundStatus, orderDetail } = item;
                         let   amount = 0;
                         orderDetail.map(orderItem => {
                             amount = amount + orderItem['amount'];
@@ -277,6 +277,7 @@ export function orderList( pathname,query,data={} ) {
                             ...item,
                             amount       : amount,
                             statusText   : lang['zh-TW']['orderStatus'][orderStatus],
+                            refundText   : lang['zh-TW']['refundStatus'][refundStatus],
                             createdate   : dayjs(item['orderTimeMs']).format('YYYY / MM / DD hh : mm : ss')
                         }
                     })

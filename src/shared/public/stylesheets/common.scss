@@ -955,10 +955,10 @@ figure{
     &.none {
         color       : var(--green);
     }
-    &.request, &.delivery, &.approve, &.recived, &.reject, &.waitting {
+    &.request, &.delivery, &.approve, &.recived, &.reject, &.waitting, &.part {
         color       : var(--main);
     }
-    &.done{
+    &.done, &.all{
         color       : var(--orange);
     }
 }

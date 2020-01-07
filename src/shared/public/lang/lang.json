@@ -64,6 +64,11 @@
             "paid": "付款成功",
             "payfailure": "付款失敗"
         },
+        "refundStatus": {
+            "none": "未申請退貨",
+            "part": "部分退貨",
+            "all": "全部退貨"
+        },
         "refundStatusEnum": {
             "none": "未申請退貨",
             "request": "申請退貨",

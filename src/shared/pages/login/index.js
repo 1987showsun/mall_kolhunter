@@ -85,36 +85,30 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
-        this.isCheckLogin();
+        this.checkAuth();
     }
 
     componentDidUpdate(prevProps, prevState) {
-        this.isCheckLogin();
+        this.checkAuth();
     }
 
-    isCheckLogin = () => {
+    checkAuth = () => {
 
-        const { match, location }                      = this.props;
-        const { DoYouHaveType, DoYouHaveClass, token } = this.state;
-        const { pathname, search }                     = location;
-        const pathnameArray                            = pathname.split('/').filter( item => item!='' );
-        let _type                                      = pathnameArray[0];
-        let _class                                     = match['params']['class'] || 'signin';
+        const { location, history }  = this.props;
+        const { token }              = this.state;
+        const { pathname, search }   = location;
+        const pathnameArray          = pathname.split('/').filter( item => item!='' );
+        const searchObject           = { ...queryString.parse(search) };
+        let _type                    = pathnameArray[0];
 
-        if( token==undefined || token==null || token=='' ){
-            if( !DoYouHaveType.includes(_type) ||!DoYouHaveClass.includes(_class) ){
-                this.props.history.push(`/${_type}`);
-            }
-        }else{
-            const goTo   = queryString.parse(search)['to']   || "";
-            const goBack = queryString.parse(search)['back'] || false;
-            if( goTo!="" ){
-                this.props.history.push(`/my${_type}/${goTo}`);
+        if( token!='' ){
+            if( _type=='vendor' ){
+                history.push(`/my${_type}`);
             }else{
-                if( goBack=='true' || goBack==true ){
-                    this.props.history.goBack();
+                if( searchObject.hasOwnProperty('to') ){
+                    history.push(`/my${_type}/${searchObject['to']}`);
                 }else{
-                    this.props.history.push(`/my${_type}`);
+                    history.goBack();
                 }
             }
         }

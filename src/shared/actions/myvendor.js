@@ -399,8 +399,9 @@ export function incListAccount( pathname="", query={}, data={} ) {
         const YYYY        = dayjs().format('YYYY');
         const MM          = dayjs().format('MM');
         const DD          = dayjs().format('DD');
-        const year        = String(YYYY);
-        const month       = String(DD<=15? MM-1 : MM);
+        const year        = String(DD<=15 && MM==1? YYYY-1 : YYYY);
+        const month       = String(DD<=15? ((MM==1 ? 12 : MM-1)) : MM);
+
         const period      = month==String(MM)? '1': '2';
         const method      = 'get';
         const initQuery   = {

@@ -21,8 +21,8 @@ class HeadAccount extends React.Component{
         const MM   = dayjs().format('MM');
         const DD   = dayjs().format('DD');
         const { search } = props.location;
-        const year   = queryString.parse(search)['year']   || String(YYYY);
-        const month  = queryString.parse(search)['month']  || String(DD<=15? MM-1 : MM);
+        const year   = queryString.parse(search)['year']   || String(DD<=15 && MM==1? YYYY-1 : YYYY);
+        const month  = queryString.parse(search)['month']  || String(DD<=15? ((MM==1 ? 12 : MM-1)) : MM);
         const period = queryString.parse(search)['period'] || String(month==String(MM)? '1':'2');
         this.state = {
             max: 36,

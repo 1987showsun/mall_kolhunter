@@ -122,21 +122,15 @@ class Account extends React.Component{
     callAPI = () => {
         const { location }         = this.props;
         const { pathname, search } = location;
-        const query                = queryString.parse(search);
-        const YYYY                 = dayjs().format('YYYY');
-        const MM                   = dayjs().format('DD')<=15? dayjs().format('MM')-1: dayjs().format('MM');
-
-        if( query['year']==undefined || query['month']==undefined || Number(query['month'])<=MM && Number(query['year'])<=YYYY ){
-            this.setState({
-                loading: true
-            },()=>{
-                this.props.dispatch( incListAccount( pathname,{...queryString.parse(search)} ) ).then(res => {
-                    this.setState({
-                        loading: false
-                    })
-                });
-            })
-        }
+        this.setState({
+            loading: true
+        },()=>{
+            this.props.dispatch( incListAccount( pathname,{...queryString.parse(search)} ) ).then(res => {
+                this.setState({
+                    loading: false
+                })
+            });
+        })
     }
 }
 

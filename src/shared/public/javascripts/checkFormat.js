@@ -59,7 +59,7 @@ export const isCertificated = string  => {
 
 // 發票-手機條碼
 export const isInvoice = string => {
-    var regexp = /^\/{1}[0-9"+"A-Z]{7}$/;
+    var regexp = /^\/{1}[0-9"+".A-Z]{7}$/;
     return regexp.test(string);
 }
 

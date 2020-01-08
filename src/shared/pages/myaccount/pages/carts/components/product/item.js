@@ -92,7 +92,7 @@ class Item extends React.Component{
                                         spec.length>=2? (
                                             "組合商品"
                                         ):(
-                                            spec[0]['specName']
+                                            spec.length>0? spec[0]['specName'] : ''
                                         )
                                     }
                                 </div>
@@ -141,7 +141,7 @@ class Item extends React.Component{
                                                 <p>{item['productName']}</p>
                                             </div>
                                             <div className="spec">
-                                                <p>{item['specName']}</p>
+                                                <p>{item['specName'] || ''}</p>
                                             </div>
                                         </div>
                                     );

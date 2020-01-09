@@ -3,32 +3,27 @@
  *   All rights reserved.
  */
 
-import React from 'react';
+import React,{ useState, useEffect } from 'react';
 
-export default class Kv extends React.Component{
+import kvNullImage from '../../public/images/init/1000x427initKvImages.jpg';
 
-    constructor(props){
-        super(props);
-        this.state = {
-            data : props.data
-        }
-    }
+export default ({data})=>{
 
-    shouldComponentUpdate(nextProps, nextState) {
-        const { data } = this.state;
-        return String(data['url'])!=String(nextProps.data['url']);
-    }
+    const [ stateData, setData ] = useState({
+        url   : '',
+        title : '',
+        image : kvNullImage,
+    })
 
-    render(){
+    useEffect(()=>{
+        setData({...data});
+    },[data]);
 
-        const { data } = this.state;
-
-        return(
-            <div className="slider-item">
-                <a href={data['url']} target="_blank">
-                    <img src={data['image']} alt={data['title']} title={data['title']} />
-                </a>
-            </div>
-        );
-    }
+    return(
+        <div className="slider-item">
+            <a href={stateData['url']} target="_blank">
+                <img src={stateData['image']} alt={stateData['title']} title={stateData['title']} />
+            </a>
+        </div>
+    );
 }

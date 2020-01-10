@@ -3,26 +3,16 @@
  *   All rights reserved.
  */
 
-import React,{ useState, useEffect } from 'react';
-
-import kvNullImage from '../../public/images/init/1000x427initKvImages.jpg';
+import React from 'react';
 
 export default ({data})=>{
 
-    const [ stateData, setData ] = useState({
-        url   : '',
-        title : '',
-        image : kvNullImage,
-    })
-
-    useEffect(()=>{
-        setData({...data});
-    },[data]);
+    const { url, title, image } = data;
 
     return(
         <div className="slider-item">
-            <a href={stateData['url']} target="_blank">
-                <img src={stateData['image']} alt={stateData['title']} title={stateData['title']} />
+            <a href={url} target="_blank">
+                <img src={image} alt={title} title={title} />
             </a>
         </div>
     );

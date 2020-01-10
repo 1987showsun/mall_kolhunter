@@ -76,22 +76,9 @@ class Home extends React.Component{
     }
 
     componentDidMount() {
-        const { latest }           = this.state;
-        const { location }         = this.props;
-        const { pathname, search } = location;
-        if( latest.length==0 ){
-            this.props.dispatch( getHome(pathname,{page: queryString.parse(search)['latestCurrent'] || 1}) );
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        const { location }       = this.props;
-        const latestCurrent      = queryString.parse(location.search)['latestCurrent']           || 1;
-        const prevLatestCurrent  = queryString.parse(prevProps.location.search)['latestCurrent'] || 1;
-        if( Number(latestCurrent)!=Number(prevLatestCurrent) ){
-            const { pathname }   = location;
-            this.props.dispatch( latest(pathname, {page: latestCurrent }) );
-        }
+        const { location }  = this.props;
+        const { pathname }  = location;
+        this.props.dispatch( getHome(pathname,{}) );
     }
 
     loadMore = () => {

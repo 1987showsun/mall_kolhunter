@@ -3,13 +3,17 @@
  *   All rights reserved.
  */
 
+// Javascripts
+import { initStore, initKv, initProduct }                 from '../../public/javascripts/initData';
+
+
 export default function home(
     state = {
-        kv                    : [],
-        latest                : [],
+        kv                    : initKv(),
+        recommendStoreList    : initStore(),
+        latest                : initProduct(),
         latestTotal           : 0,
-        latestLimit           : 30,
-        recommendStoreList    : []
+        latestLimit           : 30
     },action
 ){
     switch(action.type){
@@ -34,6 +38,7 @@ export default function home(
                 ...state,
                 recommendStoreList: action.list
             }
+            break;
     }
     return state;
 }

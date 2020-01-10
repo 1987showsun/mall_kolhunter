@@ -3,20 +3,22 @@
  *   All rights reserved.
  */
 
-import React               from 'react';
+import React, { useState, useEffect }   from 'react';
+import Slider                           from "react-slick";
 
 // Modules
-import Slider              from '../../../module/slider';
-import KvSlider            from '../../../module/item/kv';
+import KvSlider                         from '../../../module/item/kv';
 
 // Setup
-import { kvSlider }        from '../public/set/slider';
+import { kvSlider }                     from '../public/set/slider';
 
+// Images
+import kvNullImage                      from '../../../public/images/init/1000x427initKvImages.jpg';
 
 export default ({ data }) => {
   return(
     <div className="row kv-wrap">
-      <Slider settings={kvSlider} >
+      <Slider {...kvSlider} >
         {
           data.map( (item,i) => {
             return(

@@ -51,10 +51,10 @@ export const kvSlider = {
 }
 
 export const storeSlider = {
-    className: "slider-nromal store-card",
-    dots: false,
-    infinite: false,
-    speed: 500,
+    className: " store-card",
+    dots     : false,
+    infinite : false,
+    speed    : 500,
     slidesToShow: 6,
     slidesToScroll: 6,
     initialSlide: 0,

@@ -120,18 +120,22 @@ export function ssrProductList( pathname,query ){
 
 export function ssrApproachProduct( pathname,query ){
     return(dispatch)=>{
-        return mallApproachProduct(pathname,query)(dispatch).then( res => {
-            return mallCategories(pathname,query)(dispatch);
-        });
+        return (
+            mallApproachProduct(pathname,query)(dispatch),
+            mallCategories(pathname,query)(dispatch)
+        );
     }
 }
 
 const Axios = ( api ) => {
+    
+    const { method='get', url='', data={} } = api;
+
     return axios({
-        method: api['method'],
-        url: api['url'],
-        data: api['data'],
-        headers:{
+        method    : method,
+        url       : url,
+        data      : data,
+        headers   : {
             authorization: typeof window !== 'undefined'? sessionStorage.getItem('jwt_vendor') : '',
         }
     });

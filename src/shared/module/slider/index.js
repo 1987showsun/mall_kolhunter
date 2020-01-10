@@ -1,15 +1,17 @@
-import React from 'react';
-import Slider from "react-slick";
+/*
+ *   Copyright (c) 2020 
+ *   All rights reserved.
+ */
+
+import React,{ useState, useEffect }   from 'react';
+import Slider                          from "react-slick";
 
 import './style.scss';
 
-export default class Index extends React.Component{
-    render(){
-        return(
-            <Slider {...this.props.settings}>
-                {this.props.children}
-            </Slider>
-        );
-    }
+export default ({children, settings}) => {
+    return(
+        <Slider {...settings}>
+            {children}
+        </Slider>
+    );
 }
-

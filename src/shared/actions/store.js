@@ -3,9 +3,16 @@
  *   All rights reserved.
  */
 
-import axios from 'axios';
-import API from './apiurl';
-import queryString from 'query-string';
+import axios                 from 'axios';
+import API                   from './apiurl';
+import queryString           from 'query-string';
+
+// Images
+import kvNullImage           from '../public/images/init/1000x427initKvImages.jpg';
+import nullImages            from '../public/images/init/420x420initBlockImages.jpg';
+
+// Javascripts
+import { initStore }         from '../public/javascripts/initData';
 
 // 店舖資訊
 export function storeInfo( pathname,query={},data={} ) {
@@ -19,13 +26,13 @@ export function storeInfo( pathname,query={},data={} ) {
         dispatch({
             type: "STORE_INFO",
             info: {
-                verified     : false,
+                verified     : true,
                 celebName    : "",
                 celebToken   : "",
-                cover        : "", 
+                cover        : kvNullImage, 
                 description  : "",
-                name         : "",
-                photo        : "",
+                name         : 'Mall Kolhunter',
+                photo        : nullImages,
                 modified     : 0,
                 salesAmount  : 0
             }
@@ -69,6 +76,17 @@ export function storeList( pathname, query={}, data={} ) {
         };
         const search    = queryString.stringify({ ...initQuery, ...query });
         const url       = `${API()['mall']['store']['list']}${search!=''? `?${search}`: ''}`;
+
+        dispatch({
+            type        : "STORE_STATUS",
+            limit       : 30,
+            total       : 0,
+            current     : 1
+        });
+        dispatch({
+            type        : "CATRGORIES_STORE_LIST",
+            list        : initStore()
+        })
 
         return Axios({method, url, data}).then(res=>{
             if( !res.hasOwnProperty('response') ){
@@ -126,7 +144,9 @@ export function storeProduct( pathname,query={},data={} ) {
 // Server side Render
 export function ssrStoreList( pathname,query ){
     return(dispatch) => {
-        return storeList( pathname,query )(dispatch);
+        return(
+            storeList( pathname,query )(dispatch)
+        );
     }
 }
 

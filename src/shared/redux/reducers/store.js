@@ -3,19 +3,23 @@
  *   All rights reserved.
  */
 
+//  Images
+import kvNullImage                     from '../../public/images/init/1000x427initKvImages.jpg';
+import nullImages                      from '../../public/images/init/420x420initBlockImages.jpg';
+
 export default function store(
     state = {
-        total: 0,
-        totalPages: 1,
-        limit: 30,
-        current: 1,
-        list: [],
-        product: [],
-        info: {
-            cover: "",
-            photo: "",
-            name: "",
-            description: ""
+        total           : 0,
+        totalPages      : 1,
+        limit           : 30,
+        current         : 1,
+        list            : [],
+        product         : [],
+        info            : {
+            cover         : kvNullImage,
+            photo         : nullImages,
+            name          : "",
+            description   : ""
         }
     },action
 ){
@@ -34,23 +38,26 @@ export default function store(
         case 'CATRGORIES_STORE_LIST':
             state = { 
                 ...state,
-                list: action.list,
+                list        : action.list,
             };
             break;
 
         case 'STORE_PRODUCT':
             state = { 
                 ...state,
-                product: action.list,
+                product     : action.list,
             };
             break;
 
         case 'STORE_INFO':
-                state = { 
-                    ...state,
-                    info: action.info,
-                };
-                break;
+            state = { 
+                ...state,
+                info        : {...state.info, ...action.info},
+            };
+            break;
+
+        default:
+            break;
     }
     return state;
 }

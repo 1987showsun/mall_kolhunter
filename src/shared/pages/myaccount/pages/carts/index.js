@@ -154,6 +154,7 @@ class Index extends React.Component{
                     container  = {popupMsg}
                     onConfirm  = {this.onConfirm.bind(this)}
                     onCancel   = {this.onCancel.bind(this)}
+                    onRedirectHome   = {this.onRedirectHome.bind(this)}
                 />
                 <Loading loading={loading} />
             </React.Fragment>
@@ -325,41 +326,67 @@ class Index extends React.Component{
                         default:
                             // 失敗就於右下角跳出錯誤訊息
                             const status_text      = res['data']['status_text'];
+                            if (status_text=='spec sold out') {
+                                this.setState({
+                                    loading    : true,
+                                    open       : false,
+                                    popupMsg   : []
+                                })
+                                // 產品規格庫存量已售完
+                                this.setState({
+                                    open         : true,
+                                    method       : 'redirectHome',
+                                    popupMsg     : `<div className="items">${lang['zh-TW']['note']['spec sold out']}</div>`
+                                })
+                                this.props.dispatch( cartsCount() );
+                                
+                            } else if (status_text=='empty shop cart list') {
+                                history.push({
+                                    pathname  : '/',
+                                });
+                            } else {
+                                const msg = status_text.map((item,i) => {
+                                    if( item.hasOwnProperty('parentProductToken') ){
+                                        // 組合商品
+                                        const filterItemArray = cartProductList.filter( filterItem => item['parentProductToken']==filterItem['productToken'] );
+                                        return filterItemArray.map( filterItem => {
+                                            const  findItemArray =  filterItem['spec'].find((findItem, fi) => findItem['specToken'] == item['specToken'] );
+                                            return [<div key={fi} className={`toaster-status failure`}>{`${findItemArray[0]['productName']}-${findItemArray[0]['specName']} ${lang['zh-TW'][item['msg']]}`}</div>];
+                                        })
+                                    }else{
+                                        // 非組合商品
+                                        const filterItemArray = cartProductList.filter( filterItem => item['parentProductToken']==filterItem['productToken'] );
+                                        return filterItemArray.map( filterItem => {
+                                            const  findItemArray =  filterItem['spec'].find((findItem, fi) => findItem['specToken'] == item['specToken'] );
+                                            return [<div key={fi} className={`toaster-status failure`}>{`${findItemArray[0]['productName']}-${findItemArray[0]['specName']} ${lang['zh-TW'][item['msg']]}`}</div>];
+                                        });
+                                    }
+                                })
+                                
+                                toaster.notify(
+                                    msg
+                                ,{
+                                    position : 'bottom-right', // 訊息窗顯示於右下角
+                                    duration : 3000            // 訊息5秒後消失
+                                })
 
-                            const msg = status_text.map((item,i) => {
-                                if( item.hasOwnProperty('parentProductToken') ){
-                                    // 組合商品
-                                    const filterItemArray = cartProductList.filter( filterItem => item['parentProductToken']==filterItem['productToken'] );
-                                    return filterItemArray.map( filterItem => {
-                                        const  findItemArray =  filterItem['spec'].find((findItem, fi) => findItem['specToken'] == item['specToken'] );
-                                        return [<div key={fi} className={`toaster-status failure`}>{`${findItemArray[0]['productName']}-${findItemArray[0]['specName']} ${lang['zh-TW'][item['msg']]}`}</div>];
-                                    })
-                                }else{
-                                    // 非組合商品
-                                    const filterItemArray = cartProductList.filter( filterItem => item['parentProductToken']==filterItem['productToken'] );
-                                    return filterItemArray.map( filterItem => {
-                                        const  findItemArray =  filterItem['spec'].find((findItem, fi) => findItem['specToken'] == item['specToken'] );
-                                        return [<div key={fi} className={`toaster-status failure`}>{`${findItemArray[0]['productName']}-${findItemArray[0]['specName']} ${lang['zh-TW'][item['msg']]}`}</div>];
-                                    });
-                                }
-                            })
-
-                            toaster.notify(
-                                msg
-                            ,{
-                                position : 'bottom-right', // 訊息窗顯示於右下角
-                                duration : 3000            // 訊息5秒後消失
-                            })
-
-                            // toaster.notify(
-                            //     <div className={`toaster-status failure`}>{lang['zh-TW'][status_text]}</div>
-                            // ,{
-                            //     position : 'bottom-right', // 訊息窗顯示於右下角
-                            //     duration : 3000            // 訊息5秒後消失
-                            // })
+                                // toaster.notify(
+                                //     <div className={`toaster-status failure`}>{lang['zh-TW'][status_text]}</div>
+                                // ,{
+                                //     position : 'bottom-right', // 訊息窗顯示於右下角
+                                //     duration : 3000            // 訊息5秒後消失
+                                // })
+                            }
                     }
                 })
             });
+        });
+    }
+
+    onRedirectHome = () => {
+        const { history } = this.props;
+        history.push({
+            pathname  : '/',
         });
     }
 }

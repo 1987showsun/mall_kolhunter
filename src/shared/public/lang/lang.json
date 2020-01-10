@@ -110,6 +110,7 @@
             "failed to delete" : "刪除失敗",
             "file exceeds 300KB size limit": "檔案大小超過 300KB",
             "pay checkcode error": "付款失敗",
+            "spec sold out": "您所選的商品已經銷售完畢",
             "nickname required": "暱稱必填",
             "username required": "會員帳號必填",
             "password required": "密碼必填",

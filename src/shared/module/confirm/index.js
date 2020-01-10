@@ -82,6 +82,13 @@ export default class Index extends React.Component{
                     </React.Fragment>
                 )
 
+            case 'redirectHome':
+                return(
+                    <React.Fragment>
+                        <button type="button" className="basic" onClick={this.onRedirectHome.bind(this)}>繼續購物</button>
+                    </React.Fragment>
+                )
+
             default:
                 return(
                     <React.Fragment>
@@ -106,6 +113,12 @@ export default class Index extends React.Component{
     onRefundConfirm = ( val ) => {
         if( this.props.onRefundConfirm!=undefined ){
             this.props.onRefundConfirm(val);
+        }
+    }
+
+    onRedirectHome = () => {
+        if( this.props.onRedirectHome!=undefined ){
+            this.props.onRedirectHome();
         }
     }
 }

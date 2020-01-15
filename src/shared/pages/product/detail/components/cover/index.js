@@ -37,12 +37,28 @@ class Cover extends React.Component{
         const { delivery, spec, images } = data;
         const productDeliveryID  = delivery.length!=0?   delivery[0]['productDeliveryID'] : "";
 
+        let specUsed = [];
+        spec.map( (s) => {
+            s.map( (item)=> {
+                specUsed[item.token] = specUsed[item.token]!==undefined ? specUsed[item.token] + 1  : 1;
+            })
+        })
+        spec.map( (s, i) => {
+            s.map( (item, k)=> {
+                if (specUsed[item['token']] > item['storage']) {
+                    data.spec[i][k]['storage'] = 0;
+                }
+            })
+        })
+
         this.state = {
             lock                   : false,
             storeLoading           : false,
             storeInfo              : {},
             data                   : data,
             imageData              : images.map( item => item['path'] ),
+            itemNumMax             : 1,
+            specSelected           : [],
             formObject             : {
                 cartToken            : "",
                 productToken         : data['token'],
@@ -100,11 +116,49 @@ class Cover extends React.Component{
         const { data, formObject } = this.state;
         const nextData             = nextState.data;
         const nextFormObject       = nextState.formObject;
+        const nextSpecSelected       = nextState.specSelected;
         if( String(data['token'])!=String(nextData['token']) ){
             return true;
         }
 
         if( formObject['specToken'].some( (item,i) => item==nextFormObject['specToken'][i] ) ){
+            if ( nextData.spec.length>1 ){
+                let specSelected = [];
+                nextFormObject.specToken.map( (s, i) => {
+                    specSelected[s] = specSelected[s]!==undefined ? specSelected[s] + 1  : 1;
+                });
+                let minimumStorage = 0;
+                let minSelected = 0;
+                Object.keys(specSelected).map((selectedSpecToken) => {
+                    let expectStorage = specSelected[selectedSpecToken] * nextFormObject['itemNumber'];
+                    nextData.spec.map((spec, i) => {
+                        spec.map((s, i) => {
+                            if (s['token']==selectedSpecToken){
+                                if (minimumStorage==0) {
+                                    minimumStorage = s['storage'];
+                                    minSelected = specSelected[selectedSpecToken];
+                                }
+                                if (s['storage'] < minimumStorage){
+                                    minimumStorage = s['storage'];
+                                    minSelected = specSelected[selectedSpecToken];
+                                }
+                            }
+                        })
+                    })
+                    nextState.itemNumMax = Math.floor(minimumStorage / minSelected);
+                    if (expectStorage > minimumStorage){
+                        nextState.itemNumMax = Math.floor(minimumStorage / minSelected)
+                    }
+                })
+            } else {
+                nextState.itemNumMax = Math.min(
+                    ...nextData.spec.map(item => {
+                        const findSelectedItem = item.find( findItem => nextFormObject['specToken'].includes(findItem['token']));
+                        return findSelectedItem!=undefined? findSelectedItem['storage']:0;
+                    })
+                )
+            }
+            
             return true;
         }
 
@@ -113,15 +167,9 @@ class Cover extends React.Component{
 
     render(){
 
-        const { lock, data, imageData, storeLoading, storeInfo, formObject } = this.state;
+        const { lock, data, imageData, storeLoading, storeInfo, formObject, itemNumMax } = this.state;
         const { price=0, sellPrice=0, spec }      = data;
         const { specToken } = formObject;
-        const itemNumMax    = Math.min(
-            ...spec.map(item => {
-                const findSelectedItem = item.find( findItem => specToken.includes(findItem['token']));
-                return findSelectedItem!=undefined? findSelectedItem['storage']:0;
-            })
-        );
 
         // 運送方式
         const deliveryArray = data['delivery'].map( item => {
@@ -190,7 +238,6 @@ class Cover extends React.Component{
                         initVal         = {1}
                         itemNumMax      = {itemNumMax || 0}
                         returnForm      = {val => {
-                            console.log(val);
                             this.setState({
                                 formObject: { 
                                     ...formObject,

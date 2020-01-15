@@ -73,27 +73,28 @@ export default class Index extends React.Component{
     // }
 
     quantityChange = ( method ) => {
-
         const { itemNumMax, formObject } = this.state;
+        const { isCombo }                = this.props;
         let   { itemNum }                = formObject;
-
-        switch( method ){
-            case 'minus':
-                // 減
-                itemNum<=1? 1 : itemNum--;
-                break;
-
-            default:
-                // 加
-                itemNum>=itemNumMax? itemNumMax : itemNum++;
-                break;
+        if (!isCombo) {
+            switch( method ){
+                case 'minus':
+                    // 減
+                    itemNum<=1? 1 : itemNum--;
+                    break;
+    
+                default:
+                    // 加
+                    itemNum>=itemNumMax? itemNumMax : itemNum++;
+                    break;
+            }
+    
+            this.setState({
+                formObject : { ...formObject, itemNum } 
+            },()=>{
+                this.updateFormObject();
+            })
         }
-
-        this.setState({
-            formObject : { ...formObject, itemNum } 
-        },()=>{
-            this.updateFormObject();
-        })
     }
 
     cardExpiry = ( val ) =>{

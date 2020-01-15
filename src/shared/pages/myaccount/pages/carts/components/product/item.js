@@ -51,7 +51,7 @@ class Item extends React.Component{
 
         const { data }           = this.props;
         const { formObject }     = this.state;
-        const { spec }           = data;
+        const { spec, isCombo }  = data;
         const itemNumMax         = Math.min.apply(Math, spec.map(item => item['storage']));
 
         return(
@@ -73,6 +73,7 @@ class Item extends React.Component{
                                     initVal     = { formObject['itemNum'] }
                                     itemNumMax  = { itemNumMax || 0 }
                                     returnForm  = { this.updateData.bind(this) }
+                                    isCombo     = { isCombo }
                                 />
                             </li>
                             <li>
@@ -124,7 +125,7 @@ class Item extends React.Component{
                     </figcaption>
                 </figure>
                 {
-                    spec.length>=2? (
+                    isCombo? (
                         <div className="subproject-wrap">
                             <div className="subproject-head">
                                 <i><FontAwesomeIcon icon={faArrowCircleRight}/></i>
@@ -141,7 +142,7 @@ class Item extends React.Component{
                                                 <p>{item['productName']}</p>
                                             </div>
                                             <div className="spec">
-                                                <p>{item['specName'] || ''}</p>
+                                                <p>{item['itemNum']/data['itemNum']} x {item['specName'] || ''}</p>
                                             </div>
                                         </div>
                                     );

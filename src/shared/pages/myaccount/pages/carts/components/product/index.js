@@ -89,7 +89,7 @@ class Index extends React.Component{
 
     updateData = ( val ) => {
 
-        const { productToken, specToken, itemCode, itemNum, storeID="", productDeliveryID } = val;
+        const { productToken, specToken, itemCode, itemNum, storeID="", productDeliveryID, isCombo } = val;
         const data = {
             cartToken           : localStorage.getItem('cartID'),
             productToken,
@@ -99,7 +99,7 @@ class Index extends React.Component{
             productDeliveryID,
             itemNumber          : val['itemNum'],
         }
-
+        
         this.setState({
             loading: true
         },()=>{

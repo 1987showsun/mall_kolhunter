@@ -21,10 +21,18 @@ class Item extends React.Component{
 
         const { spec, productToken, productDeliveryID, storeToken, itemCode, itemNum }  = props.data;
 
+        let specToken = [];
+        spec.map(item => {
+            let expectedSpecCount = item['itemNum']/itemNum;
+            [...Array(item['itemNum'])].map((_, i) => {
+                specToken.push(item['specToken']);
+            });
+        });
+
         this.state = {
             itemNumMax           : 10,
             formObject           : {
-                specToken          : spec.map(item => item['specToken']),
+                specToken          : specToken,
                 productToken       : productToken,
                 itemCode           : itemCode,
                 productDeliveryID  : productDeliveryID,
@@ -36,9 +44,8 @@ class Item extends React.Component{
 
     static getDerivedStateFromProps( props,state ){
 
-        const { formObject } = state;
+        const { formObject, itemNumMax } = state;
         const { itemNum }    = props.data;
-
         return{
             formObject       : {
                 ...formObject,
@@ -50,10 +57,8 @@ class Item extends React.Component{
     render(){
 
         const { data }           = this.props;
-        const { formObject }     = this.state;
+        const { formObject, itemNumMax }     = this.state;
         const { spec, isCombo }  = data;
-        const itemNumMax         = Math.min.apply(Math, spec.map(item => item['storage']));
-
         return(
             <div className="cart-product-items">
                 <figure className="product-item-figure">
@@ -73,7 +78,6 @@ class Item extends React.Component{
                                     initVal     = { formObject['itemNum'] }
                                     itemNumMax  = { itemNumMax || 0 }
                                     returnForm  = { this.updateData.bind(this) }
-                                    isCombo     = { isCombo }
                                 />
                             </li>
                             <li>
@@ -142,7 +146,7 @@ class Item extends React.Component{
                                                 <p>{item['productName']}</p>
                                             </div>
                                             <div className="spec">
-                                                <p>{item['itemNum']/data['itemNum']} x {item['specName'] || ''}</p>
+                                                <p>{item['itemNum']} x {item['specName'] || ''}</p>
                                             </div>
                                         </div>
                                     );
@@ -178,8 +182,27 @@ class Item extends React.Component{
 
     updateData = (val) => {
         if( this.props.updateData!=undefined ){
-            const { formObject } = this.state;
+            const { formObject, itemNumMax } = this.state;
+            const { data } = this.props;
             this.props.updateData({...formObject, itemNum: val['itemNum']});
+            if (data['isCombo']) {
+                data['spec'].map(s=>{
+                    if (val['itemNum'] * s['itemNum'] > s['storage']) {
+                        this.setState({
+                            itemNumMax: formObject['itemNum']
+                        })
+                    }
+                })
+            } else {
+                data['spec'].map(s=>{
+                    if (val['itemNum'] > s['storage']) {
+                        this.setState({
+                            itemNumMax: formObject['itemNum']
+                        })
+                    }
+                })
+            }
+            
         }
     }
 }

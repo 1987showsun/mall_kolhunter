@@ -90,7 +90,7 @@ class Item extends React.Component{
                                                 <p>{item['productName']}</p>
                                             </div>
                                             <div className="spec">
-                                                <p>{item['count']/data['count']} x {item['specName'] || ''}</p>
+                                                <p>{item['count']} x {item['specName'] || ''}</p>
                                             </div>
                                         </div>
                                     );

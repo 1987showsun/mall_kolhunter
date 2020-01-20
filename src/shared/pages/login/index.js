@@ -108,7 +108,7 @@ class Index extends React.Component{
                 if( searchObject.hasOwnProperty('to') ){
                     history.push(`/my${_type}/${searchObject['to']}`);
                 }else{
-                    history.goBack();
+                    history.push('/');
                 }
             }
         }

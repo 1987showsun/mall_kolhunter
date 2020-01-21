@@ -82,7 +82,7 @@ class HeadProduct extends React.Component{
                                     <button className="basic">確定</button>
                                 </form>
                             </li>
-                            <li> 
+                            {/* <li> 
                                 <div className="input-box select">
                                     <select name="orderStatus" value={ orderStatus } onChange={this.filterData.bind(this)}>
                                         <option value="">顯示全部</option>
@@ -91,7 +91,7 @@ class HeadProduct extends React.Component{
                                         <option value="payfailure">付款失敗</option>
                                     </select>
                                 </div>
-                            </li>
+                            </li> */}
                             <li>
                                 <div className="input-box select">
                                     <select name="refundStatus" value={ refundStatus } onChange={this.filterData.bind(this)}>

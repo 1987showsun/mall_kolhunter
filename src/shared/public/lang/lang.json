@@ -90,9 +90,7 @@
         },
         "deliveryStatus": {
             "init": "未送件",
-            "prepare": "出貨準備中",
-            "ontheway": "已出貨",
-            "arrived": "抵達"
+            "ontheway": "已出貨"
         },
         "couponStatus": {
             "normal": "可使用",

@@ -180,6 +180,27 @@
             color: var(--main);
         }
     }
+    &.summary{
+        >li{
+            min-height: 45px;
+            >div{
+                display: inline;
+                max-width: 105px;
+                font-size: 21px;
+                color: #222222;
+                &.text-right{
+                    text-align: right;
+                }
+            }
+            >label{
+                font-weight: normal;
+                &:after{
+                    content:"";
+                    margin-left: 5px;
+                }
+            }
+        }
+    }
     @media ( max-width: 420px ) {
         >li{
             flex-wrap: wrap;

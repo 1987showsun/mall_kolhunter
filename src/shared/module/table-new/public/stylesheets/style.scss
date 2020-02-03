@@ -23,6 +23,9 @@
         border-bottom              : 1px solid #f2f2f2;
         font-size                  : 0.8rem;
         >div{
+            &.text-right{
+                text-align: right;
+            }
             height                     : 100%;
             padding                    : 15px 15px;
             display                    : table-cell;

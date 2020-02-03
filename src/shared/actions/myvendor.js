@@ -414,14 +414,29 @@ export function incListAccount( pathname="", query={}, data={} ) {
 
         dispatch({
             type: 'VENDOR_ACCOUNTS_LIST',
-            list: []
+            list: {
+                refund: [],
+                income: [],
+                summary : {
+                    date: {
+                        year: '',
+                        month: '',
+                        period: ''
+                    },
+                    total: {
+                        income: 0,
+                        refund: 0,
+                        grand: 0
+                    }
+                }
+            }
         });
         return Axios({method,url,data}).then( res => {
             if( !res.hasOwnProperty('response') ){
 
 
-                const { income=[] } = res['data'];
-                const list          = income.map( item => {
+                const { income=[], refund=[], summary } = res['data'];
+                const incomeList          = income.map( item => {
 
                     const { orderStatus, orderDetail, orderTimeMs } = item;
                     let   amount              = 0;
@@ -436,6 +451,7 @@ export function incListAccount( pathname="", query={}, data={} ) {
 
                     return{
                         ...item,
+                        type                 : 'income',
                         amount               : amount,
                         vendorFee            : vendorFee,
                         totalVendorFeeSplit  : Math.round((totalVendorFeeSplit/orderDetail.length)*100),
@@ -444,9 +460,37 @@ export function incListAccount( pathname="", query={}, data={} ) {
                     }
                 })
 
+                const refundList          = refund.map( item => {
+
+                    const { orderStatus, orderDetail, orderTimeMs } = item;
+                    let   amount              = 0;
+                    let   vendorFee           = 0;
+                    let   totalVendorFeeSplit = 0;
+
+                    orderDetail.forEach( orderDetailItem => {
+                        vendorFee           = vendorFee + orderDetailItem['vendorFee'];
+                        amount              = amount    + orderDetailItem['amount'];
+                        totalVendorFeeSplit = totalVendorFeeSplit + orderDetailItem['vendorFeeSplit'];
+                    })
+
+                    return{
+                        ...item,
+                        type                 : 'refund',
+                        amount               : amount,
+                        vendorFee            : vendorFee,
+                        totalVendorFeeSplit  : Math.round((totalVendorFeeSplit/orderDetail.length)*100),
+                        orderStatusText      : lang['zh-TW']['orderStatus'][orderStatus],
+                        orderTimeMs          : dayjs(orderTimeMs).format('YYYY / MM / DD hh : mm : ss')
+                    }
+                })
+                
                 dispatch({
                     type: 'VENDOR_ACCOUNTS_LIST',
-                    list: list
+                    list: {
+                        income: incomeList,
+                        refund: refundList,
+                        summary: summary
+                    }
                 });
                 return res;
             }

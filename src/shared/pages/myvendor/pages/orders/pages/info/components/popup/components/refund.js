@@ -11,7 +11,7 @@ import { connect }                        from 'react-redux';
 // Actions
 import { changeRefund }                   from '../../../../../../../../../actions/myvendor';
 
-const refundStep = ['request','delivery','recived','choice'];
+const refundStep = ['request','choice'];
 
 const Delivery = ({dispatch, location, oederData, itemData, handleCancel}) => {
 

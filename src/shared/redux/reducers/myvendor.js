@@ -28,7 +28,22 @@ export default function vendor(
             total: 0,
             page: 1,
         },
-        "accountsList": [],
+        "accountsList": {
+            income: [],
+            refund: [],
+            summary: {
+                date: {
+                    year: '',
+                    month: '',
+                    period: ''
+                },
+                total: {
+                    income: 0,
+                    refund: 0,
+                    grand: 0
+                }
+            }
+        },
         "orderStatus": {
             total: 0,
             totalAmount: 0,

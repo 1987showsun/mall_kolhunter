@@ -13,6 +13,7 @@ import Head               from './head';
 import Thead              from './table/thead';
 import Tbody              from './table/tbody';
 import PopupOrderDetail   from './popup';
+import AccountSummary     from './summary';
 
 // Modules
 import Table              from '../../../../module/table-new';
@@ -32,7 +33,22 @@ class Account extends React.Component{
         this.state = {
             popupStatus             : false,
             loading                 : false,
-            list                    : [],
+            list                    : {
+                income  : [],
+                refund  : [],
+                summary : {
+                    date: {
+                        year: '',
+                        month: '',
+                        period: ''
+                    },
+                    total: {
+                        income: 0,
+                        refund: 0,
+                        grand: 0
+                    }
+                },
+            },
             selectedShowOrderDetail : []
         }
     }
@@ -47,7 +63,7 @@ class Account extends React.Component{
 
         const { match, history, location }   = this.props;
         const { popupStatus, loading, list, selectedShowOrderDetail } = this.state;
-
+        const { summary } = list;
         return(
             <>
                 <section className="page-title">
@@ -58,12 +74,44 @@ class Account extends React.Component{
                     history      = {history}
                     location     = {location}
                 />
+                <AccountSummary
+                    summary = {summary}
+                />
                 <section className="admin-content-row">
+                    <section className="admin-content-title">
+                        <h4>銷貨收入</h4>
+                    </section>
                     <Table
                         thead = {<Thead />}
                     >
                         {
-                            list.map(item => {
+                            list['income'].map(item => {
+                                return (
+                                    <Tbody 
+                                        {...item}
+                                        key                   = {item['orderID']}
+                                        handleShowOrderDetail = {()=>{
+                                            this.setState({
+                                                popupStatus             : true,
+                                                selectedShowOrderDetail : item['orderDetail']
+                                            })
+                                        }}
+                                    />
+                                );
+                            })
+                        }
+                    </Table>
+                    <Loading loading={loading} />
+                </section>
+                <section className="admin-content-row">
+                    <section className="admin-content-title">
+                        <h4>已退貨</h4>
+                    </section>
+                    <Table
+                        thead = {<Thead />}
+                    >
+                        {
+                            list['refund'].map(item => {
                                 return (
                                     <Tbody 
                                         {...item}

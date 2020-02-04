@@ -12,7 +12,7 @@ import lang           from '../../../../../../../../public/lang/lang.json';
 export default (props) => {
 
     const { productName, specName, storeName, deliveryStatus, refundStatus, deliveryCode, amount } = props;
-    const refundButtonDisabled = ['none','reject','approve'];
+    const refundButtonDisabled = ['none','reject','approve','done'];
 
     return(
         <>

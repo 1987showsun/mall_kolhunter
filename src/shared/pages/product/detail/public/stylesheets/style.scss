@@ -482,6 +482,20 @@
             text-align: center;
             color: #999;
         }
+        .detail-container-video {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            padding-top: 25px;
+            width: 100%;
+            height: 0;
+            >iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
         @media (max-width: 1024px) and (min-width: 861px) {
             padding: 10px;
             img,.detail-container-text{

@@ -18,6 +18,11 @@ const Description = props => {
                             case "image":
                                 return <img key={`${item['sort']}-${i}`} src={item['content']} alt={name} title="" />;
 
+                            case "iframe":
+                                return (
+                                    <div key={`${item['sort']}-${i}`} className="detail-container-video" dangerouslySetInnerHTML={{__html: item['content']}}></div>
+                                );
+
                             case "html":
                                 return (
                                     <div key={`${item['sort']}-${i}`} className="detail-container-text">

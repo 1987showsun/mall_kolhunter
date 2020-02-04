@@ -32,7 +32,9 @@ const OtherInfo = props => {
                 <>
                     <li>
                         <label>付款代碼</label>
-                        <div>{payAdditionalInfo['CVSCode']}</div>
+                        <div>
+                            <span className="highlight">{payAdditionalInfo['CVSCode']}</span>
+                        </div>
                     </li>
                 </>
             );

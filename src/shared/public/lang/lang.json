@@ -56,7 +56,7 @@
         "payment": {
             "atm": "ATM",
             "cc": "信用卡",
-            "cvs": "超商付款",
+            "cvs": "超商代碼付款",
             "init": "尚未付款"
         },
         "orderStatus": {

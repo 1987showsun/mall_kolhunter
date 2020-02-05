@@ -484,9 +484,9 @@
         }
         .detail-container-video {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
+            padding-bottom: 42.75%; /* 16:9 */
             padding-top: 25px;
-            width: 100%;
+            width: 76%;
             height: 0;
             >iframe {
                 position: absolute;
@@ -506,6 +506,12 @@
                 font-size: 1em;
                 line-height: 2em;
             }
+            .detail-container-video {
+                position: relative;
+                padding-bottom: 46.41%; /* 16:9 */
+                padding-top: 25px;
+                width: 85.5%;
+            }
         }
         @media (max-width: 860px) and (min-width: 721px) {
             padding: 10px;
@@ -517,6 +523,12 @@
                 font-size: 1em;
                 line-height: 1.8em;
             }
+            .detail-container-video {
+                position: relative;
+                padding-bottom: 46.41%; /* 16:9 */
+                padding-top: 25px;
+                width: 85.5%;
+            }
         }
         @media (max-width: 768px) {
             padding: 10px;
@@ -527,6 +539,12 @@
                 margin: 25px 0px;
                 font-size: 0.8em;
                 line-height: 2em;
+            }
+            .detail-container-video {
+                position: relative;
+                padding-bottom: 56.25%; /* 16:9 */
+                padding-top: 25px;
+                width: 100%;
             }
         }
     }

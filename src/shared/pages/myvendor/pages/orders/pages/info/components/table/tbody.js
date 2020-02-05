@@ -17,7 +17,7 @@ export default (props) => {
     return(
         <>
             <div className="table-new-cell table-new-head">{productName}</div>
-            <div className="table-new-cell table-new-head">{specName}</div>
+            <div className="table-new-cell table-new-head" dangerouslySetInnerHTML={{__html:specName}}></div>
             <div className="table-new-cell">{storeName || 'Mall Kolhunter'}</div>
             <div className="table-new-cell table-new-head">
                 {lang['zh-TW']['deliveryStatus'][deliveryStatus]}

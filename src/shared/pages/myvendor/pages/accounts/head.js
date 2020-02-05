@@ -64,13 +64,13 @@ class HeadAccount extends React.Component{
                                 </div>
                             </li>
                         </ul>
-                        <ul>
+                        {/* <ul>
                             <li>
                                 <button onClick={this.actionYouWantToPerform.bind(this)} className="form-download">
                                     <i><FontAwesomeIcon icon={faFileDownload}/></i>下載報表
                                 </button>
                             </li>
-                        </ul>
+                        </ul> */}
                     </div>
                 </div>
             </React.Fragment>

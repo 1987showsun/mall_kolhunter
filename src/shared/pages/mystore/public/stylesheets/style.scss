@@ -54,4 +54,25 @@
             display: none !important;
         }
     }
+    .view-store-button{
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-size: 0.9rem;
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 0 1.1em 0 1.2em;
+        font-size: 0.8em;
+        line-height: 2.7em;
+        border-bottom-right-radius: 5px;
+        opacity: 0.8;
+        &:hover{
+            opacity: 1;
+        }
+    }
 }

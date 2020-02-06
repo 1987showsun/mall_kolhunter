@@ -58,6 +58,7 @@ class Index extends React.Component{
         const cover = formObject['cover'] || "";
         const photo = formObject['photo'] || "";
         const name  = formObject['name']  || "";
+        const { storeToken } = data;
 
         return(
             <div className={`row store-cover-wrap ${className}`}>
@@ -88,6 +89,7 @@ class Index extends React.Component{
                         </figcaption>
                     </figure>
                 </section>
+                <a type="button" className="view-store-button" href={`/store/${storeToken}`} target="_blank">前往店舖 →</a>
                 <Loading 
                     loading= {loading}
                 />

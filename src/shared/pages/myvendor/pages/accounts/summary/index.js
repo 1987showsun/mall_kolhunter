@@ -13,7 +13,7 @@ export default ({summary}) => {
         <>
             <section className="admin-content-row">
                 <article className="admin-content-title">
-                    <h4>帳務汇总</h4>
+                    <h4>帳務匯總</h4>
                 </article>
                 <ul className="table-row-list summary">
                     <li>

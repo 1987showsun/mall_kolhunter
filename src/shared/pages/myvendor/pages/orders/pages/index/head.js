@@ -7,6 +7,7 @@ import React                  from 'react';
 import dayjs                  from 'dayjs';
 import queryString            from 'query-string';
 import { connect }            from 'react-redux';
+import { CSVReader }          from 'react-papaparse';
 import { FontAwesomeIcon }    from '@fortawesome/react-fontawesome';
 import { faFileDownload }     from '@fortawesome/free-solid-svg-icons';
 
@@ -27,6 +28,7 @@ class HeadProduct extends React.Component{
         const searchObject = queryString.parse(location['search']);
         const startDate    = searchObject['startDate'] || "";
         const endDate      = searchObject['endDate']   || "";
+        this.fileInput = React.createRef();
         this.state         = {
             orderStatus      : searchObject['orderStatus']  || "",
             refundStatus     : searchObject['refundStatus'] || "",
@@ -112,6 +114,15 @@ class HeadProduct extends React.Component{
                                     <i><FontAwesomeIcon icon={faFileDownload} /></i>下載報表
                                 </button>
                             </li>
+                            <li>
+                            <CSVReader
+                            onFileLoaded={this.handleReadCSV.bind(this)}
+                            inputRef={this.fileInput}
+                            style={{display: 'none'}}
+                            onError={this.handleOnError}
+                            />
+                            <button onClick={this.handleImport}>匯入</button>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -177,6 +188,53 @@ class HeadProduct extends React.Component{
                 search     : queryString.stringify(query)
             })
         })
+    }
+
+    handleReadCSV = (csv) => {
+        let headers = []
+        let csvList = []
+        csv['data'].map((items, i)=>{
+            if (i==0) {
+                items.map((header, j)=>{
+                    switch (header) {
+                        case '訂單號碼':
+                            headers[j] = 'orderID'
+                            break;
+                        case '品項號碼':
+                            headers[j] = 'detailID'
+                            break;
+                        case '包裹編號':
+                            headers[j] = 'deliveryCode'
+                            break;
+                        case '貨運公司':
+                            headers[j] = 'deliveryCompany'
+                            break;
+                    }
+                })
+            }
+            if (i>0) {
+                let rowObj = {}
+                items.map((itm, j)=>{
+                    if (headers[j]) {
+                        rowObj[headers[j]] = itm
+                    }
+                })
+                csvList.push(rowObj)
+            }
+        })
+        this.props.returnUpload({
+            popupStatus: true,
+            csvUploadList: csvList
+        });
+    }
+
+    handleOnError = (err, file, inputElem, reason) => {
+        console.error(err)
+    }
+
+    handleImport = () => {
+        this.fileInput.current.value = null;
+        this.fileInput.current.click()
     }
 
     actionYouWantToPerform = () => {

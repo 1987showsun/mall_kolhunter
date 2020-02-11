@@ -1059,6 +1059,31 @@
     }
 }
 
+.csvUpload-popup-wrap{
+    .popup-container{
+        padding    : 10px;
+        background : #fff;
+        height: 100%;
+    }
+    .popup-head {
+        justify-content: space-between;
+    }
+    .operations{
+        display: flex;
+        margin-bottom: 3px;
+        button {
+            padding: 0 5px;
+            margin-left: 5px;
+            color: #000;
+        }
+    }
+    .submit {
+        margin-left: 10px;
+        color: #fff;
+        background: var(--blue)
+    }
+}
+
 .planform-list{
     width                   : 100%;
     padding                 : 5px;

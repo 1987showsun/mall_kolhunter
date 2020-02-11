@@ -67,6 +67,7 @@
     "react-i18next": "^10.12.2",
     "react-image-lightbox": "^5.1.0",
     "react-paginate": "^6.3.2",
+    "react-papaparse": "^2.0.1",
     "react-perfect-scrollbar": "^1.5.3",
     "react-redux": "^7.1.0",
     "react-router-config": "^5.0.1",

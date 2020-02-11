@@ -12,12 +12,14 @@ import { connect }            from 'react-redux';
 import Head                   from './head';
 import Thead                  from './table/thead';
 import Tbody                  from './table/tbody';
+import PopupUploadPreview     from './popup';
 
 // Modules
 import Table                  from '../../../../../../module/table-new';
 import Pagination             from '../../../../../../module/pagination';
 import Loading                from '../../../../../../module/loading';
 import Confirm                from '../../../../../../module/confirm';
+import Popup                  from '../../../../../../module/popup';
 
 // Actions
 import { orderList }          from '../../../../../../actions/myvendor';
@@ -35,6 +37,8 @@ class Order extends React.Component{
             open              : false,
             method            : 'alert',
             popupMSG          : [],
+            popupStatus       : false,
+            csvUploadList     : []
         }
     }
 
@@ -48,7 +52,7 @@ class Order extends React.Component{
 
     render(){
 
-        const { open, method, popupMSG, loading, total, totalAmount, list } = this.state;
+        const { open, method, popupMSG, loading, total, totalAmount, list, popupStatus, csvUploadList } = this.state;
         const { match, history, location } = this.props;
 
         return(
@@ -62,6 +66,11 @@ class Order extends React.Component{
                     location       = {location}
                     total          = {total}
                     totalAmount    = {totalAmount}
+                    returnUpload = {(val) => {
+                        this.setState({
+                            ...val
+                        })
+                    }}
                     returnDownload = {(val) => {
                         this.setState({
                             ...val
@@ -98,6 +107,40 @@ class Order extends React.Component{
                         })
                     }}
                 />
+                <Popup
+                    className         = "csvUpload-popup-wrap"
+                    popupStatus       = {popupStatus}
+                    returnPopupStatus = {()=>{
+                        this.setState({
+                            popupStatus: false,
+                        })
+                    }}
+                >
+                    <Loading 
+                        loading          = {loading}
+                    />
+                    <PopupUploadPreview 
+                        list = {csvUploadList}
+                        updateDelivery = {(i, deliveryCo)=>{
+                            csvUploadList[i]['deliveryCompany'] = deliveryCo;
+                            this.setState({
+                                csvUploadList: csvUploadList
+                            })                        
+                        }}
+                        updateDeliveryAll = {(deliveryCo)=>{
+                            csvUploadList.map((v,i)=>{
+                                csvUploadList[i]['deliveryCompany'] = deliveryCo;
+                            })
+                            this.setState({
+                                csvUploadList: csvUploadList
+                            })
+                        }}
+                        submit = {()=>{
+                            console.log('SUBMIT')
+                            this.callBulkOrderAPI()
+                        }}
+                    />
+                </Popup>
             </React.Fragment>
         );
     }
@@ -118,6 +161,9 @@ class Order extends React.Component{
             checkQueryIsDifferent = Object.keys(prevSearch).some( keys => {
                 return prevSearch[keys]!=search[keys];
             })
+        }
+        if (prevState.popupStatus!=this.state.popupStatus) {
+            checkQueryIsDifferent = true;
         }
         
         if( checkQueryIsDifferent ){
@@ -145,13 +191,23 @@ class Order extends React.Component{
             });
         })
     }
+
+    callBulkOrderAPI = () => {
+        this.setState({
+            loading: true,
+        },()=> {
+            // TODO dispatch api call, then set loading: false
+        })
+    }
+
 }
 
 const mapStateToProps = (state) => {
     return{
         total        : state.myvendor.orderStatus['total'],
         totalAmount  : state.myvendor.orderStatus['totalAmount'],
-        list         : state.myvendor.orderList
+        list         : state.myvendor.orderList,
+        csvUploadList: state.myvendor.csvUploadList
     }
 }
 

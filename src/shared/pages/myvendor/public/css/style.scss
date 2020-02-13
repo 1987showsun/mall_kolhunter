@@ -1064,6 +1064,7 @@
         padding    : 10px;
         background : #fff;
         height: 100%;
+        max-width: 900px;
     }
     .popup-head {
         justify-content: space-between;
@@ -1077,10 +1078,21 @@
             color: #000;
         }
     }
+    .cancel {
+        display: inline-block;
+        margin-left: 10px;
+    }
     .submit {
+        display: inline-block;
         margin-left: 10px;
         color: #fff;
         background: var(--blue)
+    }
+    .status-ok {
+        color: green;
+    }
+    .status-failed {
+        color: red;
     }
 }
 

@@ -102,6 +102,7 @@ export default function API(){
                 'delivery_list'         : `${API_ADDRESS()}/v1/order/delivery/list`, // get 取得運送狀態列表
                 'status_list'           : `${API_ADDRESS()}/v1/order/status/list`, // get 取得訂單狀態列表 
                 'delivery'              : `${API_ADDRESS()}/v1/vendor/order/delivery`, // post 訂單運送狀態改變 { order_item_id, status }
+                'delivery_bulk'         : `${API_ADDRESS()}/v1/vendor/order/delivery/bulk`, // put
                 'status'                : `${API_ADDRESS()}/v1/vendor/order/status`, // post 訂單狀態改變 { order_item_id, status }
                 'download'              : `${API_ADDRESS()}/v1/vendor/orders/download` // 報表下載
             },

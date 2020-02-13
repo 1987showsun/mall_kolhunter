@@ -19,12 +19,13 @@ const showDeliveryCode = ['prepare','ontheway'];
 const Delivery = ({dispatch, location={}, handleCancel, oederData, itemData}) => {
 
     const [stateForm, setForm] = useState({
-        orderID        : oederData['orderID'],
-        id             : itemData['id'],
-        productID      : itemData['productToken'],
-        specID         : itemData['specToken'],
-        deliveryCode   : itemData['deliveryCode'],
-        deliveryStatus : itemData['deliveryStatus']
+        orderID             : oederData['orderID'],
+        id                  : itemData['id'],
+        productID           : itemData['productToken'],
+        specID              : itemData['specToken'],
+        deliveryCompany     : itemData['deliveryCompany'],
+        deliveryCode        : itemData['deliveryCode'],
+        deliveryStatus      : itemData['deliveryStatus']
     })
 
     const handleChange = (e) => {
@@ -85,12 +86,26 @@ const Delivery = ({dispatch, location={}, handleCancel, oederData, itemData}) =>
                     </li>
                     {
                         showDeliveryCode.includes(stateForm['deliveryStatus'])?(
-                            <li>
-                                <label>包裹編號</label>
-                                <div className="input-box">
-                                    <input type="text" name="deliveryCode" defaultValue={stateForm['deliveryCode']} onChange={handleChange.bind(this)} placeholder="請輸入包裹編號" />
-                                </div>
-                            </li>
+                            <>
+                                <li>
+                                    <label>貨運公司</label>
+                                    <div className="input-box select">
+                                        <select name="deliveryCompany" defaultValue={stateForm['deliveryCompany']} onChange={handleChange.bind(this)}>
+                                            {
+                                                Object.keys(lang['zh-TW']['deliveryCompany']).map( (keys,i) => {
+                                                    return (<option key={lang['zh-TW']['deliveryCompany'][keys]} value={lang['zh-TW']['deliveryCompany'][keys]}>{lang['zh-TW']['deliveryCompany'][keys]}</option>);
+                                                })
+                                            }
+                                        </select>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label>包裹編號</label>
+                                    <div className="input-box">
+                                        <input type="text" name="deliveryCode" defaultValue={stateForm['deliveryCode']} onChange={handleChange.bind(this)} placeholder="請輸入包裹編號" />
+                                    </div>
+                                </li>
+                            </>
                         ):(
                             null
                         )

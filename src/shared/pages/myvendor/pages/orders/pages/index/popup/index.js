@@ -12,26 +12,25 @@ import Tbody from './tbody';
 // Modules
 import Table from '../../../../../../../module/table-new';
 
-export default ({list, updateDelivery, updateDeliveryAll, submit}) => {
-    const availableDeliveryCo = [
-        "黑貓宅急便",
-        "新竹貨運",
-        "大榮貨運",
-        "順豐速運"
-    ]
+import lang  from '../../../../../../../public/lang/lang.json';
+
+export default ({list, updateDelivery, updateDeliveryAll, cancel, submit}) => {
     return(
         <>
             <div className="popup-head">
                 <h3>批次更新</h3>
-                <button className="submit" onClick={()=>submit()}>確定</button>
+                <div>
+                    <button className="cancel" onClick={()=>cancel()}>取消</button>
+                    <button className="submit" onClick={()=>submit()}>確定</button>
+                </div>
             </div>
             <div className="operations">
                 <div className="input-box select">
                     <select name="deliveryCompany" defaultValue="" onChange={e=>{updateDeliveryAll(e.target.value)}}>
-                        <option value="" disabled={true}>- 設定全部物流公司 -</option>
+                        <option value="" disabled={true}>- 設定全部貨運公司 -</option>
                         {
-                            availableDeliveryCo.map( (val) => {
-                                return (<option value={val}>{val}</option>)
+                            Object.keys(lang['zh-TW']['deliveryCompany']).map( (keys,i) => {
+                                return (<option key={lang['zh-TW']['deliveryCompany'][keys]} value={lang['zh-TW']['deliveryCompany'][keys]}>{lang['zh-TW']['deliveryCompany'][keys]}</option>);
                             })
                         }
                     </select>
@@ -46,10 +45,9 @@ export default ({list, updateDelivery, updateDeliveryAll, submit}) => {
             >
                 {
                     list.map( (item, i) => {
-                        item['i'] = i
                         return (<Tbody
-                            key={`${item['orderID']}-${item['detailID']}-${item['deliveryCompany']}`}
-                            availableDeliveryCo={availableDeliveryCo}
+                            key={`${item['orderID']}-${item['itemCode']}-${item['deliveryCompany']}`}
+                            index={i}
                             updateDelivery={updateDelivery.bind(this)}
                             {...item}
                         />);

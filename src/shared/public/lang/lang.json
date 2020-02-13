@@ -92,6 +92,12 @@
             "init": "未送件",
             "ontheway": "已出貨"
         },
+        "deliveryCompany": {
+            "1": "黑貓宅急便",
+            "2": "新竹貨運",
+            "3": "大榮貨運",
+            "4": "順豐速運"
+        },
         "couponStatus": {
             "normal": "可使用",
             "used": "已使用"

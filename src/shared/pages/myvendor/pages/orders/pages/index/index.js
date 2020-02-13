@@ -22,7 +22,7 @@ import Confirm                from '../../../../../../module/confirm';
 import Popup                  from '../../../../../../module/popup';
 
 // Actions
-import { orderList }          from '../../../../../../actions/myvendor';
+import { orderList, orderInfoProductDeliveryStatusBulk } from '../../../../../../actions/myvendor';
 
 // Lang
 import lang                   from '../../../../../../public/lang/lang.json';
@@ -125,7 +125,7 @@ class Order extends React.Component{
                             csvUploadList[i]['deliveryCompany'] = deliveryCo;
                             this.setState({
                                 csvUploadList: csvUploadList
-                            })                        
+                            })
                         }}
                         updateDeliveryAll = {(deliveryCo)=>{
                             csvUploadList.map((v,i)=>{
@@ -135,8 +135,12 @@ class Order extends React.Component{
                                 csvUploadList: csvUploadList
                             })
                         }}
+                        cancel = {() => {
+                            this.setState({
+                                popupStatus: false,
+                            })
+                        }}
                         submit = {()=>{
-                            console.log('SUBMIT')
                             this.callBulkOrderAPI()
                         }}
                     />
@@ -193,10 +197,39 @@ class Order extends React.Component{
     }
 
     callBulkOrderAPI = () => {
+        const { csvUploadList } = this.state;
+
+        let prevOrderID = "";
+        csvUploadList.map((item, i)=>{
+            if(item['orderID'].trim()=='') {
+                csvUploadList[i]['orderID'] = prevOrderID;
+            } else {
+                prevOrderID = item['orderID'];
+            }
+        })
+
+        const list = {
+            orders: csvUploadList
+        }
         this.setState({
             loading: true,
         },()=> {
-            // TODO dispatch api call, then set loading: false
+            this.props.dispatch( orderInfoProductDeliveryStatusBulk(list) ).then( res => {
+                csvUploadList.map((itm, i)=>{
+                    csvUploadList[i]['status'] = 'ok';
+                })
+                if (res['data']['errors']) {
+                    res['data']['errors'].map((err, i)=>{
+                        csvUploadList[i]['status'] = 'failed'
+                    })
+                }
+                this.setState({
+                    csvUploadList: csvUploadList
+                });
+                this.setState({
+                    loading: false,
+                });
+            });
         })
     }
 

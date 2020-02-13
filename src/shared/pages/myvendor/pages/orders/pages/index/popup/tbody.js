@@ -5,28 +5,35 @@
 
 import React          from 'react';
 
-export default ({orderID, detailID, deliveryCode, deliveryCompany, updateDelivery, availableDeliveryCo, i}) => {
+import { FontAwesomeIcon }    from '@fortawesome/react-fontawesome';
+import { faCheck, faTimes }     from '@fortawesome/free-solid-svg-icons';
 
+import lang                               from '../../../../../../../public/lang/lang.json';
+
+export default ({orderID, itemCode, deliveryCode, deliveryCompany, updateDelivery, status, index}) => {
     const handleChange = (event) => {
-        updateDelivery(i, availableDeliveryCo[availableDeliveryCo.indexOf(event.target.value)]);
+        updateDelivery(index, event.target.value);
     }
 
     return(
         <>
             <div className="table-new-cell">{orderID}</div>
-            <div className="table-new-cell">{detailID}</div>
+            <div className="table-new-cell">{itemCode}</div>
             <div className="table-new-cell">
                 <div className="input-box select">
                     <select name="deliveryCompany" defaultValue={deliveryCompany} onChange={handleChange.bind(this)}>
                         {
-                            availableDeliveryCo.map( (val) => {
-                                return (<option value={val}>{val}</option>)
+                            Object.keys(lang['zh-TW']['deliveryCompany']).map( (keys,i) => {
+                                return (<option key={lang['zh-TW']['deliveryCompany'][keys]} value={lang['zh-TW']['deliveryCompany'][keys]}>{lang['zh-TW']['deliveryCompany'][keys]}</option>);
                             })
                         }
                     </select>
                 </div>
             </div>
             <div className="table-new-cell">{deliveryCode}</div>
+            <div className="table-new-cell">
+                { !!(status) ? <i><FontAwesomeIcon className={`status-${status}`} icon={status=='ok'?faCheck:faTimes} /></i> : null }
+            </div>
         </>
     );
 

@@ -201,7 +201,7 @@ class HeadProduct extends React.Component{
                             headers[j] = 'orderID'
                             break;
                         case '品項號碼':
-                            headers[j] = 'detailID'
+                            headers[j] = 'itemCode'
                             break;
                         case '包裹編號':
                             headers[j] = 'deliveryCode'
@@ -214,14 +214,25 @@ class HeadProduct extends React.Component{
             }
             if (i>0) {
                 let rowObj = {}
+                let hasDeliveryCode = false;
                 items.map((itm, j)=>{
                     if (headers[j]) {
+                        if (headers[j]=='deliveryCode' && itm.trim()!=='') {
+                            hasDeliveryCode = true;
+                        }
+                        if (headers[j]=='deliveryCompany' && itm.trim()=='') {
+                            itm = lang['zh-TW']['deliveryCompany']['1'];
+                        }
                         rowObj[headers[j]] = itm
                     }
+                    rowObj['status'] = '';
                 })
-                csvList.push(rowObj)
+                if (hasDeliveryCode) {
+                    csvList.push(rowObj)
+                }
             }
         })
+
         this.props.returnUpload({
             popupStatus: true,
             csvUploadList: csvList

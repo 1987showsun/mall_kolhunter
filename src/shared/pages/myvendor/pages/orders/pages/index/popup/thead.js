@@ -12,6 +12,7 @@ export default (headers) => {
             <div>品項編號</div>
             <div>貨運公司</div>
             <div>包裹編號</div>
+            <div>更新</div>
         </>
     );
 }

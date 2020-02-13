@@ -343,6 +343,24 @@ export function orderInfoProductDeliveryStatus( pathname,query,data={},source ) 
     }
 }
 
+// 訂單運送批次
+export function orderInfoProductDeliveryStatusBulk( data={}, source ) {
+    return (dispatch) => {
+        
+        const method     = 'put';
+        const url        = `${API()['myvendor']['order']['delivery_bulk']}`;
+        return Axios({method,url,data}).then( res => {
+            console.log(res)
+            if( !res.hasOwnProperty('response') ){
+                return res;
+            }
+            
+            return res['response'];
+        });
+        
+    }
+}
+
 // 訂單下載
 export function orderDownload( pathname,query,data={} ) {
     return (dispatch) => {

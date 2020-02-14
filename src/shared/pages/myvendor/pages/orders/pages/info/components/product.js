@@ -29,6 +29,7 @@ class Products extends React.Component{
             wantChangeItem          : null,
             selectUpdateFormObject  : {
                 deliveryCode           : "",
+                deliveryCompany        : "",
                 deliveryStatus         : "init"
             }
         }

@@ -38,7 +38,8 @@ class Order extends React.Component{
             method            : 'alert',
             popupMSG          : [],
             popupStatus       : false,
-            csvUploadList     : []
+            csvUploadList     : [],
+            uploadDone        : false
         }
     }
 
@@ -52,7 +53,7 @@ class Order extends React.Component{
 
     render(){
 
-        const { open, method, popupMSG, loading, total, totalAmount, list, popupStatus, csvUploadList } = this.state;
+        const { open, method, popupMSG, loading, total, totalAmount, list, popupStatus, csvUploadList, uploadDone } = this.state;
         const { match, history, location } = this.props;
 
         return(
@@ -135,6 +136,7 @@ class Order extends React.Component{
                                 csvUploadList: csvUploadList
                             })
                         }}
+                        uploadDone = {uploadDone}
                         cancel = {() => {
                             this.setState({
                                 popupStatus: false,
@@ -224,10 +226,9 @@ class Order extends React.Component{
                     })
                 }
                 this.setState({
-                    csvUploadList: csvUploadList
-                });
-                this.setState({
                     loading: false,
+                    uploadDone: true,
+                    csvUploadList: csvUploadList
                 });
             });
         })

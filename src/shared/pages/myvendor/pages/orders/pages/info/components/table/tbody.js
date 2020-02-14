@@ -11,7 +11,7 @@ import lang           from '../../../../../../../../public/lang/lang.json';
 
 export default (props) => {
 
-    const { productName, specName, storeName, deliveryStatus, refundStatus, deliveryCode, amount } = props;
+    const { productName, specName, storeName, deliveryStatus, refundStatus, deliveryCode, deliveryCompany, amount } = props;
     const refundButtonDisabled = ['none','reject','approve','done'];
 
     return(
@@ -21,14 +21,14 @@ export default (props) => {
             <div className="table-new-cell">{storeName || 'Mall Kolhunter'}</div>
             <div className="table-new-cell table-new-head">
                 {lang['zh-TW']['deliveryStatus'][deliveryStatus]}
+                <button className="change-status" onClick={props.handleClick.bind(this,'deliveryStatus',props)}>變更狀態</button>
                 {
                     deliveryCode!='' && deliveryCode!=null? (
-                        `（包裹編號：${deliveryCode}）`
+                        <div>{`貨運公司：${deliveryCompany}`}<br />{`包裹編號：${deliveryCode}`}</div>
                     ):(
                         null
                     )
                 }
-                <button className="change-status" onClick={props.handleClick.bind(this,'deliveryStatus',props)}>變更狀態</button>
             </div>
             <div className="table-new-cell table-new-head">
                 目前狀態：{lang['zh-TW']['refundStatusEnum'][refundStatus]}

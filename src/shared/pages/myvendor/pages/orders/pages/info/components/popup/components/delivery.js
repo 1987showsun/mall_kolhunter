@@ -17,13 +17,11 @@ const deliveryStep     = ['init','prepare','ontheway','arrived'];
 const showDeliveryCode = ['prepare','ontheway'];
 
 const Delivery = ({dispatch, location={}, handleCancel, oederData, itemData}) => {
-
     const [stateForm, setForm] = useState({
         orderID             : oederData['orderID'],
         id                  : itemData['id'],
-        productID           : itemData['productToken'],
-        specID              : itemData['specToken'],
-        deliveryCompany     : itemData['deliveryCompany'],
+        itemCode            : itemData['itemCode'],
+        deliveryCompany     : itemData['deliveryCompany'] ? itemData['deliveryCompany'] : lang['zh-TW']['deliveryCompany']['1'],
         deliveryCode        : itemData['deliveryCode'],
         deliveryStatus      : itemData['deliveryStatus']
     })
@@ -34,6 +32,7 @@ const Delivery = ({dispatch, location={}, handleCancel, oederData, itemData}) =>
             ...stateForm,
             [name]     : value
         });
+
     }
 
     const onSubmit     = (e) => {
@@ -47,6 +46,7 @@ const Delivery = ({dispatch, location={}, handleCancel, oederData, itemData}) =>
             if( res['status']==200 ){
                 status      = 'success';
                 status_text = '變更成功';
+                setForm(stateForm);
                 handleCancel();
             }
 

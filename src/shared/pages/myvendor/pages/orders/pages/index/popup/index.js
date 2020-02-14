@@ -14,14 +14,23 @@ import Table from '../../../../../../../module/table-new';
 
 import lang  from '../../../../../../../public/lang/lang.json';
 
-export default ({list, updateDelivery, updateDeliveryAll, cancel, submit}) => {
+export default ({list, updateDelivery, updateDeliveryAll, cancel, submit, uploadDone}) => {
     return(
         <>
             <div className="popup-head">
                 <h3>批次更新</h3>
                 <div>
-                    <button className="cancel" onClick={()=>cancel()}>取消</button>
-                    <button className="submit" onClick={()=>submit()}>確定</button>
+                    {
+                        !uploadDone ? (
+                            <>
+                                <button className="cancel" onClick={()=>cancel()}>取消</button>
+                                <button className="submit" onClick={()=>submit()}>確定</button>
+                            </>
+                        ):(
+                            <button className="cancel" onClick={()=>cancel()}>關閉</button>
+                        )
+                    }
+                    
                 </div>
             </div>
             <div className="operations">

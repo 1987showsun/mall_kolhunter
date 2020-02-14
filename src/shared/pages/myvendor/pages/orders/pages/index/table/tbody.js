@@ -24,8 +24,8 @@ export default ({orderID, orderName, deliveryName, orderDetail, amount, orderSta
             <div className="table-new-cell status"><span className={`orderStatus ${orderStatus}`}>{statusText}</span></div>
             <div className="table-new-cell status">
                 { lang['zh-TW']['deliveryStatus'][deliveryStatus] } <br />
-                {`貨運公司：${deliveryCompany}`} <br />
-                {`包裹號碼：${deliveryCode}`}
+                {`貨運公司：${deliveryCompany ?deliveryCompany : ''}`} <br />
+                {`包裹號碼：${deliveryCode ? deliveryCode : ''}`}
             </div>
             <div className="table-new-cell status"><span className={`refundStatus ${refundStatus}`}>{refundText}</span></div>
             <div className="table-new-cell date">{createdate}</div>

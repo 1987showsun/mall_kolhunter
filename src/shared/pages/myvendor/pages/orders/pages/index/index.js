@@ -113,6 +113,7 @@ class Order extends React.Component{
                     popupStatus       = {popupStatus}
                     returnPopupStatus = {()=>{
                         this.setState({
+                            uploadDone: false,
                             popupStatus: false,
                         })
                     }}

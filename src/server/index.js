@@ -87,6 +87,7 @@ app.all("*", (req, res, next) => {
               gtag('js', new Date());
 
               gtag('config', 'UA-157982106-1');
+              gtag('config', 'AW-718456390');
             </script>
             
             <!-- Hotjar Tracking Code for http://mall.kolhunter.com/ -->

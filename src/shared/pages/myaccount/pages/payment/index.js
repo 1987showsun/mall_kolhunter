@@ -48,6 +48,12 @@ const Index = props => {
                         'value': amount,
                         'currency': 'NTD'
                     });
+                    gtag('event', 'conversion', {
+                        'transaction_id': orderID,
+                        'checkout_option': payMethod,
+                        'value': amount,
+                        'currency': 'NTD'
+                    });
                 }
             });
         },3000);

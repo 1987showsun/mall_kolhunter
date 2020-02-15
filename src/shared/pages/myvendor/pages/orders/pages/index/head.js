@@ -220,7 +220,7 @@ class HeadProduct extends React.Component{
                         if (headers[j]=='deliveryCode' && itm.trim()!=='') {
                             hasDeliveryCode = true;
                         }
-                        if (headers[j]=='deliveryCompany' && itm.trim()=='') {
+                        if (headers[j]=='deliveryCompany') {
                             itm = lang['zh-TW']['deliveryCompany']['1'];
                         }
                         rowObj[headers[j]] = itm

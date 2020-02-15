@@ -139,6 +139,7 @@ class Order extends React.Component{
                         uploadDone = {uploadDone}
                         cancel = {() => {
                             this.setState({
+                                uploadDone: false,
                                 popupStatus: false,
                             })
                         }}
@@ -221,8 +222,9 @@ class Order extends React.Component{
                     csvUploadList[i]['status'] = 'ok';
                 })
                 if (res['data']['errors']) {
-                    res['data']['errors'].map((err, i)=>{
-                        csvUploadList[i]['status'] = 'failed'
+                    let errors = res['data']['errors'];
+                    Object.keys( errors ).map( (key, val) => {
+                        csvUploadList[key]['status'] = 'failed';
                     })
                 }
                 this.setState({

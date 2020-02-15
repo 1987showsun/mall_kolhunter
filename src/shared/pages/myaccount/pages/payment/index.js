@@ -39,6 +39,16 @@ const Index = props => {
                     default:
                         break;
                 }
+                const { orderID, amount, orderStatus, payMethod } = res['data'];
+                if (window.location.host=='mall.kolhunter.com'){
+                    gtag('event', 'conversion', {
+                        'send_to': 'AW-718456390/upQyCK7GiMQBEMaMy9YC',
+                        'transaction_id': orderID,
+                        'checkout_option': payMethod,
+                        'value': amount,
+                        'currency': 'NTD'
+                    });
+                }
             });
         },3000);
 

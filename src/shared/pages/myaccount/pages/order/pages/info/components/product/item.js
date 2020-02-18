@@ -21,10 +21,17 @@ class Item extends React.Component{
         }
     }
 
+    copyCodeToClipboard = () => {
+        const el = this.deliveryCodeValue
+        el.select()
+        document.execCommand("copy")
+        document.getSelection().removeAllRanges()
+    }
+
     render(){
 
         const { data, location } = this.props;
-        const { productToken, specName, storeToken, storeName, productImgs, productName, count, deliveryName, deliveryPrice, price, deliveryStatus, spec } = data;
+        const { productToken, specName, storeToken, storeName, productImgs, productName, count, deliveryName, deliveryPrice, price, deliveryStatus, deliveryCompany, deliveryCode, spec } = data;
         
         return(
 
@@ -72,6 +79,26 @@ class Item extends React.Component{
                             <li>
                                 <label>運送狀態</label>
                                 <div>{ lang['zh-TW']['deliveryStatus'][deliveryStatus]}</div>
+                            </li>
+                            <li>
+                                <label>運送公司</label>
+                                <div>{deliveryCompany ? deliveryCompany : '-'}</div>
+                            </li>
+                            <li>
+                                <label>包裹編號</label>
+                                <div>
+                                    {deliveryCode ?
+                                        <div>
+                                            {deliveryCode}
+                                            <span> <a href="#" onClick={() => this.copyCodeToClipboard()}>複製</a></span>
+                                            <input
+                                                className="deliveryCodeCopy"
+                                                ref={(deliveryCodeValue) => this.deliveryCodeValue = deliveryCodeValue}
+                                                value={deliveryCode}
+                                            />
+                                        </div>
+                                    : '-'}
+                                </div>
                             </li>
                         </ul>
                     </figcaption>

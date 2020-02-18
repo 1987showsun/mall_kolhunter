@@ -11,12 +11,13 @@ import lang           from '../../../../../../../../public/lang/lang.json';
 
 export default (props) => {
 
-    const { productName, specName, storeName, deliveryStatus, refundStatus, deliveryCode, deliveryCompany, amount } = props;
+    const { productName, specName, storeName, deliveryStatus, refundStatus, deliveryCode, deliveryCompany, amount, itemNum } = props;
     const refundButtonDisabled = ['none','reject','approve','done'];
 
     return(
         <>
             <div className="table-new-cell table-new-head">{productName}</div>
+            <div className="table-new-cell">{itemNum}</div>
             <div className="table-new-cell table-new-head" dangerouslySetInnerHTML={{__html:specName}}></div>
             <div className="table-new-cell">{storeName || 'Mall Kolhunter'}</div>
             <div className="table-new-cell table-new-head">

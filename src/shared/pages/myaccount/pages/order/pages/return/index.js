@@ -20,11 +20,18 @@ import Loading                      from '../../../../../../module/loading/mallL
 // Actions
 import { ordersInfo, ordersRefund } from '../../../../../../actions/myaccount';
 
+import area_code                 from '../../../../../../public/json/TWareacode.json';
+import county_area               from '../../../../../../public/json/TWzipcode.json';
+
 // Lang
 import lang                         from '../../../../../../public/lang/lang.json';
 
 // Styelsheets
 import './public/stylesheets/style.scss';
+
+const city    = Object.keys(county_area)[0];
+const dist    = Object.keys(county_area[city])[0];
+const zipCode = county_area[city][dist];
 
 class Index extends React.Component{
 
@@ -38,14 +45,19 @@ class Index extends React.Component{
             pupopMSG      : "",
             selected      : [],
             info          : {},
-            list          : []
+            list          : [],
+            formObject: {
+                zipCode    : zipCode,
+                city       : city,
+                dist       : dist,
+                address    : ''
+            },
         }
     }
 
     render(){
 
-        const { loading, open, selected, method, header, pupopMSG, list } = this.state;
-
+        const { loading, open, selected, method, header, pupopMSG, list, formObject } = this.state;
         return(
             <React.Fragment>
                 <section className="container-unit">
@@ -68,6 +80,50 @@ class Index extends React.Component{
                             }
                         </Table>
                         <Loading loading={loading}/>
+                    </section>
+                    <section className="container-unit">
+                        <div className="unit-head">
+                            <h3>取貨地址</h3>
+                        </div>
+                        <form>
+                            <ul className="table-row-list">
+                                <li>
+                                    <div>
+                                        <div className="input-box select">
+                                            <select name="city" value={formObject['city'] || ""} onChange={ this.handleFormChange.bind(this) }>
+                                                <option value="">請選擇縣市</option>
+                                                {
+                                                    Object.keys(county_area).map( item => {
+                                                        return(
+                                                            <option key={`city_${item}`} value={item} >{item}</option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                        </div>
+                                        <div className="input-box select">
+                                            <select name="dist" value={formObject['dist'] || ""} onChange={ this.handleFormChange.bind(this) }>
+                                                <option value="">請選擇鄉鎮市區</option>
+                                                {
+                                                    formObject['city']!=undefined && formObject['city']!=""? (
+                                                        Object.keys(county_area[formObject['city']]).map( (item) => {
+                                                            return(
+                                                                <option key={`${item}`} value={item} data-zipcode={county_area[formObject['city']][item]} >{item}</option>
+                                                            )
+                                                        })
+                                                    ):(
+                                                        null
+                                                    )
+                                                }
+                                            </select>
+                                        </div>
+                                        <div className="input-box">
+                                            <input type="text" name="address" defaultValue={ formObject['address'] } onChange={ this.handleFormChange.bind(this) } placeholder=""/>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </form>
                     </section>
                 </section>
 
@@ -108,9 +164,18 @@ class Index extends React.Component{
                     const { status, data } = res;
                     switch( status ){
                         case 200:
-                            const { orderDetail } = data;
+                            const { orderDetail, deliveryZipCode, deliveryCity, deliveryDist, deliveryAddress } = data;
+                            let formObject = { ...this.state.formObject };
+                            formObject = {
+                                ...this.state.formObject,
+                                zipCode    : deliveryZipCode,
+                                city       : deliveryCity,
+                                dist       : deliveryDist,
+                                address    : deliveryAddress
+                            };
                             this.setState({
-                                list: orderDetail.filter( item => item['refundStatus']=='none')
+                                list: orderDetail.filter( item => item['refundStatus']=='none'),
+                                formObject: formObject
                             })
                             break;
 
@@ -132,6 +197,34 @@ class Index extends React.Component{
                 ...selected,
                 itemCode
             ]) : selected.filter( item => item!=itemCode )
+        })
+    }
+
+    handleFormChange = (e) => {
+        const { name, value } = e.target;
+        let formObject = { ...this.state.formObject };
+        let city       = '';
+        let dist       = '';
+        let zipCode    = '';
+
+        switch( name ){
+            case 'city':
+                dist    = Object.keys(county_area[value])[0];
+                zipCode = county_area[value][dist];
+                formObject = { ...formObject, [name]: value, dist: dist, zipCode: zipCode };
+                break;
+
+            case 'dist':
+                city    = formObject['city'];
+                zipCode = county_area[city][value];
+                formObject = { ...formObject, [name]: value, zipCode: zipCode };
+                break;
+            case 'address':
+                formObject = { ...formObject, 'address': value };
+                break;
+        }
+        this.setState({
+            formObject
         })
     }
     
@@ -181,19 +274,21 @@ class Index extends React.Component{
 
     handleConfirm = () => {
 
-        const { selected, method }         = this.state;
+        const { selected, method, formObject }         = this.state;
         const { location, history, match } = this.props;
         const { pathname, search }         = location;
 
         if( method=='alert' ){
             this.onCancel();
         }else{
-
             const data = {
                 orderID   : match['params']['id'],
-                itemCode  : selected
+                itemCode  : selected,
+                refundZipCode: formObject['zipCode'],
+                refundCity: formObject['city'],
+                refundDist: formObject['dist'],
+                refundAddress: formObject['address']
             }
-
             this.props.dispatch( ordersRefund(pathname,{...queryString.parse(search)},data) ).then( res => {
 
                 let   status      = 'failure';

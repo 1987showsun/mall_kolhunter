@@ -90,6 +90,7 @@ app.all("*", (req, res, next) => {
 
               gtag('config', 'UA-157982106-1');
               gtag('config', 'AW-718456390');
+              gtag('set', {'currency': 'TWD'});
               ${disableGA}
             </script>
             

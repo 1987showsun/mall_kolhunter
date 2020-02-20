@@ -54,7 +54,6 @@ class Index extends React.Component{
         const { location, match, history } = this.props;
         const { imageData, info }          = this.state;
         const { description, adult }       = info;
-
         return(
             <>
 
@@ -118,7 +117,28 @@ class Index extends React.Component{
     componentDidMount() {
         const { location, match }  = this.props;
         const { pathname, search } = location;
-        this.props.dispatch( ssrApproachProduct(pathname,{ ...queryString.parse(search), productToken: match['params']['id'] || "" }) );
+        this.props.dispatch( ssrApproachProduct(pathname,{ ...queryString.parse(search), productToken: match['params']['id'] || "" }) )
+        .then(()=>{
+            let { info } = this.props
+            let cateString = '';
+            info['categories'].map((cate, i)=>{
+                if (i!=0) {
+                    cateString += '/';
+                }
+                cateString += cate['name'];
+            })
+            gtag('event', 'view_item', {
+                "items": [
+                    {
+                        "id": info['token'],
+                        "name": info['name'],
+                        "category": cateString,
+                        "price": info['sellPrice']
+                    }
+                ]
+            });
+        })
+
     }
 
     judgeOlder = ( actionType ) => {

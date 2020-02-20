@@ -80,6 +80,22 @@ class Index extends React.Component{
             loading: true
         },()=>{
             this.props.dispatch( cartsProductList() ).then( res => {
+                let { data } = res;
+                let {items } = data;
+                let gaItems = [];
+                items.map((itm)=>{
+                    gaItems.push({
+                        "id": itm['productToken'],
+                        "name": itm['productName'],
+                        "price": itm['price'],
+                        "quantity": itm['itemNum']
+                    })
+                });
+
+                gtag('event', 'begin_checkout', {
+                    "items": gaItems
+                });
+
                 this.setState({
                     loading: false
                 });
@@ -119,7 +135,6 @@ class Index extends React.Component{
         const { itemCode=null, storeToken }   = selectedTtem;
         let   status                          = 'failure';
         let   status_text                     = lang['zh-TW']['note']['failed to delete'];
-
         this.setState({
             loading: true
         },()=>{
@@ -139,6 +154,16 @@ class Index extends React.Component{
                                     status      = "success";
                                     status_text = lang['zh-TW']['note']['successfully deleted'];
                                     this.props.dispatch( cartsCount() );
+                                    gtag('event', 'remove_from_cart', {
+                                        "items": [
+                                            {
+                                                "id": selectedTtem['productToken'],
+                                                "name": selectedTtem['productName'],
+                                                "price": selectedTtem['price'],
+                                                "quantity": selectedTtem['itemNum']
+                                            }
+                                        ]
+                                    });
                                     break;
                             }
                             toaster.notify(

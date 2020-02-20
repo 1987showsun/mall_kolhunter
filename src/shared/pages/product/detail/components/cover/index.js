@@ -308,7 +308,7 @@ class Cover extends React.Component{
     callCarts = ( method ) => {
         if( method!='soldOut' ){
 
-            const { location, history } = this.props;
+            const { location, history, data } = this.props;
             const { pathname, search }  = location;
             const checkLoginStatus      = sessionStorage.getItem('jwt_account')!=null? true : false;
             const formObject            = {
@@ -324,14 +324,31 @@ class Cover extends React.Component{
                     this.setState({
                         lock: false
                     },()=>{
-
                         let { status_text } = res['data'];
                         let status          = 'failure';
-
+                    
                         switch( res['status'] ){
                             case 200:
                                 // 加入成功
                                 this.props.dispatch( cartsCount() );
+                                let cateString = '';
+                                data['categories'].map((cate, i)=>{
+                                    if (i!=0) {
+                                        cateString += '/';
+                                    }
+                                    cateString += cate['name'];
+                                })
+                                gtag('event', 'add_to_cart', {
+                                    "items": [
+                                        {
+                                            "id": data['token'],
+                                            "name": data['name'],
+                                            "category": cateString,
+                                            "price": data['sellPrice'],
+                                            "quantity": formObject['itemNumber']
+                                        }
+                                    ]
+                                });
                                 status_text = "新增成功";
                                 status      = "success";
                                 switch( method ){

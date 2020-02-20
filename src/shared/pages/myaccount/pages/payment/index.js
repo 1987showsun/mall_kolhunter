@@ -39,16 +39,37 @@ const Index = props => {
                     default:
                         break;
                 }
-                const { orderID, amount, orderStatus, payMethod } = res['data'];
-                if (window.location.host=='mall.kolhunter.com'){
-                    gtag('event', 'conversion', {
-                        'send_to': 'AW-718456390/upQyCK7GiMQBEMaMy9YC',
-                        'transaction_id': orderID,
-                        'checkout_option': payMethod,
-                        'value': amount,
-                        'currency': 'NTD'
-                    });
-                }
+                const { orderID, amount, orderStatus, payMethod, orderDetail } = res['data'];
+                gtag('event', 'set_checkout_option', {
+                    "checkout_option": "payment method",
+                    "value": payMethod
+                });
+                gtag('event', 'set_checkout_option', {
+                    "checkout_option": "payment status",
+                    "value": orderStatus
+                });
+                let gaItems = [];
+                orderDetail.map((od)=>{
+                    gaItems.push({
+                        "id": od['productToken'],
+                        "name": od['productName'],
+                        "quantity": od['count'],
+                        "price": od['price']
+                    })
+                })
+                gtag('event', 'purchase', {
+                    "transaction_id": orderID,
+                    "value": amount,
+                    "currency": "TWD",
+                    "shipping": 0,
+                    "items": gaItems
+                });
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-718456390/upQyCK7GiMQBEMaMy9YC',
+                    'transaction_id': orderID,
+                    'value': amount,
+                    'currency': 'TWD'
+                });
             });
         },3000);
 
@@ -56,8 +77,6 @@ const Index = props => {
             clearTimeout(delay)
         };
     },[]);
-
-    console.log(info);
 
     return(
         <>

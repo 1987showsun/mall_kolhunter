@@ -53,6 +53,8 @@ app.all("*", (req, res, next) => {
       const helmet      = Helmet.renderStatic();
       const date        = new Date().valueOf();
       
+      const disableGA = (process.env.NODE_ENV=='development') ? "window['ga-disable-UA-157982106-1'] = true;" : "";
+
       res.send(`
         <!DOCTYPE html>
         <html>
@@ -88,6 +90,7 @@ app.all("*", (req, res, next) => {
 
               gtag('config', 'UA-157982106-1');
               gtag('config', 'AW-718456390');
+              ${disableGA}
             </script>
             
             <!-- Hotjar Tracking Code for http://mall.kolhunter.com/ -->

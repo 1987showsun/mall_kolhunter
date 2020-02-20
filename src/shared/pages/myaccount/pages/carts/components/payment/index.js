@@ -91,6 +91,11 @@ class Index extends React.Component{
         if( this.props.returnHandleChange!=undefined ){
             const { formObject } = this.state;
             const { payMethod }  = formObject;
+            gtag('event', 'set_checkout_option', {
+                "checkout_step": 1,
+                "checkout_option": "payment method",
+                "value": payMethod
+            });
             if( payMethod!='cc' ){
                 delete formObject['cardno'];
                 delete formObject['cvc'];

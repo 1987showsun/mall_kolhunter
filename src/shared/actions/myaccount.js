@@ -68,6 +68,21 @@ export function updatePWD( data ){
     }
 }
 
+// 會員銀行轉帳資料更新
+export function bankInfoUpdate( pathname,query={},data={} ){
+    return(dispatch) => {
+        const method = 'put';
+        const url = `${API()['myaccount']['updateBankInfo']}`;
+        return Axios({ method,url,data }).then( res => {
+            if( !res.hasOwnProperty('response') ){
+                ainfo()(dispatch);
+                return res;
+            }
+            return res['response'];
+        });
+    }
+}
+
 // 購物車商品 List 
 export function cartsProductList( pathname,query ){
     return(dispatch) => {

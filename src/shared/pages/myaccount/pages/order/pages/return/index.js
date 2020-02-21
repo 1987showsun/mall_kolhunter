@@ -6,6 +6,7 @@
 // 訂單-退貨
 import React                        from 'react';
 import toaster                      from 'toasted-notes';
+import CurrencyFormat               from 'react-currency-format';
 import queryString                  from 'query-string';
 import { connect }                  from 'react-redux';
 
@@ -18,7 +19,7 @@ import Confirm                      from '../../../../../../module/confirm';
 import Loading                      from '../../../../../../module/loading/mallLoading';
 
 // Actions
-import { ordersInfo, ordersRefund } from '../../../../../../actions/myaccount';
+import { ordersInfo, ordersRefund, bankInfoUpdate } from '../../../../../../actions/myaccount';
 
 import area_code                 from '../../../../../../public/json/TWareacode.json';
 import county_area               from '../../../../../../public/json/TWzipcode.json';
@@ -46,17 +47,21 @@ class Index extends React.Component{
             selected      : [],
             info          : {},
             list          : [],
+            memberInfo    : {},
             formObject: {
                 zipCode    : zipCode,
                 city       : city,
                 dist       : dist,
-                address    : ''
+                address    : '',
+                bankname   : '',
+                bankCode   : '',
+                bankBranch : '',
+                bankAccountName   : ''
             },
         }
     }
 
     render(){
-
         const { loading, open, selected, method, header, pupopMSG, list, formObject } = this.state;
         return(
             <React.Fragment>
@@ -82,10 +87,10 @@ class Index extends React.Component{
                         <Loading loading={loading}/>
                     </section>
                     <section className="container-unit">
-                        <div className="unit-head">
-                            <h3>取貨地址</h3>
-                        </div>
                         <form>
+                            <div className="unit-head">
+                                <h3>取貨地址</h3>
+                            </div>
                             <ul className="table-row-list">
                                 <li>
                                     <div>
@@ -120,6 +125,55 @@ class Index extends React.Component{
                                         <div className="input-box">
                                             <input type="text" name="address" defaultValue={ formObject['address'] } onChange={ this.handleFormChange.bind(this) } placeholder=""/>
                                         </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div className="unit-head">
+                                <h3>帳戶資料</h3>
+                            </div>
+                            <ul className="table-row-list">
+                                <li>
+                                    <label>＊帳戶名稱</label>
+                                    <div className="input-box">
+                                        <input type="text" name="bankAccountName" value={formObject['bankAccountName']} onChange={this.handleFormChange.bind(this)} />
+                                    </div>
+                                </li>
+                                <li>
+                                    <label>＊銀行名稱</label>
+                                    <div className="input-box">
+                                        <input type="text" name="bankName" value={formObject['bankName']} onChange={this.handleFormChange.bind(this)} />
+                                    </div>
+                                </li>
+                                <li>
+                                    <label>＊銀行代號</label>
+                                    <div className="input-box">
+                                        <CurrencyFormat value={formObject['bankCode']}  format="#####" onValueChange={(values) => {
+                                            this.setState({
+                                                formObject: {
+                                                    ...this.state.formObject,
+                                                    "bankCode": values['value']
+                                                }
+                                            })
+                                        }}/>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label>＊分行名稱</label>
+                                    <div className="input-box">
+                                        <input type="text" name="bankBranch" value={formObject['bankBranch']} onChange={this.handleFormChange.bind(this)} />
+                                    </div>
+                                </li>
+                                <li>
+                                    <label>＊帳號</label>
+                                    <div className="input-box">
+                                        <CurrencyFormat value={formObject['bankAccount']} onValueChange={(values) => {
+                                            this.setState({
+                                                formObject: {
+                                                    ...this.state.formObject,
+                                                    "bankAccount": values['value']
+                                                }
+                                            })
+                                        }}/>
                                     </div>
                                 </li>
                             </ul>
@@ -166,12 +220,18 @@ class Index extends React.Component{
                         case 200:
                             const { orderDetail, deliveryZipCode, deliveryCity, deliveryDist, deliveryAddress } = data;
                             let formObject = { ...this.state.formObject };
+                            const { memberInfo } = this.props;
                             formObject = {
                                 ...this.state.formObject,
                                 zipCode    : deliveryZipCode,
                                 city       : deliveryCity,
                                 dist       : deliveryDist,
-                                address    : deliveryAddress
+                                address    : deliveryAddress,
+                                bankName   : memberInfo['bankName']!=null ? memberInfo['bankName'] : '',
+                                bankCode   : memberInfo['bankCode']!=null ? memberInfo['bankCode'] : '',
+                                bankBranch : memberInfo['bankBranch']!=null ? memberInfo['bankBranch'] : '',
+                                bankAccountName: memberInfo['bankAccountName']!=null ? memberInfo['bankAccountName'] : '',
+                                bankAccount: memberInfo['bankAccount']!=null ? memberInfo['bankAccount'] : ''
                             };
                             this.setState({
                                 list: orderDetail.filter( item => item['refundStatus']=='none'),
@@ -221,6 +281,9 @@ class Index extends React.Component{
                 break;
             case 'address':
                 formObject = { ...formObject, 'address': value };
+                break;
+            default:
+                formObject = { ...formObject, [name]: value };
                 break;
         }
         this.setState({
@@ -281,24 +344,56 @@ class Index extends React.Component{
         if( method=='alert' ){
             this.onCancel();
         }else{
-            const data = {
-                orderID   : match['params']['id'],
-                itemCode  : selected,
-                refundZipCode: formObject['zipCode'],
-                refundCity: formObject['city'],
-                refundDist: formObject['dist'],
-                refundAddress: formObject['address']
+
+            const bankData = {
+                bankName: formObject['bankName'],
+                bankCode: formObject['bankCode'],
+                bankBranch: formObject['bankBranch'],
+                bankAccountName: formObject['bankAccountName'],
+                bankAccount: formObject['bankAccount']
             }
-            this.props.dispatch( ordersRefund(pathname,{...queryString.parse(search)},data) ).then( res => {
+
+            this.props.dispatch( bankInfoUpdate(pathname,{...queryString.parse(search)},bankData) ).then( res => {
 
                 let   status      = 'failure';
                 let   status_text = lang['zh-TW']['toaster']['refundFailure'];
 
                 switch( res['status'] ){
                     case 200:
-                        status      = 'success';
-                        status_text = lang['zh-TW']['toaster']['refundSuccess'];
-                        history.goBack();
+                        const refundData = {
+                            orderID   : match['params']['id'],
+                            itemCode  : selected,
+                            refundZipCode: formObject['zipCode'],
+                            refundCity: formObject['city'],
+                            refundDist: formObject['dist'],
+                            refundAddress: formObject['address']
+                        }
+                        
+                        this.props.dispatch( ordersRefund(pathname,{...queryString.parse(search)},refundData) ).then( res => {
+
+                            let   status      = 'failure';
+                            let   status_text = lang['zh-TW']['toaster']['refundFailure'];
+ 
+                            switch( res['status'] ){
+                                case 200:
+                                    status      = 'success';
+                                    status_text = lang['zh-TW']['toaster']['refundSuccess'];
+                                    history.goBack();
+                                    break;
+
+                                default:
+                                    status      = 'failure';
+                                    status_text = lang['zh-TW']['toaster']['refundFailure'];
+                                    break;
+                            }
+
+                            this.onCancel();
+                            // 提示視窗
+                            toaster.notify( <div className={`toaster-status ${status}`}>{status_text}</div> ,{
+                                position: 'bottom-right',
+                                duration: 3000
+                            })
+                        });
                         break;
 
                     default:
@@ -306,13 +401,6 @@ class Index extends React.Component{
                         status_text = lang['zh-TW']['toaster']['refundFailure'];
                         break;
                 }
-
-                this.onCancel();
-                // 提示視窗
-                toaster.notify( <div className={`toaster-status ${status}`}>{status_text}</div> ,{
-                    position: 'bottom-right',
-                    duration: 3000
-                })
             });
         }
 
@@ -320,8 +408,9 @@ class Index extends React.Component{
 }
 
 const mapStateToProps = state => {
+    const { myaccount:{ info }} = state;
     return{
-
+        memberInfo: info
     }
 }
 

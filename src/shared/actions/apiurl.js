@@ -132,6 +132,7 @@ export default function API(){
             'info'                      : `${API_ADDRESS()}/v1/member/info`, // get 拿取會員資料
             'carts'                     : `${API_ADDRESS()}/v1/shop/cart`, // get 取得購物車 ID
             'updateInfo'                : `${API_ADDRESS()}/v1/member/info`, // put 修改會員資料
+            'updateBankInfo'            : `${API_ADDRESS()}/v1/member/bankinfo`, // put 修改會員銀行轉帳資料
             'updatePWD'                 : `${API_ADDRESS()}/v1/member/password`, // put 修改密碼
             'removeCartItem'            : `${API_ADDRESS()}/v1/shop/cart`, // delete 刪除購物車內單一商品
             'updateCartItem'            : `${API_ADDRESS()}/v1/shop/cart`, // put 修改購物車內單一商品：數量、運送方式

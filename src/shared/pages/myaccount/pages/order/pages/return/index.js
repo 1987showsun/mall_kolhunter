@@ -21,6 +21,9 @@ import Loading                      from '../../../../../../module/loading/mallL
 // Actions
 import { ordersInfo, ordersRefund, bankInfoUpdate } from '../../../../../../actions/myaccount';
 
+// Javascripts
+import { checkRequired }         from '../../../../../../public/javascripts/checkFormat';
+
 import area_code                 from '../../../../../../public/json/TWareacode.json';
 import county_area               from '../../../../../../public/json/TWzipcode.json';
 
@@ -48,6 +51,7 @@ class Index extends React.Component{
             info          : {},
             list          : [],
             memberInfo    : {},
+            required: ['bankName','bankCode', 'bankBranch', 'bankAccountName', 'bankAccount'],
             formObject: {
                 zipCode    : zipCode,
                 city       : city,
@@ -58,11 +62,12 @@ class Index extends React.Component{
                 bankBranch : '',
                 bankAccountName   : ''
             },
+            msg: []
         }
     }
 
     render(){
-        const { loading, open, selected, method, header, pupopMSG, list, formObject } = this.state;
+        const { loading, open, selected, method, header, pupopMSG, list, formObject, msg } = this.state;
         return(
             <React.Fragment>
                 <section className="container-unit">
@@ -123,7 +128,7 @@ class Index extends React.Component{
                                             </select>
                                         </div>
                                         <div className="input-box">
-                                            <input type="text" name="address" defaultValue={ formObject['address'] } onChange={ this.handleFormChange.bind(this) } placeholder=""/>
+                                            <input type="text" name="address" defaultValue={ formObject['address'] || '' } onChange={ this.handleFormChange.bind(this) } placeholder=""/>
                                         </div>
                                     </div>
                                 </li>
@@ -135,19 +140,19 @@ class Index extends React.Component{
                                 <li>
                                     <label>＊帳戶名稱</label>
                                     <div className="input-box">
-                                        <input type="text" name="bankAccountName" value={formObject['bankAccountName']} onChange={this.handleFormChange.bind(this)} />
+                                        <input type="text" name="bankAccountName" value={formObject['bankAccountName'] || ''} onChange={this.handleFormChange.bind(this)} />
                                     </div>
                                 </li>
                                 <li>
                                     <label>＊銀行名稱</label>
                                     <div className="input-box">
-                                        <input type="text" name="bankName" value={formObject['bankName']} onChange={this.handleFormChange.bind(this)} />
+                                        <input type="text" name="bankName" value={formObject['bankName'] || ''} onChange={this.handleFormChange.bind(this)} />
                                     </div>
                                 </li>
                                 <li>
                                     <label>＊銀行代號</label>
                                     <div className="input-box">
-                                        <CurrencyFormat value={formObject['bankCode']}  format="#####" onValueChange={(values) => {
+                                        <CurrencyFormat value={formObject['bankCode'] || ''}  format="#####" onValueChange={(values) => {
                                             this.setState({
                                                 formObject: {
                                                     ...this.state.formObject,
@@ -160,13 +165,13 @@ class Index extends React.Component{
                                 <li>
                                     <label>＊分行名稱</label>
                                     <div className="input-box">
-                                        <input type="text" name="bankBranch" value={formObject['bankBranch']} onChange={this.handleFormChange.bind(this)} />
+                                        <input type="text" name="bankBranch" value={formObject['bankBranch'] || ''} onChange={this.handleFormChange.bind(this)} />
                                     </div>
                                 </li>
                                 <li>
                                     <label>＊帳號</label>
                                     <div className="input-box">
-                                        <CurrencyFormat value={formObject['bankAccount']} onValueChange={(values) => {
+                                        <CurrencyFormat value={formObject['bankAccount'] || ''} onValueChange={(values) => {
                                             this.setState({
                                                 formObject: {
                                                     ...this.state.formObject,
@@ -177,6 +182,10 @@ class Index extends React.Component{
                                     </div>
                                 </li>
                             </ul>
+                            {
+                                msg.length!=0 &&
+                                    <div className="form-msg">{ msg }</div>
+                            }
                         </form>
                     </section>
                 </section>
@@ -337,73 +346,102 @@ class Index extends React.Component{
 
     handleConfirm = () => {
 
-        const { selected, method, formObject }         = this.state;
+        const { selected, method, formObject, list, required }         = this.state;
         const { location, history, match } = this.props;
         const { pathname, search }         = location;
+        const checkRequiredFilter = checkRequired( required,formObject );
+        if (checkRequiredFilter.length == 0){
+            if( method=='alert' ){
+                this.onCancel();
+            }else{
 
-        if( method=='alert' ){
-            this.onCancel();
-        }else{
+                const bankData = {
+                    bankName: formObject['bankName'],
+                    bankCode: formObject['bankCode'],
+                    bankBranch: formObject['bankBranch'],
+                    bankAccountName: formObject['bankAccountName'],
+                    bankAccount: formObject['bankAccount']
+                }
 
-            const bankData = {
-                bankName: formObject['bankName'],
-                bankCode: formObject['bankCode'],
-                bankBranch: formObject['bankBranch'],
-                bankAccountName: formObject['bankAccountName'],
-                bankAccount: formObject['bankAccount']
-            }
+                this.props.dispatch( bankInfoUpdate(pathname,{...queryString.parse(search)},bankData) ).then( res => {
 
-            this.props.dispatch( bankInfoUpdate(pathname,{...queryString.parse(search)},bankData) ).then( res => {
+                    let   status      = 'failure';
+                    let   status_text = lang['zh-TW']['toaster']['refundFailure'];
 
-                let   status      = 'failure';
-                let   status_text = lang['zh-TW']['toaster']['refundFailure'];
-
-                switch( res['status'] ){
-                    case 200:
-                        const refundData = {
-                            orderID   : match['params']['id'],
-                            itemCode  : selected,
-                            refundZipCode: formObject['zipCode'],
-                            refundCity: formObject['city'],
-                            refundDist: formObject['dist'],
-                            refundAddress: formObject['address']
-                        }
-                        
-                        this.props.dispatch( ordersRefund(pathname,{...queryString.parse(search)},refundData) ).then( res => {
-
-                            let   status      = 'failure';
-                            let   status_text = lang['zh-TW']['toaster']['refundFailure'];
- 
-                            switch( res['status'] ){
-                                case 200:
-                                    status      = 'success';
-                                    status_text = lang['zh-TW']['toaster']['refundSuccess'];
-                                    history.goBack();
-                                    break;
-
-                                default:
-                                    status      = 'failure';
-                                    status_text = lang['zh-TW']['toaster']['refundFailure'];
-                                    break;
+                    switch( res['status'] ){
+                        case 200:
+                            let orderID = match['params']['id']
+                            const refundData = {
+                                orderID   : orderID,
+                                itemCode  : selected,
+                                refundZipCode: formObject['zipCode'],
+                                refundCity: formObject['city'],
+                                refundDist: formObject['dist'],
+                                refundAddress: formObject['address']
                             }
 
-                            this.onCancel();
-                            // 提示視窗
-                            toaster.notify( <div className={`toaster-status ${status}`}>{status_text}</div> ,{
-                                position: 'bottom-right',
-                                duration: 3000
-                            })
-                        });
-                        break;
+                            this.props.dispatch( ordersRefund(pathname,{...queryString.parse(search)},refundData) ).then( res => {
 
-                    default:
-                        status      = 'failure';
-                        status_text = lang['zh-TW']['toaster']['refundFailure'];
-                        break;
-                }
-            });
+                                let   status      = 'failure';
+                                let   status_text = lang['zh-TW']['toaster']['refundFailure'];
+    
+                                switch( res['status'] ){
+                                    case 200:
+                                        status      = 'success';
+                                        status_text = lang['zh-TW']['toaster']['refundSuccess'];
+
+                                        let refundAmount = 0;
+                                        let gaItems = [];
+                                        selected.map((itemCode)=>{
+                                            let selectedItem = list.filter(item => item['itemCode']==itemCode )[0]
+                                            gaItems.push({
+                                                "id": selectedItem['productToken'],
+                                                "name": selectedItem['productName'],
+                                                "quantity": selectedItem['count'],
+                                                "price": selectedItem['price']
+                                            })
+                                            refundAmount = refundAmount + selectedItem['amount'];
+                                        })
+                                        
+                                        gtag('event', 'refund', {
+                                            "transaction_id": orderID,
+                                            "value": refundAmount, // total refund amount,
+                                            "currency": "TWD",
+                                            "shipping": 0,
+                                            "items": gaItems
+                                        });
+
+                                        history.goBack();
+                                        break;
+
+                                    default:
+                                        status      = 'failure';
+                                        status_text = lang['zh-TW']['toaster']['refundFailure'];
+                                        break;
+                                }
+
+                                this.onCancel();
+                                // 提示視窗
+                                toaster.notify( <div className={`toaster-status ${status}`}>{status_text}</div> ,{
+                                    position: 'bottom-right',
+                                    duration: 3000
+                                })
+                            });
+                            break;
+
+                        default:
+                            status      = 'failure';
+                            status_text = lang['zh-TW']['toaster']['refundFailure'];
+                            break;
+                    }
+                });
+            }
+        } else {
+            this.onCancel();
+            this.setState({
+                msg: checkRequiredFilter
+            })
         }
-
     }
 }
 

@@ -149,7 +149,7 @@
             "socialID required": "身分證字號必填",
             "bankName required": "銀行名稱必填",
             "bankCode required": "銀行代號必填",
-            "bankBranch required": "帳號分行必填",
+            "bankBranch required": "分行必填",
             "bankAccount required":"銀行帳號必填",
             "bankBranchName required": "分行名稱必填",
             "bankAccountName required": "帳號名稱必填",

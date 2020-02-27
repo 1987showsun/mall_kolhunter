@@ -62,12 +62,13 @@ class Index extends React.Component{
                 bankBranch : '',
                 bankAccountName   : ''
             },
+            payMethod: 'cc',
             msg: []
         }
     }
 
     render(){
-        const { loading, open, selected, method, header, pupopMSG, list, formObject, msg } = this.state;
+        const { loading, open, selected, method, header, pupopMSG, list, formObject, payMethod, msg } = this.state;
         return(
             <React.Fragment>
                 <section className="container-unit">
@@ -133,55 +134,63 @@ class Index extends React.Component{
                                     </div>
                                 </li>
                             </ul>
-                            <div className="unit-head">
-                                <h3>帳戶資料</h3>
-                            </div>
-                            <ul className="table-row-list">
-                                <li>
-                                    <label>＊帳戶名稱</label>
-                                    <div className="input-box">
-                                        <input type="text" name="bankAccountName" value={formObject['bankAccountName'] || ''} onChange={this.handleFormChange.bind(this)} />
+                            {
+                                payMethod!='cc' ? (
+                                    <>
+                                    <div className="unit-head">
+                                        <h3>帳戶資料</h3>
                                     </div>
-                                </li>
-                                <li>
-                                    <label>＊銀行名稱</label>
-                                    <div className="input-box">
-                                        <input type="text" name="bankName" value={formObject['bankName'] || ''} onChange={this.handleFormChange.bind(this)} />
-                                    </div>
-                                </li>
-                                <li>
-                                    <label>＊銀行代號</label>
-                                    <div className="input-box">
-                                        <CurrencyFormat value={formObject['bankCode'] || ''}  format="#####" onValueChange={(values) => {
-                                            this.setState({
-                                                formObject: {
-                                                    ...this.state.formObject,
-                                                    "bankCode": values['value']
-                                                }
-                                            })
-                                        }}/>
-                                    </div>
-                                </li>
-                                <li>
-                                    <label>＊分行名稱</label>
-                                    <div className="input-box">
-                                        <input type="text" name="bankBranch" value={formObject['bankBranch'] || ''} onChange={this.handleFormChange.bind(this)} />
-                                    </div>
-                                </li>
-                                <li>
-                                    <label>＊帳號</label>
-                                    <div className="input-box">
-                                        <CurrencyFormat value={formObject['bankAccount'] || ''} onValueChange={(values) => {
-                                            this.setState({
-                                                formObject: {
-                                                    ...this.state.formObject,
-                                                    "bankAccount": values['value']
-                                                }
-                                            })
-                                        }}/>
-                                    </div>
-                                </li>
-                            </ul>
+                                    <ul className="table-row-list">
+                                        <li>
+                                            <label>＊帳戶名稱</label>
+                                            <div className="input-box">
+                                                <input type="text" name="bankAccountName" value={formObject['bankAccountName'] || ''} onChange={this.handleFormChange.bind(this)} />
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <label>＊銀行名稱</label>
+                                            <div className="input-box">
+                                                <input type="text" name="bankName" value={formObject['bankName'] || ''} onChange={this.handleFormChange.bind(this)} />
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <label>＊銀行代號</label>
+                                            <div className="input-box">
+                                                <CurrencyFormat value={formObject['bankCode'] || ''}  format="#####" onValueChange={(values) => {
+                                                    this.setState({
+                                                        formObject: {
+                                                            ...this.state.formObject,
+                                                            "bankCode": values['value']
+                                                        }
+                                                    })
+                                                }}/>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <label>＊分行名稱</label>
+                                            <div className="input-box">
+                                                <input type="text" name="bankBranch" value={formObject['bankBranch'] || ''} onChange={this.handleFormChange.bind(this)} />
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <label>＊帳號</label>
+                                            <div className="input-box">
+                                                <CurrencyFormat value={formObject['bankAccount'] || ''} onValueChange={(values) => {
+                                                    this.setState({
+                                                        formObject: {
+                                                            ...this.state.formObject,
+                                                            "bankAccount": values['value']
+                                                        }
+                                                    })
+                                                }}/>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    </>
+                                ):(
+                                    null
+                                )
+                            }
                             {
                                 msg.length!=0 &&
                                     <div className="form-msg">{ msg }</div>
@@ -227,7 +236,7 @@ class Index extends React.Component{
                     const { status, data } = res;
                     switch( status ){
                         case 200:
-                            const { orderDetail, deliveryZipCode, deliveryCity, deliveryDist, deliveryAddress } = data;
+                            const { orderDetail, deliveryZipCode, deliveryCity, deliveryDist, deliveryAddress, payMethod } = data;
                             let formObject = { ...this.state.formObject };
                             const { memberInfo } = this.props;
                             formObject = {
@@ -244,7 +253,8 @@ class Index extends React.Component{
                             };
                             this.setState({
                                 list: orderDetail.filter( item => item['refundStatus']=='none'),
-                                formObject: formObject
+                                formObject: formObject,
+                                payMethod: payMethod
                             })
                             break;
 
@@ -346,11 +356,11 @@ class Index extends React.Component{
 
     handleConfirm = () => {
 
-        const { selected, method, formObject, list, required }         = this.state;
+        const { selected, method, formObject, list, required, payMethod }         = this.state;
         const { location, history, match } = this.props;
         const { pathname, search }         = location;
         const checkRequiredFilter = checkRequired( required,formObject );
-        if (checkRequiredFilter.length == 0){
+        if (checkRequiredFilter.length == 0 || payMethod=='cc'){
             if( method=='alert' ){
                 this.onCancel();
             }else{

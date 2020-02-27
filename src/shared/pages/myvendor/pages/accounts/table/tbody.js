@@ -13,7 +13,9 @@ export default ({handleShowOrderDetail ,orderID, orderName, vendorFeeSub, vendor
             <div className="table-new-cell">{orderName}</div>
             {/* <div className="table-new-cell status"><span className={`orderStatus ${orderStatus}`}>{orderStatusText}</span></div> */}
             <div className="table-new-cell text-right money"><CurrencyFormat value={vendorFeeSub}   displayType={'text'} thousandSeparator={true} prefix={type=='refund'?'-$':'$'} /></div>
+            <div className="table-new-cell text-center mod">-</div>
             <div className="table-new-cell text-right money"><CurrencyFormat value={transactionFee} displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+            <div className="table-new-cell text-right mod">=</div>
             <div className="table-new-cell text-right money"><CurrencyFormat value={vendorFeeTotal} displayType={'text'} thousandSeparator={true} prefix={type=='refund'?'-$':'$'} /></div>
             <div className="table-new-cell date">{orderTimeMs}</div>
         </>

@@ -71,7 +71,7 @@
         },
         "refundStatusEnum": {
             "none": "未申請退貨",
-            "request": "申請退貨",
+            "request": "申請退貨中",
             "delivery": "退貨回收中",
             "approve": "廠商同意退貨",
             "recived": "已回收商品",

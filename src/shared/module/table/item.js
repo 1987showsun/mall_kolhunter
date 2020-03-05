@@ -112,7 +112,7 @@ export default class Item extends React.Component{
                                                 {
                                                     headItem['type']=='link' &&
                                                         <div className={`table-body ${headItem['className']||''}`} key={headItem['key']}>
-                                                            <Link to={`${headItem['path']}/${bodyItem['id']}`}>{bodyItem[headItem['key']]}</Link>
+                                                            <Link to={`${headItem['path']}/${bodyItem['id']}${bodyItem['search']||''}`}>{bodyItem[headItem['key']]}</Link>
                                                         </div>
                                                 }
                                                 {

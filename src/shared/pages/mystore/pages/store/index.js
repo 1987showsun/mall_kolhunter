@@ -57,6 +57,7 @@ class Index extends React.Component{
         const productList   = tableBodyData.map( item => {
             return{
                 id          : item['id'],
+                search      : '?store='+storeInfo['storeToken'],
                 status      : [<button key={`status-on_`} className="status-on" onClick={this.tableButtonAction.bind(this,item)}>販賣中</button>],
                 image       : item['image'],
                 name        : item['name'],

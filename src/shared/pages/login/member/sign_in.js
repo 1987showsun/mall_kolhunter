@@ -9,9 +9,12 @@ import { Link }                       from 'react-router-dom';
 import { connect }                    from 'react-redux';
 import { FontAwesomeIcon }            from '@fortawesome/react-fontawesome';
 import { faCheck }                    from '@fortawesome/free-solid-svg-icons';
+import { faFacebook }                 from '@fortawesome/free-brands-svg-icons'
 
 // Modules
 import Loading                        from '../../../module/loading/blockLoading';
+import FacebookLogin                  from 'react-facebook-login';
+import GoogleLogin                    from 'react-google-login';
 
 // Actions
 import { signin }                     from '../../../actions/login';
@@ -48,6 +51,9 @@ class SignIn extends React.Component{
                 type           : 'account',
                 userID,
                 userPWD,
+                social        : '',
+                socialToken   : '',
+                socialName   : ''
             },
             msg              : [],
             record
@@ -68,6 +74,31 @@ class SignIn extends React.Component{
                 <form onSubmit={this.handleSubmit.bind(this)} className="login-form">
                     <div className="form-title">
                         <h4>會員登入</h4>
+                    </div>
+                    <ul className="social-login">
+                        <li>
+                            <FacebookLogin
+                                icon={<FontAwesomeIcon icon={faFacebook} />}
+                                textButton="使用 Facebook 帳戶登入"
+                                appId="276836963259343"
+                                fields="name,email"
+                                callback={this.responseFacebook}
+                            />
+                        </li>
+                        <li>
+                            <GoogleLogin
+                                clientId="1036515192980-dmpqbtf1beftp5vjiqt63k6q7cdkdv7e.apps.googleusercontent.com"
+                                buttonText="使用 Google 帳戶登入"
+                                onSuccess={this.responseGoogle}
+                                onFailure={this.responseGoogle}
+                                className="social-btn-login-google"
+                            />
+                        </li>
+                    </ul>
+                    <div className="form-row social" data-direction="column">
+                        <div className="sub-title">
+                            <span className="text">或</span>
+                        </div>
                     </div>
                     <ul>
                         <li>
@@ -172,6 +203,10 @@ class SignIn extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
+        this.apiCall();
+    }
+    
+    apiCall = () => {
         const { required, form } = this.state;
         const checkRequiredFilter = checkRequired(required, form);
         if( checkRequiredFilter.length==0 ){
@@ -184,8 +219,17 @@ class SignIn extends React.Component{
                     },()=>{
                         switch( res['status'] ){
                             case 200:
+                                let loginMethod = 'Email';
+                                switch (form['social']) {
+                                    case 'facebook':
+                                        loginMethod = 'Facebook';
+                                        break;
+                                    case 'google':
+                                        loginMethod = 'Google';
+                                        break;
+                                }
+                                gtag('event', 'login', { method : loginMethod });
                                 break;
-
                             default:
                                 const { status_text } = res['data'];
                                 this.setState({
@@ -201,6 +245,44 @@ class SignIn extends React.Component{
                 msg: checkRequiredFilter
             })
         }
+    }
+
+    responseFacebook = (response) => {
+        const { email, accessToken, name } = response;
+        const { form } = this.state;
+        this.setState({
+            required: ['userID'],
+            form: {
+                ...form,
+                userID: email,
+                userPWD: "",
+                social: 'facebook',
+                socialToken: accessToken,
+                socialName: name
+            }
+        })
+        this.apiCall();
+    }
+
+    responseGoogle = (response) => {
+        const { profileObj, tokenId, error } = response;
+        const { email, name } = profileObj;
+        const { form } = this.state;
+        if (error!=undefined) {
+            return;
+        }
+        this.setState({
+            required: ['userID'],
+            form: {
+                ...form,
+                userID: email,
+                userPWD: "",
+                social: 'google',
+                socialToken: tokenId,
+                socialName: name
+            }
+        })
+        this.apiCall();
     }
 }
 

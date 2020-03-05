@@ -107,20 +107,20 @@ class SignUp extends React.Component{
                                 </div>
                             </label>
                         </li>
-                        <li>
+                        {/* <li>
                             <label htmlFor="phone">
                                 <div className="input-box">
                                     <input type="tel" name="phone" id="phone" value={phone} onChange={this.handleChange.bind(this)} placeholder="聯絡電話" autoComplete="off"/>
                                 </div>
                             </label>
-                        </li>
-                        <li>
+                        </li> */}
+                        {/* <li>
                             <label htmlFor="company">
                                 <div className="input-box">
                                     <input type="text" name="company" id="company" value={company} onChange={this.handleChange.bind(this)} placeholder="公司名稱" autoComplete="off"/>
                                 </div>
                             </label>
-                        </li>
+                        </li> */}
                     </ul>
                     <div className="form-row form-p" data-content="center">
                         <p>我同意遵守 kolhunter <Link to="">使用權</Link> 與 <Link to="/terms/privacy">隱私權</Link>條款。</p>

@@ -54,7 +54,7 @@ export default {
         {
             key: 'name',
             type: 'link',
-            title: '名稱',
+            title: '導購連結',
             className: 'table-min-width',
             path: '/detail'
         },

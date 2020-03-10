@@ -22,7 +22,6 @@ export default ({orderID, productImgs, productToken, productName, specName, spec
                         spec.length==0? (
                             <>
                                 <li><label>尺寸 / 型號 / 顏色：</label>{specName || 'N/A'}</li>
-                                <li><label>產品編號：</label>{specToken || 'N/A'}</li>
                             </>
                         ):(
                             <>

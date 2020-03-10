@@ -8,14 +8,18 @@ import queryString                 from 'query-string';
 import { Link }                    from 'react-router-dom';
 import { connect }                 from 'react-redux';
 import { FontAwesomeIcon }         from '@fortawesome/react-fontawesome';
-import { faEyeSlash, faEye }       from '@fortawesome/free-solid-svg-icons';
+import { faEyeSlash, faEye, faCheck }       from '@fortawesome/free-solid-svg-icons';
+import { faFacebook }                 from '@fortawesome/free-brands-svg-icons';
 
 // Modules
 import Confirm                     from '../../../module/confirm';
 import Loading                     from '../../../module/loading/blockLoading';
+import FacebookLogin               from 'react-facebook-login';
+import GoogleLogin                 from 'react-google-login';
 
 // Actions 
 import { signup }                  from '../../../actions/login';
+import { signin }                     from '../../../actions/login';
 
 // Javascripts
 import { PWD, checkRequired }      from '../../../public/javascripts/checkFormat';
@@ -50,7 +54,10 @@ class SignUp extends React.Component{
                 password_chk    : '',
                 nickname        : '',
                 phone           : '',
-                company         : ''
+                company         : '',
+                social        : '',
+                socialToken   : '',
+                socialName   : ''
             },
         }
     }
@@ -66,6 +73,31 @@ class SignUp extends React.Component{
                 <form className="login-form" onSubmit={this.handleSubmit.bind(this)}>
                     <div className="form-title">
                         <h4>會員註冊</h4>
+                    </div>
+                    <ul className="social-login">
+                        <li>
+                            <FacebookLogin
+                                icon={<FontAwesomeIcon icon={faFacebook} />}
+                                textButton="使用 Facebook 帳戶註冊"
+                                appId="276836963259343"
+                                fields="name,email"
+                                callback={this.responseFacebook}
+                            />
+                        </li>
+                        <li>
+                            <GoogleLogin
+                                clientId="1036515192980-dmpqbtf1beftp5vjiqt63k6q7cdkdv7e.apps.googleusercontent.com"
+                                buttonText="使用 Google 帳戶註冊"
+                                onSuccess={this.responseGoogle}
+                                onFailure={this.responseGoogle}
+                                className="social-btn-login-google"
+                            />
+                        </li>
+                    </ul>
+                    <div className="form-row social" data-direction="column">
+                        <div className="sub-title">
+                            <span className="text">或</span>
+                        </div>
                     </div>
                     <ul>
                         <li>
@@ -166,14 +198,53 @@ class SignUp extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
+        this.apiCall();
+    }
 
+    apiCall = () => {
         const { history }              = this.props;
         const { required, formObject } = this.state;
         const checkRequiredFilter      = checkRequired( required, formObject );
-
         if( checkRequiredFilter.length==0 ){
             const checkPWDFormat = PWD({ password: formObject['password'], confirm: formObject['password_chk'] });
-            if( checkPWDFormat['status'] ){
+            if (formObject['social'].length>0) {
+                const signInForm = {
+                    type        : formObject['type'],
+                    userID      : formObject['email'],
+                    userPWD     : "",
+                    social      : formObject['social'],
+                    socialToken : formObject['socialToken'],
+                    socialName  : formObject['socialName']
+                }
+                this.props.dispatch( signin(signInForm) ).then( res => {
+                    this.setState({
+                        loading: false,
+                        msg             : []
+                    },()=>{                        
+                        switch( res['status'] ){
+                            case 200:
+                                let loginMethod = 'Email';
+                                switch (formObject['social']) {
+                                    case 'facebook':
+                                        loginMethod = 'Facebook';
+                                        break;
+                                    case 'google':
+                                        loginMethod = 'Google';
+                                        break;
+                                }
+                                gtag('event', 'sign_up', { method : loginMethod });
+                                gtag('event', 'login', { method : loginMethod });
+                                break;
+                            default:
+                                const { status_text } = res['data'];
+                                this.setState({
+                                    msg: [<div key={'err'} className="items">{lang['zh-TW']['err'][status_text]}</div>]
+                                })     
+                                break;
+                        }
+                    })
+                });
+            } else if( checkPWDFormat['status'] ){
                 this.setState({
                     loading         : true,
                     msg             : []
@@ -184,6 +255,7 @@ class SignUp extends React.Component{
                         },()=>{
                             switch( res['status'] ){
                                 case 200:
+                                    gtag('event', 'sign_up', { method : 'email' });
                                     history.push({
                                         pathname   : '/account/verify',
                                         search     : queryString.stringify({
@@ -202,7 +274,7 @@ class SignUp extends React.Component{
                         });
                     });
                 })
-            }else{
+            } else {
                 this.setState({
                     msg             : [<div key="1" className="items">{lang['zh-TW']['note'][checkPWDFormat['msg']]}</div>]
                 })
@@ -212,7 +284,46 @@ class SignUp extends React.Component{
                 msg             : checkRequiredFilter
             })
         }
-    };
+    }
+
+    responseFacebook = (response) => {
+        const { email, accessToken, name } = response;
+        const { formObject } = this.state;
+        this.setState({
+            required: ['email'],
+            formObject: {
+                ...formObject,
+                email: email,
+                // userPWD: "",
+                social: 'facebook',
+                socialToken: accessToken,
+                socialName: name
+            }
+        })
+        this.apiCall();
+    }
+
+    responseGoogle = (response) => {
+        const { profileObj, tokenId, error } = response;
+        const { email, name } = profileObj;
+        const { formObject } = this.state;
+        if (error!=undefined) {
+            return;
+        }
+        this.setState({
+            required: ['email'],
+            formObject: {
+                ...formObject,
+                email: email,
+                // userPWD: "",
+                social: 'google',
+                socialToken: tokenId,
+                socialName: name
+            }
+        })
+        this.apiCall();
+    }
+
 }
 
 const mapStateToProps = (state) => {

@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import Share                                 from './share';
 
 const Description = props => {
 
@@ -12,6 +13,7 @@ const Description = props => {
     return(
         <div className="container-row">
             <div className="detail-cover-wrap detail-container">
+                <Share />
                 {
                     data.map( (item,i) => {
                         switch( item['type'] ){
@@ -32,6 +34,7 @@ const Description = props => {
                         }
                     })
                 }
+                <Share />
             </div>
         </div>
     );

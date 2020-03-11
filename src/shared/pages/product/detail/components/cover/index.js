@@ -10,7 +10,7 @@ import CurrencyFormat                        from 'react-currency-format';
 import { connect }                           from 'react-redux';
 
 // Components
-import Share                                 from './share';
+import Share                                 from '../description/share';
 import Price                                 from './price';
 import Delivery                              from './delivery';
 import Spec                                  from './spec';
@@ -191,7 +191,6 @@ class Cover extends React.Component{
                             mainSettings = {main}
                             navSettings  = {sub}
                         />
-                        <Share />
                     </div>
                 </section>
                 <section className="detail-cover-wrap-col right">

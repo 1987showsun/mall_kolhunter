@@ -283,22 +283,30 @@ class Index extends React.Component{
                                             break;
 
                                         case 'cc':
-                                            // 刪除現有的購物車 cartID
-                                            const isCheckString = returnBody.indexOf('<html>')>=0? true : false;
-                                            if( isCheckString ){
-                                                const searchStaetIndex = returnBody.search('<form');
-                                                const searchEndIndex   = returnBody.search('</form>')+7;
-                                                const filterTEXT       = returnBody.substring( searchStaetIndex, searchEndIndex+7 );
-                                                const mergeTEXT        = `<div style='padding:10%;text-align: center;'><div><img style='min-width: 55%;max-width: 50%;' src='https://ccore.newebpay.com/images/logo/logo_footer.png'/></div><div style='font-family:Microsoft JhengHei;font-size:2em'>頁面轉跳中，請稍候<span id='dote'>...</span></div></div>${filterTEXT}<script language=javascript>setTimeout(function(){ document.forms.HPP.submit(); }, 1000);</script>`
+                                            if (typeof returnBody=='object') {
                                                 this.setState({
-                                                    returnBody: mergeTEXT,
-                                                    spgatewayFormName: 'HPP'
+                                                    open         : true,
+                                                    method       : 'alert',
+                                                    popupMsg     : `<div className="items"><h3>付款失敗</h3><p>${returnBody['message']} (${returnBody['code']})</p></div>`
                                                 })
-                                            }else{
-                                                this.setState({
-                                                    returnBody,
-                                                    spgatewayFormName: 'pay2go'
-                                                })
+                                            } else {
+                                                // 刪除現有的購物車 cartID
+                                                const isCheckString = returnBody.indexOf('<html>')>=0? true : false;
+                                                if( isCheckString ){
+                                                    const searchStaetIndex = returnBody.search('<form');
+                                                    const searchEndIndex   = returnBody.search('</form>')+7;
+                                                    const filterTEXT       = returnBody.substring( searchStaetIndex, searchEndIndex+7 );
+                                                    const mergeTEXT        = `<div style='padding:10%;text-align: center;'><div><img style='min-width: 55%;max-width: 50%;' src='https://ccore.newebpay.com/images/logo/logo_footer.png'/></div><div style='font-family:Microsoft JhengHei;font-size:2em'>頁面轉跳中，請稍候<span id='dote'>...</span></div></div>${filterTEXT}<script language=javascript>setTimeout(function(){ document.forms.HPP.submit(); }, 1000);</script>`
+                                                    this.setState({
+                                                        returnBody: mergeTEXT,
+                                                        spgatewayFormName: 'HPP'
+                                                    })
+                                                }else{
+                                                    this.setState({
+                                                        returnBody,
+                                                        spgatewayFormName: 'pay2go'
+                                                    })
+                                                }
                                             }
                                             break;
 

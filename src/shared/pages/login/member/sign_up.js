@@ -81,6 +81,7 @@ class SignUp extends React.Component{
                                 textButton="使用 Facebook 帳戶註冊"
                                 appId="276836963259343"
                                 fields="name,email"
+                                disableMobileRedirect={true}
                                 callback={this.responseFacebook}
                             />
                         </li>

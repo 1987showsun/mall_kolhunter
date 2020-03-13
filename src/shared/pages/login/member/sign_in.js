@@ -82,6 +82,7 @@ class SignIn extends React.Component{
                                 textButton="使用 Facebook 帳戶登入"
                                 appId="276836963259343"
                                 fields="name,email"
+                                disableMobileRedirect={true}
                                 callback={this.responseFacebook}
                             />
                         </li>

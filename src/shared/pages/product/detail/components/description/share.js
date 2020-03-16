@@ -23,10 +23,10 @@ export default () => {
     const url = typeof window!="undefined"? window.location.href:'';
     return(
         <div className="detail-cover-share-wrap">
-            <div className="detail-cover-share-wrap-label">
-                分享
-            </div>
             <ul>
+                <li>
+                    分享
+                </li>
                 <li>
                     <FacebookShareButton url={url}>
                         <FacebookIcon size={34} round={true} />

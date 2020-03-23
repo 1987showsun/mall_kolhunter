@@ -113,7 +113,7 @@ class Index extends React.Component{
         const YYYY  = dayjs().format('YYYY');
         const MM    = dayjs().format('DD')<=15? dayjs().format('MM')-1: dayjs().format('MM');
 
-        if( query['year']==undefined || query['month']==undefined || Number(query['month'])<=MM && Number(query['year'])<=YYYY ){
+        if( query['year']!=undefined || query['month']!=undefined || (Number(query['month'])<=MM && Number(query['year'])<=YYYY) ){
             this.setState({
                 loading: true
             },()=>{

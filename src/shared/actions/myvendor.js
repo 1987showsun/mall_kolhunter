@@ -100,10 +100,10 @@ export function listProduct( pathname,query={}, data={} ) {
                         const productStatus = () => {
                             return status=="none-auth"? (status):(display==true? 'auth':'non-display');
                         }
-
+                        const firstImage = images.find((item,i) => i==0 );
                         return{
                             ...item,
-                            image              : images.find((item,i) => i==0 )['path'],
+                            image              : firstImage ? firstImage['path'] : null,
                             productStatus      : productStatus(),
                             productStatusText  : lang['zh-TW']['productStatus'][productStatus()],
                             categoryString     : category!=undefined? (categoryToText(item['category'])):("N/A"),

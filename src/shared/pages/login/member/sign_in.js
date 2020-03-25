@@ -97,8 +97,6 @@ class SignIn extends React.Component{
                                 textButton="使用 Facebook 帳戶登入"
                                 appId="276836963259343"
                                 fields="name,email"
-                                isMobile={true}
-                                disableMobileRedirect={true}
                                 redirectUri={redirectURI}
                                 callback={this.responseFacebook}
                             />
@@ -111,6 +109,7 @@ class SignIn extends React.Component{
                                 onFailure={this.responseGoogle}
                                 redirectUri={redirectURI}
                                 uxMode="redirect"
+                                prompt="consent"
                                 className="social-btn-login-google"
                             />
                         </li>

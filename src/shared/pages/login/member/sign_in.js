@@ -33,6 +33,10 @@ class SignIn extends React.Component{
         let userID    = "";
         let userPWD   = "";
         let record    = false;
+        let redirectURI   = "";
+        let socialToken   = "";
+        let socialType   = "";
+        let required = ['userID','userPWD'];
         if (typeof window !== 'undefined') {
             const filterAfter = Object.entries(localStorage).filter( filterItem => {
                 return filterItem.includes(`accountLoginRecord`);
@@ -42,21 +46,31 @@ class SignIn extends React.Component{
                 userPWD = JSON.parse(filterAfter[0][1])['userPWD'];
             }
             record = Boolean(localStorage.getItem('accountRecordStatus')) || false;
+            redirectURI = location.href.split('#')[0];
+            let googleHash = queryString.parse(location.hash);
+            if (googleHash['id_token']) {
+                if (googleHash['id_token'].length>0) {
+                    required = [];
+                    socialType = 'google';
+                    socialToken = googleHash['id_token'];
+                }
+            }
         }
 
         this.state = {
             loading          : false,
-            required         : ['userID','userPWD'],
+            required         : required,
             form             : {
                 type           : 'account',
                 userID,
                 userPWD,
-                social        : '',
-                socialToken   : '',
+                social        : socialType,
+                socialToken   : socialToken,
                 socialName   : ''
             },
             msg              : [],
-            record
+            record,
+            redirectURI
         }
     }
 
@@ -66,7 +80,8 @@ class SignIn extends React.Component{
             loading,
             form, 
             msg,
-            record
+            record,
+            redirectURI
         } = this.state;
 
         return(
@@ -82,7 +97,9 @@ class SignIn extends React.Component{
                                 textButton="使用 Facebook 帳戶登入"
                                 appId="276836963259343"
                                 fields="name,email"
+                                isMobile={true}
                                 disableMobileRedirect={true}
+                                redirectUri={redirectURI}
                                 callback={this.responseFacebook}
                             />
                         </li>
@@ -92,6 +109,8 @@ class SignIn extends React.Component{
                                 buttonText="使用 Google 帳戶登入"
                                 onSuccess={this.responseGoogle}
                                 onFailure={this.responseGoogle}
+                                redirectUri={redirectURI}
+                                uxMode="redirect"
                                 className="social-btn-login-google"
                             />
                         </li>
@@ -173,6 +192,13 @@ class SignIn extends React.Component{
         );
     }
 
+    componentDidMount() {
+        const { form } = this.state;
+        if (form['social']=='google') {
+            this.responseGoogle();
+        }
+    }
+
     handleChangeRecord = (e) => {
         // 記住帳號密碼
         const name = e.target.name;
@@ -210,7 +236,7 @@ class SignIn extends React.Component{
     apiCall = () => {
         const { required, form } = this.state;
         const checkRequiredFilter = checkRequired(required, form);
-        if( checkRequiredFilter.length==0 ){
+        if( checkRequiredFilter.length==0 || form['social']=='google' ){
             this.setState({
                 loading: true
             },()=>{
@@ -265,22 +291,16 @@ class SignIn extends React.Component{
         this.apiCall();
     }
 
-    responseGoogle = (response) => {
-        const { profileObj, tokenId, error } = response;
-        const { email, name } = profileObj;
+    responseGoogle = () => {
         const { form } = this.state;
-        if (error!=undefined) {
-            return;
-        }
         this.setState({
-            required: ['userID'],
+            required: [],
             form: {
                 ...form,
-                userID: email,
+                userID: "",
                 userPWD: "",
                 social: 'google',
-                socialToken: tokenId,
-                socialName: name
+                socialName: ""
             }
         })
         this.apiCall();

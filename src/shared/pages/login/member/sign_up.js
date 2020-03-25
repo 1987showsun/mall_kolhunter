@@ -77,6 +77,7 @@ class SignUp extends React.Component{
                 socialToken   : socialToken,
                 socialName   : ''
             },
+            redirectURI
         }
     }
 

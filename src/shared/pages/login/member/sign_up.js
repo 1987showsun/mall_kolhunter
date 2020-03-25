@@ -32,6 +32,24 @@ class SignUp extends React.Component{
 
     constructor(props){
         super(props);
+
+        let redirectURI   = "";
+        let socialToken   = "";
+        let socialType   = "";
+        let required = ['email','password','password_chk','nickname'];
+
+        if (typeof window !== 'undefined') {
+            redirectURI = location.href.split('#')[0];
+            let googleHash = queryString.parse(location.hash);
+            if (googleHash['id_token']) {
+                if (googleHash['id_token'].length>0) {
+                    required = [];
+                    socialType = 'google';
+                    socialToken = googleHash['id_token'];
+                }
+            }
+        }
+
         const getLocationURL   = () => {
             const protocol   = window.location.protocol;
             const hostname   = window.location.hostname;
@@ -45,7 +63,7 @@ class SignUp extends React.Component{
             popupMSG          : [],
             method            : 'alert',
             msg               : [],
-            required          : ['email','password','password_chk','nickname'],
+            required          : required,
             formObject        : {
                 type            : 'account',
                 returnUrl       : typeof window !== 'undefined'? `${getLocationURL()}/account/verify`:null,
@@ -55,8 +73,8 @@ class SignUp extends React.Component{
                 nickname        : '',
                 phone           : '',
                 company         : '',
-                social        : '',
-                socialToken   : '',
+                social        : socialType,
+                socialToken   : socialToken,
                 socialName   : ''
             },
         }
@@ -65,8 +83,8 @@ class SignUp extends React.Component{
 
     render(){
         const { history } = this.props;
-        const { loading, open, pwdDisplay, popupMSG, method, msg, formObject } = this.state;
-        const { email, password, password_chk, nickname, phone, company,  } = formObject;
+        const { loading, open, pwdDisplay, popupMSG, method, msg, formObject, redirectURI } = this.state;
+        const { email, password, password_chk, nickname, phone, company  } = formObject;
 
         return(
             <React.Fragment>
@@ -81,7 +99,7 @@ class SignUp extends React.Component{
                                 textButton="使用 Facebook 帳戶註冊"
                                 appId="276836963259343"
                                 fields="name,email"
-                                disableMobileRedirect={true}
+                                redirectUri={redirectURI}
                                 callback={this.responseFacebook}
                             />
                         </li>
@@ -91,6 +109,9 @@ class SignUp extends React.Component{
                                 buttonText="使用 Google 帳戶註冊"
                                 onSuccess={this.responseGoogle}
                                 onFailure={this.responseGoogle}
+                                redirectUri={redirectURI}
+                                uxMode="redirect"
+                                prompt="consent"
                                 className="social-btn-login-google"
                             />
                         </li>
@@ -181,6 +202,13 @@ class SignUp extends React.Component{
         );
     }
 
+    componentDidMount() {
+        const { formObject } = this.state;
+        if (formObject['social']=='google') {
+            this.responseGoogle();
+        }
+    }
+
     handleConfirm = () => {
         this.setState({
             open          : false,
@@ -206,7 +234,7 @@ class SignUp extends React.Component{
         const { history }              = this.props;
         const { required, formObject } = this.state;
         const checkRequiredFilter      = checkRequired( required, formObject );
-        if( checkRequiredFilter.length==0 ){
+        if( checkRequiredFilter.length==0 || formObject['social']=='google' ){
             const checkPWDFormat = PWD({ password: formObject['password'], confirm: formObject['password_chk'] });
             if (formObject['social'].length>0) {
                 const signInForm = {
@@ -304,22 +332,16 @@ class SignUp extends React.Component{
         this.apiCall();
     }
 
-    responseGoogle = (response) => {
-        const { profileObj, tokenId, error } = response;
-        const { email, name } = profileObj;
+    responseGoogle = () => {
         const { formObject } = this.state;
-        if (error!=undefined) {
-            return;
-        }
         this.setState({
-            required: ['email'],
+            required: [],
             formObject: {
                 ...formObject,
-                email: email,
-                // userPWD: "",
+                email: "",
+                userPWD: "",
                 social: 'google',
-                socialToken: tokenId,
-                socialName: name
+                socialName: ""
             }
         })
         this.apiCall();

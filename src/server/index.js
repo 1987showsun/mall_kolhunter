@@ -124,7 +124,7 @@ app.all("*", (req, res, next) => {
             <script>
             function updateNav(test) {
               // const domCheckWrapper = document.querySelector('.debug')
-              if (test.isNeeded) {
+              if (test.isNeeded && test.offset < 80) {
                 const headerNavBlock = document.querySelector('header .header-nav-block');
                 document.querySelector("header .header-nav-block").style.bottom = "auto";
                 document.querySelector("header .header-nav-block").style.top = (test.windowHeight - (headerNavBlock.clientHeight + test.offset))+"px";

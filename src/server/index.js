@@ -122,21 +122,22 @@ app.all("*", (req, res, next) => {
             </style>
             <div id="root">${markup}</div>
             <script>
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            var isInstagram = (ua.indexOf('Instagram') > -1) ? true : false;
+
             function updateNav(test) {
-              // const domCheckWrapper = document.querySelector('.debug')
-              if (test.isNeeded && test.offset < 80) {
-                const headerNavBlock = document.querySelector('header .header-nav-block');
-                document.querySelector("header .header-nav-block").style.bottom = "auto";
-                document.querySelector("header .header-nav-block").style.top = (test.windowHeight - (headerNavBlock.clientHeight + test.offset))+"px";
-              }
+              const domCheckWrapper = document.querySelector('.debug')
+              const headerNavBlock = document.querySelector('header .header-nav-block');
+              document.querySelector("header .header-nav-block").style.bottom = "auto";
+              document.querySelector("header .header-nav-block").style.top = (test.windowHeight - (headerNavBlock.clientHeight + test.offset))+"px";
               // domCheckWrapper.innerHTML = JSON.stringify(test) +'//'+ document.querySelector('header .header-nav-block').offsetTop +"<br />"+ Date.now()
             }
-            
-            setInterval(function(){
-              let test = vhCheck();
-              updateNav(test);
-            }, 1000);
-            
+            if (isInstagram) {
+              setInterval(function(){
+                let test = vhCheck();
+                updateNav(test);
+              }, 1000);
+            }
             </script>
           </body>
         </html>

@@ -122,25 +122,20 @@ app.all("*", (req, res, next) => {
             </style>
             <div id="root">${markup}</div>
             <script>
-            function outputValue(name) {
-              return function(test) {
-                // const domCheckWrapper = document.querySelector('.debug')
-                if (test.isNeeded) {
-                  const headerNavBlock = document.querySelector('header .header-nav-block');
-                  document.querySelector("header .header-nav-block").style.bottom = "auto";
-                  document.querySelector("header .header-nav-block").style.top = (test.value * 100 - (headerNavBlock.clientHeight + test.offset))+"px";
-                }
-                // domCheckWrapper.innerHTML = JSON.stringify(test) +'//'+ document.querySelector('header .header-nav-block').offsetTop
+            function updateNav(test) {
+              // const domCheckWrapper = document.querySelector('.debug')
+              if (test.isNeeded) {
+                const headerNavBlock = document.querySelector('header .header-nav-block');
+                document.querySelector("header .header-nav-block").style.bottom = "auto";
+                document.querySelector("header .header-nav-block").style.top = (test.windowHeight - (headerNavBlock.clientHeight + test.offset))+"px";
               }
+              // domCheckWrapper.innerHTML = JSON.stringify(test) +'//'+ document.querySelector('header .header-nav-block').offsetTop +"<br />"+ Date.now()
             }
-            setTimeout(function(){
-              vhCheck({
-                redefineVh: true,
-                force: true,
-                updateOnTouch: true,
-                onUpdate: outputValue('1vh'),
-              })
-            }, 3000);
+            
+            setInterval(function(){
+              let test = vhCheck();
+              updateNav(test);
+            }, 1000);
             
             </script>
           </body>

@@ -122,22 +122,29 @@ app.all("*", (req, res, next) => {
             </style>
             <div id="root">${markup}</div>
             <script>
-            var ua = navigator.userAgent || navigator.vendor || window.opera;
-            var isInstagram = (ua.indexOf('Instagram') > -1) ? true : false;
-
-            function updateNav(test) {
-              const domCheckWrapper = document.querySelector('.debug')
-              const headerNavBlock = document.querySelector('header .header-nav-block');
-              document.querySelector("header .header-nav-block").style.bottom = "auto";
-              document.querySelector("header .header-nav-block").style.top = (test.windowHeight - (headerNavBlock.clientHeight + test.offset))+"px";
-              // domCheckWrapper.innerHTML = JSON.stringify(test) +'//'+ document.querySelector('header .header-nav-block').offsetTop +"<br />"+ Date.now()
-            }
-            if (isInstagram) {
-              setInterval(function(){
-                let test = vhCheck();
-                updateNav(test);
-              }, 1000);
-            }
+              var ua = navigator.userAgent || navigator.vendor || window.opera;
+              var isInstagram = (ua.indexOf('Instagram') > -1) ? true : false;
+              function updateNav(test) {
+                //const domCheckWrapper = document.querySelector('.debug')
+                const headerNavBlock = document.querySelector('header .header-nav-block');
+                if (test.vh==test.windowHeight){
+                  document.querySelector("#root").style.paddingTop = document.querySelector('header').clientHeight+"px";
+                }else{
+                  document.querySelector("#root").style.paddingTop = "0px";
+                }
+                document.querySelector("header .header-nav-block").style.bottom="auto";
+                document.querySelector("header .header-nav-block").style.top = (test.windowHeight - (headerNavBlock.clientHeight + test.offset))+"px";
+                //let debugTxt = JSON.stringify(test) +'//'+ document.querySelector('header .header-nav-block').offsetTop +"<br />"+ Date.now() +"<br />rootOffset: "+ document.querySelector('#root').offsetTop +"//"+ document.querySelector('#root').clientHeight
+                //debugTxt += "<br />headerNavBlock: "+ headerNavBlock.offsetTop;
+                //domCheckWrapper.innerHTML = debugTxt;
+              }
+              if (isInstagram) {
+                setInterval(function(){
+                  window.scrollTo(0, 0);
+                  let test = vhCheck();
+                  updateNav(test);
+                }, 1000);
+              }
             </script>
           </body>
         </html>

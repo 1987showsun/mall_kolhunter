@@ -93,7 +93,6 @@ app.all("*", (req, res, next) => {
               gtag('set', {'currency': 'TWD'});
               ${disableGA}
             </script>
-            
             <!-- Hotjar Tracking Code for http://mall.kolhunter.com/ -->
             <script>
                 (function(h,o,t,j,a,r){
@@ -105,10 +104,45 @@ app.all("*", (req, res, next) => {
                     a.appendChild(r);
                 })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
             </script>
+            <script src="https://unpkg.com/vh-check/dist/vh-check.min.js"></script>
           </head>
 
           <body>
+            <style>
+              .debug{
+                width:100%;
+                position:fixed;
+                top:100px;
+                border:1px solid red;
+                z-index:999;
+                background:#FFF;
+                padding:10px;
+                overflow-wrap:break-word;
+              }
+            </style>
             <div id="root">${markup}</div>
+            <script>
+            function outputValue(name) {
+              return function(test) {
+                // const domCheckWrapper = document.querySelector('.debug')
+                if (test.isNeeded) {
+                  const headerNavBlock = document.querySelector('header .header-nav-block');
+                  document.querySelector("header .header-nav-block").style.bottom = "auto";
+                  document.querySelector("header .header-nav-block").style.top = (test.value * 100 - (headerNavBlock.clientHeight + test.offset))+"px";
+                }
+                // domCheckWrapper.innerHTML = JSON.stringify(test) +'//'+ document.querySelector('header .header-nav-block').offsetTop
+              }
+            }
+            setTimeout(function(){
+              vhCheck({
+                redefineVh: true,
+                force: true,
+                updateOnTouch: true,
+                onUpdate: outputValue('1vh'),
+              })
+            }, 3000);
+            
+            </script>
           </body>
         </html>
       `);

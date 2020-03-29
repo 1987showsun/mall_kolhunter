@@ -36,7 +36,7 @@ const browserConfig = {
   entry: "./src/browser/index.js",
   output: {
     path: path.join(__dirname, 'public'),
-    filename: "./bundle.js?t=20200326"
+    filename: "./bundle.js"
   },
   module: {
     rules: [

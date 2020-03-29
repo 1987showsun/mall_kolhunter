@@ -124,27 +124,26 @@ app.all("*", (req, res, next) => {
             <script>
               var ua = navigator.userAgent || navigator.vendor || window.opera;
               var isInstagram = (ua.indexOf('Instagram') > -1) ? true : false;
-              function updateNav(test) {
-                //const domCheckWrapper = document.querySelector('.debug')
-                const headerNavBlock = document.querySelector('header .header-nav-block');
-                if (test.vh==test.windowHeight){
-                  document.querySelector("#root").style.paddingTop = document.querySelector('header').clientHeight+"px";
-                }else{
-                  document.querySelector("#root").style.paddingTop = "0px";
+              window.onscroll = function(ev) {
+                if (document.querySelector(".account-nav-wrap")) {
+                  if (window.scrollY > 45) {
+                    document.querySelector(".account-nav-wrap").style.top = (document.querySelector("header").clientHeight + 1)+"px";
+                  }
                 }
-                document.querySelector("header .header-nav-block").style.bottom="auto";
-                document.querySelector("header .header-nav-block").style.top = (test.windowHeight - (headerNavBlock.clientHeight + test.offset))+"px";
-                //let debugTxt = JSON.stringify(test) +'//'+ document.querySelector('header .header-nav-block').offsetTop +"<br />"+ Date.now() +"<br />rootOffset: "+ document.querySelector('#root').offsetTop +"//"+ document.querySelector('#root').clientHeight
-                //debugTxt += "<br />headerNavBlock: "+ headerNavBlock.offsetTop;
-                //domCheckWrapper.innerHTML = debugTxt;
-              }
-              if (isInstagram) {
-                setInterval(function(){
-                  window.scrollTo(0, 0);
-                  let test = vhCheck();
-                  updateNav(test);
-                }, 1000);
-              }
+                if (isInstagram) {
+                  if (window.scrollY > 45) {
+                    document.querySelector("#root").style['margin-top']="0px";
+                    document.querySelector("header").style.position="fixed";
+                    document.querySelector("header").style.top="44px";
+                    document.querySelector(".account-nav-wrap").style.top = (document.querySelector("header").clientHeight + 1 + 44)+"px";
+                  } else {
+                    document.querySelector("header").style.top="0px";
+                    document.querySelector("#root").style['margin-top']="44px";
+                    document.querySelector(".account-nav-wrap").style.top = (document.querySelector("header").clientHeight + 1)+"px";
+                  }
+                }
+              };
+              
             </script>
           </body>
         </html>

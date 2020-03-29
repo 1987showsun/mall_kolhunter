@@ -23,7 +23,7 @@ const Index = props => {
     const [ info        , setPayInfo]       = useState({});
     
     useEffect(()=>{
-
+        window.scrollTo(0, 0);
         const { location, match } = props;
         const { pathname }        = location;
         const orderID = match['params']['id'] || "";

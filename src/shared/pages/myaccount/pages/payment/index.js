@@ -24,7 +24,7 @@ const Index = props => {
     const [ info   , setPayInfo]      = useState({});
 
     useEffect(()=>{
-
+        window.scrollTo(0, 0);
         const { location } = props;
         const { pathname, search } = location;
         

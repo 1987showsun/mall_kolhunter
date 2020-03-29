@@ -1,10 +1,12 @@
 header{
     width             : 100%;
+    position          : -webkit-sticky;
+    position          : sticky;
+    transition        : top .3s linear;
     min-height        : 100px;
     display           : flex;
     align-items       : center;
-    position          : sticky;
-    z-index           : 10;
+    z-index           : 100;
     top               : 0px;
     background        : #FF416C;  /* fallback for old browsers */
     background        : -webkit-linear-gradient(to bottom, #FF4B2B, #FF416C);  /* Chrome 10-25, Safari 5.1-6 */
@@ -132,6 +134,7 @@ header{
                 align-items           : center;
                 padding-right         : 65px;
                 border                : none;
+                overflow              : hidden;
                 &.select{
                     width                 : 150px;
                     border-left           : 1px solid #ccc;
@@ -320,7 +323,7 @@ header{
             border-top: 1px solid #E7E7E7;
             background: #fff;
             position: fixed;
-            z-index: 100;
+            z-index: 1000;
             bottom: 0px;
             left: 0px;
             box-shadow: 0px 0px 10px rgba(0,0,0,.1);
@@ -362,7 +365,6 @@ header{
     @media (max-width: 768px) {
         padding: 5px;
         min-height: auto;
-        position: sticky;
         left: 0px;
         .container{
             padding: 0px !important;

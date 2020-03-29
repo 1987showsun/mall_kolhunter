@@ -16,7 +16,7 @@ export default () => {
     const [stateSticky, setSticky] = useState(false);
 
     useEffect(()=>{
-        $('#root').scroll(function(){
+        $(window).scroll(function(){
             const win_H     = $(window).height();
             const scrollTop = $(this).scrollTop();
             if( scrollTop>win_H ){
@@ -31,7 +31,7 @@ export default () => {
         <>
             {
                 stateSticky &&
-                    <button className="sticky" onClick={()=>{$('#root').stop().animate({scrollTop:0}),300}}>
+                    <button className="sticky" onClick={()=>{$("html, body").animate({scrollTop:0}),300}}>
                         <FontAwesomeIcon icon={faChevronUp}/>
                     </button>
             }

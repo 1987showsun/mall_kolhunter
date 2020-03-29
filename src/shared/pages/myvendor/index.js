@@ -84,6 +84,7 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         const { history } = this.props;
         const { token }   = this.state;
         if( token=='' || token==undefined ){

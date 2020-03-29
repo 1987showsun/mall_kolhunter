@@ -162,6 +162,7 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         // 取得使用者 IP
         axios({
             method: 'post',

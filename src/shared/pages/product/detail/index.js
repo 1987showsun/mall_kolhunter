@@ -115,6 +115,7 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         const { location, match }  = this.props;
         const { pathname, search } = location;
         this.props.dispatch( ssrApproachProduct(pathname,{ ...queryString.parse(search), productToken: match['params']['id'] || "" }) )

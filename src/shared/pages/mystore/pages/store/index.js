@@ -100,6 +100,7 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         const { location, match } = this.props;
         const { pathname, search } = location;
         this.props.dispatch( mystoreStoreInfo(pathname, {...queryString.parse(), store: match['params']['id']}) );

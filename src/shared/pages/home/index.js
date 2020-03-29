@@ -76,6 +76,7 @@ class Home extends React.Component{
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         const { location }  = this.props;
         const { pathname }  = location;
         this.props.dispatch( getHome(pathname,{}) );

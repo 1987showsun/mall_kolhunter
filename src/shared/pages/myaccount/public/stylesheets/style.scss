@@ -45,6 +45,7 @@ $userCoverMobile_W: 200px;
 }
 
 .account-nav-wrap{
+    transition: top .3s linear;
     max-width: 270px;
     min-width: 270px;
     margin-right: 25px;
@@ -60,7 +61,6 @@ $userCoverMobile_W: 200px;
     }
     @media (min-width:769px) {
         position: sticky !important;
-        top: 120px;
         .account-nav-wrap-row{
             &.pc{
                 display: flex;
@@ -74,7 +74,6 @@ $userCoverMobile_W: 200px;
         background: #f0f2f5;
         position: sticky !important;
         z-index: 3;
-        top: 57px;
         .input-box{
             max-width: 100% !important;
             height: 45px;
@@ -97,7 +96,6 @@ $userCoverMobile_W: 200px;
         background: #f0f2f5;
         position: sticky !important;
         z-index: 3;
-        top: 40px;
         .input-box{
             max-width: 100% !important;
             height: 45px;

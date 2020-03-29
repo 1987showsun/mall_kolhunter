@@ -221,7 +221,7 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
-
+        window.scrollTo(0, 0);
         const { location, match } = this.props;
         const { pathname }        = location;
         const orderID             = match['params']['id'] || "";

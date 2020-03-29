@@ -27,6 +27,7 @@ const Index = ({ location, history, dispatch, limit, total, list }) => {
     const [ statesLoading, setLoading ] = useState(false);
 
     useEffect(()=>{
+        window.scrollTo(0, 0);
         const { pathname, search } = location;
         const { page=1 }           = queryString.parse(search);
         setLoading(true)

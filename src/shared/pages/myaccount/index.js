@@ -80,6 +80,7 @@ class Index extends React.Component{
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         const { token } = this.state;
         if( token=='' || token==null || token==undefined ){
             this.props.history.goBack();

@@ -18,13 +18,15 @@ export default class Tool extends React.Component{
         const DD   = dayjs().format('DD');
         const { search } = props.location;
         const year   = queryString.parse(search)['year']   || String(YYYY);
-        const month  = queryString.parse(search)['month']  || String(DD<=15? MM-1 : MM);
-        const period = queryString.parse(search)['period'] || String(month==String(MM)? '1':'2');
+        // const month  = queryString.parse(search)['month']  || String(DD<=15? MM-1 : MM);
+        const month  = queryString.parse(search)['month']  || String(MM);
+        const period = queryString.parse(search)['period'] || String(DD<=15?'1':'2');
         this.state = {
             max: 36,
             nowDate: {
                 year : Number(YYYY),
-                month: DD<=15? Number(MM)-1 : Number(MM),
+                // month: DD<=15? Number(MM)-1 : Number(MM),
+                month: Number(MM),
                 days : Number(DD)
             },
             formObject: {

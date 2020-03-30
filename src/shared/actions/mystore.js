@@ -238,8 +238,9 @@ export function mystoreSalesList( pathname,query={},data={} ) {
         const MM     = dayjs().format('MM');
         const DD     = dayjs().format('DD');
         const year   = String(YYYY);
-        const month  = String(DD<=15? MM-1 : MM);
-        const period = month==String(MM)? '1': '2';
+        // const month  = String(DD<=15? MM-1 : MM);
+        const month  = String(MM);
+        const period = String(DD<=15? '1' : '2');
         const method = 'get';
         const initQuery = {
             year          : year,

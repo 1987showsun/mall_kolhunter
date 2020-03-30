@@ -112,9 +112,9 @@ class Index extends React.Component{
         const { pathname, search } = location;
         const query = queryString.parse(search);
         const YYYY  = dayjs().format('YYYY');
-        const MM    = dayjs().format('DD')<=15? dayjs().format('MM')-1: dayjs().format('MM');
-
-        if( query['year']!=undefined || query['month']!=undefined || (Number(query['month'])<=MM && Number(query['year'])<=YYYY) ){
+        // const MM    = dayjs().format('DD')<=15? dayjs().format('MM')-1: dayjs().format('MM');
+        const MM    = dayjs().format('MM');
+        // if( query['year']!=undefined || query['month']!=undefined || (Number(query['month'])<=MM && Number(query['year'])<=YYYY) ){
             this.setState({
                 loading: true
             },()=>{
@@ -139,7 +139,7 @@ class Index extends React.Component{
                     })
                 });
             })
-        }
+        // }
     }
 }
 

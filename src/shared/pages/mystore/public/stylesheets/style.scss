@@ -86,3 +86,14 @@
         }
     }
 }
+
+.table-new-wrap {
+    .table-new-row {
+        .table-new-cell {
+            &.refunded {
+                color: #a7a7a7;
+                text-decoration: line-through;
+            }
+        }
+    }
+}

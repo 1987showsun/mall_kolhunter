@@ -62,7 +62,7 @@ export default class Tool extends React.Component{
                 </ul>
                 <span className="warn">
                     <i><FontAwesomeIcon icon={faExclamationCircle} /></i>
-                    非即時性訂單呈現，1-15號訂單分潤金額16號起顯示，16-月底訂單分潤金額 次月1號起顯示
+                    非即時性訂單，最新訂單更新時間為前一日
                 </span>
             </section>
         );

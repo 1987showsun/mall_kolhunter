@@ -71,16 +71,9 @@ export default class Tool extends React.Component{
     setYMSelect = () => {
         const { max, nowDate }      = this.state;
         const { year, month       } = nowDate;
-        const quotient              = parseInt((max-month)/12);
+        const quotient              = parseInt((max-month)/12) - 1;
         const remainder             = (max-month)%12;
         let option                  = [];
-        
-        for( let i=0 ; i<quotient ; i++ ){
-            for( let m=12 ; m>=1 ; m-- ){
-                const setMM = String(m).length<2? `0${m}`: m;
-                option = [ ...option, <option key={`${(year-i)-1} / ${setMM}`} value={`${(year-i)}-${m}`}>{`${(year-i)} / ${setMM}`}</option> ];
-            }
-        }
 
         if( remainder!=0 ){
             for( let m=1 ; m<=month ; m++ ){
@@ -89,7 +82,7 @@ export default class Tool extends React.Component{
             }
             for( let m=0 ; m<remainder ; m++ ){
                 const setMM = String(12-m).length<2? `0${12-m}`: 12-m;
-                option = [ ...option, <option key={`${year-quotient-1} / ${setMM}`} value={`${year-quotient-1}-${12-m}`}>{`${year-quotient-1} / ${setMM}`}</option> ];
+                option = [ ...option, <option key={`${year-quotient} / ${setMM}`} value={`${year-quotient}-${12-m}`}>{`${year-quotient} / ${setMM}`}</option> ];
             }
         }
 

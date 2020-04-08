@@ -22,8 +22,8 @@ export default ({list}) => {
                 thead = {<Thead />}
             >
                 {
-                    list.map( item => {
-                        return (<Tbody key={item['productToken']} {...item}/>);
+                    list.map( (item, i) => {
+                        return (<Tbody key={i} {...item}/>);
                     })
                 }
             </Table>

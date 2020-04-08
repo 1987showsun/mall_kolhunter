@@ -159,7 +159,7 @@ class HeadProduct extends React.Component{
         const { pathname, search }  = location;
         history.push({
             pathname  : pathname,
-            search    : queryString.stringify({ ...queryString.parse(search), ...formSearchObject })
+            search    : queryString.stringify({ ...queryString.parse(search), ...formSearchObject, page:1 })
         })
     }
 
@@ -177,12 +177,12 @@ class HeadProduct extends React.Component{
                 [name] : value
             }
         },()=>{
-
+            
             const query = { ...queryString.parse(search),[name]: value };
             if( value=="" ){
                 delete query[name];
             }
-
+            query['page'] = 1;
             history.push({
                 pathname   : pathname,
                 search     : queryString.stringify(query)

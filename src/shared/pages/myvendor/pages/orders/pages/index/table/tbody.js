@@ -4,12 +4,14 @@
  */
 
 import React          from 'react';
+import dayjs          from 'dayjs';
 import CurrencyFormat from 'react-currency-format';
 import { Link }       from 'react-router-dom';
 
 import lang                               from '../../../../../../../public/lang/lang.json';
 
-export default ({orderID, orderName, deliveryName, orderDetail, amount, orderStatus, statusText, refundStatus, refundText, createdate }) => {
+export default ({orderID, orderName, deliveryName, orderDetail, amount, orderStatus, statusText, refundStatus, refundText, createdate, refundTimeMs }) => {
+    const refundTime = refundTimeMs ? dayjs(refundTimeMs).format("YYYY / MM / DD") : "";
     const { deliveryStatus, deliveryCode, deliveryCompany } = orderDetail[0];
     return(
         <>
@@ -27,7 +29,7 @@ export default ({orderID, orderName, deliveryName, orderDetail, amount, orderSta
                 {`貨運公司：${deliveryCompany ?deliveryCompany : ''}`} <br />
                 {`包裹號碼：${deliveryCode ? deliveryCode : ''}`}
             </div>
-            <div className="table-new-cell status"><span className={`refundStatus ${refundStatus}`}>{refundText}</span></div>
+            <div className="table-new-cell status"><span className={`refundStatus ${refundStatus}`}>{refundText}<br />{refundTime}</span></div>
             <div className="table-new-cell date">{createdate}</div>
         </>
     );

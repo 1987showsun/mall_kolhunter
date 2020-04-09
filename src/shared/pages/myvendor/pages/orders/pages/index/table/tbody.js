@@ -11,7 +11,7 @@ import { Link }       from 'react-router-dom';
 import lang                               from '../../../../../../../public/lang/lang.json';
 
 export default ({orderID, orderName, deliveryName, orderDetail, amount, orderStatus, statusText, refundStatus, refundText, createdate, refundTimeMs }) => {
-    const refundTime = refundTimeMs ? dayjs(refundTimeMs).format("YYYY / MM / DD") : "";
+    const refundTime = refundTimeMs ? dayjs(refundTimeMs).format("YYYY/MM/DD HH:MM") : "";
     const { deliveryStatus, deliveryCode, deliveryCompany } = orderDetail[0];
     return(
         <>

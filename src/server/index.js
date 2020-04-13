@@ -78,7 +78,7 @@ app.all("*", (req, res, next) => {
             <link href="https://fonts.googleapis.com/css?family=Roboto:300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
             <link rel="manifest" href="/assets/manifest.json">
 
-            <script src="/bundle.js?v=202004091340" defer></script>
+            <script src="/bundle.js?v=202004131240" defer></script>
             <script>window.__initialData__ = ${serialize(initialData)}</script>
 
             <!-- Global site tag (gtag.js) - Google Analytics -->

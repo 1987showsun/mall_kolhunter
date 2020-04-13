@@ -26,10 +26,19 @@ class Nav extends React.Component{
     }
 
     static getDerivedStateFromProps(props, state){
+        console.log('props')
+        
         if( props.type!=state.type ){
+            if (props.type=='store'){
+                const storeID = props.accountInfo['storeToken'] || "123";
+                return{
+                    type: "store/"+ storeID
+                }
+            }
             return{
                 type: props.type
             }
+            
         }
         if( props.accountInfo!=state.accountInfo ){
             return{
@@ -55,7 +64,8 @@ class Nav extends React.Component{
         
         const { type, accountInfo } = this.state;
         const storeID = accountInfo['storeToken'] || "123";
-
+        console.log('debuggg')
+        console.log(this.state)
         return(
             <section className="container-col account-nav-wrap">
                 <article className="account-nav-wrap-row mobile">
@@ -84,6 +94,7 @@ class Nav extends React.Component{
     }
 
     handleChange = ( e ) => {
+        console.log('chenage')
         const { location, history } = this.props;
         const search = location['search'];
         const value = e.target.value;

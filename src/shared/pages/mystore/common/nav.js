@@ -64,13 +64,12 @@ class Nav extends React.Component{
         
         const { type, accountInfo } = this.state;
         const storeID = accountInfo['storeToken'] || "123";
-        console.log('debuggg')
-        console.log(this.state)
+        const activeType = type=='store'? 'store/'+ storeID : type;
         return(
             <section className="container-col account-nav-wrap">
                 <article className="account-nav-wrap-row mobile">
                     <div className="input-box select">
-                        <select value={type} onChange={this.handleChange.bind(this)}>
+                        <select value={activeType} onChange={this.handleChange.bind(this)}>
                             <option value="product">商品清單</option>
                             <option value={`store/${storeID}`}>店舖管理</option>
                             <option value="fansorders">粉絲訂單</option>

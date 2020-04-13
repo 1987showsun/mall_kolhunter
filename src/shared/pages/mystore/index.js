@@ -44,7 +44,7 @@ class Index extends React.Component{
 
         const { location, match, history } = this.props;
         const { token, mainTitle } = this.state;
-        const type = location['pathname'].split('/').filter( item => item!="" )[1] || 'product';
+        const type = location['pathname'].split('/').filter( item => item!="" )[1] || 'store';
 
         if( token=='' || token==null || token==undefined ){
             return null;

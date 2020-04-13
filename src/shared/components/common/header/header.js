@@ -116,7 +116,7 @@ class Header extends React.Component{
                                                 {
                                                     accountInfo['celebrity']==1 &&
                                                         <li className={`${pathname[0]=='mystore'}`}>
-                                                            <Link to="/mystore">
+                                                            <Link to={`/mystore/store/${accountInfo["storeToken"]}`}>
                                                                 <span className="icon-block">
                                                                     <FontAwesomeIcon icon={faStore} />
                                                                 </span>

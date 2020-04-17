@@ -30,7 +30,7 @@ import { getCartID }                    from '../../../../actions/common';
 import './public/stylesheets/style.scss';
 
 // Javascripts
-import { checkRequired, isCertificated, isInvoice } from '../../../../public/javascripts/checkFormat';
+import { checkRequired, isCertificated, isInvoice, isPhoneNumber } from '../../../../public/javascripts/checkFormat';
 
 // Set
 import required                                     from './public/set/required';
@@ -191,6 +191,23 @@ class Index extends React.Component{
         const filterRequired      = Object.keys(mergeFormObject).filter( keys => required.includes( keys ) );
         const checkRequiredFilter = checkRequired(filterRequired, mergeFormObject);
 
+        if ( isPhoneNumber(mergeFormObject['orderPhone']) != true ){
+            this.setState({
+                open       : true,
+                method     : 'alert',
+                popupMsg   : `<div className="items">訂購人的聯絡電話格式不正確</div>`
+            })
+            return;
+        }
+        if ( isPhoneNumber(mergeFormObject['deliveryPhone']) != true ){
+            this.setState({
+                open       : true,
+                method     : 'alert',
+                popupMsg   : `<div className="items">收件人的聯絡電話格式不正確</div>`
+            })
+            return;
+        }
+        
         if( checkRequiredFilter.length==0 ){
             let checkInvoiceFormat = false;
             const invoiceCarruerNum = mergeFormObject['invoiceCarruerNum'];
@@ -210,6 +227,8 @@ class Index extends React.Component{
                     checkInvoiceFormat = true;
                     break;
             }
+
+            
             
             // 檢查發票格式
             if( checkInvoiceFormat ) {

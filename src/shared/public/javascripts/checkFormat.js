@@ -51,6 +51,15 @@ export const isNumber = string => {
     return regexp.test(string);
 }
 
+export const isPhoneNumber = string => {
+    if (string.trim()=="") {
+        return false;
+    }
+    var regexp = /^!*([0-9]!*){10,}$/;
+    var phoneNum = string.split("-").join("").split(" ").join("");
+    return regexp.test(phoneNum);
+}
+
 // 發票-自然人憑證
 export const isCertificated = string  => {
     var regexp = /^[a-zA-Z]{2}[0-9]{14}$/;

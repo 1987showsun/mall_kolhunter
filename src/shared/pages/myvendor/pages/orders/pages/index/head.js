@@ -111,7 +111,6 @@ class HeadProduct extends React.Component{
                                         <option value="deliveryinit">尚未出貨</option>
                                         <option value="none">未申請退貨</option>
                                         <option value="request">申請退貨</option>
-                                        <option value="recived">回收商品</option>
                                         <option value="approve">同意退貨</option>
                                         <option value="reject">拒絕退貨</option>
                                         <option value="done">完成退貨</option>

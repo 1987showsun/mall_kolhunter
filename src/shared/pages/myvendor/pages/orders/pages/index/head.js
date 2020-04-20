@@ -108,6 +108,7 @@ class HeadProduct extends React.Component{
                                 <div className="input-box select">
                                     <select name="refundStatus" value={ refundStatus } onChange={this.filterData.bind(this)}>
                                         <option value="">顯示全部</option>
+                                        <option value="deliveryinit">尚未出貨</option>
                                         <option value="none">未申請退貨</option>
                                         <option value="request">申請退貨</option>
                                         <option value="recived">回收商品</option>

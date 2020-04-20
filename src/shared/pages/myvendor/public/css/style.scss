@@ -352,6 +352,10 @@
             border: none;
             height: 100%;
             margin: 0px;
+            &.keyword{
+                margin-left: 10px;
+                min-width: 200px;
+            }
         }
         a{
             &.create,&.download{

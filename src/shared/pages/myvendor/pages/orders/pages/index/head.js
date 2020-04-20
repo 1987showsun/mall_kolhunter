@@ -39,6 +39,7 @@ class HeadProduct extends React.Component{
                 endDate        : endDate   || dayjs().format('YYYY-MM-DD'),
                 orderStatus    : searchObject['orderStatus']  || "",
                 refundStatus   : searchObject['refundStatus'] || "",
+                keyword   : searchObject['keyword'] || ""
             }
         }
     }
@@ -81,6 +82,15 @@ class HeadProduct extends React.Component{
                                             })
                                         }}
                                     />
+                                    <div className="input-box keyword">
+                                        <input
+                                            type="text"
+                                            name="keyword"
+                                            onChange={this.handleSearchChange.bind(this)}
+                                            placeholder="電子郵件、姓名、訂單編號搜尋"
+                                        >
+                                        </input>
+                                    </div>
                                     <button className="basic">確定</button>
                                 </form>
                             </li>
@@ -159,7 +169,7 @@ class HeadProduct extends React.Component{
         const { pathname, search }  = location;
         history.push({
             pathname  : pathname,
-            search    : queryString.stringify({ ...queryString.parse(search), ...formSearchObject, page:1 })
+            search    : queryString.stringify({ ...queryString.parse(search), ...formSearchObject })
         })
     }
 
@@ -177,12 +187,12 @@ class HeadProduct extends React.Component{
                 [name] : value
             }
         },()=>{
-            
+
             const query = { ...queryString.parse(search),[name]: value };
             if( value=="" ){
                 delete query[name];
             }
-            query['page'] = 1;
+
             history.push({
                 pathname   : pathname,
                 search     : queryString.stringify(query)

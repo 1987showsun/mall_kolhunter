@@ -17,7 +17,7 @@ export default ({data}) => {
         <>
             <span className="warn text-center">
                 <i><FontAwesomeIcon icon={faExclamationCircle} /></i>
-                分潤金額匯款採月結的方式處理，每月分別於15號進行匯款。
+                分潤金額匯款採月結的方式處理，每月於15號進行匯款
             </span>
             {
                 checkHasData? (

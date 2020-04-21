@@ -179,7 +179,8 @@ class HeadProduct extends React.Component{
         const { history, location } = this.props;
         const { pathname,search }   = location;
         const { name, value }       = e.target;
-
+        let qs =  queryString.parse(search);
+        qs['page'] = 1
         this.setState({
             [name]           : value,
             formSearchObject : {
@@ -188,7 +189,7 @@ class HeadProduct extends React.Component{
             }
         },()=>{
 
-            const query = { ...queryString.parse(search),[name]: value };
+            const query = { ...qs,[name]: value };
             if( value=="" ){
                 delete query[name];
             }

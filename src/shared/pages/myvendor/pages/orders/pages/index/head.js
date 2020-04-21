@@ -206,17 +206,18 @@ class HeadProduct extends React.Component{
         csv['data'].map((items, i)=>{
             if (i==0) {
                 items.map((header, j)=>{
-                    switch (header) {
-                        case '訂單號碼':
+                    let headerTxt = encodeURI(header.trim());
+                    switch (headerTxt) {
+                        case '%E8%A8%82%E5%96%AE%E8%99%9F%E7%A2%BC': //訂單號碼
                             headers[j] = 'orderID'
                             break;
-                        case '品項號碼':
+                        case '%EF%BB%BF%E5%93%81%E9%A0%85%E8%99%9F%E7%A2%BC': //品項號碼
                             headers[j] = 'itemCode'
                             break;
-                        case '包裹編號':
+                        case '%EF%BB%BF%E5%8C%85%E8%A3%B9%E7%B7%A8%E8%99%9F': //包裹編號
                             headers[j] = 'deliveryCode'
                             break;
-                        case '貨運公司':
+                        case '%EF%BB%BF%E8%B2%A8%E9%81%8B%E5%85%AC%E5%8F%B8': //貨運公司
                             headers[j] = 'deliveryCompany'
                             break;
                     }

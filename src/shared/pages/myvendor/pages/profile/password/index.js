@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Confirm from '../../../../../module/confirm';
 
 // Actions
-import { resetPassword } from '../../../../../actions/login';
+import { updatePWD } from '../../../../../actions/myvendor';
 
 // Javascript
 import { PWD } from '../../../../../public/javascripts/checkFormat';
@@ -124,20 +124,26 @@ class Index extends React.Component{
                     msg: lang['zh-TW']['note'][checkFormat['msg']]
                 })
             }else{
-                // 檢查OK
-                this.props.dispatch( resetPassword('vendor',formObject) ).then( res => {
-                    if( res['status']==200 ){
-                        this.setState({
-                            method: 'alert',
-                            popupMsg: lang['zh-TW']['reset password success']
-                        })
-                    }else{
-                        this.setState({
-                            method: 'alert',
-                            popupMsg: lang['zh-TW'][ res['response']['data']['status_text'] ]
-                        })
+                this.props.dispatch( updatePWD(formObject) ).then( res => {
+                    switch( res['status'] ){
+                        case 200:
+                            // 更新成功
+                            this.setState({
+                                method: 'alert',
+                                popupMsg: lang['zh-TW']['reset password success']
+                            })
+                            break;
+    
+                        default:
+                            // 錯誤失敗
+                            const status_text = res['data']['status_text'];
+                            this.setState({
+                                method: 'alert',
+                                popupMsg: lang['zh-TW'][ status_text ]
+                            })
+                            break;
                     }
-                })
+                });
             }
         }else{
             this.handleCancel();

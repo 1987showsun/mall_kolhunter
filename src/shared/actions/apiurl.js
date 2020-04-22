@@ -110,6 +110,7 @@ export default function API(){
                 'categories'            : `${API_ADDRESS()}/v1/vendor/product/list`,
             },
             'vinfo'                   : `${API_ADDRESS()}/v1/vendor/info`, // get 廠商基本資料
+            'updatePWD'                 : `${API_ADDRESS()}/v1/vendor/password`, // put 修改密碼
             'bill'                    : {
                 'list'                  : `${API_ADDRESS()}/v1/vendor/purchase`, // 廠商購買的方案帳單
                 'info'                  : `${API_ADDRESS()}/v1/order/info`, // get 訂單明細

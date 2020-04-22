@@ -635,6 +635,25 @@ export function buyCaseBillInfo( pathname,query,data={} ) {
     }
 }
 
+// 會員更新密碼
+export function updatePWD( data ){
+    return(dispatch) => {
+
+        const method   = 'put';
+        const url      = API()['myvendor']['updatePWD'];
+        const token    = sessionStorage.getItem('jwt_vendor');
+
+        if( token!=null && token!=undefined && token!="" ){
+            return Axios({ method,url,data:{...data} }).then(res => {
+                if( !res.hasOwnProperty('response') ){
+                    return res;
+                }
+                return res['response'];
+            });
+        }
+    }
+}
+
 const Axios = ( api ) => {
     return axios({
         method    : api['method'],

@@ -9,6 +9,7 @@ import CurrencyFormat from 'react-currency-format';
 // Components
 export default ({summary}) => {
     const {date, total} = summary;
+    const grandTotal = total['profit'] ? (total['profit'] - total['transaction']) : "";
     return(
         <>
             <section className="admin-content-row">
@@ -17,16 +18,20 @@ export default ({summary}) => {
                 </article>
                 <ul className="table-row-list summary">
                     <li>
-                        <label>銷貨收入</label>
-                        <div className="table-new-cell text-right money"><CurrencyFormat value={total['income']}   displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+                        <label>銷售金額</label>
+                        <div className="table-new-cell text-right money"><CurrencyFormat value={total['sales']}   displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
                     </li>
                     <li>
-                        <label>已退貨</label>
-                        <div className="table-new-cell text-right money"><CurrencyFormat value={total['refund']}   displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+                        <label>分潤總額</label>
+                        <div className="table-new-cell text-right money"><CurrencyFormat value={total['profit']}   displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
                     </li>
                     <li>
-                        <label>總額</label>
-                        <div className="table-new-cell text-right money"><CurrencyFormat value={total['grand']}   displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+                        <label>金流手續費</label>
+                        <div className="table-new-cell text-right money"><CurrencyFormat value={total['transaction']}   displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
+                    </li>
+                    <li>
+                        <label>應收款項</label>
+                        <div className="table-new-cell text-right money"><CurrencyFormat value={grandTotal}   displayType={'text'} thousandSeparator={true} prefix={'$'} /></div>
                     </li>
                 </ul>
             </section>

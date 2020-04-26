@@ -14,7 +14,7 @@ export default () => {
             <div>數量</div>
             <div>總額</div>
             <div>分潤比</div>
-            <div>分潤後總額</div>
+            <div>分潤金額</div>
         </>
     );
 }

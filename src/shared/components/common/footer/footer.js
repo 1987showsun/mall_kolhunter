@@ -98,7 +98,7 @@ class Footer extends React.Component{
                             <div className="footer-nav-wrap" data-direction="column">
                                 <div className="footer-nav-wrap-title">其他服務</div>
                                 <ul>
-                                    <li><Link to="">聯絡我們</Link></li>
+                                    <li><Link to="/terms/contact">聯絡我們</Link></li>
                                     <li><Link to="/terms/refund">退貨政策</Link></li>
                                 </ul>
                             </div>

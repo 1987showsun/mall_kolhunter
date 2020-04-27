@@ -4,6 +4,7 @@ import { connect }       from 'react-redux';
 
 // Pages
 import About             from './pages/about';
+import Contact           from './pages/contact';
 import Privacy           from './pages/privacy';
 import Service           from './pages/service';
 import Refund           from './pages/refund';
@@ -21,6 +22,7 @@ class Index extends React.Component{
                         <Route path="/terms/privacy" component={Privacy} />
                         <Route path="/terms/service" component={Service} />
                         <Route path="/terms/refund" component={Refund} />
+                        <Route path="/terms/contact" component={Contact} />
                     </Switch>
                 </section>
             </div>

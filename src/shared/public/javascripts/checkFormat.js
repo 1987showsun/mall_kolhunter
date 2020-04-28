@@ -52,6 +52,9 @@ export const isNumber = string => {
 }
 
 export const isPhoneNumber = string => {
+    if (string==null){
+        return false;
+    }
     if (string.trim()=="") {
         return false;
     }

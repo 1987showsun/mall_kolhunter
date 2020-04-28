@@ -107,7 +107,7 @@ class Order extends React.Component{
     }
 
     handleChange = (e) => {
-
+        
         const name = e.target.name;
         const value = e.target.value;
         let { formObject } = this.state;
@@ -125,11 +125,12 @@ class Order extends React.Component{
                 }
                 break;
 
-            case 'district':
+            case 'dist':
+                console.log('isDist')
                 formObject = { 
                     ...formObject,
                     [name]: value,
-                    zipcode: e.target.options[e.target.selectedIndex].dataset.zipcode 
+                    zipCode: e.target.options[e.target.selectedIndex].dataset.zipcode 
                 };
                 break;
 
@@ -139,7 +140,7 @@ class Order extends React.Component{
                      [name]: value
                 }
         }
-
+        
         this.setState({
             formObject
         },()=>{

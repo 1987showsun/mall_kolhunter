@@ -21,7 +21,7 @@ export default ({ data }) => {
       <section className="container" data-direction="column" style={{paddingTop: '10px'}}>
           <div className="unit">
             <div className="block-title">
-              <h2>精選店舖</h2>
+              <h2>母親節推薦店舖</h2>
               <Link to="/store">
                 觀看更多
                 <i><FontAwesomeIcon icon={faChevronCircleRight} /></i>

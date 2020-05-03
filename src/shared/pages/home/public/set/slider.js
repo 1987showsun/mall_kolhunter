@@ -101,48 +101,48 @@ export const categorySlider = {
     slidesToShow: 1,
     speed: 500,
     rows: 2,
-    slidesPerRow: 10,
+    slidesPerRow: 6,
     responsive: [
         {
             breakpoint: 1280,
             settings: {
             centerPadding: "0px",
-            slidesPerRow: 10
+            slidesPerRow: 6
             }
         },
         {
             breakpoint: 1024,
             settings: {
             centerPadding: "0px",
-            slidesPerRow: 8,
+            slidesPerRow: 6,
             }
         },
         {
             breakpoint: 820,
             settings: {
                 centerPadding: "0px",
-                slidesPerRow: 7,
+                slidesPerRow: 6,
             }
             },
         {
             breakpoint: 720,
             settings: {
             centerPadding: "0px",
-            slidesPerRow: 6,
+            slidesPerRow: 3,
             }
         },
         {
             breakpoint: 600,
             settings: {
             centerPadding: "0px",
-            slidesPerRow: 4
+            slidesPerRow: 3
             }
         },
         {
             breakpoint: 480,
             settings: {
             centerPadding: "0px",
-            slidesPerRow: 4
+            slidesPerRow: 3
             }
         }
     ]

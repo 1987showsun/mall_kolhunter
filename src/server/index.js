@@ -69,7 +69,7 @@ app.all("*", (req, res, next) => {
             <meta name="author" content="Sun Li">
             ${helmet.title.toString()}
             ${helmet.meta.toString()}
-            <link rel="stylesheet" href="/css/main.css?v=202004271655">
+            <link rel="stylesheet" href="/css/main.css?v=202005041700">
             <link rel="shortcut icon" href="/assets/images/favicon.ico">
             <link rel="apple-touch-icon" sizes="512x512" href="/assets/images/appIcon512.png" />
             <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/appIcon120.png" />
@@ -78,7 +78,7 @@ app.all("*", (req, res, next) => {
             <link href="https://fonts.googleapis.com/css?family=Roboto:300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
             <link rel="manifest" href="/assets/manifest.json">
 
-            <script src="/bundle.js?v=202004281700" defer></script>
+            <script src="/bundle.js?v=202005041700" defer></script>
             <script>window.__initialData__ = ${serialize(initialData)}</script>
 
             <!-- Global site tag (gtag.js) - Google Analytics -->

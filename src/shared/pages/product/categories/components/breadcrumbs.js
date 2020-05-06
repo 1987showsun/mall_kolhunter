@@ -47,14 +47,14 @@ class Breadcrumbs extends React.Component{
                             <li>{current[0]['title']}</li>
                     }
                 </ul>
-                <div className="input-box select">
+                {/* <div className="input-box select">
                     <select name="sortMethod" value={`${formObject['sort']}-${formObject['order']}`} onChange={this.handleChangeSort.bind(this)}>
                         <option value="desc-price">價格由高到低</option>
                         <option value="asc-price">價格由低到高</option>
                         <option value="desc-time">創建時間由新到舊</option>
                         <option value="asc-time">創建時間由舊到新</option>
                     </select>
-                </div>
+                </div> */}
             </div>
         );
     }

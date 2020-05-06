@@ -33,7 +33,7 @@ class Index extends React.Component{
                         <label className="radio">
                             <input type="radio" name="payMethod" value="atm" onChange={this.handleChange.bind(this)} checked={formObject['payMethod']=='atm'}/>
                             <div className="box"></div>
-                            <div>ATM</div>
+                            <div>ATM 轉帳</div>
                         </label>
                     </li>
                     <li>
@@ -41,7 +41,7 @@ class Index extends React.Component{
                             <input type="radio" name="payMethod" value="cc" onChange={this.handleChange.bind(this)} checked={formObject['payMethod']=='cc'}/>
                             <div className="box"></div>
                             <div className="radio-container">
-                                <span>信用卡</span>
+                                <span>信用卡付款</span>
                                 {
                                     formObject['payMethod'] == 'cc' &&
                                         <Card 
@@ -58,7 +58,7 @@ class Index extends React.Component{
                         <label className="radio">
                             <input type="radio" name="payMethod" value="cvs" onChange={this.handleChange.bind(this)} checked={formObject['payMethod']=='cvs'}/>
                             <div className="box"></div>
-                            <div>超商付款</div>
+                            <div>超商代碼繳款</div>
                         </label>
                     </li>
                 </ul>

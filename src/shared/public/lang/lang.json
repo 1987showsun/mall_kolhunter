@@ -89,7 +89,7 @@
             "add item into shopcart failure": "該商品已放存在於購物車"
         },
         "deliveryStatus": {
-            "init": "未送件",
+            "init": "處理中",
             "ontheway": "已出貨"
         },
         "deliveryCompany": {

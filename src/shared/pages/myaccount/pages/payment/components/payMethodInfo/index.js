@@ -22,17 +22,18 @@ const PayMethodInfo = props => {
                 <h3>付款明細</h3>
             </div>
             <ul className="card-form-list">
-                <li>
+                <li className="pb-0">
                     <label>付款狀態</label>
                     <div><span className={`orderStatus ${data['orderStatus']}`}>{ lang['zh-TW']['orderStatus'][data['orderStatus']] }</span></div>
+                </li>
+                <li>
+                    <label className="empty"></label>
+                    <div>若訂單狀態不是付款成功，即不會進行扣款及出貨</div>
                 </li>
                 <li>
                     <label>付款方式</label>
                     <div>{ lang['zh-TW']['payment'][data['payMethod']] }</div>
                 </li>
-                <OtherInfo 
-                    data= {data}
-                />
             </ul>
         </section>
     );

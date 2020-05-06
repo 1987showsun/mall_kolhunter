@@ -78,7 +78,7 @@ class Item extends React.Component{
                             </li>
                             <li>
                                 <label>運送狀態</label>
-                                <div>{ lang['zh-TW']['deliveryStatus'][deliveryStatus]}</div>
+                                <div>{ lang['zh-TW']['transport'][deliveryStatus]}</div>
                             </li>
                             <li>
                                 <label>運送公司</label>

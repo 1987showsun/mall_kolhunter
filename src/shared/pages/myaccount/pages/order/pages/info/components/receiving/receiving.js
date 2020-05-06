@@ -19,6 +19,10 @@ const Receiving = props => {
             </div>
             <ul className="card-form-list">
                 <li>
+                    <label htmlFor="deliveryMethod">運送方式</label>
+                    <div>宅配到府（下訂後請注意通知到貨陌生來電）</div>
+                </li>
+                <li>
                     <label htmlFor="name2">姓名</label>
                     <div>{info['deliveryName']}</div>
                 </li>

@@ -113,6 +113,21 @@ class Index extends React.Component{
                 <section className="container-unit">
                     {/* 訂購人 / 收件人資訊 */}
                     <div className="unit-head">
+                        <h3>運送方式</h3>
+                    </div>
+                    <ul className="card-form-list">
+                        <li>
+                            <label className="radio">
+                                <input type="radio" name="deliveryMethod" value="none" checked="true"/>
+                                <div className="box"></div>
+                                <div>宅配到府（下訂後請注意通知到貨陌生來電）</div>
+                            </label>
+                        </li>
+                    </ul>
+                </section>
+                <section className="container-unit">
+                    {/* 訂購人 / 收件人資訊 */}
+                    <div className="unit-head">
                         <h3>訂購人 / 收件人資訊</h3>
                     </div>
                     <Transports 

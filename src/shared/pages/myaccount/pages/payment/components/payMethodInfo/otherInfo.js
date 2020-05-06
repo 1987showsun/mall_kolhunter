@@ -17,11 +17,19 @@ const OtherInfo = props => {
                 <>
                     <li>
                         <label>銀行代號</label>
-                        <div>{payAdditionalInfo['BankCode']}</div>
+                        <div>
+                            <span className="highlight">
+                                {payAdditionalInfo['BankCode']}
+                            </span>
+                        </div>
                     </li>
                     <li>
                         <label>匯款帳號</label>
-                        <div>{payAdditionalInfo['VaccNo']}</div>
+                        <div>
+                            <span className="highlight">
+                                {payAdditionalInfo['VaccNo']}
+                            </span>
+                        </div>
                     </li>
                     <li>(請於訂單成立後24小時完成付款，若未完成付款訂單將會自動失效)</li>
                 </>
@@ -32,7 +40,9 @@ const OtherInfo = props => {
                 <>
                     <li>
                         <label>付款代碼</label>
-                        <div>{payAdditionalInfo['CVSCode']}</div>
+                        <div>
+                            <span className="highlight">{payAdditionalInfo['CVSCode']}</span>
+                        </div>
                     </li>
                     <li>
                         <label>付款期限</label>

@@ -66,7 +66,7 @@ class Item extends React.Component{
                                 <div>{data['price']}</div>
                             </li>
                             <li>
-                                <label>狀態</label>
+                                <label>運送狀態</label>
                                 <div>{ lang['zh-TW']['transport'][deliveryStatus]}</div>
                             </li>
                         </ul>

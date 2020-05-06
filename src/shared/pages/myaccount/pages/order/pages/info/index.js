@@ -8,6 +8,7 @@ import { connect }                          from 'react-redux';
 
 // Components
 import PayMethodInfo                        from './components/payMethodInfo';
+import PaySteps                              from './components/paySteps';
 import Receiving                            from './components/receiving';
 import Product                              from './components/product';
 
@@ -62,6 +63,9 @@ const Index = props => {
             <PayMethodInfo 
                 data         = { info }
                 tableBodyData= { info['orderDetail'] || [] }
+            />
+            <PaySteps 
+                data         = { info }
             />
             <Receiving 
                 data         = { info }

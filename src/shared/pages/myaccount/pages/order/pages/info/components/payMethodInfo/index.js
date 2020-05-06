@@ -27,9 +27,13 @@ const PayMethodInfo = ({data, tableBodyData}) => {
                     <label>訂單編號</label>
                     <div>{orderID}</div>
                 </li>
-                <li>
+                <li className="pb-0">
                     <label>訂單狀態</label>
                     <div><span className={`orderStatus ${orderStatus}`}>{lang['zh-TW']['orderStatus'][orderStatus]}</span></div>
+                </li>
+                <li>
+                    <label className="empty"></label>
+                    <div>若訂單狀態不是付款成功，即不會進行扣款及出貨</div>
                 </li>
                 <li>
                     <label>訂購數量</label>
@@ -43,9 +47,6 @@ const PayMethodInfo = ({data, tableBodyData}) => {
                     <label>付款方式</label>
                     <div>{lang['zh-TW']['payment'][payMethod]}</div>
                 </li>
-                <OtherInfo 
-                    data= {data}
-                />
             </ul>
         </section>
     );

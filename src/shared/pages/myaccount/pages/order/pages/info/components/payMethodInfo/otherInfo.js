@@ -44,6 +44,10 @@ const OtherInfo = props => {
                             <span className="highlight">{payAdditionalInfo['CVSCode']}</span>
                         </div>
                     </li>
+                    <li>
+                        <label>付款期限</label>
+                        <div>{payAdditionalInfo['ExpireDate']} {payAdditionalInfo['ExpireTime']}</div>
+                    </li>
                 </>
             );
 

@@ -79,7 +79,7 @@ class Filter extends React.Component{
                                 location= {location}
                             /> */}
                         </article>
-                        <article className="filter-row sticky" data-content="center" style={{position: "sticky", bottom: "0px"}}>
+                        {/* <article className="filter-row sticky" data-content="center" style={{position: "sticky", bottom: "0px"}}>
                             <ul className="action-ul">
                                 <li>
                                     <button type="button" className="clear" onClick={this.clearFilter.bind(this)}>重設</button>
@@ -88,7 +88,7 @@ class Filter extends React.Component{
                                     <label htmlFor="openFilterWrap" className="openFilterWrapLabelButton">套用</label>
                                 </li>
                             </ul>
-                        </article>
+                        </article> */}
                     </div>
                 </section>
             </React.Fragment>

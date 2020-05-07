@@ -29,16 +29,16 @@ export default class Search extends React.Component{
             <div className="container-unit-search">
                 <form onSubmit={ this.handleSubmit.bind(this) }>
                     <div className="input-box">
-                        <input type="text" name="keyword" value={formObject['keyword']} onChange={this.handleChange.bind(this)} />
+                        <input type="text" name="keyword" value={formObject['keyword']} placeholder="輸入商品名" onChange={this.handleChange.bind(this)} />
                     </div>
                     <button type="submit">搜尋</button>
                 </form>
-                <div className="input-box select">
+                {/* <div className="input-box select">
                     <select name="sort" value={`${formObject['sort']}-${formObject['sortBy']}`} onChange={this.handleChange.bind(this)}>
                         <option value={`desc-created`}>創建時間由新到舊</option>
                         <option value={`incre-created`}>創建時間由舊到新</option>
                     </select>
-                </div>
+                </div> */}
             </div>
         );
     }
@@ -51,7 +51,7 @@ export default class Search extends React.Component{
         this.setState({
             formObject: { 
                 ...formObject,
-                keyword: queryString.parse(search)['mspKeyword'] || '',
+                keyword: queryString.parse(search)['keyword'] || '',
                 sort: queryString.parse(search)['sort'] || 'desc',
                 sortBy: queryString.parse(search)['sortBy'] || 'created'
             }
@@ -93,12 +93,12 @@ export default class Search extends React.Component{
         const search = queryString.parse( location['search'] );
         const searchQuery = {
             ...search,
-            mspKeyword: formObject['keyword'],
+            keyword: formObject['keyword'],
             sort: formObject['sort'],
             sortBy: formObject['sortBy'],
         }
         if( formObject['keyword']=="" ){
-            delete searchQuery['mspKeyword'];
+            delete searchQuery['keyword'];
         }
         history.push({
             search: queryString.stringify(searchQuery)

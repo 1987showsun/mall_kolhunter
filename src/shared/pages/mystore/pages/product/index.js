@@ -65,11 +65,11 @@ class Index extends React.Component{
                     reCallAPI       = {this.reCallAPI.bind(this)}
                 />
                 <section className="container-unit relative" >
-                    {/* <Search 
+                    <Search 
                         match= {match}
                         history= {history}
                         location= {location}
-                    /> */}
+                    />
                     <Table 
                         tableHeadData      = {tableHeadData}
                         tableBodyData      = {tableBodyData}

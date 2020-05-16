@@ -37,8 +37,14 @@ class SignUp extends React.Component{
         let socialToken   = "";
         let socialType   = "";
         let required = ['email','password','password_chk','nickname'];
-
+        let isSafari    = false;
+        
         if (typeof window !== 'undefined') {
+
+            if (window.navigator.userAgent.indexOf("Safari/")!=-1){
+                isSafari = true;
+            }
+
             redirectURI = location.href.split('#')[0];
             let googleHash = queryString.parse(location.hash);
             if (googleHash['id_token']) {
@@ -77,7 +83,8 @@ class SignUp extends React.Component{
                 socialToken   : socialToken,
                 socialName   : ''
             },
-            redirectURI
+            redirectURI,
+            isSafari
         }
     }
 
@@ -102,6 +109,7 @@ class SignUp extends React.Component{
                                 fields="name,email"
                                 redirectUri={redirectURI}
                                 callback={this.responseFacebook}
+                                disableMobileRedirect={isSafari}
                             />
                         </li>
                         <li>

@@ -37,6 +37,8 @@ class SignIn extends React.Component{
         let socialToken   = "";
         let socialType   = "";
         let required = ['userID','userPWD'];
+        let isSafari    = false;
+        
         if (typeof window !== 'undefined') {
             const filterAfter = Object.entries(localStorage).filter( filterItem => {
                 return filterItem.includes(`accountLoginRecord`);
@@ -46,6 +48,11 @@ class SignIn extends React.Component{
                 userPWD = JSON.parse(filterAfter[0][1])['userPWD'];
             }
             record = Boolean(localStorage.getItem('accountRecordStatus')) || false;
+
+            if (window.navigator.userAgent.indexOf("Safari/")!=-1){
+                isSafari = true;
+            }
+
             redirectURI = location.href.split('#')[0];
             let googleHash = queryString.parse(location.hash);
             if (googleHash['id_token']) {
@@ -70,7 +77,8 @@ class SignIn extends React.Component{
             },
             msg              : [],
             record,
-            redirectURI
+            redirectURI,
+            isSafari
         }
     }
 
@@ -99,6 +107,7 @@ class SignIn extends React.Component{
                                 fields="name,email"
                                 redirectUri={redirectURI}
                                 callback={this.responseFacebook}
+                                disableMobileRedirect={isSafari}
                             />
                         </li>
                         <li>

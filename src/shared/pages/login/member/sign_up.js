@@ -91,7 +91,7 @@ class SignUp extends React.Component{
 
     render(){
         const { history } = this.props;
-        const { loading, open, pwdDisplay, popupMSG, method, msg, formObject, redirectURI } = this.state;
+        const { loading, open, pwdDisplay, popupMSG, method, msg, formObject, redirectURI, isSafari } = this.state;
         const { email, password, password_chk, nickname, phone, company  } = formObject;
 
         return(

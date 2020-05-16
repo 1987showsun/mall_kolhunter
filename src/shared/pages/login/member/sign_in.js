@@ -89,7 +89,8 @@ class SignIn extends React.Component{
             form, 
             msg,
             record,
-            redirectURI
+            redirectURI,
+            isSafari
         } = this.state;
 
         return(

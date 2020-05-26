@@ -75,7 +75,7 @@ app.all("*", (req, res, next) => {
       </noscript>
       <!-- End Facebook Pixel Code -->
       `;
-      const facebookPixelEmbed = (process.env.NODE_ENV=='development') ? facebookPixelcode : "";
+      const facebookPixelEmbed = (process.env.NODE_ENV=='development') ? facebookPixelCode : "";
 
       res.send(`
         <!DOCTYPE html>

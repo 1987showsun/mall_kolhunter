@@ -356,7 +356,7 @@ class Index extends React.Component{
 
     handleConfirm = () => {
 
-        const { selected, method, formObject, list, required, payMethod }         = this.state;
+        const { selected, method, formObject, list, required, payMethod, loading }         = this.state;
         const { location, history, match } = this.props;
         const { pathname, search }         = location;
         const checkRequiredFilter = checkRequired( required,formObject );
@@ -372,79 +372,90 @@ class Index extends React.Component{
                     bankAccountName: formObject['bankAccountName'],
                     bankAccount: formObject['bankAccount']
                 }
+                if (loading!=true){
+                    this.setState({
+                        loading: true
+                    },()=>{
+                        this.props.dispatch( bankInfoUpdate(pathname,{...queryString.parse(search)},bankData) ).then( res => {
 
-                this.props.dispatch( bankInfoUpdate(pathname,{...queryString.parse(search)},bankData) ).then( res => {
+                            let   status      = 'failure';
+                            let   status_text = lang['zh-TW']['toaster']['refundFailure'];
 
-                    let   status      = 'failure';
-                    let   status_text = lang['zh-TW']['toaster']['refundFailure'];
+                            switch( res['status'] ){
+                                case 200:
+                                    let orderID = match['params']['id']
+                                    const refundData = {
+                                        orderID   : orderID,
+                                        itemCode  : selected,
+                                        refundZipCode: formObject['zipCode'],
+                                        refundCity: formObject['city'],
+                                        refundDist: formObject['dist'],
+                                        refundAddress: formObject['address']
+                                    }
 
-                    switch( res['status'] ){
-                        case 200:
-                            let orderID = match['params']['id']
-                            const refundData = {
-                                orderID   : orderID,
-                                itemCode  : selected,
-                                refundZipCode: formObject['zipCode'],
-                                refundCity: formObject['city'],
-                                refundDist: formObject['dist'],
-                                refundAddress: formObject['address']
-                            }
+                                    this.props.dispatch( ordersRefund(pathname,{...queryString.parse(search)},refundData) ).then( res => {
 
-                            this.props.dispatch( ordersRefund(pathname,{...queryString.parse(search)},refundData) ).then( res => {
+                                        let   status      = 'failure';
+                                        let   status_text = lang['zh-TW']['toaster']['refundFailure'];
+            
+                                        switch( res['status'] ){
+                                            case 200:
+                                                status      = 'success';
+                                                status_text = lang['zh-TW']['toaster']['refundSuccess'];
 
-                                let   status      = 'failure';
-                                let   status_text = lang['zh-TW']['toaster']['refundFailure'];
-    
-                                switch( res['status'] ){
-                                    case 200:
-                                        status      = 'success';
-                                        status_text = lang['zh-TW']['toaster']['refundSuccess'];
+                                                let refundAmount = 0;
+                                                let gaItems = [];
+                                                selected.map((itemCode)=>{
+                                                    let selectedItem = list.filter(item => item['itemCode']==itemCode )[0]
+                                                    gaItems.push({
+                                                        "id": selectedItem['productToken'],
+                                                        "name": selectedItem['productName'],
+                                                        "quantity": selectedItem['count'],
+                                                        "price": selectedItem['price']
+                                                    })
+                                                    refundAmount = refundAmount + selectedItem['amount'];
+                                                })
+                                                
+                                                gtag('event', 'refund', {
+                                                    "transaction_id": orderID,
+                                                    "value": refundAmount, // total refund amount,
+                                                    "currency": "TWD",
+                                                    "shipping": 0,
+                                                    "items": gaItems
+                                                });
+                                                
+                                                history.goBack();
+                                                break;
 
-                                        let refundAmount = 0;
-                                        let gaItems = [];
-                                        selected.map((itemCode)=>{
-                                            let selectedItem = list.filter(item => item['itemCode']==itemCode )[0]
-                                            gaItems.push({
-                                                "id": selectedItem['productToken'],
-                                                "name": selectedItem['productName'],
-                                                "quantity": selectedItem['count'],
-                                                "price": selectedItem['price']
-                                            })
-                                            refundAmount = refundAmount + selectedItem['amount'];
-                                        })
-                                        
-                                        gtag('event', 'refund', {
-                                            "transaction_id": orderID,
-                                            "value": refundAmount, // total refund amount,
-                                            "currency": "TWD",
-                                            "shipping": 0,
-                                            "items": gaItems
+                                            default:
+                                                status      = 'failure';
+                                                status_text = lang['zh-TW']['toaster']['refundFailure'];
+                                                this.setState({
+                                                    loading: false
+                                                });
+                                                break;
+                                        }
+
+                                        this.onCancel();
+                                        // 提示視窗
+                                        toaster.notify( <div className={`toaster-status ${status}`}>{status_text}</div> ,{
+                                            position: 'bottom-right',
+                                            duration: 3000
                                         });
+                                    });
+                                    break;
 
-                                        history.goBack();
-                                        break;
-
-                                    default:
-                                        status      = 'failure';
-                                        status_text = lang['zh-TW']['toaster']['refundFailure'];
-                                        break;
-                                }
-
-                                this.onCancel();
-                                // 提示視窗
-                                toaster.notify( <div className={`toaster-status ${status}`}>{status_text}</div> ,{
-                                    position: 'bottom-right',
-                                    duration: 3000
-                                })
-                            });
-                            break;
-
-                        default:
-                            status      = 'failure';
-                            status_text = lang['zh-TW']['toaster']['refundFailure'];
-                            break;
-                    }
-                });
+                                default:
+                                    status      = 'failure';
+                                    status_text = lang['zh-TW']['toaster']['refundFailure'];
+                                    this.setState({
+                                        loading: false
+                                    });
+                                    break;
+                            }
+                        });
+                    })
+                }
             }
         } else {
             this.onCancel();

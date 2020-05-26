@@ -23,7 +23,8 @@ const Delivery = ({dispatch, location={}, handleCancel, oederData, itemData}) =>
         itemCode            : itemData['itemCode'],
         deliveryCompany     : itemData['deliveryCompany'] ? itemData['deliveryCompany'] : lang['zh-TW']['deliveryCompany']['1'],
         deliveryCode        : itemData['deliveryCode'],
-        deliveryStatus      : itemData['deliveryStatus']
+        deliveryStatus      : itemData['deliveryStatus'],
+        loading: false
     })
 
     const handleChange = (e) => {
@@ -38,25 +39,30 @@ const Delivery = ({dispatch, location={}, handleCancel, oederData, itemData}) =>
     const onSubmit     = (e) => {
         e.preventDefault();
         const { pathname } = location;        
-        dispatch( orderInfoProductDeliveryStatus(pathname, {}, stateForm, oederData) ).then(res => {
+        if (stateForm['loading']==false) {
+            stateForm['loading'] = true;
+            dispatch( orderInfoProductDeliveryStatus(pathname, {}, stateForm, oederData) ).then(res => {
 
-            let status      = "failure";
-            let status_text = "變更失敗";
+                let status      = "failure";
+                let status_text = "變更失敗";
 
-            if( res['status']==200 ){
-                status      = 'success';
-                status_text = '變更成功';
-                setForm(stateForm);
-                handleCancel();
-            }
+                if( res['status']==200 ){
+                    status      = 'success';
+                    status_text = '變更成功';
+                    setForm(stateForm);
+                    handleCancel();
+                }
 
-            toaster.notify(
-                <div className={`toaster-status ${status}`}>{status_text}</div>
-            ,{
-                position: 'bottom-right',
-                duration: 3000
+                toaster.notify(
+                    <div className={`toaster-status ${status}`}>{status_text}</div>
+                ,{
+                    position: 'bottom-right',
+                    duration: 3000
+                });
+                stateForm['loading'] = false;
             });
-        });
+        }
+        
     }
 
     const checkOptionDisabled = ( keys,i ) => {

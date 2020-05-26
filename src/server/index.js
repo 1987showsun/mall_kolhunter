@@ -54,6 +54,28 @@ app.all("*", (req, res, next) => {
       const date        = new Date().valueOf();
       
       const disableGA = (process.env.NODE_ENV=='development') ? "window['ga-disable-UA-157982106-1'] = true;" : "";
+      const facebookPixelCode = `
+      <!-- Facebook Pixel Code -->
+      <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+       fbq('init', '680819839154623'); 
+      fbq('track', 'PageView');
+      </script>
+      <noscript>
+       <img height="1" width="1" 
+      src="https://www.facebook.com/tr?id=680819839154623&ev=PageView
+      &noscript=1"/>
+      </noscript>
+      <!-- End Facebook Pixel Code -->
+      `;
+      const facebookPixelEmbed = (process.env.NODE_ENV=='development') ? facebookPixelcode : "";
 
       res.send(`
         <!DOCTYPE html>
@@ -78,7 +100,7 @@ app.all("*", (req, res, next) => {
             <link href="https://fonts.googleapis.com/css?family=Roboto:300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
             <link rel="manifest" href="/assets/manifest.json">
 
-            <script src="/bundle.js?v=202005261710" defer></script>
+            <script src="/bundle.js?v=202005261755" defer></script>
             <script>window.__initialData__ = ${serialize(initialData)}</script>
 
             <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -93,17 +115,7 @@ app.all("*", (req, res, next) => {
               gtag('set', {'currency': 'TWD'});
               ${disableGA}
             </script>
-            <!-- Hotjar Tracking Code for http://mall.kolhunter.com/ -->
-            <script>
-                (function(h,o,t,j,a,r){
-                    h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-                    h._hjSettings={hjid:1618665,hjsv:6};
-                    a=o.getElementsByTagName('head')[0];
-                    r=o.createElement('script');r.async=1;
-                    r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-                    a.appendChild(r);
-                })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-            </script>
+            ${facebookPixelEmbed}
             <script src="https://unpkg.com/vh-check/dist/vh-check.min.js"></script>
           </head>
 

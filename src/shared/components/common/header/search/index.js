@@ -71,6 +71,7 @@ export default class Search extends React.Component{
         const { formObject } = this.state;
         const { history, location } = this.props;
         let search = { ...queryString.parse( location['search'] ), ...formObject };
+        search['page'] = 1;
         history.push({
             pathname: '/search',
             search: queryString.stringify( search )
